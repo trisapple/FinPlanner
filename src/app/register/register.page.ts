@@ -3,6 +3,7 @@ import { Platform, AlertController, ToastController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ export class RegisterPage implements OnInit {
 
   // tslint:disable-next-line: max-line-length
   constructor(private fireauth: AngularFireAuth, private router: Router, private platform: Platform, public loadingController: LoadingController,
-              public alertController: AlertController, private toastController: ToastController) { }
+              public alertController: AlertController, private toastController: ToastController, public navCtrl: NavController) { }
 
   ngOnInit() {
   }
@@ -52,7 +53,8 @@ export class RegisterPage implements OnInit {
   }
 
   login() {
-    this.router.navigateByUrl('/login');
+    // this.router.navigateByUrl('/login');
+    this.navCtrl.pop()
   }
 
   async presentToast(message, position, duration) {

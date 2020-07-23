@@ -3,6 +3,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-forgot',
@@ -18,7 +19,7 @@ export class ForgotPage implements OnInit {
 
 
   constructor(private fireauth: AngularFireAuth, private router: Router, public loadingController: LoadingController,
-              public alertController: AlertController, private toastController: ToastController) { }
+              public alertController: AlertController, private toastController: ToastController, public navCtrl: NavController) { }
 
   ngOnInit() {
   }
@@ -48,7 +49,8 @@ export class ForgotPage implements OnInit {
   }
 
   login() {
-    this.router.navigateByUrl('/login');
+    // this.router.navigateByUrl('/login');
+    this.navCtrl.pop()
   }
 
   // tslint:disable-next-line: member-ordering

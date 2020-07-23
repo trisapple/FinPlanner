@@ -3,6 +3,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { NavController } from '@ionic/angular';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class LoginPage implements OnInit {
   constructor(private fireauth: AngularFireAuth,
               private router: Router,
               public loadingController: LoadingController,
-              public alertController: AlertController, private toastController: ToastController) { }
+              public alertController: AlertController, private toastController: ToastController, public navCtrl: NavController) { }
 
   ngOnInit() {
   }
@@ -56,11 +57,11 @@ export class LoginPage implements OnInit {
   }
 
   register() {
-    this.router.navigate(['/register']);
+    this.navCtrl.navigateForward(['/register']);
   }
 
   forgot() {
-    this.router.navigate(['/forgot']);
+    this.navCtrl.navigateForward(['/forgot']);
   }
 
   async presentToast(message, position, duration) {
