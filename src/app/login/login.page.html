@@ -33,13 +33,17 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-text text-center class="block">Don't have an account yet ?
-            <span class="bold" routerLink="/register">Sign up here</span></ion-text>
+          <ion-text text-center class="block">Don't have an account yet?
+            <ion-button (click)="register()" color="undefined" class="transitions">
+              <strong class="white">
+                Register here!</strong></ion-button></ion-text>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-text text-center class="block bold" routerLink="/forgot">Forgot Password?</ion-text>
+          <ion-button (click)="forgot()" color="undefined" class="transitions">
+            <strong class="white">
+              Forgot Password?</strong></ion-button>
         </ion-col>
       </ion-row>
 </ion-content>

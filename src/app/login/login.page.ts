@@ -55,6 +55,14 @@ export class LoginPage implements OnInit {
       });
   }
 
+  register() {
+    this.router.navigate(['/register']);
+  }
+
+  forgot() {
+    this.router.navigate(['/forgot']);
+  }
+
   async presentToast(message, position, duration) {
     const toast = await this.toastController.create({
       message,

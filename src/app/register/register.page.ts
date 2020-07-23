@@ -51,6 +51,10 @@ export class RegisterPage implements OnInit {
       });
   }
 
+  login() {
+    this.router.navigateByUrl('/login');
+  }
+
   async presentToast(message, position, duration) {
     const toast = await this.toastController.create({
       message,

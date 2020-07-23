@@ -46,7 +46,9 @@
       <ion-row>
         <ion-col>
           <ion-text text-center class="block">Already have an account?
-            <span class="bold" routerLink="/login">Login here</span></ion-text>
+            <ion-button (click)="login()" color="undefined" class="transitions">
+              <strong class="white">
+                Login here</strong></ion-button></ion-text>
         </ion-col>
       </ion-row>
 </ion-content>

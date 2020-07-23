@@ -47,6 +47,10 @@ export class ForgotPage implements OnInit {
       });
   }
 
+  login() {
+    this.router.navigateByUrl('/login');
+  }
+
   // tslint:disable-next-line: member-ordering
   async presentToast(message, position, duration) {
     const toast = await this.toastController.create({
