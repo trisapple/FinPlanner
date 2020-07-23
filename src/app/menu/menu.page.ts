@@ -29,7 +29,7 @@ export class MenuPage implements OnInit {
       icon: 'help'
     },
     {
-      title: 'Login / Sign Up',
+      title: 'Login / Register',
       url: '/login',
       icon: 'person'
     },
