@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { LoginPage } from '../login/login.page';
 
@@ -10,7 +10,7 @@ import { LoginPage } from '../login/login.page';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, private router: Router) {}
+  constructor(public navCtrl: NavController, private router: Router, private menu: MenuController) {}
 
   login() {
     // this.navCtrl.setRoot(anOtherPage);
