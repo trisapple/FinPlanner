@@ -21,6 +21,9 @@ const routes: Routes = [
     children: [
       { path: 'home', loadChildren: () => import('../home/home.module').then( m => m.HomePageModule) },
       { path: 'login', loadChildren: () => import('../login/login.module').then( m => m.LoginPageModule) },
+      { path: 'expenses', loadChildren: () => import('../expenses/expenses.module').then( m => m.ExpensesPageModule) },
+      { path: 'courses', loadChildren: () => import('../courses/courses.module').then( m => m.CoursesPageModule) },
+      { path: 'faq', loadChildren: () => import('../faq/faq.module').then( m => m.FaqPageModule)},
     ]
   }
 ];

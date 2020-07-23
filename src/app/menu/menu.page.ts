@@ -20,7 +20,7 @@ export class MenuPage implements OnInit {
     },
     {
       title: 'Courses',
-      url: '/expenses',
+      url: '/courses',
       icon: 'school'
     },
     {
