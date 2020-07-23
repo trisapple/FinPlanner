@@ -1,14 +1,47 @@
-<ion-header>
-  <ion-toolbar>
-    
-    <ion-title>login</ion-title>
-
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-   </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-<p>Jing Yu likes Krystal</p>
+<ion-content class="main">
+  <img src = "assets/planner.png" height = "150px" width = "150px">
+      <ion-row class="row">
+        <div>
+          <ion-text>
+            <h2 no-margin margin-vertical text-center>Welcome to FinPlanning!</h2>
+          </ion-text>
+        </div>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-input clearInput type="email" placeholder="Email" [(ngModel)]="email" class="input" padding-horizontal
+            clear-input="true"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-input clearInput type="password" placeholder="Password" [(ngModel)]="password" class="input"
+            padding-horizontal clear-input="true"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block" (click)="login()" color="undefined" class="transition">
+            <strong class="white">
+              Login</strong></ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-text class="error" text-center>{{error}}</ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-text text-center class="block">Don't have an account yet ?
+            <span class="bold" routerLink="/register">Sign up here</span></ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-text text-center class="block bold" routerLink="/forgot">Forgot Password?</ion-text>
+        </ion-col>
+      </ion-row>
+  
 </ion-content>
+

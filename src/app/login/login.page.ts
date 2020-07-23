@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController, ToastController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
+
 
 @Component({
   selector: 'app-login',
@@ -7,9 +12,56 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+  email: string = '';
+  password: string = '';
+  error: string = '';
+
+  constructor(private fireauth: AngularFireAuth,
+              private router: Router,
+              public loadingController: LoadingController,
+              public alertController: AlertController, private toastController: ToastController) { }
 
   ngOnInit() {
+  }
+
+  async openLoader() {
+    const loading = await this.loadingController.create({
+      message: 'Please Wait ...',
+      duration: 2000
+    });
+    await loading.present();
+  }
+  async closeLoading() {
+    return await this.loadingController.dismiss();
+  }
+
+  login() {
+    this.fireauth.signInWithEmailAndPassword(this.email, this.password)
+      .then(res => {
+        if (res.user.emailVerified) {
+          // console.log(res.user);
+          this.presentToast('Login Successfully!', 'middle', 2000);
+          this.router.navigate(['/home']);
+        }
+        else {
+          // window.alert('Email is not verified!');
+          this.presentToast('Please verfiy your email!', 'middle', 2000);
+          return false;
+        }
+      })
+      .catch(err => {
+        console.log(`login failed ${err}`);
+        this.error = err.message;
+      });
+  }
+
+  async presentToast(message, position, duration) {
+    const toast = await this.toastController.create({
+      message,
+      position,
+      duration,
+    });
+    toast.present();
   }
 
 }
