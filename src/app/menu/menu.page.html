@@ -10,7 +10,7 @@
     <div *ngFor="let p of pages">
       <ion-menu-toggle *ngIf="p.url">
         <ion-item [routerLink]="p.url" routerDirection="root" routerLinkActive="active">
-          <ion-icon [name]="p.icon" slot="start"></ion-icon>
+          <ion-icon *ngIf="p.icon" [name]="p.icon" slot="start"></ion-icon>
           <ion-label>
             {{ p.title }}
           </ion-label>
