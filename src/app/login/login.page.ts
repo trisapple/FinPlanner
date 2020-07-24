@@ -42,7 +42,7 @@ export class LoginPage implements OnInit {
         if (res.user.emailVerified) {
           // console.log(res.user);
           this.presentToast('Login Successfully!', 'middle', 2000);
-          this.router.navigate(['/home']);
+          this.navCtrl.navigateRoot('/home');
         }
         else {
           // window.alert('Email is not verified!');
