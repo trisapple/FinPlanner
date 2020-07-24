@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
 
+import { UserService } from '../user.service';
+
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,10 @@ export class LoginPage implements OnInit {
   constructor(private fireauth: AngularFireAuth,
               private router: Router,
               public loadingController: LoadingController,
-              public alertController: AlertController, private toastController: ToastController, public navCtrl: NavController) { }
+              public alertController: AlertController, 
+              private toastController: ToastController, 
+              public navCtrl: NavController,
+              public userService: UserService) { }
 
   ngOnInit() {
   }
@@ -41,6 +46,7 @@ export class LoginPage implements OnInit {
       .then(res => {
         if (res.user.emailVerified) {
           // console.log(res.user);
+          this.userService.loggedin = true
           this.presentToast('Login Successfully!', 'middle', 2000);
           this.navCtrl.navigateRoot('/home');
         }

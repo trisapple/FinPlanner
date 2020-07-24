@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service'
+import { User } from 'firebase';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.page.html',
   styleUrls: ['./menu.page.scss'],
 })
+
 export class MenuPage implements OnInit {
 
   pages = [
@@ -35,7 +38,7 @@ export class MenuPage implements OnInit {
     },
   ]
 
-  constructor() { }
+  constructor(public userService: UserService) { }
 
   ngOnInit() {
   }
