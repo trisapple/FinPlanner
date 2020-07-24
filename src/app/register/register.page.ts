@@ -13,6 +13,7 @@ import { NavController } from '@ionic/angular';
 export class RegisterPage implements OnInit {
   email: string = '';
   password: string = '';
+  confirmPassword: string = '';
   error: string = '';
   // username: string = '';
 
@@ -35,26 +36,41 @@ export class RegisterPage implements OnInit {
   }
 
   signup() {
-    this.fireauth.createUserWithEmailAndPassword(this.email, this.password)
+    if (this.confirmPassword !== this.password) {
+      this.presentToast('Passwords do not match!', 'middle', 2000);
+    }
+    else {
+      this.fireauth.createUserWithEmailAndPassword(this.email, this.password)
       .then(async res => {
-        if (res.user) {
-          console.log(res.user);
+        // if (res.user) {
+        //   console.log(res.user);
           const user = this.fireauth.currentUser;
           (await user).sendEmailVerification();
           this.presentToast('Registered successfully! Email verification has been sent!', 'middle', 2000);
           // this.updateProfile();
-          this.navCtrl.pop()
-        }
-      })
-      .catch(err => {
-        console.log(`login failed ${err}`);
-        this.error = err.message;
-      });
+          this.navCtrl.pop();
+        });
+    }
+    // this.fireauth.createUserWithEmailAndPassword(this.email, this.password)
+    //   .then(async res => {
+    //     // if (res.user) {
+    //     //   console.log(res.user);
+    //       const user = this.fireauth.currentUser;
+    //       (await user).sendEmailVerification();
+    //       this.presentToast('Registered successfully! Email verification has been sent!', 'middle', 2000);
+    //       // this.updateProfile();
+    //       this.navCtrl.pop()
+    //     }
+    //   })
+      // .catch(err => {
+      //   console.log(`login failed ${err}`);
+      //   this.error = err.message;
+      // });
   }
 
   login() {
     // this.router.navigateByUrl('/login');
-    this.navCtrl.pop()
+    this.navCtrl.pop();
   }
 
   async presentToast(message, position, duration) {
