@@ -4,3 +4,15 @@
         --ion-text-color-rgb: #f57c00;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    // ion-back-button, ion-menu-button, ion-toolbar {
+    //     --color: #FFFFFF;
+    // }
+    .active {
+        --ion-text-color: #CC6600;
+        ion-icon {
+            --ion-text-color-rgb: #CC6600;
+        }
+    }
+}
