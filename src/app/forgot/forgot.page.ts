@@ -40,7 +40,7 @@ export class ForgotPage implements OnInit {
       .then(data => {
         console.log(data);
         this.presentToast('Password reset email has been sent!', 'bottom', 2000);
-        this.router.navigateByUrl('/login');
+        this.navCtrl.pop()
       })
       .catch(err => {
         console.log(` failed ${err}`);

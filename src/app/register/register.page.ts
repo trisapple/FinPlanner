@@ -43,7 +43,7 @@ export class RegisterPage implements OnInit {
           (await user).sendEmailVerification();
           this.presentToast('Registered successfully! Email verification has been sent!', 'middle', 2000);
           // this.updateProfile();
-          this.router.navigateByUrl('/login');
+          this.navCtrl.pop()
         }
       })
       .catch(err => {
