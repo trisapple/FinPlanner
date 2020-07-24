@@ -47,6 +47,10 @@ export class RegisterPage implements OnInit {
           this.presentToast('Registered successfully! Email verification has been sent!', 'middle', 2000);
           // this.updateProfile();
           this.router.navigateByUrl('/login');
+        })
+        .catch (err => {
+          console.log(`register failed ${err}`);
+          this.error = err.message;
         });
     }
     else {
