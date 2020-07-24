@@ -36,20 +36,22 @@ export class RegisterPage implements OnInit {
   }
 
   signup() {
-    if (this.confirmPassword !== this.password) {
-      this.presentToast('Passwords do not match!', 'middle', 2000);
-    }
-    else {
+    if (this.confirmPassword === this.password) {
       this.fireauth.createUserWithEmailAndPassword(this.email, this.password)
       .then(async res => {
-        // if (res.user) {
-        //   console.log(res.user);
+      // tslint:disable-next-line: align
+          // if (res.user) {
+          // console.log(res.user);
           const user = this.fireauth.currentUser;
           (await user).sendEmailVerification();
           this.presentToast('Registered successfully! Email verification has been sent!', 'middle', 2000);
           // this.updateProfile();
-          this.navCtrl.pop();
+          this.router.navigateByUrl('/login');
         });
+    }
+    else {
+      this.presentToast('Passwords do not match!', 'middle', 2000);
+      return false;
     }
     // this.fireauth.createUserWithEmailAndPassword(this.email, this.password)
     //   .then(async res => {
