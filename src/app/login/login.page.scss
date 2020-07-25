@@ -56,6 +56,14 @@
     text-transform: capitalize;
   }
 
+  .fbtransition {
+    --background: #3366FF;
+    height: 34px;
+    position: relative;
+    bottom: 5px;
+    --border-radius: 16px;
+  }
+
   .error {
     color: red;
     text-align: center;

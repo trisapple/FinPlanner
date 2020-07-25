@@ -36,6 +36,20 @@
               Login</strong></ion-button>
         </ion-col>
       </ion-row>
+      <ion-row class="row">
+        <div>
+          <ion-text>
+            <h6 no-margin margin-vertical text-center><b>OR</b></h6>
+          </ion-text>
+        </div>
+      </ion-row>
+      <ion-row>
+        <ion-col> 
+          <ion-button expand="block" (click)="loginWithFacebook()" class="fbtransition" item-left>
+            <strong class="white">
+              Login with Facebook</strong></ion-button>
+        </ion-col>
+      </ion-row>
       <ion-row>
         <ion-col>
           <ion-text class="error" text-center>{{error}}</ion-text>

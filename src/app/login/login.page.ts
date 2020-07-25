@@ -6,6 +6,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
 
 import { UserService } from '../user.service';
+import * as firebase from 'firebase';
+
 
 
 @Component({
@@ -78,5 +80,14 @@ export class LoginPage implements OnInit {
     });
     toast.present();
   }
+
+  loginWithFacebook() {
+    this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
+    .then( res => {
+      console.log(res);
+      this.navCtrl.navigateRoot('/home');
+    });
+  }
+
 
 }
