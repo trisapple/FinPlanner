@@ -15,9 +15,9 @@ import { UserService } from '../user.service';
 })
 export class LoginPage implements OnInit {
 
-  email: string = '';
-  password: string = '';
-  error: string = '';
+  email = '';
+  password = '';
+  error = '';
 
   constructor(private fireauth: AngularFireAuth,
               private router: Router,
