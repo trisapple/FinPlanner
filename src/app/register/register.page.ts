@@ -52,7 +52,7 @@ export class RegisterPage implements OnInit {
       // tslint:disable-next-line: align
           // if (res.user) {
           // console.log(res.user);
-          this.userService.signup(this.firstName, this.lastName, this.email)
+          this.userService.signup(this.firstName, this.lastName, this.email);
           const user = this.fireauth.currentUser;
           (await user).sendEmailVerification();
           this.presentToast('Registered successfully! Email verification has been sent!', 'middle', 2000);
