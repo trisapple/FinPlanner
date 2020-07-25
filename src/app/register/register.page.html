@@ -9,58 +9,65 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <img src = "assets/planner.png" height = "150px" width = "150px">
-      <ion-row class="row">
-        <div>
-          <ion-text>
-            <h2 no-margin margin-vertical text-center>Register for FinPlanner!</h2>
-          </ion-text>
-        </div>
-      </ion-row>
-      <!-- <ion-row>
+  <img src="assets/planner.png" height="150px" width="150px">
+  <ion-row class="row">
+    <div>
+      <ion-text>
+        <h2 no-margin margin-vertical text-center>Register for FinPlanner!</h2>
+      </ion-text>
+    </div>
+  </ion-row>
+  <!-- <ion-row>
         <ion-col>
           <ion-input clearInput type="text" placeholder="Username" [(ngModel)]="username" class="input"
             padding-horizontal clear-input="true"></ion-input>
         </ion-col>
       </ion-row> -->
-      <ion-row>
-        <ion-col>
-          <ion-input clearInput type="email" placeholder="Email" [(ngModel)]="email" class="input" padding-horizontal
-            clear-input="true"></ion-input>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-input clearInput type="password" placeholder="Password" [(ngModel)]="password" class="input"
-            padding-horizontal clear-input="true"></ion-input>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-input clearInput type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword" class="input"
-            padding-horizontal clear-input="true"></ion-input>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-button expand="block" (click)="signup()" class="transition">
-            <strong class="white">
-              Register</strong></ion-button>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-text class="error" text-center>{{error}}</ion-text>
-        </ion-col>
-      </ion-row>
-      <br>
-      <ion-row>
-        <ion-col>
-          <ion-text text-center class="block">Already have an account?
-            <ion-button (click)="login()" class="transitions">
-              <strong class="white">
-                Login here</strong></ion-button></ion-text>
-        </ion-col>
-      </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-input clearInput type="text" placeholder="First Name" [(ngModel)]="firstName" class="input" padding-horizontal clear-input="true"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-input clearInput type="text" placeholder="Last Name" [(ngModel)]="lastName" class="input" padding-horizontal clear-input="true"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-input clearInput type="email" placeholder="Email" [(ngModel)]="email" class="input" padding-horizontal clear-input="true"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-input clearInput type="password" placeholder="Password" [(ngModel)]="password" class="input" padding-horizontal clear-input="true"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-input clearInput type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword" class="input" padding-horizontal clear-input="true"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-button expand="block" (click)="signup()" class="transition">
+        <strong class="white">
+          Register</strong></ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-text class="error" text-center>{{error}}</ion-text>
+    </ion-col>
+  </ion-row>
+  <br>
+  <ion-row>
+    <ion-col>
+      <ion-text text-center class="block">Already have an account?
+        <ion-button (click)="login()" class="transitions">
+          <strong class="white">
+            Login here</strong></ion-button>
+      </ion-text>
+    </ion-col>
+  </ion-row>
 </ion-content>
-

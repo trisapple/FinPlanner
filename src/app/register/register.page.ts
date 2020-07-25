@@ -4,6 +4,7 @@ import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +12,8 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
+  firstName = '';
+  lastName = '';
   email = '';
   password = '';
   confirmPassword = '';
@@ -19,7 +22,7 @@ export class RegisterPage implements OnInit {
 
   // tslint:disable-next-line: max-line-length
   constructor(private fireauth: AngularFireAuth, private router: Router, private platform: Platform, public loadingController: LoadingController,
-              public alertController: AlertController, private toastCtrl: ToastController, public navCtrl: NavController) { }
+              public alertController: AlertController, private toastCtrl: ToastController, public navCtrl: NavController, public userService: UserService) { }
 
   ngOnInit() {
   }
@@ -49,6 +52,7 @@ export class RegisterPage implements OnInit {
       // tslint:disable-next-line: align
           // if (res.user) {
           // console.log(res.user);
+          this.userService.signup(this.firstName, this.lastName, this.email)
           const user = this.fireauth.currentUser;
           (await user).sendEmailVerification();
           this.presentToast('Registered successfully! Email verification has been sent!', 'middle', 2000);
