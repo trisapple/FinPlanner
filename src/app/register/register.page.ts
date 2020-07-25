@@ -19,7 +19,7 @@ export class RegisterPage implements OnInit {
 
   // tslint:disable-next-line: max-line-length
   constructor(private fireauth: AngularFireAuth, private router: Router, private platform: Platform, public loadingController: LoadingController,
-              public alertController: AlertController, private toastController: ToastController, public navCtrl: NavController) { }
+              public alertController: AlertController, private toastCtrl: ToastController, public navCtrl: NavController) { }
 
   ngOnInit() {
   }
@@ -36,7 +36,14 @@ export class RegisterPage implements OnInit {
   }
 
   signup() {
-    if (this.confirmPassword === this.password) {
+    // tslint:disable-next-line: quotemark
+    if (this.email === "" || this.password === "" || this.confirmPassword === "") {
+      this.presentToast('Please fill up all details!', 'middle', 2000);
+    }
+    else if (this.confirmPassword !== this.password) {
+      this.presentToast('Passwords do not match!', 'middle', 2000);
+    }
+    else {
       this.fireauth.createUserWithEmailAndPassword(this.email, this.password)
       .then(async res => {
       // tslint:disable-next-line: align
@@ -48,30 +55,15 @@ export class RegisterPage implements OnInit {
           // this.updateProfile();
           this.navCtrl.pop();
         })
-        .catch (err => {
-          console.log(`register failed ${err}`);
-          this.error = err.message;
+        .catch (async error => {
+          const toast = this.toastCtrl.create({
+            message: error.message,
+            position: 'middle',
+            duration: 2000
+          });
+          (await toast).present();
         });
     }
-    else {
-      this.presentToast('Passwords do not match!', 'middle', 2000);
-      return false;
-    }
-    // this.fireauth.createUserWithEmailAndPassword(this.email, this.password)
-    //   .then(async res => {
-    //     // if (res.user) {
-    //     //   console.log(res.user);
-    //       const user = this.fireauth.currentUser;
-    //       (await user).sendEmailVerification();
-    //       this.presentToast('Registered successfully! Email verification has been sent!', 'middle', 2000);
-    //       // this.updateProfile();
-    //       this.navCtrl.pop()
-    //     }
-    //   })
-      // .catch(err => {
-      //   console.log(`login failed ${err}`);
-      //   this.error = err.message;
-      // });
   }
 
   login() {
@@ -80,7 +72,7 @@ export class RegisterPage implements OnInit {
   }
 
   async presentToast(message, position, duration) {
-    const toast = await this.toastController.create({
+    const toast = await this.toastCtrl.create({
       message,
       position,
       duration,
