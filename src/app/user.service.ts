@@ -18,10 +18,11 @@ export class UserService {
   }
 
   login(email: string) {
+    // tslint:disable-next-line: max-line-length
     return this.usersCollectionRef.doc(email).valueChanges(); // Get the email (document) of the user, so we can get the firstname, lastname, email, password
   }
 
   signup(firstname: string, lastname: String, email: string) {
-    this.usersCollectionRef.doc(email).set({firstname: firstname, lastname: lastname}); 
+    this.usersCollectionRef.doc(email).set({firstname: firstname, lastname: lastname});
   }
 }
