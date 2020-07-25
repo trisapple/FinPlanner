@@ -11,11 +11,15 @@
 <ion-content class="ion-padding">
   <ion-row>
     <img width="64" height="64" src="assets/avatar.png">
-    <ion-col class="verticalcenter" style="width: 100%; overflow:hidden; text-overflow: ellipsis; white-space: nowrap;">
+    <ion-col class="verticalcenter truncate">
       <ion-text style="width: 100%;">
-        <h5 style="margin: 0px;">{{userService.firstname}} {{userService.lastname}}</h5>
-        
-        <span style="font-size: 12px; overflow:hidden; text-overflow: ellipsis; white-space: nowrap;">{{userService.email}}</span>
+        <ion-row>
+          <h5 class="truncate" style="margin: 0px">{{userService.firstname}} {{userService.lastname}}</h5>
+        </ion-row>
+
+        <ion-row>
+          <span class="truncate" style="font-size: 12px">{{userService.email}}</span>
+        </ion-row>
       </ion-text>
     </ion-col>
   </ion-row>
