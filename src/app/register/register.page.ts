@@ -11,10 +11,10 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  email: string = '';
-  password: string = '';
-  confirmPassword: string = '';
-  error: string = '';
+  email = '';
+  password = '';
+  confirmPassword = '';
+  error = '';
   // username: string = '';
 
   // tslint:disable-next-line: max-line-length
