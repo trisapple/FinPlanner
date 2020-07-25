@@ -48,7 +48,7 @@
           <ion-label>Login / Register</ion-label>
       </ion-item>
     </ion-menu-toggle>
-    <ion-menu-toggle *ngIf="!userService.loggedin">
+    <ion-menu-toggle *ngIf="userService.loggedin">
       <ion-item routerLink="/profile" routerDirection="root" routerLinkActive="active">
         <ion-icon name="person" slot="start"></ion-icon>
           <ion-label>Profile</ion-label>

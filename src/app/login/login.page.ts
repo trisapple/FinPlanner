@@ -8,7 +8,7 @@ import { NavController } from '@ionic/angular';
 import { UserService } from '../user.service';
 import * as firebase from 'firebase';
 
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -48,7 +48,17 @@ export class LoginPage implements OnInit {
       .then(res => {
         if (res.user.emailVerified) {
           // console.log(res.user);
-          this.userService.loggedin = true;
+
+          let sub: Subscription = this.userService.login(this.email).subscribe((data) => {
+  
+            this.userService.loggedin = true
+            this.userService.firstname = data["firstname"]
+            this.userService.lastname = data["lastname"]
+            this.userService.email = this.email
+            
+            sub.unsubscribe() 
+          });
+
           this.presentToast('Login Successfully!', 'middle', 2000);
           this.navCtrl.navigateRoot('/home');
         }

@@ -9,12 +9,13 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-row style="height: 96px;">
-    <img src="assets/avatar.png" width="96" height="96">
-    <ion-col class="verticalcenter">
-      <ion-text>
-        <p>First Name Last Name</p>
-        <p>email@email.com</p>
+  <ion-row>
+    <img width="64" height="64" src="assets/avatar.png">
+    <ion-col class="verticalcenter" style="width: 100%; overflow:hidden; text-overflow: ellipsis; white-space: nowrap;">
+      <ion-text style="width: 100%;">
+        <h5 style="margin: 0px;">{{userService.firstname}} {{userService.lastname}}</h5>
+        
+        <span style="font-size: 12px; overflow:hidden; text-overflow: ellipsis; white-space: nowrap;">{{userService.email}}</span>
       </ion-text>
     </ion-col>
   </ion-row>
