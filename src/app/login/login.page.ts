@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
 
@@ -20,10 +20,10 @@ export class LoginPage implements OnInit {
   error = '';
 
   constructor(private fireauth: AngularFireAuth,
-              private router: Router,
+              // private router: Router,
               public loadingController: LoadingController,
-              public alertController: AlertController, 
-              private toastController: ToastController, 
+              public alertController: AlertController,
+              private toastController: ToastController,
               public navCtrl: NavController,
               public userService: UserService) { }
 
@@ -46,7 +46,7 @@ export class LoginPage implements OnInit {
       .then(res => {
         if (res.user.emailVerified) {
           // console.log(res.user);
-          this.userService.loggedin = true
+          this.userService.loggedin = true;
           this.presentToast('Login Successfully!', 'middle', 2000);
           this.navCtrl.navigateRoot('/home');
         }
