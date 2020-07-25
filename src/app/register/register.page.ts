@@ -22,6 +22,7 @@ export class RegisterPage implements OnInit {
 
   // tslint:disable-next-line: max-line-length
   constructor(private fireauth: AngularFireAuth, private router: Router, private platform: Platform, public loadingController: LoadingController,
+              // tslint:disable-next-line: max-line-length
               public alertController: AlertController, private toastCtrl: ToastController, public navCtrl: NavController, public userService: UserService) { }
 
   ngOnInit() {
@@ -40,7 +41,7 @@ export class RegisterPage implements OnInit {
 
   signup() {
     // tslint:disable-next-line: quotemark
-    if (this.email === "" || this.password === "" || this.confirmPassword === "") {
+    if (this.firstName === "" || this.lastName === "" || this.email === "" || this.password === "" || this.confirmPassword === "") {
       this.presentToast('Please fill up all details!', 'middle', 2000);
     }
     else if (this.confirmPassword !== this.password) {

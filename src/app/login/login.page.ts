@@ -25,7 +25,7 @@ export class LoginPage implements OnInit {
               // private router: Router,
               public loadingController: LoadingController,
               public alertController: AlertController,
-              private toastController: ToastController,
+              private toastCtrl: ToastController,
               public navCtrl: NavController,
               public userService: UserService) { }
 
@@ -44,34 +44,44 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    this.fireauth.signInWithEmailAndPassword(this.email, this.password)
-      .then(res => {
-        if (res.user.emailVerified) {
-          // console.log(res.user);
+    // tslint:disable-next-line: quotemark
+    if (this.email === "" || this.password === "" ) {
+      this.presentToast('Please enter your email and password!', 'middle', 2000);
+    }
+    else {
+      this.fireauth.signInWithEmailAndPassword(this.email, this.password)
+        .then(res => {
+          if (res.user.emailVerified) {
+            // console.log(res.user);
 
-          let sub: Subscription = this.userService.login(this.email).subscribe((data) => {
-  
-            this.userService.loggedin = true
-            this.userService.firstname = data["firstname"]
-            this.userService.lastname = data["lastname"]
-            this.userService.email = this.email
-            
-            sub.unsubscribe() 
+            let sub: Subscription = this.userService.login(this.email).subscribe((data) => {
+
+              this.userService.loggedin = true;
+              this.userService.firstname = data["firstname"];
+              this.userService.lastname = data["lastname"];
+              this.userService.email = this.email;
+
+              sub.unsubscribe();
+            });
+
+            this.presentToast('Login Successfully!', 'middle', 2000);
+            this.navCtrl.navigateRoot('/home');
+          }
+          else {
+            // window.alert('Email is not verified!');
+            this.presentToast('Please verfiy your email!', 'middle', 2000);
+            return false;
+          }
+        })
+        .catch (async error => {
+          const toast = this.toastCtrl.create({
+            message: error.message,
+            position: 'middle',
+            duration: 2000
           });
-
-          this.presentToast('Login Successfully!', 'middle', 2000);
-          this.navCtrl.navigateRoot('/home');
-        }
-        else {
-          // window.alert('Email is not verified!');
-          this.presentToast('Please verfiy your email!', 'middle', 2000);
-          return false;
-        }
-      })
-      .catch(err => {
-        console.log(`login failed ${err}`);
-        this.error = err.message;
-      });
+          (await toast).present();
+        });
+    }
   }
 
   register() {
@@ -83,7 +93,7 @@ export class LoginPage implements OnInit {
   }
 
   async presentToast(message, position, duration) {
-    const toast = await this.toastController.create({
+    const toast = await this.toastCtrl.create({
       message,
       position,
       duration,
