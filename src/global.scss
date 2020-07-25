@@ -29,7 +29,7 @@ ion-back-button, ion-menu-button, ion-toolbar {
     --color: #FFFFFF;
 }
 ion-toolbar {
-    --background: #F57C00
+    --background: #F57C00; // HSB 30,100,96
 }
 
 @media (prefers-color-scheme: dark) {
@@ -37,6 +37,6 @@ ion-toolbar {
     //     --color: #FFFFFF;
     // }
     ion-toolbar {
-        --background: #CC6600
+        --background: #CC6600; // HSB 30,100,80
     }
 }

@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "Test",
+  "appId": "com.tristanchng.FinPlanner",
+  "appName": "FinPlanner",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

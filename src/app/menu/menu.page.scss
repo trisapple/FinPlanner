@@ -1,18 +1,20 @@
 .active {
-    --ion-text-color: #f57c00;
+    --ion-text-color: #FFFFFF;
     ion-icon {
-        --ion-text-color-rgb: #f57c00;
+        --ion-text-color-rgb: #FFFFFF;
     }
+    --background: #CC6600; // HSB 30,100,80
 }
 
 @media (prefers-color-scheme: dark) {
-    // ion-back-button, ion-menu-button, ion-toolbar {
-    //     --color: #FFFFFF;
-    // }
+    ion-back-button, ion-menu-button, ion-toolbar {
+        --color: #FFFFFF;
+    }
     .active {
-        --ion-text-color: #CC6600;
-        ion-icon {
-            --ion-text-color-rgb: #CC6600;
-        }
+        // --ion-text-color: #CC6600;
+        // ion-icon {
+        //     --ion-text-color-rgb: #CC6600;
+        // }
+        --background: #984C00; // HSB 30,100,60
     }
 }

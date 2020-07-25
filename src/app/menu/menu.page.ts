@@ -10,33 +10,33 @@ import { User } from 'firebase';
 
 export class MenuPage implements OnInit {
 
-  pages = [
-    {
-      title: 'Home',
-      url: '/home',
-      icon: 'home'
-    },
-    {
-      title: 'Expenses',
-      url: '/expenses',
-      icon: 'wallet'
-    },
-    {
-      title: 'Courses',
-      url: '/courses',
-      icon: 'school'
-    },
-    {
-      title: 'FAQ',
-      url: '/faq',
-      icon: 'help'
-    },
-    {
-      title: 'Login / Register',
-      url: '/login',
-      icon: 'person'
-    },
-  ]
+  // pages = [
+  //   {
+  //     title: 'Home',
+  //     url: '/home',
+  //     icon: 'home'
+  //   },
+  //   {
+  //     title: 'Expenses',
+  //     url: '/expenses',
+  //     icon: 'wallet'
+  //   },
+  //   {
+  //     title: 'Courses',
+  //     url: '/courses',
+  //     icon: 'school'
+  //   },
+  //   {
+  //     title: 'FAQ',
+  //     url: '/faq',
+  //     icon: 'help'
+  //   },
+  //   {
+  //     title: 'Login / Register',
+  //     url: '/login',
+  //     icon: 'person'
+  //   },
+  // ]
 
   constructor(public userService: UserService) { }
 
