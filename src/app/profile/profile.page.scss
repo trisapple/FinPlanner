@@ -1,0 +1,12 @@
+.verticalcenter {
+    // height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    // justify-content: center;
+}
+
+.transition {
+    --background:#f57c00;
+    --border-radius: 16px;
+}
