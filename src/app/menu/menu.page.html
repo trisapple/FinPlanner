@@ -44,7 +44,7 @@
     </ion-menu-toggle>
     <ion-menu-toggle *ngIf="!userService.loggedin">
       <ion-item routerLink="/login" routerDirection="root" routerLinkActive="active">
-        <ion-icon name="person" slot="start"></ion-icon>
+        <ion-icon name="log-in" slot="start"></ion-icon>
           <ion-label>Login / Register</ion-label>
       </ion-item>
     </ion-menu-toggle>
@@ -52,6 +52,12 @@
       <ion-item routerLink="/profile" routerDirection="root" routerLinkActive="active">
         <ion-icon name="person" slot="start"></ion-icon>
           <ion-label>Profile</ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+    <ion-menu-toggle *ngIf="userService.loggedin" (click)="signout()">
+      <ion-item routerLink="/home" routerDirection="root" class="signout">
+        <ion-icon name="log-out" slot="start"></ion-icon>
+          <ion-label>Sign Out</ion-label>
       </ion-item>
     </ion-menu-toggle>
 

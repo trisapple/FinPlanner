@@ -5,6 +5,13 @@
     }
     --background: #CC6600; // HSB 30,100,80
 }
+.signout {
+    --ion-text-color: #FFFFFF;
+    ion-icon {
+        --ion-text-color-rgb: #FFFFFF;
+    }
+    --background: #FF3232; // HSB 0,80,100
+}
 
 @media (prefers-color-scheme: dark) {
     ion-back-button, ion-menu-button, ion-toolbar {
@@ -16,5 +23,12 @@
         //     --ion-text-color-rgb: #CC6600;
         // }
         --background: #984C00; // HSB 30,100,60
+    }
+    .signout {
+        --ion-text-color: #FFFFFF;
+        ion-icon {
+            --ion-text-color-rgb: #FFFFFF;
+        }
+        --background: #CB2929; // HSB 0,80,80
     }
 }

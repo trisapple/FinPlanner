@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service'
 import { User } from 'firebase';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-menu',
@@ -38,9 +39,14 @@ export class MenuPage implements OnInit {
   //   },
   // ]
 
-  constructor(public userService: UserService) { }
+  constructor(public userService: UserService, private fireauth: AngularFireAuth) { }
 
   ngOnInit() {
+  }
+
+  signout() {
+    this.userService.loggedin = false
+    this.fireauth.signOut()
   }
 
 }
