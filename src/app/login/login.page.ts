@@ -109,5 +109,14 @@ export class LoginPage implements OnInit {
     });
   }
 
+  loginWithGoogle() {
+    this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+    .then( res => {
+      console.log('From --Google--');
+      console.log(res);
+      this.navCtrl.navigateRoot('/home');
+    });
+  }
+
 
 }
