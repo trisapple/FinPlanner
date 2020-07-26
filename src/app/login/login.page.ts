@@ -17,6 +17,7 @@ import { FacebookLoginResponse } from '@rdlabo/capacitor-facebook-login';
 import { Plugins } from '@capacitor/core';
 import { HttpClient } from '@angular/common/http';
 const { FacebookLogin } = Plugins;
+import "@codetrix-studio/capacitor-google-auth";
 // import { FacebookLogin } from '@rdlabo/capacitor-facebook-login'
 
 @Component({
@@ -122,6 +123,7 @@ export class LoginPage implements OnInit {
         // Login successful.
         console.log(`Facebook access token is ${result.accessToken.token}`);
         this.getFacebookUserData(result.accessToken.token)
+        this.navCtrl.navigateRoot('/home');
       } else {
         // Cancelled by user.
       }
@@ -143,12 +145,26 @@ export class LoginPage implements OnInit {
     })
   }
 
-  loginWithGoogle() {
-    this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-    .then( res => {
-      console.log('From --Google--');
-      console.log(res);
-      this.navCtrl.navigateRoot('/home');
-    });
+  async loginWithGoogle(): Promise<void> {
+    if (this.platform.is('mobile')) {
+      // const { history } = this.props;
+      const result = await Plugins.GoogleAuth.signIn();
+      console.info('result', result);
+      if (result) {
+        // history.push({
+        //   pathname: '/home',
+        //   state: { name: result.name || result.displayName, image: result.imageUrl, email: result.email }
+        // });
+        console.log("Code run")
+        this.navCtrl.navigateRoot('/home');
+      }
+    } else {
+      this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then( res => {
+        console.log('From --Google--');
+        console.log(res);
+        this.navCtrl.navigateRoot('/home');
+      });
+    }
   }
 }

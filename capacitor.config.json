@@ -7,6 +7,10 @@
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0
+    },
+    "GoogleAuth": {
+      "scopes": ["profile","email"],
+      "serverClientId": "671807746722-beipop6ng5ke1asn9ha50eqpm1fn677o.apps.googleusercontent.com"
     }
   },
   "cordova": {}
