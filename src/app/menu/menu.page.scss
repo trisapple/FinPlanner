@@ -14,21 +14,10 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    ion-back-button, ion-menu-button, ion-toolbar {
-        --color: #FFFFFF;
-    }
     .active {
-        // --ion-text-color: #CC6600;
-        // ion-icon {
-        //     --ion-text-color-rgb: #CC6600;
-        // }
         --background: #984C00; // HSB 30,100,60
     }
     .signout {
-        --ion-text-color: #FFFFFF;
-        ion-icon {
-            --ion-text-color-rgb: #FFFFFF;
-        }
         --background: #CB2929; // HSB 0,80,80
     }
 }
