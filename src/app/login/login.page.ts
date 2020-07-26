@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, Platform } from '@ionic/angular';
 // import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
@@ -9,6 +9,15 @@ import { UserService } from '../user.service';
 import * as firebase from 'firebase';
 
 import { Subscription } from 'rxjs';
+
+// import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+// import { FacebookLogin } from '@rdlabo/capacitor-facebook-login';
+
+import { FacebookLoginResponse } from '@rdlabo/capacitor-facebook-login';
+import { Plugins } from '@capacitor/core';
+import { HttpClient } from '@angular/common/http';
+const { FacebookLogin } = Plugins;
+// import { FacebookLogin } from '@rdlabo/capacitor-facebook-login'
 
 @Component({
   selector: 'app-login',
@@ -27,7 +36,10 @@ export class LoginPage implements OnInit {
               public alertController: AlertController,
               private toastCtrl: ToastController,
               public navCtrl: NavController,
-              public userService: UserService) { }
+              public userService: UserService,
+              public http: HttpClient,
+              public platform: Platform
+              ) { }
 
   ngOnInit() {
   }
@@ -101,13 +113,34 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
-  loginWithFacebook() {
-    this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
-    .then( res => {
-      console.log(res);
-      this.navCtrl.navigateRoot('/home');
-    });
+  async loginWithFacebook() {
+    if (this.platform.is('mobile')) {
+      const FACEBOOK_PERMISSIONS = ['email', 'user_birthday', 'user_photos', 'user_gender'];
+      const result = await FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS });
+      
+      if (result.accessToken) {
+        // Login successful.
+        console.log(`Facebook access token is ${result.accessToken.token}`);
+        this.getFacebookUserData(result.accessToken.token)
+      } else {
+        // Cancelled by user.
+      }
+    } else {
+      this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
+      .then( res => {
+        console.log(res);
+        this.navCtrl.navigateRoot('/home');
+      });
+    }
   }
 
+  getFacebookUserData(accessToken) {
+    const endpoint = `https://graph.facebook.com/me?fields=name,email,picture.width(400).height(400)&access_token=${accessToken}`
 
+    this.http.get(endpoint).toPromise().then(result => {
+      console.log(result)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
 }
