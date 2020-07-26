@@ -136,11 +136,19 @@ export class LoginPage implements OnInit {
 
   getFacebookUserData(accessToken) {
     const endpoint = `https://graph.facebook.com/me?fields=name,email,picture.width(400).height(400)&access_token=${accessToken}`
-
     this.http.get(endpoint).toPromise().then(result => {
       console.log(result)
     }).catch((err) => {
       console.log(err)
     })
+  }
+
+  loginWithGoogle() {
+    this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+    .then( res => {
+      console.log('From --Google--');
+      console.log(res);
+      this.navCtrl.navigateRoot('/home');
+    });
   }
 }

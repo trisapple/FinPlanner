@@ -57,12 +57,21 @@
   }
 
   .fbtransition {
-    --background: #3366FF;
+    --background: #3b5998;
     height: 34px;
     position: relative;
     bottom: 5px;
     --border-radius: 16px;
   }
+
+  .googletransition {
+    --background: #db3236;
+    height: 34px;
+    position: relative;
+    bottom: 5px;
+    --border-radius: 16px;
+  }
+
 
   .error {
     color: red;
