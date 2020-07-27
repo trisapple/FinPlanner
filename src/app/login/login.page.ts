@@ -114,6 +114,7 @@ export class LoginPage implements OnInit {
   }
 
   async loginWithFacebook() {
+    // If running in an iOS or Android App
     if (this.platform.is('hybrid')) {
       const FACEBOOK_PERMISSIONS = ['email', 'user_birthday', 'user_photos', 'user_gender'];
       const result = await FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS });
@@ -126,7 +127,9 @@ export class LoginPage implements OnInit {
       } else {
         // Cancelled by user.
       }
-    } else {
+    } 
+    // If running on the web
+    else {
         this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then( res => {
         this.userService.loggedin = true;
@@ -153,6 +156,7 @@ export class LoginPage implements OnInit {
   }
 
   async loginWithGoogle(): Promise<void> {
+    // If running in an iOS or Android App
     if (this.platform.is('hybrid')) {
       // const { history } = this.props;
       const result = await Plugins.GoogleAuth.signIn();
@@ -165,7 +169,9 @@ export class LoginPage implements OnInit {
         // console.log("Code run")
         this.navCtrl.navigateRoot('/home');
       }
-    } else {
+    } 
+    // If running on the web
+    else {
         this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then( res => {
         this.userService.loggedin = true;
