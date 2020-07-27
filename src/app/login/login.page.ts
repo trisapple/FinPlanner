@@ -115,7 +115,7 @@ export class LoginPage implements OnInit {
   }
 
   async loginWithFacebook() {
-    if (this.platform.is('mobile')) {
+    if (this.platform.is('hybrid')) {
       const FACEBOOK_PERMISSIONS = ['email', 'user_birthday', 'user_photos', 'user_gender'];
       const result = await FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS });
       
@@ -150,7 +150,7 @@ export class LoginPage implements OnInit {
   }
 
   async loginWithGoogle(): Promise<void> {
-    if (this.platform.is('mobile')) {
+    if (this.platform.is('hybrid')) {
       // const { history } = this.props;
       const result = await Plugins.GoogleAuth.signIn();
       console.info('result', result);
