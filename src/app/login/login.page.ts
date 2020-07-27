@@ -132,6 +132,10 @@ export class LoginPage implements OnInit {
       .then( res => {
         console.log(res);
         this.navCtrl.navigateRoot('/home');
+      })
+      .catch(err => {
+        console.log(err)
+        alert(err)
       });
     }
   }
@@ -155,7 +159,7 @@ export class LoginPage implements OnInit {
         //   pathname: '/home',
         //   state: { name: result.name || result.displayName, image: result.imageUrl, email: result.email }
         // });
-        console.log("Code run")
+        // console.log("Code run")
         this.navCtrl.navigateRoot('/home');
       }
     } else {
@@ -163,7 +167,12 @@ export class LoginPage implements OnInit {
       .then( res => {
         console.log('From --Google--');
         console.log(res);
+        // alert(res)
         this.navCtrl.navigateRoot('/home');
+      })
+      .catch(err => {
+        console.log(err)
+        alert(err)
       });
     }
   }
