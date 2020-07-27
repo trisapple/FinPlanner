@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
 import { LoadingController, Platform } from '@ionic/angular';
-// import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
 
@@ -10,15 +9,10 @@ import * as firebase from 'firebase';
 
 import { Subscription } from 'rxjs';
 
-// import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
-// import { FacebookLogin } from '@rdlabo/capacitor-facebook-login';
-
-// import { FacebookLoginResponse } from '@rdlabo/capacitor-facebook-login';
 import { Plugins } from '@capacitor/core';
 import { HttpClient } from '@angular/common/http';
 const { FacebookLogin } = Plugins;
 import "@codetrix-studio/capacitor-google-auth";
-// import { FacebookLogin } from '@rdlabo/capacitor-facebook-login'
 
 @Component({
   selector: 'app-login',
@@ -114,6 +108,7 @@ export class LoginPage implements OnInit {
   }
 
   async loginWithFacebook() {
+    // If running in an iOS or Android App
     if (this.platform.is('hybrid')) {
       const FACEBOOK_PERMISSIONS = ['email', 'user_birthday', 'user_photos', 'user_gender'];
       const result = await FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS });
@@ -126,7 +121,9 @@ export class LoginPage implements OnInit {
       } else {
         // Cancelled by user.
       }
-    } else {
+    } 
+    // If running on the web
+    else {
         this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then( res => {
         this.userService.loggedin = true;
@@ -153,19 +150,16 @@ export class LoginPage implements OnInit {
   }
 
   async loginWithGoogle(): Promise<void> {
+    // If running in an iOS or Android App
     if (this.platform.is('hybrid')) {
-      // const { history } = this.props;
       const result = await Plugins.GoogleAuth.signIn();
       console.info('result', result);
       if (result) {
-        // history.push({
-        //   pathname: '/home',
-        //   state: { name: result.name || result.displayName, image: result.imageUrl, email: result.email }
-        // });
-        // console.log("Code run")
         this.navCtrl.navigateRoot('/home');
       }
-    } else {
+    } 
+    // If running on the web
+    else {
         this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then( res => {
         this.userService.loggedin = true;
