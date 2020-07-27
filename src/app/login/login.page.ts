@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 // import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 // import { FacebookLogin } from '@rdlabo/capacitor-facebook-login';
 
-import { FacebookLoginResponse } from '@rdlabo/capacitor-facebook-login';
+// import { FacebookLoginResponse } from '@rdlabo/capacitor-facebook-login';
 import { Plugins } from '@capacitor/core';
 import { HttpClient } from '@angular/common/http';
 const { FacebookLogin } = Plugins;
@@ -70,8 +70,7 @@ export class LoginPage implements OnInit {
             let sub: Subscription = this.userService.login(this.email).subscribe((data) => {
 
               this.userService.loggedin = true;
-              this.userService.firstname = data["firstname"];
-              this.userService.lastname = data["lastname"];
+              this.userService.name = data["name"];
               this.userService.email = this.email;
 
               sub.unsubscribe();
@@ -118,7 +117,7 @@ export class LoginPage implements OnInit {
     if (this.platform.is('hybrid')) {
       const FACEBOOK_PERMISSIONS = ['email', 'user_birthday', 'user_photos', 'user_gender'];
       const result = await FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS });
-      
+
       if (result.accessToken) {
         // Login successful.
         console.log(`Facebook access token is ${result.accessToken.token}`);
@@ -128,17 +127,21 @@ export class LoginPage implements OnInit {
         // Cancelled by user.
       }
     } else {
-      this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
-      .then( res => {
+        this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
+        .then( res => {
+        this.userService.loggedin = true;
+        this.userService.name = res.user.displayName;
+        this.userService.email = res.user.email;
+        this.userService.profilePicture = res.user.photoURL;
         console.log(res);
         this.navCtrl.navigateRoot('/home');
       })
       .catch(err => {
-        console.log(err)
-        alert(err)
+        console.log(err);
+        alert(err);
       });
     }
-  }
+}
 
   getFacebookUserData(accessToken) {
     const endpoint = `https://graph.facebook.com/me?fields=name,email,picture.width(400).height(400)&access_token=${accessToken}`
@@ -163,16 +166,20 @@ export class LoginPage implements OnInit {
         this.navCtrl.navigateRoot('/home');
       }
     } else {
-      this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then( res => {
+        this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then( res => {
+        this.userService.loggedin = true;
+        this.userService.name = res.user.displayName;
+        this.userService.email = res.user.email;
+        this.userService.profilePicture = res.user.photoURL;
         console.log('From --Google--');
         console.log(res);
         // alert(res)
         this.navCtrl.navigateRoot('/home');
       })
       .catch(err => {
-        console.log(err)
-        alert(err)
+        console.log(err);
+        alert(err);
       });
     }
   }

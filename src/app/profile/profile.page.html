@@ -10,11 +10,11 @@
 
 <ion-content class="ion-padding">
   <ion-row>
-    <img width="64" height="64" src="assets/avatar.png">
+    <img width="64" height="64" src="{{ userService.profilePicture }}">
     <ion-col class="verticalcenter truncate">
       <ion-text style="width: 100%;">
         <ion-row>
-          <h4 class="truncate" style="margin-bottom: 4px; margin-top: 0px;">{{userService.firstname}} {{userService.lastname}}</h4>
+          <h4 class="truncate" style="margin-bottom: 4px; margin-top: 0px;">{{userService.name}}</h4>
         </ion-row>
         <ion-row>
           <span class="truncate" style="font-size: 12px">{{userService.email}}</span>

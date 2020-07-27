@@ -12,8 +12,7 @@ import { UserService } from '../user.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  firstName = '';
-  lastName = '';
+  name = '';
   email = '';
   password = '';
   confirmPassword = '';
@@ -41,7 +40,7 @@ export class RegisterPage implements OnInit {
 
   signup() {
     // tslint:disable-next-line: quotemark
-    if (this.firstName === "" || this.lastName === "" || this.email === "" || this.password === "" || this.confirmPassword === "") {
+    if (this.name === "" || this.email === "" || this.password === "" || this.confirmPassword === "") {
       this.presentToast('Please fill up all details!', 'middle', 2000);
     }
     else if (this.confirmPassword !== this.password) {
@@ -53,7 +52,7 @@ export class RegisterPage implements OnInit {
       // tslint:disable-next-line: align
           // if (res.user) {
           // console.log(res.user);
-          this.userService.signup(this.firstName, this.lastName, this.email);
+          this.userService.signup(this.name, this.email);
           const user = this.fireauth.currentUser;
           (await user).sendEmailVerification();
           this.presentToast('Registered successfully! Email verification has been sent!', 'middle', 2000);
