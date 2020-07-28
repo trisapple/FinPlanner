@@ -115,9 +115,9 @@ export class LoginPage implements OnInit {
 
       if (result.accessToken) {
         // Login successful.
+        console.log(result)
         console.log(`Facebook access token is ${result.accessToken.token}`);
-        this.getFacebookUserData(result.accessToken.token)
-        this.navCtrl.navigateRoot('/home');
+        this.getFacebookUserData(result.accessToken.token);
       } else {
         // Cancelled by user.
       }
@@ -143,7 +143,17 @@ export class LoginPage implements OnInit {
   getFacebookUserData(accessToken) {
     const endpoint = `https://graph.facebook.com/me?fields=name,email,picture.width(400).height(400)&access_token=${accessToken}`
     this.http.get(endpoint).toPromise().then(result => {
-      console.log(result)
+      console.log("Get Facebook User Data");
+      console.log(result);
+      var name = result["name"];
+      var email = result["email"];
+      var picture = result["picture"]["data"]["url"]; 
+
+      this.userService.name = name;
+      this.userService.email = email;
+      this.userService.profilePicture = picture;
+      this.userService.loggedin = true;
+      this.navCtrl.navigateRoot('/home');
     }).catch((err) => {
       console.log(err)
     })
