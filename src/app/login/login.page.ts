@@ -126,12 +126,7 @@ export class LoginPage implements OnInit {
     else {
         this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then( res => {
-
-          this.getFacebookUserData(res.credential.accessToken)
-        // this.userService.loggedin = true;
-        // this.userService.name = res.user.displayName;
-        // this.userService.email = res.user.email;
-        // this.userService.profilePicture = res.user.photoURL;
+        this.getFacebookUserData((<any>res).credential.accessToken)
         console.log(res);
         this.navCtrl.navigateRoot('/home');
       })
@@ -167,13 +162,20 @@ export class LoginPage implements OnInit {
       const result = await Plugins.GoogleAuth.signIn();
       console.info('result', result);
       if (result) {
+        var name = result["name"];
+        var email = result["email"];
+        var picture = result["imageUrl"]; 
+        this.userService.name = name;
+        this.userService.email = email;
+        this.userService.profilePicture = picture;
+        this.userService.loggedin = true;
         this.navCtrl.navigateRoot('/home');
       }
     } 
     // If running on the web
     else {
-        this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-        .then( res => {
+      this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then( res => {
         this.userService.loggedin = true;
         this.userService.name = res.user.displayName;
         this.userService.email = res.user.email;
