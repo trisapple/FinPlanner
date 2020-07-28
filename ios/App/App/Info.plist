@@ -34,6 +34,8 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+            <key>CFBundleURLName</key>
+            <string>REVERSED_CLIENT_ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.671807746722-c2b3gcekh8vioudj8rm72q1abbcj6qkr</string>
@@ -45,7 +47,7 @@
 	<key>FacebookAppID</key>
 	<string>2942017362588083</string>
 	<key>FacebookDisplayName</key>
-	<string>Wimlov</string>
+	<string>FinPlanner</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -80,6 +82,8 @@
 	</array>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

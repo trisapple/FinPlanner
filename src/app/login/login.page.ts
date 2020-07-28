@@ -13,6 +13,7 @@ import { Plugins } from '@capacitor/core';
 import { HttpClient } from '@angular/common/http';
 const { FacebookLogin } = Plugins;
 import "@codetrix-studio/capacitor-google-auth";
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +34,8 @@ export class LoginPage implements OnInit {
               public navCtrl: NavController,
               public userService: UserService,
               public http: HttpClient,
-              public platform: Platform
+              public platform: Platform,
+              private googlePlus: GooglePlus
               ) { }
 
   ngOnInit() {
@@ -107,21 +109,33 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
-  async loginWithFacebook() {
+  async loginWithFacebook(): Promise<void> {
     // If running in an iOS or Android App
     if (this.platform.is('hybrid')) {
       const FACEBOOK_PERMISSIONS = ['email', 'user_birthday', 'user_photos', 'user_gender'];
-      await FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS })
-      .then(result => {
-        console.log(result)
-        console.log(`Facebook access token is ${result.accessToken.token}`);
-        this.getFacebookUserData(result.accessToken.token);
+      await Plugins.FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS })
+      .then (result => {
+        if (result.accessToken) {
+          // Login successful.
+          console.log(result)
+          console.log(`Facebook access token is ${result.accessToken.token}`);
+          this.fireauth.signInWithCredential(firebase.auth.FacebookAuthProvider.credential(result.accessToken.token))
+          .then (res => {
+            this.getFacebookUserData(result.accessToken.token);
+          })
+          .catch (err => {
+            console.log(err)
+            alert(err)
+          })
+        } else {
+          // Cancelled by user.
+        }
       })
-      .catch(err => {
-        console.log(err);
-        alert(err);
-      });
-    } 
+      .catch (err => {
+        console.log(err)
+        alert(err)
+      })
+    }
     // If running on the web
     else {
         this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
@@ -143,13 +157,9 @@ export class LoginPage implements OnInit {
     this.http.get(endpoint).toPromise().then(result => {
       console.log("Get Facebook User Data");
       console.log(result);
-      var name = result["name"];
-      var email = result["email"];
-      var picture = result["picture"]["data"]["url"];
-
-      this.userService.name = name;
-      this.userService.email = email;
-      this.userService.profilePicture = picture;
+      this.userService.name = result["name"];
+      this.userService.email = result["email"];
+      this.userService.profilePicture = result["picture"]["data"]["url"];
       this.userService.loggedin = true;
       this.navCtrl.navigateRoot('/home');
     }).catch((err) => {
@@ -157,24 +167,32 @@ export class LoginPage implements OnInit {
     })
   }
 
-  async loginWithGoogle(): Promise<void> {
+  async loginWithGoogle() {
     // If running in an iOS or Android App
     if (this.platform.is('hybrid')) {
-      await Plugins.GoogleAuth.signIn()
-      .then(result => {
-        var name = result["name"];
-        var email = result["email"];
-        var picture = result["imageUrl"];
-        this.userService.name = name;
-        this.userService.email = email;
-        this.userService.profilePicture = picture;
-        this.userService.loggedin = true;
-        this.navCtrl.navigateRoot('/home');
-      })
-      .catch(err => {
-        console.log(err);
-        alert(err);
-      });
+      try {
+        const user = await this.googlePlus.login({
+          'webClientId': '671807746722-beipop6ng5ke1asn9ha50eqpm1fn677o.apps.googleusercontent.com',
+          'offline': true,
+          'scopes': 'profile email'
+        })
+
+        return await this.fireauth.signInWithCredential(
+          firebase.auth.GoogleAuthProvider.credential(user.idToken)
+        ).then(result => {
+          console.log(result)
+          this.userService.name = result["user"]["displayName"];
+          this.userService.email = result["user"]["email"];
+          this.userService.profilePicture = result["user"]["photoURL"];
+          this.userService.loggedin = true;
+          this.navCtrl.navigateRoot('/home');
+        }).catch(err => {
+          console.log(err)
+          alert(err)
+        })
+      } catch(err) {
+        console.log(err)
+      }
     } 
     // If running on the web
     else {
