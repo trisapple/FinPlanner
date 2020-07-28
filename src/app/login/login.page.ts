@@ -126,10 +126,12 @@ export class LoginPage implements OnInit {
     else {
         this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then( res => {
-        this.userService.loggedin = true;
-        this.userService.name = res.user.displayName;
-        this.userService.email = res.user.email;
-        this.userService.profilePicture = res.user.photoURL;
+
+          this.getFacebookUserData(res.credential.accessToken)
+        // this.userService.loggedin = true;
+        // this.userService.name = res.user.displayName;
+        // this.userService.email = res.user.email;
+        // this.userService.profilePicture = res.user.photoURL;
         console.log(res);
         this.navCtrl.navigateRoot('/home');
       })
