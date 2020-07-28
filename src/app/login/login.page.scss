@@ -29,7 +29,20 @@
   .white {
     color: white;
   }
-  
+  .icon {
+    position: relative;
+    right: 25px;
+    font-size: 19px;
+  }
+  .icon1 {
+    position: relative;
+    right: 15px;
+    font-size: 19px;
+  }
+  .text {
+    position: relative;
+    right: 9px;
+  }
   .row {
     display: flex;
     flex-direction: row;
