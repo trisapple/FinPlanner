@@ -121,12 +121,13 @@ export class LoginPage implements OnInit {
       } else {
         // Cancelled by user.
       }
-    } 
+    }
     // If running on the web
     else {
         this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then( res => {
-        this.getFacebookUserData((<any>res).credential.accessToken)
+        this.getFacebookUserData((<any>res).credential.accessToken);
+        this.presentToast('Login Successfully!', 'middle', 2000);
         console.log(res);
         this.navCtrl.navigateRoot('/home');
       })
@@ -144,7 +145,7 @@ export class LoginPage implements OnInit {
       console.log(result);
       var name = result["name"];
       var email = result["email"];
-      var picture = result["picture"]["data"]["url"]; 
+      var picture = result["picture"]["data"]["url"];
 
       this.userService.name = name;
       this.userService.email = email;
@@ -164,7 +165,7 @@ export class LoginPage implements OnInit {
       if (result) {
         var name = result["name"];
         var email = result["email"];
-        var picture = result["imageUrl"]; 
+        var picture = result["imageUrl"];
         this.userService.name = name;
         this.userService.email = email;
         this.userService.profilePicture = picture;
@@ -180,6 +181,7 @@ export class LoginPage implements OnInit {
         this.userService.name = res.user.displayName;
         this.userService.email = res.user.email;
         this.userService.profilePicture = res.user.photoURL;
+        this.presentToast('Login Successfully!', 'middle', 2000);
         console.log('From --Google--');
         console.log(res);
         // alert(res)
