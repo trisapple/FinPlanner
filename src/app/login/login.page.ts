@@ -111,16 +111,16 @@ export class LoginPage implements OnInit {
     // If running in an iOS or Android App
     if (this.platform.is('hybrid')) {
       const FACEBOOK_PERMISSIONS = ['email', 'user_birthday', 'user_photos', 'user_gender'];
-      const result = await FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS });
-
-      if (result.accessToken) {
-        // Login successful.
+      await FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS })
+      .then(result => {
         console.log(result)
         console.log(`Facebook access token is ${result.accessToken.token}`);
         this.getFacebookUserData(result.accessToken.token);
-      } else {
-        // Cancelled by user.
-      }
+      })
+      .catch(err => {
+        console.log(err);
+        alert(err);
+      });
     } 
     // If running on the web
     else {
@@ -159,9 +159,8 @@ export class LoginPage implements OnInit {
   async loginWithGoogle(): Promise<void> {
     // If running in an iOS or Android App
     if (this.platform.is('hybrid')) {
-      const result = await Plugins.GoogleAuth.signIn();
-      console.info('result', result);
-      if (result) {
+      await Plugins.GoogleAuth.signIn()
+      .then(result => {
         var name = result["name"];
         var email = result["email"];
         var picture = result["imageUrl"]; 
@@ -170,7 +169,11 @@ export class LoginPage implements OnInit {
         this.userService.profilePicture = picture;
         this.userService.loggedin = true;
         this.navCtrl.navigateRoot('/home');
-      }
+      })
+      .catch(err => {
+        console.log(err);
+        alert(err);
+      });
     } 
     // If running on the web
     else {
