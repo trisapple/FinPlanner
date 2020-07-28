@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, AlertController, ToastController } from '@ionic/angular';
-import { LoadingController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { AlertController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
 import { UserService } from '../user.service';
@@ -20,23 +18,23 @@ export class RegisterPage implements OnInit {
   // username: string = '';
 
   // tslint:disable-next-line: max-line-length
-  constructor(private fireauth: AngularFireAuth, private router: Router, private platform: Platform, public loadingController: LoadingController,
+  constructor(private fireauth: AngularFireAuth,
               // tslint:disable-next-line: max-line-length
               public alertController: AlertController, private toastCtrl: ToastController, public navCtrl: NavController, public userService: UserService) { }
 
   ngOnInit() {
   }
 
-  async openLoader() {
-    const loading = await this.loadingController.create({
-      message: 'Please Wait ...',
-      duration: 2000
-    });
-    await loading.present();
-  }
-  async closeLoading() {
-    return await this.loadingController.dismiss();
-  }
+  // async openLoader() {
+  //   const loading = await this.loadingController.create({
+  //     message: 'Please Wait ...',
+  //     duration: 2000
+  //   });
+  //   await loading.present();
+  // }
+  // async closeLoading() {
+  //   return await this.loadingController.dismiss();
+  // }
 
   signup() {
     // tslint:disable-next-line: quotemark
@@ -50,13 +48,11 @@ export class RegisterPage implements OnInit {
       this.fireauth.createUserWithEmailAndPassword(this.email, this.password)
       .then(async res => {
       // tslint:disable-next-line: align
-          // if (res.user) {
-          // console.log(res.user);
+          console.log(res.user);
           this.userService.signup(this.name, this.email);
           const user = this.fireauth.currentUser;
           (await user).sendEmailVerification();
           this.presentToast('Registered successfully! Email verification has been sent!', 'middle', 2000);
-          // this.updateProfile();
           this.navCtrl.pop();
         })
         .catch (async error => {
@@ -83,20 +79,5 @@ export class RegisterPage implements OnInit {
     });
     toast.present();
   }
-
-  // updateProfile() {
-  //   this.fireauth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       console.log(user);
-  //       user.updateProfile({
-  //         displayName: this.username,
-  //       })
-  //         .then(() => {
-  //           this.router.navigateByUrl('/login');
-  //         });
-  //     }
-  //   });
-  // }
-
 
 }
