@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
-import { LoadingController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
 
@@ -27,8 +27,6 @@ export class LoginPage implements OnInit {
   error = '';
 
   constructor(private fireauth: AngularFireAuth,
-              // private router: Router,
-              public loadingController: LoadingController,
               public alertController: AlertController,
               private toastCtrl: ToastController,
               public navCtrl: NavController,
@@ -41,16 +39,16 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  async openLoader() {
-    const loading = await this.loadingController.create({
-      message: 'Please Wait ...',
-      duration: 2000
-    });
-    await loading.present();
-  }
-  async closeLoading() {
-    return await this.loadingController.dismiss();
-  }
+  // async openLoader() {
+  //   const loading = await this.loadingController.create({
+  //     message: 'Please Wait ...',
+  //     duration: 2000
+  //   });
+  //   await loading.present();
+  // }
+  // async closeLoading() {
+  //   return await this.loadingController.dismiss();
+  // }
 
   login() {
     // tslint:disable-next-line: quotemark
@@ -164,7 +162,7 @@ export class LoginPage implements OnInit {
       this.navCtrl.navigateRoot('/home');
     }).catch((err) => {
       console.log(err)
-    })
+    });
   }
 
   async loginWithGoogle() {
