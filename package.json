@@ -34,6 +34,7 @@
     "@rdlabo/capacitor-facebook-login": "^2.0.3",
     "cordova-plugin-googleplus": "^8.5.0",
     "firebase": "^7.16.1",
+    "request": "^2.88.2",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -48,7 +49,7 @@
     "@ionic/angular-toolkit": "^2.1.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.11.1",
+    "@types/node": "^12.12.53",
     "codelyzer": "^5.1.2",
     "cordova-res": "^0.15.1",
     "jasmine-core": "~3.5.0",
