@@ -13,6 +13,7 @@ import { LoginPage } from '../login/login.page';
 export class HomePage {
 
   public authorisationCode = ''
+  public accessToken = ''
 
   constructor(public navCtrl: NavController, private router: Router, private menu: MenuController, private activatedRoute: ActivatedRoute) {
     // this.activatedRoute.queryParams.subscribe(params => {
@@ -53,6 +54,8 @@ export class HomePage {
         res.on("end", function (chunk) {
           var body = Buffer.concat(chunks);
           console.log(body.toString());
+          this.accessToken = JSON.parse(body.toString())["access_token"]
+          console.log(this.accessToken);
         });
       
         res.on("error", function (error) {
