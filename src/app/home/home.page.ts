@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, MenuController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoginPage } from '../login/login.page';
 // import request = require('request')
 
@@ -12,7 +12,18 @@ import { LoginPage } from '../login/login.page';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, private router: Router, private menu: MenuController) {}
+  authorisationCode = ''
+
+  constructor(public navCtrl: NavController, private router: Router, private menu: MenuController, private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.authorisationCode = params['code'];
+      console.log(this.authorisationCode);
+    });
+  }
+
+  ngOnInit() {
+
+  }
 
   login() {
     // this.navCtrl.setRoot(anOtherPage);
