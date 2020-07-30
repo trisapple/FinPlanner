@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, MenuController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginPage } from '../login/login.page';
+import { access } from 'fs';
+import { UserService } from '../user.service';
 // import request = require('request')
 
 
@@ -12,19 +14,19 @@ import { LoginPage } from '../login/login.page';
 })
 export class HomePage {
 
-  public authorisationCode = ''
-  public accessToken = ''
+  // public authorisationCode = ''
+  // public accessToken = ''
 
-  constructor(public navCtrl: NavController, private router: Router, private menu: MenuController, private activatedRoute: ActivatedRoute) {
+  constructor(public navCtrl: NavController, private router: Router, private menu: MenuController, private activatedRoute: ActivatedRoute, private userService: UserService) {
     // this.activatedRoute.queryParams.subscribe(params => {
     //   this.authorisationCode = params['code'];
     //   console.log(this.authorisationCode);
     // });
 
-    this.authorisationCode = this.activatedRoute.snapshot.queryParams['code'];
-    console.log(this.authorisationCode)
+    this.userService.authorisationCode = this.activatedRoute.snapshot.queryParams['code'];
+    console.log(this.userService.authorisationCode)
 
-    if (this.authorisationCode) {
+    if (this.userService.authorisationCode) {
       
       var https = require('follow-redirects').https;
       // var fs = require('fs');
@@ -54,8 +56,9 @@ export class HomePage {
         res.on("end", function (chunk) {
           var body = Buffer.concat(chunks);
           console.log(body.toString());
-          this.accessToken = JSON.parse(body.toString())["access_token"]
-          console.log(this.accessToken);
+          console.log(JSON.parse(body.toString())["access_token"])
+          this.userService.accessToken = JSON.parse(body.toString())["access_token"].toString() // undefined is not an object. have toString() or not at the end has no difference.
+          // Need help setting the accessToken as a global variable from a closure in here
         });
       
         res.on("error", function (error) {
@@ -65,7 +68,7 @@ export class HomePage {
       
       var postData = qs.stringify({
         'grant_type': 'authorization_code',
-        'code': this.authorisationCode,
+        'code': this.userService.authorisationCode,
         'redirect_uri': 'http://localhost:8100'
       });
       
@@ -82,6 +85,11 @@ export class HomePage {
 
   citiconnect() {
     window.open("https://sandbox.apihub.citi.com/gcb/api/authCode/oauth2/authorize?response_type=code&client_id=312e4cd1-c0c4-4675-9d22-c624d672982c&scope=accounts_details_transactions&countryCode=SG&businessCode=GCB&locale=en_SG&state=12093&redirect_uri=http://localhost:8100", "_blank");
+  }
+
+  codes() {
+    console.log(this.userService.authorisationCode)
+    console.log(this.userService.accessToken)
   }
 }
     
