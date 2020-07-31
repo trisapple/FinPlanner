@@ -1,7 +1,7 @@
 import UIKit
 import Capacitor
 
-import FacebookCore
+//import FacebookCore
 import FBSDKCoreKit
 
 
