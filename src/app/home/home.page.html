@@ -27,6 +27,32 @@
   <br><br>
   <ion-text>{{ userService.accessToken }}</ion-text>
   <br><br>
-  <ion-button (click)=codes()>Get Codes</ion-button>
-</ion-content>
+  <!-- <ion-button (click)=codes()>Get Codes</ion-button> -->
 
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div>
+          1 of 2
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          2 of 2
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let each of userService.transactions">
+      <ion-col>
+        <div>
+          {{ each.transactionDescription }}
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          {{ each.transactionAmount }}
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

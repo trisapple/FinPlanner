@@ -16,6 +16,8 @@ export class UserService {
   authorisationCode: String;
   accessToken: String;
 
+  transactions: JSON
+
   constructor(public firestore: AngularFirestore) {
     // this.usersCollectionRef = this.firestore.collection<any>('users'); // Get the 'users' collection in Firebase Cloud Firestore
   }

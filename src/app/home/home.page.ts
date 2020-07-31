@@ -58,6 +58,7 @@ export class HomePage {
           console.log(body.toString());
           console.log(JSON.parse(body.toString())["access_token"])
           userService.accessToken = (JSON.parse(body.toString())["access_token"])
+          retrieveCitiTransactions()
         });
       
         res.on("error", function (error) {
@@ -76,6 +77,47 @@ export class HomePage {
       req.end();
       console.log(postData)
     }
+
+    function retrieveCitiTransactions() {
+      var https = require('follow-redirects').https;
+      // var fs = require('fs');
+  
+      var options = {
+        'method': 'GET',
+        'hostname': 'sandbox.apihub.citi.com',
+        'path': '/gcb/api/v1/accounts/674d4a4f6a443741656e5a584a6f57665a444e685772393273615777397a4c665073305a5a2b51356f76513d/transactions',
+        'headers': {
+          'Accept': 'application/json',
+          'client_id': '312e4cd1-c0c4-4675-9d22-c624d672982c',
+          'uuid': 'aae5acdc-f196-48c7-8d10-e027ffd54552',
+          'Authorization': 'Bearer ' + userService.accessToken,
+          'Cookie': 'RSA=164292451157170727520200729230711; RSA=164292451157170727520200729230711; RSA=164292451157170727520200729230711; CITI_SITE=gtdc'
+        },
+        'maxRedirects': 20
+      };
+  
+      var req = https.request(options, function (res) {
+        var chunks = [];
+  
+        res.on("data", function (chunk) {
+          chunks.push(chunk);
+        });
+  
+        res.on("end", function (chunk) {
+          var body = Buffer.concat(chunks);
+          console.log(body.toString());
+          console.log(JSON.parse(body.toString())["transaction"])
+          userService.transactions = JSON.parse(body.toString())["transaction"]
+        });
+  
+        res.on("error", function (error) {
+          console.error(error);
+        });
+      });
+  
+      req.end();
+    }
+
   }
 
   ngOnInit() {
