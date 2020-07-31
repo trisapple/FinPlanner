@@ -48,7 +48,7 @@ export class HomePage {
       
       var req = https.request(options, function (res) {
         var chunks = [];
-      
+        
         res.on("data", function (chunk) {
           chunks.push(chunk);
         });
@@ -57,8 +57,7 @@ export class HomePage {
           var body = Buffer.concat(chunks);
           console.log(body.toString());
           console.log(JSON.parse(body.toString())["access_token"])
-          this.userService.accessToken = JSON.parse(body.toString())["access_token"].toString() // undefined is not an object. have toString() or not at the end has no difference.
-          // Need help setting the accessToken as a global variable from a closure in here
+          userService.accessToken = (JSON.parse(body.toString())["access_token"])
         });
       
         res.on("error", function (error) {
