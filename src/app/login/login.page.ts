@@ -11,8 +11,8 @@ import { Subscription } from 'rxjs';
 
 import { Plugins } from '@capacitor/core';
 import { HttpClient } from '@angular/common/http';
-import "@codetrix-studio/capacitor-google-auth";
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +32,8 @@ export class LoginPage implements OnInit {
               public userService: UserService,
               public http: HttpClient,
               public platform: Platform,
-              private googlePlus: GooglePlus
+              private googlePlus: GooglePlus,
+              private fb: Facebook
               ) { }
 
   ngOnInit() {
@@ -109,34 +110,55 @@ export class LoginPage implements OnInit {
   async loginWithFacebook(): Promise<void> {
     // If running in an iOS or Android App
     if (this.platform.is('hybrid')) {
-      const FACEBOOK_PERMISSIONS = ['email', 'user_birthday', 'user_photos', 'user_gender'];
-      await Plugins.FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS })
-      .then (result => {
-        if (result.accessToken) {
-          // Login successful.
-          console.log(result)
-          console.log(`Facebook access token is ${result.accessToken.token}`);
-          this.fireauth.signInWithCredential(firebase.auth.FacebookAuthProvider.credential(result.accessToken.token))
+
+      this.fb.login(['public_profile', 'user_friends', 'email'])
+        .then((res: FacebookLoginResponse) => {
+          console.log('Logged into Facebook!', res)
+          const accessToken = res.authResponse.accessToken
+          this.fireauth.signInWithCredential(firebase.auth.FacebookAuthProvider.credential(accessToken))
           .then (res => {
-            this.getFacebookUserData(result.accessToken.token);
+            this.getFacebookUserData(accessToken);
           })
           .catch (err => {
             console.log(err)
             alert(err)
           })
-        } else {
-          // Cancelled by user.
-        }
-      })
-      .catch (err => {
-        console.log(err)
-        alert(err)
-      })
+        })
+        .catch(e => {
+          console.log('Error logging into Facebook', e)
+        });
+
+      this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
+
+
+      // const FACEBOOK_PERMISSIONS = ['email', 'user_birthday', 'user_photos', 'user_gender'];
+      // await Plugins.FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS })
+      // .then (result => {
+      //   if (result.accessToken) {
+      //     // Login successful.
+      //     console.log(result)
+      //     console.log(`Facebook access token is ${result.accessToken.token}`);
+      //     this.fireauth.signInWithCredential(firebase.auth.FacebookAuthProvider.credential(result.accessToken.token))
+      //     .then (res => {
+      //       this.getFacebookUserData(result.accessToken.token);
+      //     })
+      //     .catch (err => {
+      //       console.log(err)
+      //       alert(err)
+      //     })
+      //   } else {
+      //     // Cancelled by user.
+      //   }
+      // })
+      // .catch (err => {
+      //   console.log(err)
+      //   alert(err)
+      // })
     }
     // If running on the web
     else {
-        this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
-        .then( res => {
+      this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
+        .then(res => {
         this.getFacebookUserData((<any>res).credential.accessToken);
         this.presentToast('Login Successfully!', 'middle', 2000);
         console.log(res);

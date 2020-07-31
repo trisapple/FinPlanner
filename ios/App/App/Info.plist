@@ -27,15 +27,14 @@
 			<string>com.getcapacitor.capacitor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>capacitor</string>
 				<string>fb2942017362588083</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-            <key>CFBundleURLName</key>
-            <string>REVERSED_CLIENT_ID</string>
+			<key>CFBundleURLName</key>
+			<string>REVERSED_CLIENT_ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.671807746722-c2b3gcekh8vioudj8rm72q1abbcj6qkr</string>
