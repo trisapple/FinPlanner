@@ -128,6 +128,10 @@ export class HomePage {
     window.open("https://sandbox.apihub.citi.com/gcb/api/authCode/oauth2/authorize?response_type=code&client_id=312e4cd1-c0c4-4675-9d22-c624d672982c&scope=accounts_details_transactions&countryCode=SG&businessCode=GCB&locale=en_SG&state=12093&redirect_uri=http://localhost:8100", "_blank");
   }
 
+  dbsconnect() {
+    window.open("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize?client_id=75fd953a-e032-4525-8deb-ca0800a2c08c&scope=Read&response_type=code&redirect_uri=http://localhost:8100", "_blank");
+  }
+
   codes() {
     console.log(this.userService.authorisationCode)
     console.log(this.userService.accessToken)
