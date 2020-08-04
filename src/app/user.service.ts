@@ -17,6 +17,7 @@ export class UserService {
   accessToken: String;
 
   socialLogin = false;
+  provider: String;
 
   transactions: JSON
 

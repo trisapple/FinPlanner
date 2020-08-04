@@ -66,6 +66,7 @@ export class LoginPage implements OnInit {
               this.userService.loggedin = true;
               this.userService.name = data["name"];
               this.userService.email = this.email;
+              this.userService.provider = "Email and Password"
 
               sub.unsubscribe();
             });
@@ -162,7 +163,6 @@ export class LoginPage implements OnInit {
         this.getFacebookUserData((<any>res).credential.accessToken);
         this.presentToast('Login Successfully!', 'middle', 2000);
         console.log(res);
-        this.userService.socialLogin = true
         this.navCtrl.navigateRoot('/home');
       })
       .catch(err => {
@@ -181,6 +181,8 @@ export class LoginPage implements OnInit {
       this.userService.email = result["email"];
       this.userService.profilePicture = result["picture"]["data"]["url"];
       this.userService.loggedin = true;
+      this.userService.socialLogin = true
+      this.userService.provider = "Facebook"
       this.navCtrl.navigateRoot('/home');
     }).catch((err) => {
       console.log(err)
@@ -226,6 +228,7 @@ export class LoginPage implements OnInit {
         console.log('From --Google--');
         console.log(res);
         this.userService.socialLogin = true
+        this.userService.provider = "Google"
         // alert(res)
         this.navCtrl.navigateRoot('/home');
       })
