@@ -34,16 +34,26 @@
     <ion-row>
       <ion-col>
         <div>
-          1 of 2
+          Date
         </div>
       </ion-col>
       <ion-col>
         <div>
-          2 of 2
+          Description
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          Amount
         </div>
       </ion-col>
     </ion-row>
     <ion-row *ngFor="let each of userService.transactions">
+      <ion-col>
+        <div>
+          {{ each.transactionDate }}
+        </div>
+      </ion-col>
       <ion-col>
         <div>
           {{ each.transactionDescription }}
