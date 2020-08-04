@@ -8,9 +8,14 @@ import { UserService } from '../user.service';
 })
 export class ProfilePage implements OnInit {
 
-  constructor(public userService: UserService) { }
+  constructor(public userService: UserService) { 
+    if (userService.socialLogin == false) {
+      this.userService.profilePicture = 'assets/avatar.png'
+    }
+  }
 
   ngOnInit() {
+    
   }
 
 }
