@@ -16,6 +16,8 @@ export class UserService {
   authorisationCode: String;
   accessToken: String;
 
+  socialLogin = false;
+
   transactions: JSON
 
   constructor(public firestore: AngularFirestore) {

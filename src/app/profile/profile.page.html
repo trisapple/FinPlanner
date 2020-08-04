@@ -29,7 +29,7 @@
     </ion-col>
   </ion-row>
   <br>
-  <ion-button class="transition">Edit User Information</ion-button>
+  <ion-button *ngIf="!userService.socialLogin" class="transition">Edit User Information</ion-button>
   <br>
-  <ion-button class="transition">Change Password</ion-button>
+  <ion-button *ngIf="!userService.socialLogin" class="transition">Change Password</ion-button>
 </ion-content>

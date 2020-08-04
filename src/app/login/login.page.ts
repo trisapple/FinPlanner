@@ -162,6 +162,7 @@ export class LoginPage implements OnInit {
         this.getFacebookUserData((<any>res).credential.accessToken);
         this.presentToast('Login Successfully!', 'middle', 2000);
         console.log(res);
+        this.userService.socialLogin = true
         this.navCtrl.navigateRoot('/home');
       })
       .catch(err => {
@@ -224,6 +225,7 @@ export class LoginPage implements OnInit {
         this.presentToast('Login Successfully!', 'middle', 2000);
         console.log('From --Google--');
         console.log(res);
+        this.userService.socialLogin = true
         // alert(res)
         this.navCtrl.navigateRoot('/home');
       })
