@@ -24,6 +24,8 @@ export class LoginPage implements OnInit {
   email = '';
   password = '';
   error = '';
+  showPassword = false;
+  passwordToggleIcon = 'eye-off';
 
   constructor(private fireauth: AngularFireAuth,
               public alertController: AlertController,
@@ -238,4 +240,14 @@ export class LoginPage implements OnInit {
       });
     }
   }
+  passwordToggle(): void {
+    this.showPassword = !this.showPassword;
+ 
+    if (this.passwordToggleIcon == 'eye-off') {
+      this.passwordToggleIcon = 'eye';
+    }
+    else {
+      this.passwordToggleIcon = 'eye-off';
+    }
+   }
 }

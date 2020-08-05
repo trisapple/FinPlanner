@@ -25,9 +25,10 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-input clearInput type="password" placeholder="Password" [(ngModel)]="password" class="input"
-            padding-horizontal clear-input="true"></ion-input>
-        </ion-col>
+          <ion-input clearInput [type] = "showPassword ? 'text' : 'password'" placeholder="Password" [(ngModel)]="password" class="input"
+            padding-horizontal clear-input="true"><ion-icon [name] = "passwordToggleIcon" class = "eye" (click) = "passwordToggle()"></ion-icon></ion-input>
+            <!-- Need help in making the icon responsive because when I minimise the window, the icon cannot be seen. Thanks -->
+          </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
