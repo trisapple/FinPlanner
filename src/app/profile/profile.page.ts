@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class ProfilePage implements OnInit {
 
-  constructor(public userService: UserService, private router: Router) { 
+  constructor(public userService: UserService, private router: Router) {
     if (userService.socialLogin == false) {
       this.userService.profilePicture = 'assets/avatar.png'
     }
@@ -17,7 +17,7 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
   }
-  
+
   changePassword() {
     this.router.navigateByUrl('/changepassword');
   }
