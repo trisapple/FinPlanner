@@ -11,7 +11,7 @@ export class ProfilePage implements OnInit {
 
   constructor(public userService: UserService, private router: Router) {
     if (userService.socialLogin == false) {
-      this.userService.profilePicture = 'assets/avatar.png'
+      this.userService.profilePicture = 'assets/avatar.png';
     }
   }
 
