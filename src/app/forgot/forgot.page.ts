@@ -11,12 +11,10 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./forgot.page.scss'],
 })
 export class ForgotPage implements OnInit {
-  email: string = '';
-  password: string = '';
-  error: string = '';
-  username: string = '';
-  // image: number;
-
+  email = '';
+  password = '';
+  error = '';
+  username = '';
 
   constructor(private fireauth: AngularFireAuth, private router: Router, public loadingController: LoadingController,
               public alertController: AlertController, private toastCtrl: ToastController, public navCtrl: NavController) { }
