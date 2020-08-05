@@ -85,7 +85,7 @@ export class HomePage {
       var options = {
         'method': 'GET',
         'hostname': 'sandbox.apihub.citi.com',
-        'path': '/gcb/api/v1/accounts/674d4a4f6a443741656e5a584a6f57665a444e685772393273615777397a4c665073305a5a2b51356f76513d/transactions',
+        'path': '/gcb/api/v1/accounts/5557596e6f556132725970397479356a4e66504f4638516772434d4663784176616174663332366b4739383d/transactions',
         'headers': {
           'Accept': 'application/json',
           'client_id': '312e4cd1-c0c4-4675-9d22-c624d672982c',

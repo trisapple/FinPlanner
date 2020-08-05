@@ -46,6 +46,7 @@ export class MenuPage implements OnInit {
 
   signout() {
     this.userService.loggedin = false;
+    this.userService.socialLogin = false;
     this.fireauth.signOut();
   }
 
