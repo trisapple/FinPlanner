@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
+  {
+    path: 'changepassword',
+    loadChildren: () => import('./changepassword/changepassword.module').then( m => m.ChangepasswordPageModule)
+  },
 
 ];
 

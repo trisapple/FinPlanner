@@ -33,5 +33,5 @@
   <br><br>
   <ion-button *ngIf="!userService.socialLogin" class="transition">Edit User Information</ion-button>
   <br>
-  <ion-button *ngIf="!userService.socialLogin" class="transition">Change Password</ion-button>
+  <ion-button *ngIf="!userService.socialLogin" class="transition" (click) = "changePassword()">Change Password</ion-button>
 </ion-content>
