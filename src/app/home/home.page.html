@@ -32,34 +32,34 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col>
+      <ion-col size-xs="3" size-md="2">
         <div>
           Date
         </div>
       </ion-col>
-      <ion-col>
+      <ion-col size-xs="6" size-md="8">
         <div>
           Description
         </div>
       </ion-col>
-      <ion-col>
+      <ion-col size-xs="3" size-md="2">
         <div>
           Amount
         </div>
       </ion-col>
     </ion-row>
     <ion-row *ngFor="let each of userService.transactions">
-      <ion-col>
+      <ion-col size-xs="3" size-md="2">
         <div>
           {{ each.transactionDate }}
         </div>
       </ion-col>
-      <ion-col>
+      <ion-col size-xs="6" size-md="8">
         <div>
           {{ each.transactionDescription }}
         </div>
       </ion-col>
-      <ion-col>
+      <ion-col size-xs="3" size-md="2">
         <div>
           {{ each.transactionAmount }}
         </div>
