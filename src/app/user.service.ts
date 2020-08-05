@@ -10,7 +10,7 @@ export class UserService {
   // usersCollectionRef: AngularFirestoreCollection<any>;
   loggedin = false;
   name: String;
-  email: String;
+  email: string;
   profilePicture: String;
 
   authorisationCode: String;
@@ -32,6 +32,11 @@ export class UserService {
 
   signup(name: string, email: string) {
     this.firestore.collection<any>('users').doc(email).set({name});
+  }
+
+  updateProfile(name: string) {
+    this.firestore.collection<any>('users').doc(this.email).set({name});
+    this.name = name;
   }
 
   // loginWithFacebook(email: string) {

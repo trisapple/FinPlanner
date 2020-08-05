@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Update Profile</ion-title>
+    <!-- Side menu button -->
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-row class="row">
+    <div>
+      <ion-text>
+        <h2 no-margin margin-vertical text-center>Update Profile</h2>
+      </ion-text>
+    </div>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-text>Enter the fields to update your profile</ion-text>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-input clearInput type="text" placeholder="Name" [(ngModel)]="name" class="input" padding-horizontal
+        clear-input="true"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-button expand="block" (click)="updateProfile()" class="transition">
+        <strong class="white">
+          Update</strong></ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>
