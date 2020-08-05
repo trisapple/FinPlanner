@@ -19,7 +19,7 @@ export class ForgotPage implements OnInit {
 
 
   constructor(private fireauth: AngularFireAuth, private router: Router, public loadingController: LoadingController,
-              public alertController: AlertController, private toastController: ToastController, public navCtrl: NavController) { }
+              public alertController: AlertController, private toastCtrl: ToastController, public navCtrl: NavController) { }
 
   ngOnInit() {
   }
@@ -36,26 +36,35 @@ export class ForgotPage implements OnInit {
   }
 
   recover() {
-    this.fireauth.sendPasswordResetEmail(this.email)
-      .then(data => {
-        console.log(data);
-        this.presentToast('Password reset email has been sent!', 'bottom', 2000);
-        this.navCtrl.pop()
-      })
-      .catch(err => {
-        console.log(` failed ${err}`);
-        this.error = err.message;
-      });
+    if (this.email == "") {
+      this.presentToast('Please enter your email!', 'middle', 2000);
+    }
+    else {
+      this.fireauth.sendPasswordResetEmail(this.email)
+        .then(data => {
+          console.log(data);
+          this.presentToast('Password reset email has been sent!', 'bottom', 2000);
+          this.navCtrl.pop();
+        })
+        .catch (async error => {
+          const toast = this.toastCtrl.create({
+            message: error.message,
+            position: 'middle',
+            duration: 2000
+          });
+          (await toast).present();
+        });
+    }
   }
 
   login() {
     // this.router.navigateByUrl('/login');
-    this.navCtrl.pop()
+    this.navCtrl.pop();
   }
 
   // tslint:disable-next-line: member-ordering
   async presentToast(message, position, duration) {
-    const toast = await this.toastController.create({
+    const toast = await this.toastCtrl.create({
       message,
       position,
       duration,
