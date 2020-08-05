@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
-import { LoginPage } from '../login/login.page';
-import { access } from 'fs';
+import { NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
-// import request = require('request')
 
 
 @Component({
@@ -17,16 +14,14 @@ export class HomePage {
   // public authorisationCode = ''
   // public accessToken = ''
 
-  constructor(public navCtrl: NavController, private router: Router, private menu: MenuController, private activatedRoute: ActivatedRoute, private userService: UserService) {
-    // this.activatedRoute.queryParams.subscribe(params => {
-    //   this.authorisationCode = params['code'];
-    //   console.log(this.authorisationCode);
-    // });
-
-    this.userService.authorisationCode = this.activatedRoute.snapshot.queryParams['code'];
+  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService) {
+    console.log(this.userService.authorisationCode)
+    if (!this.userService.authorisationCode) {
+      this.userService.authorisationCode = this.activatedRoute.snapshot.queryParams['code'];
+    }
     console.log(this.userService.authorisationCode)
 
-    if (this.userService.authorisationCode) {
+    if (this.userService.authorisationCode && !this.userService.accessToken) {
       
       var https = require('follow-redirects').https;
       // var fs = require('fs');
@@ -130,11 +125,6 @@ export class HomePage {
 
   dbsconnect() {
     window.open("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize?client_id=75fd953a-e032-4525-8deb-ca0800a2c08c&scope=Read&response_type=code&redirect_uri=http://localhost:8100", "_blank");
-  }
-
-  codes() {
-    console.log(this.userService.authorisationCode)
-    console.log(this.userService.accessToken)
   }
 }
     
