@@ -33,6 +33,7 @@
     "cordova-plugin-facebook4": "^6.4.0",
     "cordova-plugin-googleplus": "^8.5.0",
     "firebase": "^7.16.1",
+    "firebase-tools": "^8.7.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
