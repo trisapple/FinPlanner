@@ -15,6 +15,19 @@
     </ion-toolbar>
   </ion-header> -->
 
+  <ion-text>Accounts:</ion-text>
+  <br><br>
+  <div style="display: flex; align-items: center">
+    <ion-text>Citibank</ion-text>
+    <ion-button (click)=citiconnect() style="margin-left: auto;">Connect</ion-button>
+  </div>
+  <br>
+  <div style="display: flex; align-items: center">
+    <ion-text>DBS</ion-text>
+    <ion-button (click)=dbsconnect() style="margin-left: auto;">Connect</ion-button>
+  </div>
+  <br><br>
+
   <ion-button (click)=citiconnect()>Connect to Citi</ion-button>
   <ion-button (click)=dbsconnect()>Connect to DBS</ion-button>
   <br><br>
