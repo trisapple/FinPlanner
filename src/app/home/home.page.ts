@@ -34,7 +34,7 @@ export class HomePage {
         'path': '/gcb/api/authCode/oauth2/token/sg/gcb',
         'headers': {
           'Accept': 'application/json',
-          'Authorization': 'Basic MzEyZTRjZDEtYzBjNC00Njc1LTlkMjItYzYyNGQ2NzI5ODJjOkU4a1cyd0g4Z1MzblgzYVI4Z1UzbUk0aFI2bkYzb1I1YUY2bkg2Z0g4a0YxaVA1Y1M0',
+          'Authorization': 'Basic MDU0NTE4NjUtN2QzOS00NzA0LWI0OTUtODAzZjExZDJkZDA5OlY4a1QybVM1eVkyeUE0aEM2YkU4YUMyZUU3Y0U1Z0w4dkIydUQxakcxcUw1ZUUyYlgx',
           'Content-Type': 'application/x-www-form-urlencoded',
           'Cookie': 'RSA=164292451157170727520200729230711; bizToken=fU2UtG1g/AI3JOqozWsTWkpiT9WhJwTX6VEA7KVJYStvXsBe/bJYuBCltpb6fjNrrpyNQvfhu79O3O8ZnQchXSGf35FKcMTX2DeZL3uIoPu7wr8+7KmPSSzipBMzyXxgoFmg4C4kDc9BrI7l90mgcEFbrdOZCuKcrgl9CYY59EK+yurqvFtwgYpitFFTIGX1WiLqSt7VIXZMPgNmen1dLlGkFnlxSE3CFqqFIuQW6ClDmyj3jTHxCyU/Ekcl9rbj72U8n0rcCXvGoyNup6FxPiBW2n5ICSI7p8yMLn+HentBjKsrGksl1tCrdBjz8t3M+qvQvF/RW1ckJO46EiYz9spF1G132H73c3zyBBOc5lVyZ2HzjkwKYifkE2DTiDr5tQPyUBkfy/AaaJiGY0Yw8MwK8HM+YbcRWYxdXwi9WleOuW0F5+Ug/FzLx16MZx3LVHh7qcsgwqRAxgM1nOKR9RqOdRyxvVrmp52bh0lie5Q=; CITI_SITE=gtdc'
         },
@@ -64,7 +64,7 @@ export class HomePage {
       var postData = qs.stringify({
         'grant_type': 'authorization_code',
         'code': this.userService.authorisationCode,
-        'redirect_uri': 'http://localhost:8100'
+        'redirect_uri': 'http://ionicfirebase-a8213.web.app'
       });
       
       req.write(postData);
@@ -83,7 +83,7 @@ export class HomePage {
         'path': '/gcb/api/v1/accounts/5557596e6f556132725970397479356a4e66504f4638516772434d4663784176616174663332366b4739383d/transactions',
         'headers': {
           'Accept': 'application/json',
-          'client_id': '312e4cd1-c0c4-4675-9d22-c624d672982c',
+          'client_id': '05451865-7d39-4704-b495-803f11d2dd09',
           'uuid': 'aae5acdc-f196-48c7-8d10-e027ffd54552',
           'Authorization': 'Bearer ' + userService.accessToken,
           'Cookie': 'RSA=164292451157170727520200729230711; RSA=164292451157170727520200729230711; RSA=164292451157170727520200729230711; CITI_SITE=gtdc'
@@ -120,7 +120,7 @@ export class HomePage {
   }
 
   citiconnect() {
-    window.open("https://sandbox.apihub.citi.com/gcb/api/authCode/oauth2/authorize?response_type=code&client_id=312e4cd1-c0c4-4675-9d22-c624d672982c&scope=accounts_details_transactions&countryCode=SG&businessCode=GCB&locale=en_SG&state=12093&redirect_uri=http://localhost:8100", "_blank");
+    window.open("https://sandbox.apihub.citi.com/gcb/api/authCode/oauth2/authorize?response_type=code&client_id=05451865-7d39-4704-b495-803f11d2dd09&scope=accounts_details_transactions&countryCode=SG&businessCode=GCB&locale=en_SG&state=12093&redirect_uri=http://ionicfirebase-a8213.web.app", "_blank");
   }
 
   dbsconnect() {
