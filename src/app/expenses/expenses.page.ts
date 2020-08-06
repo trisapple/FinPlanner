@@ -61,7 +61,7 @@ export class ExpensesPage implements OnInit {
       var postData = qs.stringify({
         'grant_type': 'authorization_code',
         'code': this.userService.authorisationCode,
-        'redirect_uri': 'http://localhost:8100'
+        'redirect_uri': 'http://ionicfirebase-a8213.web.app'
       });
       
       req.write(postData);
