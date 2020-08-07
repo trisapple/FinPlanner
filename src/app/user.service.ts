@@ -19,6 +19,8 @@ export class UserService {
   socialLogin = false;
   provider: String;
 
+  citiLogin = false;
+
   transactions: JSON
 
   constructor(public firestore: AngularFirestore) {

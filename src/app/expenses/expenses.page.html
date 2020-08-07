@@ -19,7 +19,8 @@
   <br><br>
   <div style="display: flex; align-items: center">
     <ion-text>Citibank</ion-text>
-    <ion-button (click)=citiconnect() style="margin-left: auto;">Connect</ion-button>
+    <ion-button *ngIf="!userService.citiLogin" (click)=citiconnect() style="margin-left: auto;">Connect</ion-button>
+    <ion-button *ngIf="userService.citiLogin" style="margin-left: auto;" color="success">Connected</ion-button>
   </div>
   <br>
   <div style="display: flex; align-items: center">

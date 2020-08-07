@@ -50,6 +50,8 @@ export class ExpensesPage implements OnInit {
           console.log(body.toString());
           console.log(JSON.parse(body.toString())["access_token"])
           userService.accessToken = (JSON.parse(body.toString())["access_token"])
+          userService.citiLogin = true
+          console.log(userService.citiLogin)
           retrieveCitiTransactions()
         });
       
