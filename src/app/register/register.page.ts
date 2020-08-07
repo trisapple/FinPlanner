@@ -15,7 +15,6 @@ export class RegisterPage implements OnInit {
   password = '';
   confirmPassword = '';
   error = '';
-  // username: string = '';
 
   // tslint:disable-next-line: max-line-length
   constructor(private fireauth: AngularFireAuth,
@@ -24,17 +23,6 @@ export class RegisterPage implements OnInit {
 
   ngOnInit() {
   }
-
-  // async openLoader() {
-  //   const loading = await this.loadingController.create({
-  //     message: 'Please Wait ...',
-  //     duration: 2000
-  //   });
-  //   await loading.present();
-  // }
-  // async closeLoading() {
-  //   return await this.loadingController.dismiss();
-  // }
 
   signup() {
     // tslint:disable-next-line: quotemark

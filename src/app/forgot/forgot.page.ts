@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
-import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
@@ -16,21 +15,10 @@ export class ForgotPage implements OnInit {
   error = '';
   username = '';
 
-  constructor(private fireauth: AngularFireAuth, private router: Router, public loadingController: LoadingController,
+  constructor(private fireauth: AngularFireAuth, private router: Router,
               public alertController: AlertController, private toastCtrl: ToastController, public navCtrl: NavController) { }
 
   ngOnInit() {
-  }
-
-  async openLoader() {
-    const loading = await this.loadingController.create({
-      message: 'Please Wait ...',
-      duration: 2000
-    });
-    await loading.present();
-  }
-  async closeLoading() {
-    return await this.loadingController.dismiss();
   }
 
   recover() {

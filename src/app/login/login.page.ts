@@ -41,17 +41,6 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  // async openLoader() {
-  //   const loading = await this.loadingController.create({
-  //     message: 'Please Wait ...',
-  //     duration: 2000
-  //   });
-  //   await loading.present();
-  // }
-  // async closeLoading() {
-  //   return await this.loadingController.dismiss();
-  // }
-
   login() {
     // tslint:disable-next-line: quotemark
     if (this.email === "" || this.password === "" ) {
