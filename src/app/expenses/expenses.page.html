@@ -9,11 +9,6 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header> -->
 
   <ion-text>Accounts:</ion-text>
   <br><br>
@@ -29,17 +24,13 @@
   </div>
   <br><br>
 
-  <!-- <ion-button (click)=citiconnect()>Connect to Citi</ion-button>
-  <ion-button (click)=dbsconnect()>Connect to DBS</ion-button>
-  <br><br> -->
-  <!-- <ion-text>Authorisation Code</ion-text>
-  <br><br>
-  <ion-text>{{ userService.authorisationCode }}</ion-text>
-  <br><br>
-  <ion-text>Access Token</ion-text>
-  <br><br>
-  <ion-text>{{ userService.accessToken }}</ion-text>
-  <br><br> -->
+  <ion-grid>
+    <ion-row *ngFor="let each of userService.allaccounts">
+      <ion-col>
+        {{ each.accountGroup }}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-grid>
     <ion-row>

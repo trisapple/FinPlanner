@@ -22,6 +22,7 @@ export class UserService {
   citiLogin = false;
 
   transactions: JSON
+  allaccounts: JSON
 
   constructor(public firestore: AngularFirestore) {
     // this.usersCollectionRef = this.firestore.collection<any>('users'); // Get the 'users' collection in Firebase Cloud Firestore

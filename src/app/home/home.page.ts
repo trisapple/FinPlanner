@@ -28,7 +28,6 @@ export class HomePage {
     if (this.userService.authorisationCode && !this.userService.accessToken) {
       
       var https = require('follow-redirects').https;
-      // var fs = require('fs');
       
       var qs = require('querystring');
       
@@ -83,13 +82,5 @@ export class HomePage {
   ngOnInit() {
 
   }
-
-  // citiconnect() {
-  //   window.open("https://sandbox.apihub.citi.com/gcb/api/authCode/oauth2/authorize?response_type=code&client_id=05451865-7d39-4704-b495-803f11d2dd09&scope=accounts_details_transactions&countryCode=SG&businessCode=GCB&locale=en_SG&state=12093&redirect_uri=http://ionicfirebase-a8213.web.app", "_blank");
-  // }
-
-  // dbsconnect() {
-  //   window.open("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize?client_id=75fd953a-e032-4525-8deb-ca0800a2c08c&scope=Read&response_type=code&redirect_uri=http://localhost:8100", "_blank");
-  // }
 }
     
