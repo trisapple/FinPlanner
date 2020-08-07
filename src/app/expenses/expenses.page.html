@@ -24,10 +24,16 @@
   </div>
   <br><br>
 
-  <ion-grid>
-    <ion-row *ngFor="let each of userService.allaccounts">
+  <ion-grid *ngFor="let each of userService.allaccounts">
+    <ion-row>
       <ion-col>
         {{ each.accountGroup }}
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let account of each.accounts">
+      <ion-col >
+        <!-- Show the productName here -->
+        {{ account[userService.accountsummaryName].productName }}
       </ion-col>
     </ion-row>
   </ion-grid>

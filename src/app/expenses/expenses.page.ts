@@ -40,8 +40,8 @@ export class ExpensesPage implements OnInit {
   
         res.on("end", function (chunk) {
           var body = Buffer.concat(chunks);
-          console.log(body.toString());
-          console.log(JSON.parse(body.toString())["transaction"])
+          // console.log(body.toString());
+          // console.log(JSON.parse(body.toString())["transaction"])
           userService.transactions = JSON.parse(body.toString())["transaction"]
         });
   
@@ -80,6 +80,20 @@ export class ExpensesPage implements OnInit {
           var body = Buffer.concat(chunks);
           console.log(body.toString());
           console.log(JSON.parse(body.toString())["accountGroupSummary"])
+          // console.log(JSON.parse(body.toString())["accountGroupSummary"])
+
+          var accounts = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"])
+          accounts.forEach(element => {
+            var key = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][element])
+            // userService.accountsummaryName = key[0]
+            userService.accountsummaryArray.push(key[0])
+            // console.log(userService.accountsummaryArray)
+          });
+          
+          // var key = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][0])
+          // userService.accountsummaryName = key[0]
+          // console.log(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][0][key[0]].productName)
+
           userService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"]
         });
 
