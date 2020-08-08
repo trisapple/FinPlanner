@@ -80,21 +80,23 @@ export class ExpensesPage implements OnInit {
           var body = Buffer.concat(chunks);
           console.log(body.toString());
           console.log(JSON.parse(body.toString())["accountGroupSummary"])
-          // console.log(JSON.parse(body.toString())["accountGroupSummary"])
+          userService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"]
 
           var accounts = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"])
           accounts.forEach(element => {
             var key = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][element])
+            console.log(key)
+            console.log(key[0])
             // userService.accountsummaryName = key[0]
             userService.accountsummaryArray.push(key[0])
-            // console.log(userService.accountsummaryArray)
+            console.log(userService.accountsummaryArray)
           });
           
           // var key = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][0])
           // userService.accountsummaryName = key[0]
           // console.log(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][0][key[0]].productName)
 
-          userService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"]
+          
         });
 
         res.on("error", function (error) {
