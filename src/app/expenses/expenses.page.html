@@ -27,7 +27,7 @@
   <ion-grid *ngFor="let each of userService.allaccounts">
     <ion-row>
       <ion-col>
-        {{ each.accountGroup }}
+        <h3>{{ each.accountGroup }}</h3>
       </ion-col>
     </ion-row>
     <ion-row *ngFor="let account of each.accounts">
