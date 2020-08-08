@@ -32,13 +32,15 @@
     </ion-row>
     <ion-row *ngFor="let account of each.accounts">
       <ion-col>
-        <!-- <div *ngFor="let i of userService.accountsummaryArray">
-          <div *ngIf="account[i].productName !== undefined">
-            {{ account[i].productName }}
-          </div>
-        </div> -->
         <div *ngFor="let i of account | keyvalue">
           {{ i.value.productName }}
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let account of each.insurancePolicies">
+      <ion-col>
+        <div>
+          {{ account.productName }}
         </div>
       </ion-col>
     </ion-row>

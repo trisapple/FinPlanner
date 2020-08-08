@@ -82,21 +82,19 @@ export class ExpensesPage implements OnInit {
           console.log(JSON.parse(body.toString())["accountGroupSummary"])
           userService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"]
 
-          var accounts = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"])
-          accounts.forEach(element => {
-            var key = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][element])
-            console.log(key)
-            console.log(key[0])
-            // userService.accountsummaryName = key[0]
-            userService.accountsummaryArray.push(key[0])
-            console.log(userService.accountsummaryArray)
-          });
+          // var accounts = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"])
+          // accounts.forEach(element => {
+          //   var key = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][element])
+          //   console.log(key)
+          //   console.log(key[0])
+          //   // userService.accountsummaryName = key[0]
+          //   userService.accountsummaryArray.push(key[0])
+          //   console.log(userService.accountsummaryArray)
+          // });
           
           // var key = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][0])
           // userService.accountsummaryName = key[0]
           // console.log(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][0][key[0]].productName)
-
-          
         });
 
         res.on("error", function (error) {
