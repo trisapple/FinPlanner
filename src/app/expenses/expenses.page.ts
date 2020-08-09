@@ -118,4 +118,8 @@ export class ExpensesPage implements OnInit {
     window.open("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize?client_id=75fd953a-e032-4525-8deb-ca0800a2c08c&scope=Read&response_type=code&redirect_uri=http://localhost:8100", "_blank");
   }
 
+  transactionhistory() {
+    this.navCtrl.navigateForward(['/expenseshistory'])
+  }
+
 }

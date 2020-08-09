@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'updateprofile',
     loadChildren: () => import('./updateprofile/updateprofile.module').then( m => m.UpdateprofilePageModule)
   },
+  {
+    path: 'expenseshistory',
+    loadChildren: () => import('./expenseshistory/expenseshistory.module').then( m => m.ExpenseshistoryPageModule)
+  },
 
 ];
 
