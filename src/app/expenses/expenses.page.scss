@@ -1,3 +1,9 @@
 ion-item:hover {
-  --background: lightgray;
+    --background: lightgray;
+}
+
+@media (prefers-color-scheme: dark) {
+    ion-item:hover {
+        --background: darkgray;
+    }
 }

@@ -24,6 +24,8 @@ export class UserService {
   transactions: JSON
   allaccounts: JSON
   accountsummaryArray = []
+  transactionhistorytitle: String
+  transactionhistoryaccountId: String
 
   constructor(public firestore: AngularFirestore) {
     // this.usersCollectionRef = this.firestore.collection<any>('users'); // Get the 'users' collection in Firebase Cloud Firestore

@@ -30,7 +30,7 @@
       {{ each.accountGroup }}
     </ion-list-header>
     <ion-item *ngFor="let account of each.accounts">
-      <ion-label (click)=transactionhistory() *ngFor="let i of account | keyvalue" style="display: flex; align-items: center">
+      <ion-label (click)=transactionhistory(i.value) *ngFor="let i of account | keyvalue" style="display: flex; align-items: center">
           {{ i.value.productName }}
         <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
       </ion-label>
@@ -62,7 +62,7 @@
     </ion-item>
   </ion-list> -->
 
-  <ion-grid>
+  <!-- <ion-grid>
     <ion-row>
       <ion-col size-xs="3" size-md="2">
         <div>
@@ -97,5 +97,5 @@
         </div>
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
 </ion-content>
