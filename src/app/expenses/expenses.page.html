@@ -31,21 +31,36 @@
     </ion-list-header>
     <ion-item *ngFor="let account of each.accounts">
       <ion-label (click)=transactionhistory() *ngFor="let i of account | keyvalue" style="display: flex; align-items: center">
-        <!-- <p> -->
           {{ i.value.productName }}
-        <!-- </p> -->
         <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
       </ion-label>
     </ion-item>
     <ion-item *ngFor="let account of each.insurancePolicies">
       <ion-label (click)=transactionhistory() style="display: flex; align-items: center">
-        <!-- <p> -->
           {{ account.productName }}
-        <!-- </p> -->
         <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <!-- For quick testing using Ionic Serve -->
+  <!-- <ion-list>
+    <ion-list-header style="font-size: 24px; font-weight: bold;">
+      Account Group
+    </ion-list-header>
+    <ion-item>
+      <ion-label (click)=transactionhistory() style="display: flex; align-items: center; height:max-content;">
+          Product Name
+        <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label (click)=transactionhistory() style="display: flex; align-items: center">
+          Product Name
+        <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
+      </ion-label>
+    </ion-item>
+  </ion-list> -->
 
   <ion-grid>
     <ion-row>
