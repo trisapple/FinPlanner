@@ -31,14 +31,14 @@
     </ion-list-header>
     <ion-item *ngFor="let account of each.accounts">
       <ion-label (click)=transactionhistory() *ngFor="let i of account | keyvalue">
-        <p style="color: black;">
+        <p>
           {{ i.value.productName }}
         </p>
       </ion-label>
     </ion-item>
     <ion-item *ngFor="let account of each.insurancePolicies">
       <ion-label (click)=transactionhistory() >
-        <p style="color: black;">
+        <p>
           {{ account.productName }}
         </p>
       </ion-label>
