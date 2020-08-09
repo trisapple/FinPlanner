@@ -15,6 +15,15 @@
     font-weight: bold;
 }
 
+.transition1 {
+    --background:#FF3333;
+    --border-radius: 16px;
+    height: 32px;
+    bottom: 5px;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
 .truncate {
     overflow:hidden; 
     text-overflow: ellipsis; 
