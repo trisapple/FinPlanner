@@ -34,4 +34,6 @@
   <ion-button *ngIf="!userService.socialLogin" class="transition">Edit User Information</ion-button>
   <br>
   <ion-button *ngIf="!userService.socialLogin" class="transition" (click) = "changePassword()">Change Password</ion-button>
+  <br>
+  <ion-button class="transition" (click) = "deleteAccount()">Delete Account</ion-button>
 </ion-content>
