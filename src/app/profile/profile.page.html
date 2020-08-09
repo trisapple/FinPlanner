@@ -31,7 +31,7 @@
   <br>
   <ion-text>Logged in via: {{ userService.provider }}</ion-text>
   <br><br>
-  <ion-button *ngIf="!userService.socialLogin" class="transition">Edit User Information</ion-button>
+  <ion-button *ngIf="!userService.socialLogin" class="transition" (click) = "updateProfile()">Edit User Information</ion-button>
   <br>
   <ion-button *ngIf="!userService.socialLogin" class="transition" (click) = "changePassword()">Change Password</ion-button>
   <br>

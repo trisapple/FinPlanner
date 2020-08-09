@@ -26,6 +26,10 @@ export class ProfilePage implements OnInit {
     this.router.navigateByUrl('/changepassword');
   }
 
+  updateProfile() {
+    this.router.navigateByUrl('/updateprofile');
+  }
+
   async deleteAccount() {
     this.userService.deleteAccount(this.userService.email);
     (await this.fireauth.currentUser).delete()
