@@ -30,42 +30,22 @@
       {{ each.accountGroup }}
     </ion-list-header>
     <ion-item *ngFor="let account of each.accounts">
-      <ion-label (click)=transactionhistory() *ngFor="let i of account | keyvalue">
-        <p>
+      <ion-label (click)=transactionhistory() *ngFor="let i of account | keyvalue" style="display: flex; align-items: center">
+        <!-- <p> -->
           {{ i.value.productName }}
-        </p>
+        <!-- </p> -->
+        <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
       </ion-label>
     </ion-item>
     <ion-item *ngFor="let account of each.insurancePolicies">
-      <ion-label (click)=transactionhistory() >
-        <p>
+      <ion-label (click)=transactionhistory() style="display: flex; align-items: center">
+        <!-- <p> -->
           {{ account.productName }}
-        </p>
+        <!-- </p> -->
+        <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
       </ion-label>
     </ion-item>
   </ion-list>
-
-  <!-- <ion-grid *ngFor="let each of userService.allaccounts">
-    <ion-row>
-      <ion-col>
-        <h3>{{ each.accountGroup }}</h3>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngFor="let account of each.accounts">
-      <ion-col>
-        <div (click)=transactionhistory() *ngFor="let i of account | keyvalue">
-          {{ i.value.productName }}
-        </div>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngFor="let account of each.insurancePolicies">
-      <ion-col>
-        <div>
-          {{ account.productName }}
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
 
   <ion-grid>
     <ion-row>
