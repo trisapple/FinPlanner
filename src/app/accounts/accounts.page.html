@@ -29,8 +29,8 @@
     <ion-list-header style="font-size: 24px; font-weight: bold;">
       {{ each.accountGroup }}
     </ion-list-header>
-    <ion-item *ngFor="let account of each.accounts" (click)=transactionhistory(i.value)>
-      <ion-label *ngFor="let i of account | keyvalue">
+    <ion-item *ngFor="let account of each.accounts">
+      <ion-label *ngFor="let i of account | keyvalue" (click)=transactionhistory(i.value)>
         <h2>{{ i.value.productName }}</h2>
         <p>{{ i.value.displayAccountNumber }}</p>
       </ion-label>
