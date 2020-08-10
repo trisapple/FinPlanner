@@ -26,7 +26,7 @@ export class RegisterPage implements OnInit {
 
   signup() {
     // tslint:disable-next-line: quotemark
-    if (this.name === "" || this.email === "" || this.password === "" || this.confirmPassword === "") {
+    if (this.name == "" || this.email == "" || this.password == "" || this.confirmPassword == "") {
       this.presentToast('Please fill up all details!', 'middle', 2000);
     }
     else if (this.confirmPassword !== this.password) {
