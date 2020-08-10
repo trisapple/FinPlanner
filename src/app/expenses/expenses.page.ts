@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
+import { ExpensesService } from '../expenses.service';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { UserService } from '../user.service';
 })
 export class ExpensesPage implements OnInit {
 
-  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService) { 
+  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) { 
     allaccountsummary()
     // retrieveCitiTransactions()
     // function retrieveCitiTransactions() {
@@ -80,7 +81,7 @@ export class ExpensesPage implements OnInit {
           var body = Buffer.concat(chunks);
           console.log(body.toString());
           console.log(JSON.parse(body.toString())["accountGroupSummary"])
-          userService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"]
+          expensesService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"]
 
           // var accounts = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"])
           // accounts.forEach(element => {
@@ -120,8 +121,8 @@ export class ExpensesPage implements OnInit {
 
   transactionhistory(account) {
     console.log(account)
-    this.userService.transactionhistorytitle = account.productName
-    this.userService.transactionhistoryaccountId = account.accountId
+    this.expensesService.transactionhistorytitle = account.productName
+    this.expensesService.transactionhistoryaccountId = account.accountId
     this.navCtrl.navigateForward(['/expenseshistory'])
   }
 

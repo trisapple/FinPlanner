@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
+import { ExpensesService } from '../expenses.service';
 
 @Component({
   selector: 'app-expenseshistory',
@@ -8,7 +9,7 @@ import { UserService } from '../user.service';
 })
 export class ExpenseshistoryPage implements OnInit {
 
-  constructor(public userService: UserService) {
+  constructor(public userService: UserService, public expensesService: ExpensesService) {
     retrieveCitiTransactions()
     function retrieveCitiTransactions() {
       var https = require('follow-redirects').https;
@@ -16,7 +17,7 @@ export class ExpenseshistoryPage implements OnInit {
       var options = {
         'method': 'GET',
         'hostname': 'sandbox.apihub.citi.com',
-        'path': '/gcb/api/v1/accounts/' + userService.transactionhistoryaccountId + '/transactions',
+        'path': '/gcb/api/v1/accounts/' + expensesService.transactionhistoryaccountId + '/transactions',
         'headers': {
           'Accept': 'application/json',
           'client_id': '05451865-7d39-4704-b495-803f11d2dd09',
@@ -38,7 +39,7 @@ export class ExpenseshistoryPage implements OnInit {
           var body = Buffer.concat(chunks);
           // console.log(body.toString());
           // console.log(JSON.parse(body.toString())["transaction"])
-          userService.transactions = JSON.parse(body.toString())["transaction"]
+          expensesService.transactions = JSON.parse(body.toString())["transaction"]
         });
   
         res.on("error", function (error) {

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ userService.transactionhistorytitle }}</ion-title>
+    <ion-title>{{ expensesService.transactionhistorytitle }}</ion-title>
     <!-- Side menu button -->
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -27,7 +27,7 @@
         </div>
       </ion-col>
     </ion-row>
-    <ion-row *ngFor="let each of userService.transactions">
+    <ion-row *ngFor="let each of expensesService.transactions">
       <ion-col size-xs="3" size-md="2">
         <div>
           {{ each.transactionDate }}
