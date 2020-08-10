@@ -9,7 +9,7 @@ import * as firebase from 'firebase';
 
 import { Subscription } from 'rxjs';
 
-import { Plugins } from '@capacitor/core';
+// import { Plugins } from '@capacitor/core';
 import { HttpClient } from '@angular/common/http';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
@@ -106,15 +106,15 @@ export class LoginPage implements OnInit {
       this.fb.login(['public_profile', 'user_friends', 'email'])
         .then((res: FacebookLoginResponse) => {
           console.log('Logged into Facebook!', res)
-          const accessToken = res.authResponse.accessToken
+          const accessToken = res.authResponse.accessToken;
           this.fireauth.signInWithCredential(firebase.auth.FacebookAuthProvider.credential(accessToken))
           .then (res => {
             this.getFacebookUserData(accessToken);
           })
           .catch (err => {
-            console.log(err)
-            alert(err)
-          })
+            console.log(err);
+            alert(err);
+          });
         })
         .catch(e => {
           console.log('Error logging into Facebook', e)
@@ -176,7 +176,7 @@ export class LoginPage implements OnInit {
       this.userService.provider = "Facebook"
       this.navCtrl.navigateRoot('/home');
     }).catch((err) => {
-      console.log(err)
+      console.log(err);
     });
   }
 
@@ -188,23 +188,23 @@ export class LoginPage implements OnInit {
           'webClientId': '671807746722-beipop6ng5ke1asn9ha50eqpm1fn677o.apps.googleusercontent.com',
           'offline': true,
           'scopes': 'profile email'
-        })
+        });
 
         return await this.fireauth.signInWithCredential(
           firebase.auth.GoogleAuthProvider.credential(user.idToken)
         ).then(result => {
-          console.log(result)
+          console.log(result);
           this.userService.name = result["user"]["displayName"];
           this.userService.email = result["user"]["email"];
           this.userService.profilePicture = result["user"]["photoURL"];
           this.userService.loggedin = true;
           this.navCtrl.navigateRoot('/home');
         }).catch(err => {
-          console.log(err)
-          alert(err)
+          console.log(err);
+          alert(err);
         })
-      } catch(err) {
-        console.log(err)
+      } catch (err) {
+        console.log(err);
       }
     } 
     // If running on the web
@@ -218,8 +218,8 @@ export class LoginPage implements OnInit {
         this.presentToast('Login Successfully!', 'middle', 2000);
         console.log('From --Google--');
         console.log(res);
-        this.userService.socialLogin = true
-        this.userService.provider = "Google"
+        this.userService.socialLogin = true;
+        this.userService.provider = "Google";
         // alert(res)
         this.navCtrl.navigateRoot('/home');
       })
@@ -231,7 +231,7 @@ export class LoginPage implements OnInit {
   }
   // passwordToggle(): void {
   //   this.showPassword = !this.showPassword;
- 
+
   //   if (this.passwordToggleIcon == 'eye-off') {
   //     this.passwordToggleIcon = 'eye';
   //   }
