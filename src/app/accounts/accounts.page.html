@@ -34,6 +34,7 @@
         <h2>{{ i.value.productName }}</h2>
         <p>{{ i.value.displayAccountNumber }}</p>
       </ion-label>
+      <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">$ {{ i.value.currentBalance }}</p>
       <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
     <ion-item *ngFor="let account of each.insurancePolicies" (click)=transactionhistory()>
@@ -41,6 +42,7 @@
           <h2>{{ account.productName }}</h2>
           <p>{{ account.displayPolicyNumber }}</p>
       </ion-label>
+      <p style="margin-right: 16px">$ {{ account.totalPremiumPaidAmount }}</p>
       <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
   </ion-list>
@@ -55,6 +57,7 @@
         <h2>Product Name</h2>
         <p>Account Number</p>
       </ion-label>
+      <p style="margin-right: 16px">$0.00</p>
       <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
     <ion-item>
@@ -62,6 +65,7 @@
         <h2>Product Name</h2>
         <p>Account Number</p>
       </ion-label>
+      <p style="margin-right: 16px">$0.00</p>
       <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
   </ion-list> -->
