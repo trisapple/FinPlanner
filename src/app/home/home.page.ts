@@ -58,7 +58,7 @@ export class HomePage {
           userService.accessToken = (JSON.parse(body.toString())["access_token"])
           userService.citiLogin = true
           console.log(userService.citiLogin)
-          navCtrl.navigateRoot('/expenses')
+          navCtrl.navigateRoot('/accounts')
         });
       
         res.on("error", function (error) {
