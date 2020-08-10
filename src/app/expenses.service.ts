@@ -7,7 +7,7 @@ export class ExpensesService {
 
   transactions: JSON
   allaccounts: JSON
-  accountsummaryArray = []
+  // accountsummaryArray = []
   transactionhistorytitle: String
   transactionhistoryaccountId: String
 
