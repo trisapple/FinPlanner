@@ -29,17 +29,19 @@
     <ion-list-header style="font-size: 24px; font-weight: bold;">
       {{ each.accountGroup }}
     </ion-list-header>
-    <ion-item *ngFor="let account of each.accounts">
-      <ion-label (click)=transactionhistory(i.value) *ngFor="let i of account | keyvalue" style="display: flex; align-items: center">
-          {{ i.value.productName }}
-        <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
+    <ion-item *ngFor="let account of each.accounts" (click)=transactionhistory(i.value)>
+      <ion-label *ngFor="let i of account | keyvalue">
+        <h2>{{ i.value.productName }}</h2>
+        <p>{{ i.value.displayAccountNumber }}</p>
       </ion-label>
+      <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
-    <ion-item *ngFor="let account of each.insurancePolicies">
-      <ion-label (click)=transactionhistory() style="display: flex; align-items: center">
-          {{ account.productName }}
-        <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
+    <ion-item *ngFor="let account of each.insurancePolicies" (click)=transactionhistory()>
+      <ion-label>
+          <h2>{{ account.productName }}</h2>
+          <p>{{ account.displayPolicyNumber }}</p>
       </ion-label>
+      <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
   </ion-list>
 
@@ -48,17 +50,19 @@
     <ion-list-header style="font-size: 24px; font-weight: bold;">
       Account Group
     </ion-list-header>
-    <ion-item>
-      <ion-label (click)=transactionhistory() style="display: flex; align-items: center; height:max-content;">
-          Product Name
-        <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
+    <ion-item (click)=transactionhistory() >
+      <ion-label>
+        <h2>Product Name</h2>
+        <p>Account Number</p>
       </ion-label>
+      <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
     <ion-item>
-      <ion-label (click)=transactionhistory() style="display: flex; align-items: center">
-          Product Name
-        <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
+      <ion-label (click)=transactionhistory()>
+        <h2>Product Name</h2>
+        <p>Account Number</p>
       </ion-label>
+      <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
   </ion-list> -->
 
