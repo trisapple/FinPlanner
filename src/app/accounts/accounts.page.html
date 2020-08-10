@@ -34,7 +34,7 @@
         <h2>{{ i.value.productName }}</h2>
         <p>{{ i.value.displayAccountNumber }}</p>
       </ion-label>
-      <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">$ {{ i.value.currentBalance.toFixed(2) }}</p>
+      <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">{{ (i.value.currentBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
       <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
     <ion-item *ngFor="let account of each.insurancePolicies" (click)=transactionhistory()>
@@ -42,7 +42,7 @@
           <h2>{{ account.productName }}</h2>
           <p>{{ account.displayPolicyNumber }}</p>
       </ion-label>
-      <p style="margin-right: 16px">$ {{ account.totalPremiumPaidAmount.toFixed(2) }}</p>
+      <p style="margin-right: 16px">{{ (account.totalPremiumPaidAmount).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
       <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
   </ion-list>
