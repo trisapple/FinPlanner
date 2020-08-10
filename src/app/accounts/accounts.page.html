@@ -29,22 +29,22 @@
     <ion-list-header style="font-size: 24px; font-weight: bold;">
       {{ each.accountGroup }}
     </ion-list-header>
-    <ion-item *ngFor="let account of each.accounts" (click)=transactionhistory(i.value)>
-      <ion-label *ngFor="let i of account | keyvalue">
+    <ion-item *ngFor="let account of each.accounts">
+      <ion-label *ngFor="let i of account | keyvalue" (click)=transactionhistory(i.value)>
         <h2>{{ i.value.productName }}</h2>
         <p>{{ i.value.displayAccountNumber }}</p>
       </ion-label>
       <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">{{ (i.value.currentBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
       <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
-    <ion-item *ngFor="let account of each.insurancePolicies" (click)=transactionhistory()>
+    <!-- <ion-item *ngFor="let account of each.insurancePolicies" (click)=transactionhistory()>
       <ion-label>
           <h2>{{ account.productName }}</h2>
           <p>{{ account.displayPolicyNumber }}</p>
       </ion-label>
       <p style="margin-right: 16px">{{ (account.totalPremiumPaidAmount).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
       <ion-icon name="chevron-forward"></ion-icon>
-    </ion-item>
+    </ion-item> -->
   </ion-list>
 
   <!-- For quick testing using Ionic Serve -->
