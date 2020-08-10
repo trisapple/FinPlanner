@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController, NavController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,7 +13,7 @@ export class ChangepasswordPage implements OnInit {
   confirmPassword = '';
   error = '';
 
-  constructor(private fireauth: AngularFireAuth, private toastCtrl: ToastController, private router: Router, private navCtrl: NavController) { }
+  constructor(private fireauth: AngularFireAuth, private toastCtrl: ToastController, private navCtrl: NavController) { }
 
   ngOnInit() {
   }
@@ -31,7 +30,7 @@ export class ChangepasswordPage implements OnInit {
       .then (res => {
         this.presentToast('Your password is successfully changed!', 'middle', 2000);
         // this.router.navigateByUrl('/profile');
-        this.navCtrl.pop()
+        this.navCtrl.pop();
       })
       .catch (async error => {
         const toast = this.toastCtrl.create({

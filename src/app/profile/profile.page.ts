@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
-import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { ToastController } from '@ionic/angular';
 export class ProfilePage implements OnInit {
 
   // tslint:disable-next-line: max-line-length
-  constructor(public userService: UserService, private router: Router, private fireauth: AngularFireAuth, private toastCtrl: ToastController) {
+  constructor(public userService: UserService, private fireauth: AngularFireAuth, private toastCtrl: ToastController, public navCtrl: NavController) {
     if (userService.socialLogin == false) {
       this.userService.profilePicture = 'assets/avatar.png';
     }
@@ -23,11 +23,11 @@ export class ProfilePage implements OnInit {
   }
 
   changePassword() {
-    this.router.navigateByUrl('/changepassword');
+    this.navCtrl.navigateForward(['/changepassword']);
   }
 
   updateProfile() {
-    this.router.navigateByUrl('/updateprofile');
+    this.navCtrl.navigateForward(['/updateprofile']);
   }
 
   async deleteAccount() {
@@ -35,7 +35,7 @@ export class ProfilePage implements OnInit {
     (await this.fireauth.currentUser).delete()
     .then (data => {
       this.presentToast('Account Deleted!', 'middle', 2000);
-      this.router.navigateByUrl('/home');
+      this.navCtrl.navigateForward(['/home']);
     });
   }
 

@@ -9,7 +9,7 @@ import * as firebase from 'firebase';
 
 import { Subscription } from 'rxjs';
 
-import { Plugins } from '@capacitor/core';
+// import { Plugins } from '@capacitor/core';
 import { HttpClient } from '@angular/common/http';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
