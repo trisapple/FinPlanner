@@ -81,6 +81,12 @@ export class AccountsPage implements OnInit {
           console.log(body.toString());
           console.log(JSON.parse(body.toString())["accountGroupSummary"])
           expensesService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"]
+          for (let each of expensesService.allaccounts) {
+            if (each.accountGroup = "SAVINGS_AND_INVESTMENTS") {
+              expensesService.accountGroups.push("Savings and Investments")
+            }
+            console.log(expensesService.accountGroups)
+          }
 
           // var accounts = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"])
           // accounts.forEach(element => {

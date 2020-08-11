@@ -7,6 +7,8 @@ export class ExpensesService {
 
   transactions: JSON
   allaccounts: JSON
+  accountGroups = []
+
   // accountsummaryArray = []
   transactionhistorytitle: String
   transactionhistoryaccountId: String
