@@ -34,7 +34,8 @@
         <h2>{{ account[0].productName }}</h2>
         <p>{{ account[0].displayAccountNumber }}</p>
       </ion-label>
-      <p style="margin-right: 16px">{{ (account[0].currentBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+      <p *ngIf="account[0].currentBalance" style="margin-right: 16px">{{ (account[0].currentBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+      <p *ngIf="account[0].availableCredit" style="margin-right: 16px">{{ (account[0].availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
       <!-- <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">{{ (i.value.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p> -->
       <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>

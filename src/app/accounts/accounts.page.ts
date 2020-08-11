@@ -84,7 +84,13 @@ export class AccountsPage implements OnInit {
           for (let each of expensesService.allaccounts) {
             if (each.accountGroup == "SAVINGS_AND_INVESTMENTS") {
               expensesService.accountGroups.push("Savings and Investments")
-            }
+            } 
+            if (each.accountGroup == "CREDIT_CARD") {
+              expensesService.accountGroups.push("Credit Cards")
+            } 
+            // else {
+            //   expensesService.accountGroups.push(each.accountGroup)
+            // }
             for (let account of each.accounts) {
               console.log(account)
               var values = Object.values(account)
