@@ -29,7 +29,7 @@
     <ion-list-header style="font-size: 24px; font-weight: bold;">
       {{ each }}
     </ion-list-header>
-    <ion-item *ngFor="let account of expensesService.accounts" (click)=transactionhistory(account)>
+    <ion-item *ngFor="let account of expensesService.accounts" (click)=transactionhistory(account[0])>
       <ion-label>
         <h2>{{ account[0].productName }}</h2>
         <p>{{ account[0].displayAccountNumber }}</p>
