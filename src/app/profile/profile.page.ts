@@ -46,12 +46,14 @@ export class ProfilePage implements OnInit {
               (await this.fireauth.currentUser).delete();
               this.navCtrl.navigateForward(['/home']);
               this.presentToast('Account Deleted!', 'middle', 2000);
+              console.log('Yes clicked');
             }
           },
           {
             text: 'No',
             handler: () => {
               this.navCtrl.pop();
+              console.log('No clicked');
             }
           }
         ]
