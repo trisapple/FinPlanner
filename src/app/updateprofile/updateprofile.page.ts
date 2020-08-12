@@ -13,7 +13,7 @@ export class UpdateprofilePage implements OnInit {
   name = '';
   email = '';
 
-  constructor(private toastCtrl: ToastController, public userService: UserService, public navCtrl: NavController) { }
+  constructor(public toastCtrl: ToastController, public userService: UserService, public navCtrl: NavController) { }
 
   ngOnInit() {
   }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
 
@@ -15,8 +14,8 @@ export class ForgotPage implements OnInit {
   error = '';
   username = '';
 
-  constructor(private fireauth: AngularFireAuth, private router: Router,
-              public alertController: AlertController, private toastCtrl: ToastController, public navCtrl: NavController) { }
+  constructor(private fireauth: AngularFireAuth,
+              public alertController: AlertController, public toastCtrl: ToastController, public navCtrl: NavController) { }
 
   ngOnInit() {
   }
@@ -44,7 +43,6 @@ export class ForgotPage implements OnInit {
   }
 
   login() {
-    // this.router.navigateByUrl('/login');
     this.navCtrl.pop();
   }
 

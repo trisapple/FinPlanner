@@ -29,7 +29,7 @@ export class LoginPage implements OnInit {
 
   constructor(private fireauth: AngularFireAuth,
               public alertController: AlertController,
-              private toastCtrl: ToastController,
+              public toastCtrl: ToastController,
               public navCtrl: NavController,
               public userService: UserService,
               public http: HttpClient,

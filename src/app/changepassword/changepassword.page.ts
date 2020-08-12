@@ -13,7 +13,7 @@ export class ChangepasswordPage implements OnInit {
   confirmPassword = '';
   error = '';
 
-  constructor(private fireauth: AngularFireAuth, private toastCtrl: ToastController, private navCtrl: NavController) { }
+  constructor(private fireauth: AngularFireAuth, public toastCtrl: ToastController, private navCtrl: NavController) { }
 
   ngOnInit() {
   }

@@ -19,7 +19,7 @@ export class RegisterPage implements OnInit {
   // tslint:disable-next-line: max-line-length
   constructor(private fireauth: AngularFireAuth,
               // tslint:disable-next-line: max-line-length
-              public alertController: AlertController, private toastCtrl: ToastController, public navCtrl: NavController, public userService: UserService) { }
+              public alertController: AlertController, public toastCtrl: ToastController, public navCtrl: NavController, public userService: UserService) { }
 
   ngOnInit() {
   }
