@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'changepassword', loadChildren: () => import('./changepassword/changepassword.module').then( m => m.ChangepasswordPageModule) },
   { path: 'updateprofile', loadChildren: () => import('./updateprofile/updateprofile.module').then( m => m.UpdateprofilePageModule) },
   { path: 'expenseshistory', loadChildren: () => import('./expenseshistory/expenseshistory.module').then( m => m.ExpenseshistoryPageModule) },
+  { path: 'expensessummary', loadChildren: () => import('./expensessummary/expensessummary.module').then( m => m.ExpensessummaryPageModule) },
 ];
 
 @NgModule({
