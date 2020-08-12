@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { ToastController } from '@ionic/angular';
+import { ToastController, AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
+
 
 
 @Component({
@@ -13,7 +14,7 @@ import { NavController } from '@ionic/angular';
 export class ProfilePage implements OnInit {
 
   // tslint:disable-next-line: max-line-length
-  constructor(public userService: UserService, private fireauth: AngularFireAuth, private toastCtrl: ToastController, public navCtrl: NavController) {
+  constructor(public userService: UserService, private fireauth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController, public navCtrl: NavController) {
     if (userService.socialLogin == false) {
       this.userService.profilePicture = 'assets/avatar.png';
     }
@@ -31,12 +32,34 @@ export class ProfilePage implements OnInit {
   }
 
   async deleteAccount() {
-    this.userService.deleteAccount(this.userService.email);
-    (await this.fireauth.currentUser).delete()
-    .then (data => {
-      this.presentToast('Account Deleted!', 'middle', 2000);
-      this.navCtrl.navigateForward(['/home']);
-    });
+    // .then (async data => {
+      // this.presentToast('Account Deleted!', 'middle', 2000);
+      // this.navCtrl.navigateForward(['/home']);
+    const alert = await this.alertCtrl.create({
+        header: 'Delete Account',
+        message: 'Are you sure you want to delete your account?',
+        buttons: [
+          {
+            text: 'Yes',
+            handler: async () => {
+              this.userService.deleteAccount(this.userService.email);
+              (await this.fireauth.currentUser).delete();
+              this.navCtrl.navigateForward(['/home']);
+              this.presentToast('Account Deleted!', 'middle', 2000);
+            }
+          },
+          {
+            text: 'No',
+            handler: () => {
+              this.navCtrl.pop();
+            }
+          }
+        ]
+      });
+    await alert.present();
+    let result = await alert.onDidDismiss();
+    console.log(result);
+    // });
   }
 
   async presentToast(message, position, duration) {
