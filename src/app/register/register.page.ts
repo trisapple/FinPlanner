@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
 import { UserService } from '../user.service';
@@ -19,7 +19,7 @@ export class RegisterPage implements OnInit {
   // tslint:disable-next-line: max-line-length
   constructor(private fireauth: AngularFireAuth,
               // tslint:disable-next-line: max-line-length
-              public alertController: AlertController, public toastCtrl: ToastController, public navCtrl: NavController, public userService: UserService) { }
+              public toastCtrl: ToastController, public navCtrl: NavController, public userService: UserService) { }
 
   ngOnInit() {
   }
