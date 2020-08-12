@@ -12,8 +12,6 @@ import { ExpensesService } from '../expenses.service';
 })
 export class ExpensesPage implements OnInit {
 
-  public items: any = [];
-
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) { 
     // allaccountsummary()
     // retrieveCitiTransactions()
@@ -107,31 +105,6 @@ export class ExpensesPage implements OnInit {
 
     //   req.end();
     // }
-
-    this.items = [
-      { expanded: false, h2: "Test1", p: "Hello1!" },
-      { expanded: false, h2: "Test2", p: "Hello2!" },
-      { expanded: false, h2: "Test3", p: "Hello3!" },
-      { expanded: false, h2: "Test4", p: "Hello4!" },
-      { expanded: false, h2: "Test5", p: "Hello5!" },
-      { expanded: false, h2: "Test6", p: "Hello6!" },
-      { expanded: false, h2: "Test7", p: "Hello7!" }
-    ];
-  }
-
-  expandItem(item): void {
-    if (item.expanded) {
-      item.expanded = false;
-    } else {
-      this.items.map(listItem => {
-        if (item == listItem) {
-          listItem.expanded = !listItem.expanded;
-        } else {
-          // listItem.expanded = false;
-        }
-        return listItem;
-      });
-    }
   }
 
   ngOnInit() {
