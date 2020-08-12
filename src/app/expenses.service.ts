@@ -10,6 +10,7 @@ export class ExpensesService {
 
   accountGroups = []
   accounts = []
+  accountsbool = false
 
   // accountsummaryArray = []
   transactionhistorytitle: String

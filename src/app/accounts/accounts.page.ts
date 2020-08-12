@@ -12,7 +12,11 @@ import { ExpensesService } from '../expenses.service';
 export class AccountsPage implements OnInit {
   
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) { 
-    allaccountsummary()
+    if (expensesService.accountsbool == false) {
+      allaccountsummary()
+      expensesService.accountsbool = true
+    }
+    
     // retrieveCitiTransactions()
     // function retrieveCitiTransactions() {
     //   var https = require('follow-redirects').https;
