@@ -28,7 +28,7 @@ export class ForgotPage implements OnInit {
       this.fireauth.sendPasswordResetEmail(this.email)
         .then(data => {
           console.log(data);
-          this.presentToast('Password reset email has been sent!', 'bottom', 2000);
+          this.presentToast('Password reset email has been sent!', 'middle', 2000);
           this.navCtrl.pop();
         })
         .catch (async error => {
