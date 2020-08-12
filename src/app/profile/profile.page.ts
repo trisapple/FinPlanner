@@ -32,9 +32,9 @@ export class ProfilePage implements OnInit {
   }
 
   async deleteAccount() {
+    // this.presentToast('Account Deleted!', 'middle', 2000);
+    // this.navCtrl.navigateForward(['/home']);
     // .then (async data => {
-      // this.presentToast('Account Deleted!', 'middle', 2000);
-      // this.navCtrl.navigateForward(['/home']);
     const alert = await this.alertCtrl.create({
         header: 'Delete Account',
         message: 'Are you sure you want to delete your account?',
