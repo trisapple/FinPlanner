@@ -57,7 +57,7 @@ export class LoginPage implements OnInit {
               this.userService.loggedin = true;
               this.userService.name = data["name"];
               this.userService.email = this.email;
-              this.userService.provider = "Email and Password"
+              this.userService.provider = "Email and Password";
 
               sub.unsubscribe();
             });
@@ -105,7 +105,7 @@ export class LoginPage implements OnInit {
 
       this.fb.login(['public_profile', 'user_friends', 'email'])
         .then((res: FacebookLoginResponse) => {
-          console.log('Logged into Facebook!', res)
+          console.log('Logged into Facebook!', res);
           const accessToken = res.authResponse.accessToken;
           this.fireauth.signInWithCredential(firebase.auth.FacebookAuthProvider.credential(accessToken))
           .then (res => {
@@ -117,7 +117,7 @@ export class LoginPage implements OnInit {
           });
         })
         .catch(e => {
-          console.log('Error logging into Facebook', e)
+          console.log('Error logging into Facebook', e);
         });
 
       this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
