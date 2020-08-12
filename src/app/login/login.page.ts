@@ -66,7 +66,6 @@ export class LoginPage implements OnInit {
             this.navCtrl.navigateRoot('/home');
           }
           else {
-            // window.alert('Email is not verified!');
             this.presentToast('Please verfiy your email!', 'middle', 2000);
             return false;
           }
