@@ -86,6 +86,7 @@ export class AccountsPage implements OnInit {
           console.log(JSON.parse(body.toString())["accountGroupSummary"])
           expensesService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"]
           for (let each of expensesService.allaccounts) {
+            // The 'if' is to display the account group and the following accounts. If not included, it will not be displayed. 
             if (each.accountGroup == "SAVINGS_AND_INVESTMENTS") {
               expensesService.accountGroups.push("Savings and Investments")
             }
