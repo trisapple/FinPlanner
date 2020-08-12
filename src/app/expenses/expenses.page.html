@@ -34,12 +34,21 @@
   </ion-list>
 
   <ion-list (click)="expandItem(item)" *ngFor="let item of items">
-    <ion-item lines="none">
+    <ion-item *ngIf="item.expanded" lines="none">
       <ion-label>
         <h2>My Neighbor Totoro</h2> 
         <p>Test</p>
       </ion-label>
-      <ion-icon name="chevron-forward"></ion-icon>
+      <ion-icon *ngIf="!item.expanded" name="chevron-forward"></ion-icon>
+      <ion-icon *ngIf="item.expanded" name="chevron-down"></ion-icon>
+    </ion-item>
+    <ion-item *ngIf="!item.expanded">
+      <ion-label>
+        <h2>My Neighbor Totoro</h2> 
+        <p>Test</p>
+      </ion-label>
+      <ion-icon *ngIf="!item.expanded" name="chevron-forward"></ion-icon>
+      <ion-icon *ngIf="item.expanded" name="chevron-down"></ion-icon>
     </ion-item>
     <app-expandable expandHeight="100px" [expanded]="item.expanded">
     <ion-item>
