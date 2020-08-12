@@ -9,93 +9,27 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-
-  <!-- <ion-text>Accounts:</ion-text>
-  <br><br>
-  <div style="display: flex; align-items: center">
-    <ion-text>Citibank</ion-text>
-    <ion-button *ngIf="!userService.citiLogin" (click)=citiconnect() style="margin-left: auto;">Connect</ion-button>
-    <ion-button *ngIf="userService.citiLogin" style="margin-left: auto;" color="success">Connected</ion-button>
-  </div>
-  <br>
-  <div style="display: flex; align-items: center">
-    <ion-text>DBS</ion-text>
-    <ion-button (click)=dbsconnect() style="margin-left: auto;">Connect</ion-button>
-  </div>
-  <br><br>
-
-
-  <ion-list *ngFor="let each of expensesService.allaccounts">
+  <ion-list *ngFor="let each of expensesService.accountGroups">
     <ion-list-header style="font-size: 24px; font-weight: bold;">
-      {{ each.accountGroup }}
+      {{ each }}
     </ion-list-header>
-    <ion-item *ngFor="let account of each.accounts">
-      <ion-label (click)=transactionhistory(i.value) *ngFor="let i of account | keyvalue" style="display: flex; align-items: center">
-          {{ i.value.productName }}
-        <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
+    <ion-item *ngFor="let account of expensesService.accounts" (click)=transactionhistory(account[0])>
+      <ion-label>
+        <h2>{{ account[0].productName }}</h2>
+        <p>{{ account[0].displayAccountNumber }}</p>
       </ion-label>
+      <p *ngIf="account[0].currentBalance" style="margin-right: 16px">{{ (account[0].currentBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+      <p *ngIf="account[0].availableCredit" style="margin-right: 16px">{{ (account[0].availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+      <!-- <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">{{ (i.value.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p> -->
+      <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
-    <ion-item *ngFor="let account of each.insurancePolicies">
-      <ion-label (click)=transactionhistory() style="display: flex; align-items: center">
-          {{ account.productName }}
-        <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
+    <!-- <ion-item *ngFor="let account of each.insurancePolicies" (click)=transactionhistory()>
+      <ion-label>
+          <h2>{{ account.productName }}</h2>
+          <p>{{ account.displayPolicyNumber }}</p>
       </ion-label>
-    </ion-item>
-  </ion-list> -->
-
-  <!-- For quick testing using Ionic Serve -->
-  <!-- <ion-list>
-    <ion-list-header style="font-size: 24px; font-weight: bold;">
-      Account Group
-    </ion-list-header>
-    <ion-item>
-      <ion-label (click)=transactionhistory() style="display: flex; align-items: center; height:max-content;">
-          Product Name
-        <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label (click)=transactionhistory() style="display: flex; align-items: center">
-          Product Name
-        <ion-icon name="chevron-forward" style="margin-left: auto;"></ion-icon>
-      </ion-label>
-    </ion-item>
-  </ion-list> -->
-
-  <!-- <ion-grid>
-    <ion-row>
-      <ion-col size-xs="3" size-md="2">
-        <div>
-          Date
-        </div>
-      </ion-col>
-      <ion-col size-xs="6" size-md="8">
-        <div>
-          Description
-        </div>
-      </ion-col>
-      <ion-col size-xs="3" size-md="2">
-        <div>
-          Amount
-        </div>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngFor="let each of userService.transactions">
-      <ion-col size-xs="3" size-md="2">
-        <div>
-          {{ each.transactionDate }}
-        </div>
-      </ion-col>
-      <ion-col size-xs="6" size-md="8">
-        <div>
-          {{ each.transactionDescription }}
-        </div>
-      </ion-col>
-      <ion-col size-xs="3" size-md="2">
-        <div>
-          {{ each.transactionAmount }}
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
+      <p style="margin-right: 16px">{{ (account.totalPremiumPaidAmount).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+      <ion-icon name="chevron-forward"></ion-icon>
+    </ion-item> -->
+  </ion-list>
 </ion-content>
