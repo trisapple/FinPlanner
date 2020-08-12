@@ -32,4 +32,34 @@
       <ion-icon name="chevron-forward"></ion-icon>
     </ion-item> -->
   </ion-list>
+
+  <ion-card (click)="expandItem(item)" *ngFor="let item of items">
+    <ion-card-header>
+      <ion-card-title>My Neighbor Totoro</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <app-expandable expandHeight="100px" [expanded]="item.expanded">
+        <p>
+          Hello there.
+        </p>
+        <!-- <p>
+          Hello there.
+        </p>
+        <p>
+          Hello there.
+        </p>
+        <p>
+          Hello there.
+        </p>
+        <p>
+          Hello there.
+        </p>
+        <p>
+          Hello there.
+        </p> -->
+      </app-expandable>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

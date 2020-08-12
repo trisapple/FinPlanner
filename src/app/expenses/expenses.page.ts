@@ -12,6 +12,8 @@ import { ExpensesService } from '../expenses.service';
 })
 export class ExpensesPage implements OnInit {
 
+  public items: any = [];
+
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) { 
     // allaccountsummary()
     // retrieveCitiTransactions()
@@ -106,6 +108,32 @@ export class ExpensesPage implements OnInit {
     //   req.end();
     // }
 
+    this.items = [
+      { expanded: false },
+      { expanded: false },
+      { expanded: false },
+      { expanded: false },
+      { expanded: false },
+      { expanded: false },
+      { expanded: false },
+      { expanded: false },
+      { expanded: false }
+    ];
+  }
+
+  expandItem(item): void {
+    if (item.expanded) {
+      item.expanded = false;
+    } else {
+      this.items.map(listItem => {
+        if (item == listItem) {
+          listItem.expanded = !listItem.expanded;
+        } else {
+          listItem.expanded = false;
+        }
+        return listItem;
+      });
+    }
   }
 
   ngOnInit() {
