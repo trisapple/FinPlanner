@@ -202,11 +202,11 @@ export class LoginPage implements OnInit {
         }).catch(err => {
           console.log(err);
           alert(err);
-        })
+        });
       } catch (err) {
         console.log(err);
       }
-    } 
+    }
     // If running on the web
     else {
       this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
@@ -229,14 +229,4 @@ export class LoginPage implements OnInit {
       });
     }
   }
-  // passwordToggle(): void {
-  //   this.showPassword = !this.showPassword;
-
-  //   if (this.passwordToggleIcon == 'eye-off') {
-  //     this.passwordToggleIcon = 'eye';
-  //   }
-  //   else {
-  //     this.passwordToggleIcon = 'eye-off';
-  //   }
-  //  }
 }

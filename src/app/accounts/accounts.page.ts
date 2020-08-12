@@ -88,25 +88,25 @@ export class AccountsPage implements OnInit {
           for (let each of expensesService.allaccounts) {
             if (each.accountGroup == "SAVINGS_AND_INVESTMENTS") {
               expensesService.accountGroups.push("Savings and Investments")
-            } 
+            }
             if (each.accountGroup == "CREDIT_CARD") {
-              expensesService.accountGroups.push("Credit Cards")
-            } 
+              expensesService.accountGroups.push("Credit Cards");
+            }
             if (each.accountGroup == "CHECKING") {
-              expensesService.accountGroups.push("Checking")
-            } 
+              expensesService.accountGroups.push("Checking");
+            }
             if (each.accountGroup == "LOANS") {
-              expensesService.accountGroups.push("Loans")
-            } 
+              expensesService.accountGroups.push("Loans");
+            }
             // else {
             //   expensesService.accountGroups.push(each.accountGroup)
             // }
             for (let account of each.accounts) {
-              console.log(account)
-              var values = Object.values(account)
-              expensesService.accounts.push(values)
+              console.log(account);
+              var values = Object.values(account);
+              expensesService.accounts.push(values);
               console.log(values)
-              console.log(values[0]["productName"])
+              console.log(values[0]["productName"]);
               // console.log(Object.values(values))
 
               // for (let i of account) {
@@ -114,8 +114,8 @@ export class AccountsPage implements OnInit {
               //   expensesService.accounts.push(i)
               // }
             }
-            console.log(expensesService.accountGroups)
-            console.log(expensesService.accounts)
+            console.log(expensesService.accountGroups);
+            console.log(expensesService.accounts);
           }
 
           // var accounts = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"])
@@ -127,7 +127,7 @@ export class AccountsPage implements OnInit {
           //   userService.accountsummaryArray.push(key[0])
           //   console.log(userService.accountsummaryArray)
           // });
-          
+
           // var key = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][0])
           // userService.accountsummaryName = key[0]
           // console.log(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][0][key[0]].productName)
@@ -154,10 +154,10 @@ export class AccountsPage implements OnInit {
   }
 
   transactionhistory(account) {
-    console.log(account)
-    this.expensesService.transactionhistorytitle = account.productName
-    this.expensesService.transactionhistoryaccountId = account.accountId
-    this.navCtrl.navigateForward(['/expenseshistory'])
+    console.log(account);
+    this.expensesService.transactionhistorytitle = account.productName;
+    this.expensesService.transactionhistoryaccountId = account.accountId;
+    this.navCtrl.navigateForward(['/expenseshistory']);
   }
 
 }
