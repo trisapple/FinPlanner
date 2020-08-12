@@ -109,15 +109,13 @@ export class ExpensesPage implements OnInit {
     // }
 
     this.items = [
-      { expanded: false },
-      { expanded: false },
-      { expanded: false },
-      { expanded: false },
-      { expanded: false },
-      { expanded: false },
-      { expanded: false },
-      { expanded: false },
-      { expanded: false }
+      { expanded: false, h2: "Test1", p: "Hello1!" },
+      { expanded: false, h2: "Test2", p: "Hello2!" },
+      { expanded: false, h2: "Test3", p: "Hello3!" },
+      { expanded: false, h2: "Test4", p: "Hello4!" },
+      { expanded: false, h2: "Test5", p: "Hello5!" },
+      { expanded: false, h2: "Test6", p: "Hello6!" },
+      { expanded: false, h2: "Test7", p: "Hello7!" }
     ];
   }
 
@@ -129,7 +127,7 @@ export class ExpensesPage implements OnInit {
         if (item == listItem) {
           listItem.expanded = !listItem.expanded;
         } else {
-          listItem.expanded = false;
+          // listItem.expanded = false;
         }
         return listItem;
       });
