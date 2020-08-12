@@ -92,6 +92,12 @@ export class AccountsPage implements OnInit {
             if (each.accountGroup == "CREDIT_CARD") {
               expensesService.accountGroups.push("Credit Cards")
             } 
+            if (each.accountGroup == "CHECKING") {
+              expensesService.accountGroups.push("Checking")
+            } 
+            if (each.accountGroup == "LOANS") {
+              expensesService.accountGroups.push("Loans")
+            } 
             // else {
             //   expensesService.accountGroups.push(each.accountGroup)
             // }
