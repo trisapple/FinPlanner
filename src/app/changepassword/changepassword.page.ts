@@ -26,7 +26,7 @@ export class ChangepasswordPage implements OnInit {
       this.presentToast('Passwords do not match!', 'middle', 2000);
     }
     else {
-      (await this.fireauth.currentUser).updatePassword(this.confirmPassword)
+      (await this.fireauth.currentUser).updatePassword(this.newPassword)
       .then (res => {
         this.presentToast('Your password is successfully changed!', 'middle', 2000);
         // this.router.navigateByUrl('/profile');
