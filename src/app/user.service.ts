@@ -43,15 +43,4 @@ export class UserService {
     this.firestore.collection<any>('users').doc(email).delete();
     this.loggedin = false;
   }
-
-
-  // loginWithFacebook(email: string) {
-  // tslint:disable-next-line: max-line-length
-  //   return this.firestore.collection<any>('users').doc(email).valueChanges(); // Get the email (document) of the user, so we can get the name, email, password
-  // }
-
-  // loginWithGoogle(email: string) {
-  // tslint:disable-next-line: max-line-length
-  //   return this.firestore.collection<any>('users').doc(email).valueChanges(); // Get the email (document) of the user, so we can get the name, email, password
-  // }
 }
