@@ -110,7 +110,9 @@ export class ExpensesPage implements OnInit {
   ngOnInit() {
   }
 
-  expensessummary() {
+  expensessummary(account) {
+    this.expensesService.transactionhistorytitle = account.productName
+    this.expensesService.transactionhistoryaccountId = account.accountId
     this.navCtrl.navigateForward(['/expensessummary']);
   }
 

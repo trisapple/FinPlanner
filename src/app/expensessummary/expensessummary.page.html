@@ -8,6 +8,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-
+<ion-content *ngFor="let i of expensesService.transactioncategories" class="ion-padding">
+  <ion-text>Food: ${{ i.food }}</ion-text><br>
+  <ion-text>Bills: ${{ i.bills }}</ion-text>
 </ion-content>

@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ExpensesService {
 
-  transactions: JSON;
+  transactions = [];
   allaccounts: Array<any>;
 
   accountGroups = [];
@@ -15,6 +15,8 @@ export class ExpensesService {
   // accountsummaryArray = []
   transactionhistorytitle: String
   transactionhistoryaccountId: String
+
+  transactioncategories = []
 
   constructor() { }
 }
