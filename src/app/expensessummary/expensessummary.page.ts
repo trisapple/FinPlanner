@@ -48,17 +48,33 @@ export class ExpensessummaryPage implements OnInit {
           var obj = {}
           var food = 0
           var bills = 0
+          var lifestyle = 0
+          var taxes = 0
+          var recurringfees = 0
 
           for (let transaction of expensesService.transactions) {
-            if (transaction.transactionDescription == "COLD STORAGE-EASTWOOD") {
+            if (transaction.transactionDescription == "COLD STORAGE-EASTWOOD" || transaction.transactionDescription == "COLD STORAGE-EASTWOOD SINGAPORE SG") {
               food += transaction.transactionAmount
             }
             if (transaction.transactionDescription == "BILLED FINANCE CHARGES") {
               bills += transaction.transactionAmount
             }
+            if (transaction.transactionDescription == "APPLE SOUTH ASIA PTE LTD SINGAP(009:012)") {
+              lifestyle += transaction.transactionAmount
+            }
+            if (transaction.transactionDescription == "GST ON ANNUAL MEMBERSHIP FEE") {
+              taxes += transaction.transactionAmount
+            }
+            if (transaction.transactionDescription == "ANNUAL MEMBERSHIP FEE") {
+              recurringfees += transaction.transactionAmount
+            }
+            
           }
           obj["food"] = food
           obj["bills"] = bills
+          obj["lifestyle"] = lifestyle
+          obj["taxes"] = taxes
+          obj["recurringfees"] = recurringfees
           console.log(obj)
           expensesService.transactioncategories.push(obj)
           console.log(expensesService.transactioncategories)
