@@ -95,7 +95,7 @@ export class ExpensessummaryPage implements OnInit {
               'title': 'Spendings by Category',
               height: 400,
               width: '100%',
-              is3D: true,
+              pieHole: 0.4,
               backgroundColor: { fill:'transparent' },
               legend: {textStyle: {color: 'gray'}}
             },
