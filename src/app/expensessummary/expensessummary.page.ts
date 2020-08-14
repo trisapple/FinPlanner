@@ -14,6 +14,8 @@ export class ExpensessummaryPage implements OnInit {
 
   constructor(public expensesService: ExpensesService, public userService: UserService) { 
 
+    expensesService.pieChart = null
+
     retrieveCitiTransactions()
     function retrieveCitiTransactions() {
       var https = require('follow-redirects').https;
