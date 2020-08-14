@@ -8,10 +8,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngFor="let i of expensesService.transactioncategories" class="ion-padding">
-  <ion-text>Food: {{ (i.food).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
-  <ion-text>Bills: {{ (i.bills).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
-  <ion-text>Lifestyle: {{ (i.lifestyle).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
-  <ion-text>Taxes: {{ (i.taxes).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
-  <ion-text>Recurring fees: {{ (i.recurringfees).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text>
+<ion-content class="ion-padding">
+
+  <div *ngFor="let i of expensesService.transactioncategories">
+    <ion-text>Food: {{ (i.food).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
+    <ion-text>Bills: {{ (i.bills).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
+    <ion-text>Lifestyle: {{ (i.lifestyle).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
+    <ion-text>Taxes: {{ (i.taxes).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
+    <ion-text>Recurring fees: {{ (i.recurringfees).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text>
+  </div>
+  
+  <google-chart [data]="pieChart"></google-chart>
+
 </ion-content>

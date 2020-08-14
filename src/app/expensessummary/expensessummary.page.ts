@@ -3,6 +3,8 @@ import { ExpensesPage } from '../expenses/expenses.page';
 import { ExpensesService } from '../expenses.service';
 import { UserService } from '../user.service';
 
+import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-charts-interfaces';
+
 @Component({
   selector: 'app-expensessummary',
   templateUrl: './expensessummary.page.html',
@@ -10,7 +12,13 @@ import { UserService } from '../user.service';
 })
 export class ExpensessummaryPage implements OnInit {
 
+  // public pieChart: GoogleChartInterface;
+  
   constructor(public expensesService: ExpensesService, public userService: UserService) { 
+
+    var pieChartData = []
+    var pieChart: GoogleChartInterface;
+
     retrieveCitiTransactions()
     function retrieveCitiTransactions() {
       var https = require('follow-redirects').https;
@@ -78,6 +86,11 @@ export class ExpensessummaryPage implements OnInit {
           console.log(obj)
           expensesService.transactioncategories.push(obj)
           console.log(expensesService.transactioncategories)
+
+          pieChartData = Object.entries(obj);
+          console.log(pieChartData)
+          
+          loadSimplePieChart();
         });
   
         res.on("error", function (error) {
@@ -86,6 +99,20 @@ export class ExpensessummaryPage implements OnInit {
       });
   
       req.end();
+    }
+
+    function loadSimplePieChart() {
+      pieChart = {
+        chartType: 'PieChart',
+        dataTable: pieChartData,
+        //opt_firstRowIsData: true,
+        options: {
+          title: 'Tasks',
+          height: 600,
+          width: '100%',
+          is3D: true
+        },
+      };
     }
   }
 

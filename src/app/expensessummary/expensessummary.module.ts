@@ -8,12 +8,15 @@ import { ExpensessummaryPageRoutingModule } from './expensessummary-routing.modu
 
 import { ExpensessummaryPage } from './expensessummary.page';
 
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ExpensessummaryPageRoutingModule
+    ExpensessummaryPageRoutingModule,
+    Ng2GoogleChartsModule
   ],
   declarations: [ExpensessummaryPage]
 })
