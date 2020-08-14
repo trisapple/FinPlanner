@@ -92,6 +92,7 @@ export class ExpensessummaryPage implements OnInit {
             dataTable: expensesService.pieChartData,
             //opt_firstRowIsData: true,
             options: {
+              'title': 'Spendings by Category',
               height: 400,
               width: '100%',
               is3D: true,
