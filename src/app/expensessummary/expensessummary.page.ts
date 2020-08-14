@@ -92,7 +92,9 @@ export class ExpensessummaryPage implements OnInit {
             options: {
               height: 400,
               width: '100%',
-              is3D: true
+              is3D: true,
+              backgroundColor: { fill:'transparent' },
+              legend: {textStyle: {color: 'gray'}}
             },
           };
 
