@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 
-import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+
 import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-charts-interfaces';
 
 @Component({
@@ -19,6 +19,8 @@ export class HomePage {
   public columnChart1: GoogleChartInterface;
   public columnChart2: GoogleChartInterface;
   public barChart: GoogleChartInterface;
+  public pieChart: GoogleChartInterface;
+
 
   loadColumnChart() {
     this.columnChart1 = {
@@ -47,9 +49,32 @@ export class HomePage {
     };
   }
 
+  loadSimplePieChart() {
+    this.pieChart = {
+      chartType: 'PieChart',
+      dataTable: [
+        ['Task', 'Hours per Day'],
+        ['Work', 11],
+        ['Eat', 2],
+        ['Commute', 2],
+        ['Watch TV', 2],
+        ['Sleep', 7]
+      ],
+      //opt_firstRowIsData: true,
+      options: {
+        'title': 'Tasks',
+        height: 600,
+        width: '100%',
+        is3D: true
+      },
+    };
+  }
+
+
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService) {
     this.loadColumnChart();
-    
+    this.loadSimplePieChart();
+
     // Citibank backend code to get auth code, access token and transaction history for now
     // I put at home page as this is where the user will get redirected to. 
 
@@ -57,15 +82,15 @@ export class HomePage {
     if (!this.userService.authorisationCode) {
       this.userService.authorisationCode = this.activatedRoute.snapshot.queryParams['code'];
     }
-    console.log(this.userService.authorisationCode)
+    console.log(this.userService.authorisationCode);
 
     // If there is auth code and no access token (Get access token)
     if (this.userService.authorisationCode && !this.userService.accessToken) {
-      
+
       var https = require('follow-redirects').https;
-      
+
       var qs = require('querystring');
-      
+
       var options = {
         'method': 'POST',
         'hostname': 'sandbox.apihub.citi.com',
@@ -78,14 +103,14 @@ export class HomePage {
         },
         'maxRedirects': 20
       };
-      
+
       var req = https.request(options, function (res) {
         var chunks = [];
-        
+
         res.on("data", function (chunk) {
           chunks.push(chunk);
         });
-      
+
         res.on("end", function (chunk) {
           var body = Buffer.concat(chunks);
           console.log(body.toString());
@@ -95,22 +120,22 @@ export class HomePage {
           console.log(userService.citiLogin)
           navCtrl.navigateRoot('/accounts')
         });
-      
+
         res.on("error", function (error) {
           console.error(error);
         });
       });
-      
+
       var postData = qs.stringify({
         'grant_type': 'authorization_code',
         'code': this.userService.authorisationCode,
         'redirect_uri': 'http://ionicfirebase-a8213.web.app'
       });
-      
+
       req.write(postData);
-      
+
       req.end();
-      console.log(postData)
+      console.log(postData);
     }
   }
 
@@ -118,4 +143,4 @@ export class HomePage {
 
   }
 }
-    
+
