@@ -17,10 +17,12 @@ import { Facebook } from '@ionic-native/facebook/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, AngularFireModule.initializeApp(environment.config), AngularFireAuthModule, AngularFirestoreModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, AngularFireModule.initializeApp(environment.config), AngularFireAuthModule, AngularFirestoreModule, Ng2GoogleChartsModule],
   providers: [
     StatusBar,
     SplashScreen,

@@ -3,6 +3,8 @@ import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-charts-interfaces';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +16,40 @@ export class HomePage {
   // public authorisationCode = ''
   // public accessToken = ''
 
+  public columnChart1: GoogleChartInterface;
+  public columnChart2: GoogleChartInterface;
+  public barChart: GoogleChartInterface;
+
+  loadColumnChart() {
+    this.columnChart1 = {
+      chartType: 'ColumnChart',
+      dataTable: [
+        ['City', '2010 Population'],
+        ['New York City, NY', 8175000],
+        ['Los Angeles, CA', 3792000],
+        ['Chicago, IL', 2695000],
+        ['Houston, TX', 2099000],
+        ['Philadelphia, PA', 1526000]
+      ],
+      //opt_firstRowIsData: true,
+      options: {
+        title: 'Population of Largest U.S. Cities',
+        height: 600,
+        chartArea: { height: '400' },
+        hAxis: {
+          title: 'Total Population',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'City'
+        }
+      },
+    };
+  }
+
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService) {
+    this.loadColumnChart();
+    
     // Citibank backend code to get auth code, access token and transaction history for now
     // I put at home page as this is where the user will get redirected to. 
 

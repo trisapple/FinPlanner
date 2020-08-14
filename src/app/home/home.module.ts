@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { Routes, RouterModule } from '@angular/router';
 
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+
 
 import { HomePageRoutingModule } from './home-routing.module';
 
@@ -21,7 +23,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    Ng2GoogleChartsModule
   ],
   declarations: [HomePage]
 })
