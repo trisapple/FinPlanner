@@ -77,7 +77,7 @@ export class ExpensessummaryPage implements OnInit {
           obj["Bills"] = bills
           obj["Lifestyle"] = lifestyle
           obj["Taxes"] = taxes
-          obj["RecurringFees"] = recurringfees
+          obj["Recurring Fees"] = recurringfees
           console.log(obj)
           expensesService.transactioncategories.push(obj)
           console.log(expensesService.transactioncategories)
