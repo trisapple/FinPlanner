@@ -12,17 +12,11 @@ import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-chart
 })
 export class ExpensessummaryPage implements OnInit {
 
-  // public pieChart: GoogleChartInterface;
-  
   constructor(public expensesService: ExpensesService, public userService: UserService) { 
-
-    var pieChartData = []
-    var pieChart: GoogleChartInterface;
 
     retrieveCitiTransactions()
     function retrieveCitiTransactions() {
       var https = require('follow-redirects').https;
-  
       var options = {
         'method': 'GET',
         'hostname': 'sandbox.apihub.citi.com',
@@ -78,6 +72,7 @@ export class ExpensessummaryPage implements OnInit {
             }
             
           }
+          obj["category"] = 'Amount'
           obj["food"] = food
           obj["bills"] = bills
           obj["lifestyle"] = lifestyle
@@ -87,10 +82,22 @@ export class ExpensessummaryPage implements OnInit {
           expensesService.transactioncategories.push(obj)
           console.log(expensesService.transactioncategories)
 
-          pieChartData = Object.entries(obj);
-          console.log(pieChartData)
-          
-          loadSimplePieChart();
+          expensesService.pieChartData = Object.entries(obj);
+          console.log(expensesService.pieChartData)
+
+          expensesService.pieChart = {
+            chartType: 'PieChart',
+            dataTable: expensesService.pieChartData,
+            //opt_firstRowIsData: true,
+            options: {
+              'title': 'Tasks',
+              height: 600,
+              width: '100%',
+              is3D: true
+            },
+          };
+
+          // loadSimplePieChart()
         });
   
         res.on("error", function (error) {
@@ -99,20 +106,6 @@ export class ExpensessummaryPage implements OnInit {
       });
   
       req.end();
-    }
-
-    function loadSimplePieChart() {
-      pieChart = {
-        chartType: 'PieChart',
-        dataTable: pieChartData,
-        //opt_firstRowIsData: true,
-        options: {
-          title: 'Tasks',
-          height: 600,
-          width: '100%',
-          is3D: true
-        },
-      };
     }
   }
 

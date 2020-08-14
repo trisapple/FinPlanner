@@ -18,6 +18,6 @@
     <ion-text>Recurring fees: {{ (i.recurringfees).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text>
   </div>
   
-  <google-chart [data]="pieChart"></google-chart>
+  <google-chart *ngIf="expensesService.pieChart" [data]="expensesService.pieChart"></google-chart>
 
 </ion-content>

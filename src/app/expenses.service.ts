@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-charts-interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,9 @@ export class ExpensesService {
   transactionhistoryaccountId: String
 
   transactioncategories = []
+
+  pieChart: GoogleChartInterface
+  pieChartData = []
 
   constructor() { }
 }
