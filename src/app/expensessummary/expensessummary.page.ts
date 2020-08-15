@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ExpensesPage } from '../expenses/expenses.page';
 import { ExpensesService } from '../expenses.service';
 import { UserService } from '../user.service';
 

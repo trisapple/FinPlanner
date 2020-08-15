@@ -6,11 +6,11 @@ import { ExpensesService } from '../expenses.service';
 
 
 @Component({
-  selector: 'app-expenses',
-  templateUrl: './expenses.page.html',
-  styleUrls: ['./expenses.page.scss'],
+  selector: 'app-spendinginsights',
+  templateUrl: './spendinginsights.page.html',
+  styleUrls: ['./spendinginsights.page.scss'],
 })
-export class ExpensesPage implements OnInit {
+export class SpendingInsightsPage implements OnInit {
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) { 
     // allaccountsummary()
