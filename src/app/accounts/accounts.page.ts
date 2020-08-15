@@ -158,7 +158,7 @@ export class AccountsPage implements OnInit {
     console.log(account);
     this.expensesService.transactionhistorytitle = account.productName;
     this.expensesService.transactionhistoryaccountId = account.accountId;
-    this.navCtrl.navigateForward(['/expenseshistory']);
+    this.navCtrl.navigateForward(['/transactionhistory']);
   }
 
 }

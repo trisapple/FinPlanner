@@ -3,11 +3,11 @@ import { UserService } from '../user.service';
 import { ExpensesService } from '../expenses.service';
 
 @Component({
-  selector: 'app-expenseshistory',
-  templateUrl: './expenseshistory.page.html',
-  styleUrls: ['./expenseshistory.page.scss'],
+  selector: 'app-transactionhistory',
+  templateUrl: './transactionhistory.page.html',
+  styleUrls: ['./transactionhistory.page.scss'],
 })
-export class ExpenseshistoryPage implements OnInit {
+export class TransactionHistoryPage implements OnInit {
 
   constructor(public userService: UserService, public expensesService: ExpensesService) {
     retrieveCitiTransactions()
