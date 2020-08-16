@@ -10,6 +10,7 @@
 
 <ion-content class="ion-padding">
 
+  <!-- The expensesService.transactioncategories array has only 1 Object, so this will only run once -->
   <div *ngFor="let i of expensesService.transactioncategories">
     <ion-text>Food: {{ (i.Food).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
     <ion-text>Bills: {{ (i.Bills).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>

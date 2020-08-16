@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ExpensesService } from '../expenses.service';
 import { UserService } from '../user.service';
 
-import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-charts-interfaces';
-
 @Component({
   selector: 'app-expensessummary',
   templateUrl: './expensessummary.page.html',
@@ -13,9 +11,11 @@ export class ExpensessummaryPage implements OnInit {
 
   constructor(public expensesService: ExpensesService, public userService: UserService) { 
 
+    // Null the pieChart so that we can refresh the pie chart when switching to another account
+    // We load the pieChart with ngif so that it will only show if the data is populated
     expensesService.pieChart = null
 
-    retrieveCitiTransactions()
+    retrieveCitiTransactions() // Get the transaction history for the selected account
     function retrieveCitiTransactions() {
       var https = require('follow-redirects').https;
       var options = {
@@ -43,12 +43,13 @@ export class ExpensessummaryPage implements OnInit {
           var body = Buffer.concat(chunks);
           // console.log(body.toString());
           // console.log(JSON.parse(body.toString())["transaction"])
-          expensesService.transactions = JSON.parse(body.toString())["transaction"]
+          expensesService.transactions = JSON.parse(body.toString())["transaction"] // Get the first 50 transactions for the account
           console.log(expensesService.transactions)
 
-          expensesService.transactioncategories = []
+          expensesService.transactioncategories = [] // Empty the array as the user switches accounts
 
-          var obj = {}
+          // Variables to keep track of the amount spent in the transaction categories
+          var obj = {} // Set up an empty Object
           var food = 0
           var bills = 0
           var lifestyle = 0
@@ -56,6 +57,7 @@ export class ExpensessummaryPage implements OnInit {
           var recurringfees = 0
           expensesService.total = 0
 
+          // Loop through the list of transactions and categorise them accordingly
           for (let transaction of expensesService.transactions) {
             if (transaction.transactionDescription == "COLD STORAGE-EASTWOOD" || transaction.transactionDescription == "COLD STORAGE-EASTWOOD SINGAPORE SG") {
               food += transaction.transactionAmount
@@ -75,6 +77,7 @@ export class ExpensessummaryPage implements OnInit {
             expensesService.total += transaction.transactionAmount
           }
 
+          // Assign the empty Object key value pairs to display the information in HTML
           obj["category"] = 'Amount'
           obj["Food"] = food
           obj["Bills"] = bills
@@ -85,14 +88,18 @@ export class ExpensessummaryPage implements OnInit {
           // obj["Total"] = total
 
           console.log(obj)
-          expensesService.transactioncategories.push(obj)
+          expensesService.transactioncategories.push(obj) // Push the object into an array
           console.log(expensesService.transactioncategories)
 
-          expensesService.pieChartData = Object.entries(obj);
+          expensesService.pieChartData = Object.entries(obj); // Make the key value pairs in the object into an array
+          // {"category": "Amount", "Food": 20 ...} becomes 
+          // [["category", "Amount"], ["Food", 20] ... ]
+
           console.log(expensesService.pieChartData)
 
           // expensesService.pieChartData.sort
 
+          // Piechart Data
           expensesService.pieChart = {
             chartType: 'PieChart',
             dataTable: expensesService.pieChartData,
