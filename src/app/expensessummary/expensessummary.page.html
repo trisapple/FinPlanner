@@ -32,7 +32,7 @@
         <ion-text>{{ i[1].toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text>
       </ion-row>
       <ion-row style="margin-top: 6px;">
-        <ion-progress-bar value="0.5"></ion-progress-bar>
+        <ion-progress-bar [value]="i[1]/expensesService.total"></ion-progress-bar>
       </ion-row>
       <br>
     </div>

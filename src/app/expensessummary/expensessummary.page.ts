@@ -54,7 +54,7 @@ export class ExpensessummaryPage implements OnInit {
           var lifestyle = 0
           var taxes = 0
           var recurringfees = 0
-          var total = 0
+          expensesService.total = 0
 
           for (let transaction of expensesService.transactions) {
             if (transaction.transactionDescription == "COLD STORAGE-EASTWOOD" || transaction.transactionDescription == "COLD STORAGE-EASTWOOD SINGAPORE SG") {
@@ -72,8 +72,9 @@ export class ExpensessummaryPage implements OnInit {
             if (transaction.transactionDescription == "ANNUAL MEMBERSHIP FEE") {
               recurringfees += transaction.transactionAmount
             }
-            total += transaction.transactionAmount
+            expensesService.total += transaction.transactionAmount
           }
+
           obj["category"] = 'Amount'
           obj["Food"] = food
           obj["Bills"] = bills

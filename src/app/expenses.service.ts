@@ -21,6 +21,7 @@ export class ExpensesService {
 
   pieChart: GoogleChartInterface
   pieChartData = []
+  total = 0
 
   constructor() { }
 }
