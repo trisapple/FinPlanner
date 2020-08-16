@@ -32,9 +32,6 @@ export class ProfilePage implements OnInit {
   }
 
   async deleteAccount() {
-    // this.presentToast('Account Deleted!', 'middle', 2000);
-    // this.navCtrl.navigateForward(['/home']);
-    // .then (async data => {
     const alert = await this.alertCtrl.create({
         header: 'Delete Account',
         message: 'Are you sure you want to delete your account?',
@@ -61,7 +58,6 @@ export class ProfilePage implements OnInit {
     await alert.present();
     let result = await alert.onDidDismiss();
     console.log(result);
-    // });
   }
 
   async presentToast(message, position, duration) {
