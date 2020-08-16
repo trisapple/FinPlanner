@@ -16,7 +16,7 @@
     <ion-text>Lifestyle: {{ (i.Lifestyle).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
     <ion-text>Taxes: {{ (i.Taxes).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
     <ion-text>Recurring fees: {{ (i["Recurring Fees"]).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
-    <ion-text>Total: {{ (i.Total).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text>
+    <!-- <ion-text>Total: {{ (i.Total).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text> -->
   </div>
   
   <google-chart *ngIf="expensesService.pieChart" [data]="expensesService.pieChart"></google-chart>
