@@ -20,11 +20,13 @@
     <!-- <ion-text>Total: {{ (i.Total).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text> -->
   </div>
   
+  <!-- Pie Chart from Google Charts -->
   <google-chart *ngIf="expensesService.pieChart" [data]="expensesService.pieChart"></google-chart>
 
   <ion-text>Top Expenses</ion-text>
 
   <ion-grid>
+    <!-- Loop through the array and display the expenses -->
     <div *ngFor="let i of expensesService.pieChartData">
       <ion-row style="margin-top: 6px;">
         <ion-text>{{ i[0] }}</ion-text>
