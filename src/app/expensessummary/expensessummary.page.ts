@@ -98,6 +98,10 @@ export class ExpensessummaryPage implements OnInit {
           // {{"category": "Amount"}, {"Food": 83.65}, ...} becomes 
           // [["category", "Amount"], ["Food", 83.65], ... ]
 
+          // Create another array for the progress bar because we need to remove the obj["category"] = 'Amount' at the beginning
+          expensesService.pieChartData2 = Object.entries(obj);
+          expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
+
           console.log(expensesService.pieChartData)
 
           // expensesService.pieChartData.sort
