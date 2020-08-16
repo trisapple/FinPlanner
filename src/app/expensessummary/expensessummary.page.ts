@@ -39,6 +39,7 @@ export class ExpensessummaryPage implements OnInit {
           chunks.push(chunk);
         });
   
+        // After the request is finished (whether failure or success), the codes inside there will run
         res.on("end", function (chunk) {
           var body = Buffer.concat(chunks);
           // console.log(body.toString());
@@ -57,11 +58,13 @@ export class ExpensessummaryPage implements OnInit {
           var recurringfees = 0
           expensesService.total = 0
 
-          // Loop through the list of transactions and categorise them accordingly
+          // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
           for (let transaction of expensesService.transactions) {
+            // If the transaction description is "COLD STORAGE-EASTWOOD" or "COLD STORAGE-EASTWOOD SINGAPORE SG", add the transaction amount to the food variable. 
             if (transaction.transactionDescription == "COLD STORAGE-EASTWOOD" || transaction.transactionDescription == "COLD STORAGE-EASTWOOD SINGAPORE SG") {
               food += transaction.transactionAmount
             }
+            // If the transaction description is "BILLED FINANCE CHARGES", add the transaction amount to the bills variable. 
             if (transaction.transactionDescription == "BILLED FINANCE CHARGES") {
               bills += transaction.transactionAmount
             }
@@ -74,7 +77,7 @@ export class ExpensessummaryPage implements OnInit {
             if (transaction.transactionDescription == "ANNUAL MEMBERSHIP FEE") {
               recurringfees += transaction.transactionAmount
             }
-            expensesService.total += transaction.transactionAmount
+            expensesService.total += transaction.transactionAmount // Add up the amounts of all the transactions (regardless of name or description)
           }
 
           // Assign the empty Object key value pairs to display the information in HTML
@@ -91,9 +94,9 @@ export class ExpensessummaryPage implements OnInit {
           expensesService.transactioncategories.push(obj) // Push the object into an array
           console.log(expensesService.transactioncategories)
 
-          expensesService.pieChartData = Object.entries(obj); // Make the key value pairs in the object into an array
-          // {"category": "Amount", "Food": 20 ...} becomes 
-          // [["category", "Amount"], ["Food", 20] ... ]
+          expensesService.pieChartData = Object.entries(obj); // Make the key value pairs in the object into an array (to put into google chart dataTable)
+          // {{"category": "Amount"}, {"Food": 83.65}, ...} becomes 
+          // [["category", "Amount"], ["Food", 83.65], ... ]
 
           console.log(expensesService.pieChartData)
 
@@ -113,8 +116,6 @@ export class ExpensessummaryPage implements OnInit {
               legend: {textStyle: {color: 'gray'}}
             },
           };
-
-          // loadSimplePieChart()
         });
   
         res.on("error", function (error) {
