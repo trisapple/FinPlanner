@@ -58,6 +58,9 @@ export class ProfilePage implements OnInit {
       alert.present();
   }
 
+  // 'async' returns a promise value
+  // await is used to wait for a Promise, and it only makes the 'async' block wait and not the entire program execution. 
+
   async presentToast(message, position, duration) { // presentToast is a method that consists of 3 arguments
     const toast = await this.toastCtrl.create({
       message,
