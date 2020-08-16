@@ -55,9 +55,7 @@ export class ProfilePage implements OnInit {
           }
         ]
       });
-    await alert.present();
-    let result = await alert.onDidDismiss(); 
-    console.log(result);
+      alert.present();
   }
 
   async presentToast(message, position, duration) { // presentToast is a method that consists of 3 arguments
