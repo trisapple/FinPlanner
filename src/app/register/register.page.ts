@@ -26,13 +26,13 @@ export class RegisterPage implements OnInit {
 
   signup() {
     // tslint:disable-next-line: quotemark
-    if (this.name == "" || this.email == "" || this.password == "" || this.confirmPassword == "") {
+    if (this.name == "" || this.email == "" || this.password == "" || this.confirmPassword == "") { // If either of the fields are empty
       this.presentToast('Please fill up all details!', 'middle', 2000);
     }
-    else if (this.confirmPassword !== this.password) {
+    else if (this.confirmPassword !== this.password) { // If passwords do not match
       this.presentToast('Passwords do not match!', 'middle', 2000);
     }
-    else {
+    else { // If all fields are filled up and passwords are matched
       this.fireauth.createUserWithEmailAndPassword(this.email, this.password)
       .then(async res => {
       // tslint:disable-next-line: align

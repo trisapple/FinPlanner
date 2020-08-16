@@ -43,10 +43,10 @@ export class LoginPage implements OnInit {
 
   login() {
     // tslint:disable-next-line: quotemark
-    if (this.email == "" || this.password == "") {
+    if (this.email == "" || this.password == "") { // If email or password are null
       this.presentToast('Please enter your email and password!', 'middle', 2000);
     }
-    else {
+    else { // If both email and password are not null
       this.fireauth.signInWithEmailAndPassword(this.email, this.password)
         .then(res => {
           if (res.user.emailVerified) {
@@ -150,7 +150,7 @@ export class LoginPage implements OnInit {
     else {
       this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then(res => {
-        this.getFacebookUserData((<any>res).credential.accessToken);
+        this.getFacebookUserData((<any>res).credential.accessToken); // Get the user's Facebook Account Data
         this.presentToast('Login Successfully!', 'middle', 2000);
         console.log(res);
         this.navCtrl.navigateRoot('/home');
@@ -210,6 +210,7 @@ export class LoginPage implements OnInit {
     else {
       this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then( res => {
+        // Get the user's Google Account Data
         this.userService.loggedin = true;
         this.userService.name = res.user.displayName;
         this.userService.email = res.user.email;
@@ -219,7 +220,6 @@ export class LoginPage implements OnInit {
         console.log(res);
         this.userService.socialLogin = true;
         this.userService.provider = "Google";
-        // alert(res)
         this.navCtrl.navigateRoot('/home');
       })
       .catch(err => {
