@@ -54,6 +54,7 @@ export class ExpensessummaryPage implements OnInit {
           var lifestyle = 0
           var taxes = 0
           var recurringfees = 0
+          var total = 0
 
           for (let transaction of expensesService.transactions) {
             if (transaction.transactionDescription == "COLD STORAGE-EASTWOOD" || transaction.transactionDescription == "COLD STORAGE-EASTWOOD SINGAPORE SG") {
@@ -71,7 +72,7 @@ export class ExpensessummaryPage implements OnInit {
             if (transaction.transactionDescription == "ANNUAL MEMBERSHIP FEE") {
               recurringfees += transaction.transactionAmount
             }
-            
+            total += transaction.transactionAmount
           }
           obj["category"] = 'Amount'
           obj["Food"] = food
@@ -79,12 +80,15 @@ export class ExpensessummaryPage implements OnInit {
           obj["Lifestyle"] = lifestyle
           obj["Taxes"] = taxes
           obj["Recurring Fees"] = recurringfees
+          obj["Total"] = total
           console.log(obj)
           expensesService.transactioncategories.push(obj)
           console.log(expensesService.transactioncategories)
 
           expensesService.pieChartData = Object.entries(obj);
           console.log(expensesService.pieChartData)
+
+          // expensesService.pieChartData.sort
 
           expensesService.pieChart = {
             chartType: 'PieChart',
