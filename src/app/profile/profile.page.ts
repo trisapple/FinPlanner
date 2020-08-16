@@ -41,7 +41,7 @@ export class ProfilePage implements OnInit {
             handler: async () => {
               this.userService.deleteAccount(this.userService.email);
               (await this.fireauth.currentUser).delete();
-              this.navCtrl.navigateForward(['/home']);
+              this.navCtrl.navigateForward(['/home']); // If 'yes' is clicked
               this.presentToast('Account Deleted!', 'middle', 2000);
               console.log('Yes clicked');
             }
@@ -49,18 +49,18 @@ export class ProfilePage implements OnInit {
           {
             text: 'No',
             handler: () => {
-              this.navCtrl.pop();
+              this.navCtrl.pop(); // If 'no' is clicked. Additionally, pop means it will go back to the previous page
               console.log('No clicked');
             }
           }
         ]
       });
     await alert.present();
-    let result = await alert.onDidDismiss();
+    let result = await alert.onDidDismiss(); 
     console.log(result);
   }
 
-  async presentToast(message, position, duration) {
+  async presentToast(message, position, duration) { // presentToast is a method that consists of 3 arguments
     const toast = await this.toastCtrl.create({
       message,
       position,
