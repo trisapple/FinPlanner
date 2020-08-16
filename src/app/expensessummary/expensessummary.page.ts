@@ -107,8 +107,6 @@ export class ExpensessummaryPage implements OnInit {
 
           console.log(expensesService.pieChartData)
 
-          // expensesService.pieChartData.sort
-
           // Piechart Data
           expensesService.pieChart = {
             chartType: 'PieChart',
