@@ -22,7 +22,7 @@ export class SpendingInsightsPage implements OnInit {
   expensessummary(account) {
     // this.expensesService.transactionhistorytitle = account.productName
     this.expensesService.transactionhistoryaccountId = account.accountId // Store the account id in a global variable so that the next page can fetch the transaction details and show the expenses summary
-    this.navCtrl.navigateForward(['/expensessummary']); // Navigate to the next page
+    this.navCtrl.navigateForward(['/spendinginsights//expensessummary']); // Navigate to the next page
   }
 
 }
