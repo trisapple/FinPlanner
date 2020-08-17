@@ -56,6 +56,7 @@ export class ExpensessummaryPage implements OnInit {
           var lifestyle = 0
           var taxes = 0
           var recurringfees = 0
+          var others = 0
           expensesService.total = 0
 
           // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
@@ -65,17 +66,20 @@ export class ExpensessummaryPage implements OnInit {
               food += transaction.transactionAmount
             }
             // If the transaction description is "BILLED FINANCE CHARGES", add the transaction amount to the bills variable. 
-            if (transaction.transactionDescription == "BILLED FINANCE CHARGES") {
+            else if (transaction.transactionDescription == "BILLED FINANCE CHARGES") {
               bills += transaction.transactionAmount
             }
-            if (transaction.transactionDescription == "APPLE SOUTH ASIA PTE LTD SINGAP(009:012)") {
+            else if (transaction.transactionDescription == "APPLE SOUTH ASIA PTE LTD SINGAP(009:012)") {
               lifestyle += transaction.transactionAmount
             }
-            if (transaction.transactionDescription == "GST ON ANNUAL MEMBERSHIP FEE") {
+            else if (transaction.transactionDescription == "GST ON ANNUAL MEMBERSHIP FEE") {
               taxes += transaction.transactionAmount
             }
-            if (transaction.transactionDescription == "ANNUAL MEMBERSHIP FEE") {
+            else if (transaction.transactionDescription == "ANNUAL MEMBERSHIP FEE") {
               recurringfees += transaction.transactionAmount
+            }
+            else {
+              others += transaction.transactionAmount
             }
             expensesService.total += transaction.transactionAmount // Add up the amounts of all the transactions (regardless of name or description)
           }
@@ -87,6 +91,7 @@ export class ExpensessummaryPage implements OnInit {
           obj["Lifestyle"] = lifestyle
           obj["Taxes"] = taxes
           obj["Recurring Fees"] = recurringfees
+          obj["Others"] = others
 
           // obj["Total"] = total
 
@@ -101,6 +106,8 @@ export class ExpensessummaryPage implements OnInit {
           // Create another array for the progress bar because we need to remove the obj["category"] = 'Amount' at the beginning
           expensesService.pieChartData2 = Object.entries(obj);
           expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
+
+          // Sort the top expenses categories in descending order (from largest to smallest)
           expensesService.pieChartData2.sort(function(a,b) {
             return b[1] - a[1]
           });
@@ -116,7 +123,7 @@ export class ExpensessummaryPage implements OnInit {
               'title': 'Spendings by Category',
               height: 400,
               width: '100%',
-              pieHole: 0.4,
+              pieHole: 0.5,
               backgroundColor: { fill:'transparent' },
               legend: {textStyle: {color: 'gray'}}
             },
