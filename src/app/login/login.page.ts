@@ -46,7 +46,7 @@ export class LoginPage implements OnInit {
     else { // If both email and password are not null
       this.fireauth.signInWithEmailAndPassword(this.email, this.password)
         .then(res => {
-          if (res.user.emailVerified) {
+          if (res.user.emailVerified) { // To check whether has the user verified his/her email
             console.log(res.user);
 
             let sub: Subscription = this.userService.login(this.email).subscribe((data) => {
@@ -59,12 +59,11 @@ export class LoginPage implements OnInit {
               sub.unsubscribe();
             });
 
-            this.presentToast('Login Successfully!', 'middle', 2000);
+            this.presentToast('Login Successfully!', 'middle', 2000); // Will be executed if email is verified
             this.navCtrl.navigateRoot('/home');
           }
           else {
-            this.presentToast('Please verfiy your email!', 'middle', 2000);
-            return false;
+            this.presentToast('Please verfiy your email!', 'middle', 2000); // Will be executed if email is not verified
           }
         })
         .catch (async error => {
