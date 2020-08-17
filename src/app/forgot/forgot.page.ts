@@ -25,12 +25,12 @@ export class ForgotPage implements OnInit {
     }
     else {
       this.fireauth.sendPasswordResetEmail(this.email)
-        .then(data => {
+        .then(data => { // 'then' - Block of codes to be tested for errors when being executed
           console.log(data);
           this.presentToast('Password reset email has been sent!', 'middle', 2000);
           this.navCtrl.pop();
         })
-        .catch (async error => {
+        .catch (async error => { // Handle errors
           const toast = this.toastCtrl.create({
             message: error.message,
             position: 'middle',
@@ -45,7 +45,6 @@ export class ForgotPage implements OnInit {
     this.navCtrl.pop();
   }
 
-  // tslint:disable-next-line: member-ordering
   async presentToast(message, position, duration) {
     const toast = await this.toastCtrl.create({
       message,
