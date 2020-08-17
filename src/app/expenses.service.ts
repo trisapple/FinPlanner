@@ -9,9 +9,9 @@ export class ExpensesService {
   transactions = [];
   allaccounts: Array<any>;
 
-  accountGroups = [];
+  accountGroups = []; // For now, the accountGroups array will only have one category.
   accounts = [];
-  accountsbool = false;
+  accountsloaded = false; // Variable to check if the user's accounts have loaded
 
   // accountsummaryArray = []
   transactionhistorytitle: String

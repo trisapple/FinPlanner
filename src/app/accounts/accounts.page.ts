@@ -12,9 +12,13 @@ import { ExpensesService } from '../expenses.service';
 export class AccountsPage implements OnInit {
   
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) { 
-    if (expensesService.accountsbool == false) {
+    
+    // Check if the accounts have loaded. 
+    // If not, get the users accounts. 
+    // If loaded, do not get the users accounts again.
+    // This check is to prevent the accounts from loading twice resulting in duplicates being displayed.
+    if (expensesService.accountsloaded == false) {
       allaccountsummary()
-      expensesService.accountsbool = true
     }
     
     // retrieveCitiTransactions()
@@ -81,12 +85,16 @@ export class AccountsPage implements OnInit {
         });
 
         res.on("end", function (chunk) {
+          expensesService.accountsloaded = true // Set the accountsloaded to variable to true (indicate that the accounts have been loaded)
           var body = Buffer.concat(chunks);
           console.log(body.toString());
           console.log(JSON.parse(body.toString())["accountGroupSummary"])
-          expensesService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"]
+          expensesService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"] // Account Groups and accounts
+
+          // Loop through the account groups and its associated information
           for (let each of expensesService.allaccounts) {
-            // The 'if' is to display the account group and the following accounts. If not included, it will not be displayed. 
+            // The 'if' is to display the account group and its following accounts. If not included, it will not be displayed. 
+            // For now, the expensesService.accountGroups array will only have one category.
             if (each.accountGroup == "SAVINGS_AND_INVESTMENTS") {
               expensesService.accountGroups.push("Savings and Investments")
             }
@@ -102,10 +110,12 @@ export class AccountsPage implements OnInit {
             // else {
             //   expensesService.accountGroups.push(each.accountGroup)
             // }
+
+            // Loop through the accounts in the account group
             for (let account of each.accounts) {
               console.log(account);
-              var values = Object.values(account);
-              expensesService.accounts.push(values);
+              var values = Object.values(account); // Get account information
+              expensesService.accounts.push(values); // Add it to the expensesService.accounts array
               console.log(values)
               console.log(values[0]["productName"]);
               // console.log(Object.values(values))
@@ -146,10 +156,12 @@ export class AccountsPage implements OnInit {
   ngOnInit() {
   }
 
+  // Redirect users to Citibank Login when user clicks on the 'Connect' Button
   citiconnect() {
     window.open("https://sandbox.apihub.citi.com/gcb/api/authCode/oauth2/authorize?response_type=code&client_id=05451865-7d39-4704-b495-803f11d2dd09&scope=accounts_details_transactions&countryCode=SG&businessCode=GCB&locale=en_SG&state=12093&redirect_uri=http://ionicfirebase-a8213.web.app", "_blank");
   }
 
+  // Redirect users to OCBC Login when user clicks on the 'Connect' Button
   ocbcconnect() {
     window.open("https://api.ocbc.com/ocbcauthentication/api/oauth2/authorize?client_id=Bdf48cJM_OdAilo6j_kBn_PhQLwa&redirect_uri=https://ionicfirebase-a8213.web.app/&scope=transactional", "_blank");
   }

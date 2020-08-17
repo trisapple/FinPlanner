@@ -10,35 +10,46 @@
 
 <ion-content class="ion-padding">
 
-  <!-- <ion-text>Accounts:</ion-text> -->
-  <!-- <br><br> -->
+  <!-- Citibank Connect Button -->
   <div style="display: flex; align-items: center">
     <ion-text>Citibank</ion-text>
     <ion-button *ngIf="!userService.citiLogin" (click)=citiconnect() style="margin-left: auto;">Connect</ion-button>
     <ion-button *ngIf="userService.citiLogin" style="margin-left: auto;" color="success">Connected</ion-button>
   </div>
+
   <br>
+
+  <!-- DBS Connect Button -->
   <div style="display: flex; align-items: center">
     <ion-text>OCBC</ion-text>
     <ion-button (click)=ocbcconnect() style="margin-left: auto;">Connect</ion-button>
   </div>
+  
   <br><br>
-
 
   <ion-list *ngFor="let each of expensesService.accountGroups">
     <ion-list-header style="font-size: 24px; font-weight: bold;">
-      {{ each }}
+      {{ each }} <!-- Account Group Name -->
+      <!-- For now one will only be displayed -->
     </ion-list-header>
+
+    <!-- Accounts -->
     <ion-item *ngFor="let account of expensesService.accounts" (click)=transactionhistory(account[0])>
       <ion-label>
-        <h2>{{ account[0].productName }}</h2>
-        <p>{{ account[0].displayAccountNumber }}</p>
+        <h2>{{ account[0].productName }}</h2> <!-- Account Name -->
+        <p>{{ account[0].displayAccountNumber }}</p> <!-- Account Number -->
       </ion-label>
+
+      <!-- For Savings and Investments accounts, and more -->
       <p *ngIf="account[0].currentBalance" style="margin-right: 16px">{{ (account[0].currentBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+
+      <!-- For Credit Cards accounts -->
       <p *ngIf="account[0].availableCredit" style="margin-right: 16px">{{ (account[0].availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+
       <!-- <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">{{ (i.value.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p> -->
       <ion-icon name="chevron-forward"></ion-icon>
     </ion-item>
+
     <!-- <ion-item *ngFor="let account of each.insurancePolicies" (click)=transactionhistory()>
       <ion-label>
           <h2>{{ account.productName }}</h2>

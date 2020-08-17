@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { ExpensesService } from '../expenses.service';
 
-
 @Component({
   selector: 'app-spendinginsights',
   templateUrl: './spendinginsights.page.html',
@@ -13,122 +12,17 @@ import { ExpensesService } from '../expenses.service';
 export class SpendingInsightsPage implements OnInit {
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) { 
-    // allaccountsummary()
-    // retrieveCitiTransactions()
-    // function retrieveCitiTransactions() {
-    //   var https = require('follow-redirects').https;
-  
-    //   var options = {
-    //     'method': 'GET',
-    //     'hostname': 'sandbox.apihub.citi.com',
-    //     'path': '/gcb/api/v1/accounts/5557596e6f556132725970397479356a4e66504f4638516772434d4663784176616174663332366b4739383d/transactions',
-    //     'headers': {
-    //       'Accept': 'application/json',
-    //       'client_id': '05451865-7d39-4704-b495-803f11d2dd09',
-    //       'uuid': 'aae5acdc-f196-48c7-8d10-e027ffd54552',
-    //       'Authorization': 'Bearer ' + userService.accessToken,
-    //       'Cookie': 'RSA=164292451157170727520200729230711; RSA=164292451157170727520200729230711; RSA=164292451157170727520200729230711; CITI_SITE=gtdc'
-    //     },
-    //     'maxRedirects': 20
-    //   };
-  
-    //   var req = https.request(options, function (res) {
-    //     var chunks = [];
-  
-    //     res.on("data", function (chunk) {
-    //       chunks.push(chunk);
-    //     });
-  
-    //     res.on("end", function (chunk) {
-    //       var body = Buffer.concat(chunks);
-    //       // console.log(body.toString());
-    //       // console.log(JSON.parse(body.toString())["transaction"])
-    //       userService.transactions = JSON.parse(body.toString())["transaction"]
-    //     });
-  
-    //     res.on("error", function (error) {
-    //       console.error(error);
-    //     });
-    //   });
-  
-    //   req.end();
-    // }
 
-    // function allaccountsummary() {
-    //   var https = require('follow-redirects').https;
-
-    //   var options = {
-    //     'method': 'GET',
-    //     'hostname': 'sandbox.apihub.citi.com',
-    //     'path': '/gcb/api/v1/accounts',
-    //     'headers': {
-    //       'client_id': '05451865-7d39-4704-b495-803f11d2dd09',
-    //       'uuid': '4c2b46cb-4e2b-4add-bae1-bf86208446a8',
-    //       'Accept': 'application/json',
-    //       'Authorization': 'Bearer ' + userService.accessToken
-    //     },
-    //     'maxRedirects': 20
-    //   };
-
-    //   var req = https.request(options, function (res) {
-    //     var chunks = [];
-
-    //     res.on("data", function (chunk) {
-    //       chunks.push(chunk);
-    //     });
-
-    //     res.on("end", function (chunk) {
-    //       var body = Buffer.concat(chunks);
-    //       console.log(body.toString());
-    //       console.log(JSON.parse(body.toString())["accountGroupSummary"])
-    //       expensesService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"]
-
-    //       // var accounts = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"])
-    //       // accounts.forEach(element => {
-    //       //   var key = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][element])
-    //       //   console.log(key)
-    //       //   console.log(key[0])
-    //       //   // userService.accountsummaryName = key[0]
-    //       //   userService.accountsummaryArray.push(key[0])
-    //       //   console.log(userService.accountsummaryArray)
-    //       // });
-          
-    //       // var key = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][0])
-    //       // userService.accountsummaryName = key[0]
-    //       // console.log(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"][0][key[0]].productName)
-    //     });
-
-    //     res.on("error", function (error) {
-    //       console.error(error);
-    //     });
-    //   });
-
-    //   req.end();
-    // }
   }
 
   ngOnInit() {
   }
 
+  // Onclick to next page, passing account information to the next page
   expensessummary(account) {
-    this.expensesService.transactionhistorytitle = account.productName
-    this.expensesService.transactionhistoryaccountId = account.accountId
-    this.navCtrl.navigateForward(['/expensessummary']);
+    // this.expensesService.transactionhistorytitle = account.productName
+    this.expensesService.transactionhistoryaccountId = account.accountId // Store the account id in a global variable so that the next page can fetch the transaction details and show the expenses summary
+    this.navCtrl.navigateForward(['/expensessummary']); // Navigate to the next page
   }
-
-  // citiconnect() {
-  //   window.open("https://sandbox.apihub.citi.com/gcb/api/authCode/oauth2/authorize?response_type=code&client_id=05451865-7d39-4704-b495-803f11d2dd09&scope=accounts_details_transactions&countryCode=SG&businessCode=GCB&locale=en_SG&state=12093&redirect_uri=http://ionicfirebase-a8213.web.app", "_blank");
-  // }
-
-  // dbsconnect() {
-  //   window.open("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize?client_id=75fd953a-e032-4525-8deb-ca0800a2c08c&scope=Read&response_type=code&redirect_uri=http://localhost:8100", "_blank");
-  // }
-
-  // transactionhistory(account) {
-  //   console.log(account)
-  //   this.expensesService.transactionhistorytitle = account.productName
-  //   this.expensesService.transactionhistoryaccountId = account.accountId
-  //   this.navCtrl.navigateForward(['/expenseshistory'])
-  // }
 
 }
