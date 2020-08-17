@@ -47,7 +47,7 @@ export class ExpensessummaryPage implements OnInit {
           expensesService.transactions = JSON.parse(body.toString())["transaction"] // Get the first 50 transactions for the account
           console.log(expensesService.transactions)
 
-          expensesService.transactioncategories = [] // Empty the array as the user switches accounts
+          // expensesService.transactioncategories = [] // Empty the array as the user switches accounts
 
           // Variables to keep track of the amount spent in the transaction categories
           var obj = {} // Set up an empty Object
@@ -96,8 +96,8 @@ export class ExpensessummaryPage implements OnInit {
           // obj["Total"] = total
 
           console.log(obj)
-          expensesService.transactioncategories.push(obj) // Push the object into an array
-          console.log(expensesService.transactioncategories)
+          // expensesService.transactioncategories.push(obj) // Push the object into an array
+          // console.log(expensesService.transactioncategories)
 
           expensesService.pieChartData = Object.entries(obj); // Make the key value pairs in the object into an array (to put into google chart dataTable)
           // {{"category": "Amount"}, {"Food": 83.65}, ...} becomes 

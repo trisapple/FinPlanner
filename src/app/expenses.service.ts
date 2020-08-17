@@ -17,7 +17,7 @@ export class ExpensesService {
   transactionhistorytitle: String
   transactionhistoryaccountId: String
 
-  transactioncategories = []
+  // transactioncategories = []
 
   pieChart: GoogleChartInterface
   pieChartData = []
