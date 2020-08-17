@@ -10,6 +10,8 @@
 
 <ion-content class="ion-padding">
   <ion-grid>
+
+    <!-- Header Row -->
     <ion-row>
       <ion-col size-xs="3" size-md="2">
         <div>
@@ -27,6 +29,8 @@
         </div>
       </ion-col>
     </ion-row>
+
+    <!-- Loop through the list of transactions, displaying the date, description and amount -->
     <ion-row *ngFor="let each of expensesService.transactions">
       <ion-col size-xs="3" size-md="2">
         <div>
@@ -44,5 +48,6 @@
         </div>
       </ion-col>
     </ion-row>
+    
   </ion-grid>
 </ion-content>

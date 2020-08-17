@@ -166,6 +166,8 @@ export class AccountsPage implements OnInit {
     window.open("https://api.ocbc.com/ocbcauthentication/api/oauth2/authorize?client_id=Bdf48cJM_OdAilo6j_kBn_PhQLwa&redirect_uri=https://ionicfirebase-a8213.web.app/&scope=transactional", "_blank");
   }
 
+  // Onclick on list item to display account name and transaction history
+  // Passing the account name and account id as a global variable to be accessed in the next screen
   transactionhistory(account) {
     console.log(account);
     this.expensesService.transactionhistorytitle = account.productName;
