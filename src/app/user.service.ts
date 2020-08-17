@@ -8,18 +8,21 @@ export class UserService {
 
   // User Collection
   // usersCollectionRef: AngularFirestoreCollection<any>;
-  loggedin = false;
+
+  loggedin = false; // Check if the user is logged in
   name: String;
   email: string;
   profilePicture: String;
 
-  authorisationCode: String;
-  accessToken: String;
+  // Citibank
+  authorisationCode: String; // Authorisation code used to get the access token
+  accessToken: String; // Access Token saved for API requests
+  citiLogin = false; // Check if the user has connected their account with Citi (to show Connected or Connect)
 
-  socialLogin = false;
-  provider: String;
+  socialLogin = false; // Check if the user has used facebook or google to login
+  provider: String; // Provider name (facebook, google) to show on profile screen
 
-  citiLogin = false;
+
 
   constructor(public firestore: AngularFirestore) {
     // this.usersCollectionRef = this.firestore.collection<any>('users'); // Get the 'users' collection in Firebase Cloud Firestore
