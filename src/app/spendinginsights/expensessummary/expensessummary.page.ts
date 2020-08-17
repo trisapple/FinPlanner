@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ExpensesService } from '../expenses.service';
-import { UserService } from '../user.service';
+import { ExpensesService } from '../../expenses.service';
+import { UserService } from '../../user.service';
 
 @Component({
   selector: 'app-expensessummary',

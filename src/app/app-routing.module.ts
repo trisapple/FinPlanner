@@ -6,11 +6,11 @@ const routes: Routes = [
   { path: '', loadChildren: () => import('./menu/menu.module').then( m => m.MenuPageModule) },
   { path: 'register', loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule) },
   { path: 'forgot', loadChildren: () => import('./forgot/forgot.module').then( m => m.ForgotPageModule) },
-  { path: 'profile', loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule) },
+  // { path: 'profile', loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule) },
   { path: 'changepassword', loadChildren: () => import('./changepassword/changepassword.module').then( m => m.ChangepasswordPageModule) },
   { path: 'updateprofile', loadChildren: () => import('./updateprofile/updateprofile.module').then( m => m.UpdateprofilePageModule) },
-  { path: 'transactionhistory', loadChildren: () => import('./transactionhistory/transactionhistory.module').then( m => m.TransactionHistoryPageModule) },
-  { path: 'expensessummary', loadChildren: () => import('./expensessummary/expensessummary.module').then( m => m.ExpensessummaryPageModule) },
+  { path: 'accounts/transactionhistory', loadChildren: () => import('./accounts/transactionhistory/transactionhistory.module').then( m => m.TransactionHistoryPageModule) },
+  { path: 'spendinginsights/expensessummary', loadChildren: () => import('./spendinginsights/expensessummary/expensessummary.module').then( m => m.ExpensessummaryPageModule) },
 ];
 
 @NgModule({
