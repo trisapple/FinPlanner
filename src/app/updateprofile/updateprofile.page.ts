@@ -19,10 +19,10 @@ export class UpdateprofilePage implements OnInit {
   }
 
   async updateProfile() {
-    if (this.name == "") {
+    if (this.name == "") { // If name is null
       this.presentToast('Please enter all fields!', 'middle', 2000);
     }
-    else {
+    else { // Will be executed if name is not null
       this.userService.updateProfile(this.name);
       const toast = this.toastCtrl.create({
         message: 'Updated Successfully!',

@@ -19,20 +19,19 @@ export class ChangepasswordPage implements OnInit {
   }
 
   async changePassword() {
-    if (this.newPassword == "" || this.confirmPassword == "") {
+    if (this.newPassword == "" || this.confirmPassword == "") { // If either of the fields are blank
       this.presentToast('Please fill up all details!', 'middle', 2000);
     }
-    else if (this.newPassword !== this.confirmPassword) {
+    else if (this.newPassword !== this.confirmPassword) { // If passwords do not match
       this.presentToast('Passwords do not match!', 'middle', 2000);
     }
-    else {
+    else { // This will only be executed if all fields are filled up and passwords are matched
       (await this.fireauth.currentUser).updatePassword(this.newPassword)
       .then (res => {
         this.presentToast('Your password is successfully changed!', 'middle', 2000);
-        // this.router.navigateByUrl('/profile');
         this.navCtrl.pop();
       })
-      .catch (async error => {
+      .catch (async error => { // Catch 
         const toast = this.toastCtrl.create({
           message: error.message,
           position: 'middle',
