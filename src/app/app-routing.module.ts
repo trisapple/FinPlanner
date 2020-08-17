@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'profile', loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule) },
   { path: 'changepassword', loadChildren: () => import('./changepassword/changepassword.module').then( m => m.ChangepasswordPageModule) },
   { path: 'updateprofile', loadChildren: () => import('./updateprofile/updateprofile.module').then( m => m.UpdateprofilePageModule) },
-  { path: 'transactionhistory', loadChildren: () => import('./transactionhistory/transactionhistory.module').then( m => m.TransactionHistoryPageModule) },
+  { path: 'accounts/transactionhistory', loadChildren: () => import('./accounts/transactionhistory/transactionhistory.module').then( m => m.TransactionHistoryPageModule) },
   { path: 'expensessummary', loadChildren: () => import('./expensessummary/expensessummary.module').then( m => m.ExpensessummaryPageModule) },
 ];
 

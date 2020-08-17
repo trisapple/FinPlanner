@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user.service';
-import { ExpensesService } from '../expenses.service';
+import { UserService } from '../../user.service';
+import { ExpensesService } from '../../expenses.service';
 
 @Component({
   selector: 'app-transactionhistory',
