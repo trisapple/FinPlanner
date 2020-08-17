@@ -7,8 +7,8 @@ const routes: Routes = [
   { path: 'login/register', loadChildren: () => import('./login/register/register.module').then( m => m.RegisterPageModule) },
   { path: 'login/forgot', loadChildren: () => import('./login/forgot/forgot.module').then( m => m.ForgotPageModule) },
   // { path: 'profile', loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule) },
-  { path: 'changepassword', loadChildren: () => import('./changepassword/changepassword.module').then( m => m.ChangepasswordPageModule) },
-  { path: 'updateprofile', loadChildren: () => import('./updateprofile/updateprofile.module').then( m => m.UpdateprofilePageModule) },
+  { path: 'profile/changepassword', loadChildren: () => import('./profile/changepassword/changepassword.module').then( m => m.ChangepasswordPageModule) },
+  { path: 'profile/updateprofile', loadChildren: () => import('./profile/updateprofile/updateprofile.module').then( m => m.UpdateprofilePageModule) },
   { path: 'accounts/transactionhistory', loadChildren: () => import('./accounts/transactionhistory/transactionhistory.module').then( m => m.TransactionHistoryPageModule) },
   { path: 'spendinginsights/expensessummary', loadChildren: () => import('./spendinginsights/expensessummary/expensessummary.module').then( m => m.ExpensessummaryPageModule) },
 ];

@@ -23,11 +23,11 @@ export class ProfilePage implements OnInit {
   }
 
   changePassword() {
-    this.navCtrl.navigateForward(['/changepassword']);
+    this.navCtrl.navigateForward(['/profile/changepassword']);
   }
 
   updateProfile() {
-    this.navCtrl.navigateForward(['/updateprofile']);
+    this.navCtrl.navigateForward(['/profile/updateprofile']);
   }
 
   async deleteAccount() {

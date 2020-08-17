@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-import { UserService } from '../user.service';
+import { UserService } from '../../user.service';
 import { NavController } from '@ionic/angular';
 
 @Component({
