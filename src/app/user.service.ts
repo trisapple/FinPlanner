@@ -22,8 +22,6 @@ export class UserService {
   socialLogin = false; // Check if the user has used facebook or google to login
   provider: String; // Provider name (facebook, google) to show on profile screen
 
-
-
   constructor(public firestore: AngularFirestore) {
     // this.usersCollectionRef = this.firestore.collection<any>('users'); // Get the 'users' collection in Firebase Cloud Firestore
   }
