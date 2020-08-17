@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { ExpensesService } from '../expenses.service';
 
+
 @Component({
   selector: 'app-accounts',
   templateUrl: './accounts.page.html',
@@ -93,29 +94,39 @@ export class AccountsPage implements OnInit {
 
           // Loop through the account groups and its associated information
           for (let each of expensesService.allaccounts) {
+            var accountGroup = {}
             // The 'if' is to display the account group and its following accounts. If not included, it will not be displayed. 
             // For now, the expensesService.accountGroups array will only have one category.
             if (each.accountGroup == "SAVINGS_AND_INVESTMENTS") {
-              expensesService.accountGroups.push("Savings and Investments")
+              // expensesService.accountGroups.push("Savings and Investments")
+              accountGroup["accountGroup"] = "Savings and Investments"
             }
             if (each.accountGroup == "CREDIT_CARD") {
-              expensesService.accountGroups.push("Credit Cards");
+              // expensesService.accountGroups.push("Credit Cards");
+              accountGroup["accountGroup"] = "Credit Cards"
             }
             if (each.accountGroup == "CHECKING") {
-              expensesService.accountGroups.push("Checking");
+              // expensesService.accountGroups.push("Checking");
+              accountGroup["accountGroup"] = "Checking"
             }
             if (each.accountGroup == "LOANS") {
-              expensesService.accountGroups.push("Loans");
+              // expensesService.accountGroups.push("Loans");
+              accountGroup["accountGroup"] = "Loans"
             }
             // else {
             //   expensesService.accountGroups.push(each.accountGroup)
             // }
 
             // Loop through the accounts in the account group
+
+            var accounts = []
             for (let account of each.accounts) {
               console.log(account);
               var values = Object.values(account); // Get account information
-              expensesService.accounts.push(values); // Add it to the expensesService.accounts array
+
+              accountGroup["accounts"]
+
+              accounts.push(values[0]); // Add it to the expensesService.accounts array
               console.log(values)
               console.log(values[0]["productName"]);
               // console.log(Object.values(values))
@@ -125,8 +136,10 @@ export class AccountsPage implements OnInit {
               //   expensesService.accounts.push(i)
               // }
             }
+            accountGroup["accounts"] = accounts
+            expensesService.accountGroups.push(accountGroup)
             console.log(expensesService.accountGroups);
-            console.log(expensesService.accounts);
+            // console.log(expensesService.accounts);
           }
 
           // var accounts = Object.keys(JSON.parse(body.toString())["accountGroupSummary"][0]["accounts"])

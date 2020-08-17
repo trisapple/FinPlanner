@@ -8,6 +8,9 @@ import { AccountsPageRoutingModule } from './accounts-routing.module';
 
 import { AccountsPage } from './accounts.page';
 
+import { ExpandableComponent } from "../components/expandable/expandable.component";
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +18,6 @@ import { AccountsPage } from './accounts.page';
     IonicModule,
     AccountsPageRoutingModule
   ],
-  declarations: [AccountsPage]
+  declarations: [AccountsPage, ExpandableComponent]
 })
 export class AccountsPageModule {}
