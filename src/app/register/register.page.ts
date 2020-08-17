@@ -16,16 +16,13 @@ export class RegisterPage implements OnInit {
   confirmPassword = '';
   error = '';
 
-  // tslint:disable-next-line: max-line-length
   constructor(private fireauth: AngularFireAuth,
-              // tslint:disable-next-line: max-line-length
               public toastCtrl: ToastController, public navCtrl: NavController, public userService: UserService) { }
 
   ngOnInit() {
   }
 
   signup() {
-    // tslint:disable-next-line: quotemark
     if (this.name == "" || this.email == "" || this.password == "" || this.confirmPassword == "") { // If either of the fields are empty
       this.presentToast('Please fill up all details!', 'middle', 2000);
     }
@@ -35,7 +32,6 @@ export class RegisterPage implements OnInit {
     else { // If all fields are filled up and passwords are matched
       this.fireauth.createUserWithEmailAndPassword(this.email, this.password)
       .then(async res => {
-      // tslint:disable-next-line: align
           console.log(res.user);
           this.userService.signup(this.name, this.email);
           const user = this.fireauth.currentUser;

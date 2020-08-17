@@ -31,7 +31,7 @@ export class ChangepasswordPage implements OnInit {
         this.presentToast('Your password is successfully changed!', 'middle', 2000);
         this.navCtrl.pop();
       })
-      .catch (async error => { // Catch 
+      .catch (async error => { 
         const toast = this.toastCtrl.create({
           message: error.message,
           position: 'middle',

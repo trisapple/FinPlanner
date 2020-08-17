@@ -40,7 +40,6 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    // tslint:disable-next-line: quotemark
     if (this.email == "" || this.password == "") { // If email or password are null
       this.presentToast('Please enter your email and password!', 'middle', 2000);
     }

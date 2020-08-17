@@ -13,7 +13,6 @@ import { NavController } from '@ionic/angular';
 })
 export class ProfilePage implements OnInit {
 
-  // tslint:disable-next-line: max-line-length
   constructor(public userService: UserService, private fireauth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController, public navCtrl: NavController) {
     if (userService.socialLogin == false) {
       this.userService.profilePicture = 'assets/avatar.png';

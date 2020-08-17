@@ -12,7 +12,6 @@ export class ForgotPage implements OnInit {
   email = '';
   password = '';
   error = '';
-  username = '';
 
   constructor(private fireauth: AngularFireAuth,
               public toastCtrl: ToastController, public navCtrl: NavController) { }
