@@ -24,8 +24,6 @@ export class LoginPage implements OnInit {
   email = '';
   password = '';
   error = '';
-  // showPassword = false;
-  // passwordToggleIcon = 'eye-off';
 
   constructor(private fireauth: AngularFireAuth,
               public alertController: AlertController,
@@ -50,7 +48,7 @@ export class LoginPage implements OnInit {
       this.fireauth.signInWithEmailAndPassword(this.email, this.password)
         .then(res => {
           if (res.user.emailVerified) {
-            // console.log(res.user);
+            console.log(res.user);
 
             let sub: Subscription = this.userService.login(this.email).subscribe((data) => {
 
