@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
-import { UserService } from '../user.service';
+import { UserService } from '../../user.service';
 
 @Component({
   selector: 'app-register',

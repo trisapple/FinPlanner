@@ -78,11 +78,11 @@ export class LoginPage implements OnInit {
   }
 
   register() {
-    this.navCtrl.navigateForward(['/register']);
+    this.navCtrl.navigateForward(['/login/register']);
   }
 
   forgot() {
-    this.navCtrl.navigateForward(['/forgot']);
+    this.navCtrl.navigateForward(['/login/forgot']);
   }
 
   async presentToast(message, position, duration) {
