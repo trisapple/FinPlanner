@@ -6,23 +6,23 @@ import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-chart
 })
 export class ExpensesService {
 
-  transactions = [];
-  allaccounts: Array<any>;
+  transactions = []; // Transactions List for the displayed account
+  allaccounts: Array<any>; // Account Groups and accounts
 
-  accountGroups = []; // For now, the accountGroups array will only have one category.
-  accounts = [];
+  accountGroups = []; // For now, the accountGroups array will only have one category
+  accounts = []; // List of Accounts in the accountGroups array
   accountsloaded = false; // Variable to check if the user's accounts have loaded
 
   // accountsummaryArray = []
-  transactionhistorytitle: String
-  transactionhistoryaccountId: String
+  transactionhistorytitle: String // Display the account name on the ion-header
+  transactionhistoryaccountId: String // Account id to be passed to the request path
 
   // transactioncategories = []
 
-  pieChart: GoogleChartInterface
-  pieChartData = []
-  pieChartData2 = []
-  total = 0
+  pieChart: GoogleChartInterface // Display the piechart
+  pieChartData = [] // Pie Chart Data with key value data in array form [["category", "Amount"], ["Food", 83.65], ... ]
+  pieChartData2 = [] // Pie Chart Data with key value data in array form excluding ["category", "Amount"] from pieChartData
+  total = 0 // Put the total spending of the account as a global variable so that it can be accessed from the html
 
   constructor() { }
 }
