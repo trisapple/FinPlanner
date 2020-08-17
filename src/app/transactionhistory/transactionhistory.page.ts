@@ -39,7 +39,7 @@ export class TransactionHistoryPage implements OnInit {
           var body = Buffer.concat(chunks);
           // console.log(body.toString());
           // console.log(JSON.parse(body.toString())["transaction"])
-          expensesService.transactions = JSON.parse(body.toString())["transaction"]
+          expensesService.transactions = JSON.parse(body.toString())["transaction"] // Transactions List
         });
   
         res.on("error", function (error) {
