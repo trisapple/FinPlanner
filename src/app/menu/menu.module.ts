@@ -10,18 +10,12 @@ import { MenuPageRoutingModule } from './menu-routing.module';
 import { MenuPage } from './menu.page';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: '/menu/home',
-  //   pathMatch: 'full'
-  // },
   {
     path: '',
     component: MenuPage,
     children: [
       { path: 'home', loadChildren: () => import('../home/home.module').then( m => m.HomePageModule) },
       { path: 'login', loadChildren: () => import('../login/login.module').then( m => m.LoginPageModule) },
-      { path: 'spendinginsights', loadChildren: () => import('../spendinginsights/spendinginsights.module').then( m => m.SpendingInsightsPageModule) },
       { path: 'courses', loadChildren: () => import('../courses/courses.module').then( m => m.CoursesPageModule) },
       { path: 'faq', loadChildren: () => import('../faq/faq.module').then( m => m.FaqPageModule)},
       { path: 'profile', loadChildren: () => import('../profile/profile.module').then( m => m.ProfilePageModule)},
