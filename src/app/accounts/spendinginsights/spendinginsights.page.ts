@@ -3,11 +3,11 @@ import { ExpensesService } from '../../expenses.service';
 import { UserService } from '../../user.service';
 
 @Component({
-  selector: 'app-expensessummary',
-  templateUrl: './expensessummary.page.html',
-  styleUrls: ['./expensessummary.page.scss'],
+  selector: 'app-spendinginsights',
+  templateUrl: './spendinginsights.page.html',
+  styleUrls: ['./spendinginsights.page.scss'],
 })
-export class ExpensessummaryPage implements OnInit {
+export class SpendingInsightsPage implements OnInit {
 
   constructor(public expensesService: ExpensesService, public userService: UserService) { 
 

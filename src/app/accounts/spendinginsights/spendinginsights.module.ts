@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ExpensessummaryPageRoutingModule } from './expensessummary-routing.module';
+import { SpendingInsightsPageRoutingModule } from './spendinginsights-routing.module';
 
-import { ExpensessummaryPage } from './expensessummary.page';
+import { SpendingInsightsPage } from './spendinginsights.page';
 
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
@@ -15,9 +15,9 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     CommonModule,
     FormsModule,
     IonicModule,
-    ExpensessummaryPageRoutingModule,
+    SpendingInsightsPageRoutingModule,
     Ng2GoogleChartsModule
   ],
-  declarations: [ExpensessummaryPage]
+  declarations: [SpendingInsightsPage]
 })
-export class ExpensessummaryPageModule {}
+export class SpendingInsightsPageModule {}
