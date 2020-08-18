@@ -34,8 +34,8 @@
     </ion-list-header>
 
     <!-- Accounts -->
-    <div (click)="expandItem(account)" *ngFor="let account of each.accounts">
-      <ion-item>
+    <div *ngFor="let account of each.accounts">
+      <ion-item (click)="expandItem(account)">
         <ion-label>
           <h2>{{ account.productName }}</h2> <!-- Account Name -->
           <p>{{ account.displayAccountNumber }}</p> <!-- Account Number -->
@@ -56,8 +56,8 @@
       </ion-item>
       <app-expandable expandHeight="100px" [expanded]="account.expanded">
         <ion-item>
-          <ion-label style="justify-content: center; display: flex;"><ion-button>View Spending Insights</ion-button></ion-label>
-          <ion-label style="justify-content: center; display: flex;"><ion-button>View Transaction History</ion-button></ion-label>
+          <ion-label style="justify-content: center; display: flex;"><ion-button (click)="expensessummary(account)">View Spending Insights</ion-button></ion-label>
+          <ion-label style="justify-content: center; display: flex;"><ion-button (click)="transactionhistory(account)">View Transaction History</ion-button></ion-label>
         </ion-item>
       </app-expandable>
     </div>

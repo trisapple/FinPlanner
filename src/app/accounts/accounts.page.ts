@@ -143,4 +143,11 @@ export class AccountsPage implements OnInit {
     this.expensesService.transactionhistoryaccountId = account.accountId;
     this.navCtrl.navigateForward(['/accounts/transactionhistory']);
   }
+
+  // Onclick to next page, passing account information to the next page
+  expensessummary(account) {
+    // this.expensesService.transactionhistorytitle = account.productName
+    this.expensesService.transactionhistoryaccountId = account.accountId // Store the account id in a global variable so that the next page can fetch the transaction details and show the expenses summary
+    this.navCtrl.navigateForward(['/spendinginsights//expensessummary']); // Navigate to the next page
+  }
 }
