@@ -14,7 +14,23 @@ export class AccountsPage implements OnInit {
   public items: any = [];
 
   expandItem(item): void {
-    item.expanded = !item.expanded
+
+    // item.expanded = !item.expanded
+
+    if (item.expanded) {
+      item.expanded = false;
+    } else {
+      for (let each of this.expensesService.accountGroups)
+      each["accounts"].map(listItem => {
+        if (item == listItem) {
+          listItem.expanded = !listItem.expanded;
+        } else {
+          listItem.expanded = false;
+        }
+        return listItem;
+      });
+    }
+
   }
   
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) { 
