@@ -19,6 +19,9 @@ export class UserService {
   accessToken: String; // Access Token saved for API requests
   citiLogin = false; // Check if the user has connected their account with Citi (to show Connected or Connect)
 
+  // OCBC
+  ocbcLogin = false;
+
   socialLogin = false; // Check if the user has used facebook or google to login
   provider: String; // Provider name (facebook, google) to show on profile screen
 
