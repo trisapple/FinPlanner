@@ -56,21 +56,25 @@
 
   <!-- For quick testing using Ionic Serve -->
   <div>
-  <ion-list (click)="expandItem(item)" *ngFor="let item of items">
+  <ion-list>
     <ion-list-header style="font-size: 24px; font-weight: bold;">Account Group</ion-list-header>
-    <ion-item (click)=transactionhistory() >
-      <ion-label>
-        <h2>Product Name</h2>
-        <p>Account Number</p>
-      </ion-label>
-      <p style="margin-right: 16px">$0.00</p>
-      <ion-icon name="chevron-forward"></ion-icon>
-    </ion-item>
-    <app-expandable expandHeight="100px" [expanded]="item.expanded">
+    <div (click)="expandItem(item)" *ngFor="let item of items">
       <ion-item>
-
+        <ion-label>
+          <h2>Product Name</h2>
+          <p>Account Number</p>
+        </ion-label>
+        <p style="margin-right: 16px">$0.00</p>
+        <ion-icon name="chevron-forward"></ion-icon>
       </ion-item>
-    </app-expandable>
+      <app-expandable expandHeight="100px" [expanded]="item.expanded">
+        <ion-item>
+          <ion-label style="justify-content: center; display: flex;"><ion-button>View Spending Insights</ion-button></ion-label>
+          <ion-label style="justify-content: center; display: flex;" text-center><ion-button>View Transaction History</ion-button></ion-label>
+        </ion-item>
+      </app-expandable>
+    </div>
+
 
   </ion-list>
   </div>
