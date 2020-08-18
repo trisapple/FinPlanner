@@ -14,24 +14,13 @@ export class AccountsPage implements OnInit {
   public items: any = [];
 
   expandItem(item): void {
-    if (item.expanded) {
-      item.expanded = false;
-    } else {
-      this.items.map(listItem => {
-        if (item == listItem) {
-          listItem.expanded = !listItem.expanded;
-        } else {
-          listItem.expanded = false;
-        }
-        return listItem;
-      });
-    }
+    item.expanded = !item.expanded
   }
   
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) { 
     
     this.items = [
-      { expanded: false },
+      { productName: "Test", expanded: false },
       { expanded: false }
     ];
 
@@ -111,11 +100,14 @@ export class AccountsPage implements OnInit {
               // Loop through the accounts in the accountGroup and add it to the temporary accounts array
               for (let account of each.accounts) {
                 console.log(account);
-                var values = Object.values(account); // Get account information and exclude the key in the Object
+                var values: Object = Object.values(account); // Get account information and exclude the key in the Object
+                values[0]["expanded"] = false
                 accounts.push(values[0]); // Add it to the expensesService.accounts array. values[0] as there is one array in an array. We don't want to make the array a nested array.
               }
             }
+            accounts.push
             accountGroup["accounts"] = accounts // Add the accounts into the "accounts" key of our temporary accountGroup object
+            // accountGroup["expanded"] = false
             expensesService.accountGroups.push(accountGroup) // Add our temporary accountGroup Object comprising the accountGroup and the associated accounts into our array
             console.log(expensesService.accountGroups);
           }
