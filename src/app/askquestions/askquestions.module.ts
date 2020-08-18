@@ -1,0 +1,20 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { IonicModule } from '@ionic/angular';
+
+import { AskquestionsPageRoutingModule } from './askquestions-routing.module';
+
+import { AskquestionsPage } from './askquestions.page';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    AskquestionsPageRoutingModule
+  ],
+  declarations: [AskquestionsPage]
+})
+export class AskquestionsPageModule {}

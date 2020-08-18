@@ -9,7 +9,11 @@ const routes: Routes = [
   { path: 'profile/changepassword', loadChildren: () => import('./profile/changepassword/changepassword.module').then( m => m.ChangepasswordPageModule) },
   { path: 'profile/updateprofile', loadChildren: () => import('./profile/updateprofile/updateprofile.module').then( m => m.UpdateprofilePageModule) },
   { path: 'accounts/transactionhistory', loadChildren: () => import('./accounts/transactionhistory/transactionhistory.module').then( m => m.TransactionHistoryPageModule) },
-  { path: 'accounts/spendinginsights', loadChildren: () => import('./accounts/spendinginsights/spendinginsights.module').then( m => m.SpendingInsightsPageModule) },
+  { path: 'accounts/spendinginsights', loadChildren: () => import('./accounts/spendinginsights/spendinginsights.module').then( m => m.SpendingInsightsPageModule) },  {
+    path: 'askquestions',
+    loadChildren: () => import('./askquestions/askquestions.module').then( m => m.AskquestionsPageModule)
+  },
+
 ];
 
 @NgModule({
