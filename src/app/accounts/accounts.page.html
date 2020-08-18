@@ -65,7 +65,9 @@
           <p>Account Number</p>
         </ion-label>
         <p style="margin-right: 16px">$0.00</p>
-        <ion-icon name="chevron-forward"></ion-icon>
+        <!-- <ion-icon name="chevron-forward"></ion-icon> -->
+        <ion-icon *ngIf="!item.expanded" name="chevron-forward"></ion-icon>
+        <ion-icon *ngIf="item.expanded" name="chevron-down"></ion-icon>
       </ion-item>
       <app-expandable expandHeight="100px" [expanded]="item.expanded">
         <ion-item>
