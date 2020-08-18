@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Summary</ion-title>
+    <ion-title>Spending Insights for {{ expensesService.transactionhistorytitle }}</ion-title>
     <!-- Side menu button -->
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -9,16 +9,6 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-
-  <!-- The expensesService.transactioncategories array has only 1 Object, so this will only run once -->
-  <!-- <div *ngFor="let i of expensesService.transactioncategories">
-    <ion-text>Food: {{ (i.Food).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
-    <ion-text>Bills: {{ (i.Bills).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
-    <ion-text>Lifestyle: {{ (i.Lifestyle).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
-    <ion-text>Taxes: {{ (i.Taxes).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
-    <ion-text>Recurring fees: {{ (i["Recurring Fees"]).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text><br>
-    <ion-text>Total: {{ (i.Total).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text>
-  </div> -->
   
   <!-- Pie Chart from Google Charts -->
   <google-chart *ngIf="expensesService.pieChart" [data]="expensesService.pieChart"></google-chart>

@@ -105,9 +105,7 @@ export class AccountsPage implements OnInit {
                 accounts.push(values[0]); // Add it to the expensesService.accounts array. values[0] as there is one array in an array. We don't want to make the array a nested array.
               }
             }
-            accounts.push
             accountGroup["accounts"] = accounts // Add the accounts into the "accounts" key of our temporary accountGroup object
-            // accountGroup["expanded"] = false
             expensesService.accountGroups.push(accountGroup) // Add our temporary accountGroup Object comprising the accountGroup and the associated accounts into our array
             console.log(expensesService.accountGroups);
           }
@@ -145,8 +143,8 @@ export class AccountsPage implements OnInit {
   }
 
   // Onclick to next page, passing account information to the next page
-  expensessummary(account) {
-    // this.expensesService.transactionhistorytitle = account.productName
+  spendinginsights(account) {
+    this.expensesService.transactionhistorytitle = account.productName
     this.expensesService.transactionhistoryaccountId = account.accountId // Store the account id in a global variable so that the next page can fetch the transaction details and show the expenses summary
     this.navCtrl.navigateForward(['/accounts/spendinginsights']); // Navigate to the next page
   }
