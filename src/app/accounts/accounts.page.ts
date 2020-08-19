@@ -59,7 +59,7 @@ export class AccountsPage implements OnInit {
           'client_id': '05451865-7d39-4704-b495-803f11d2dd09',
           'uuid': '4c2b46cb-4e2b-4add-bae1-bf86208446a8',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ' + userService.accessToken
+          'Authorization': 'Bearer ' + userService.citiaccessToken
         },
         'maxRedirects': 20
       };

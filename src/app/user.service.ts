@@ -15,11 +15,12 @@ export class UserService {
   profilePicture: String;
 
   // Citibank
-  authorisationCode: String; // Authorisation code used to get the access token
-  accessToken: String; // Access Token saved for API requests
+  citiauthorisationCode: String; // Authorisation code used to get the access token
+  citiaccessToken: String; // Access Token saved for API requests
   citiLogin = false; // Check if the user has connected their account with Citi (to show Connected or Connect)
 
   // OCBC
+  ocbcaccessToken: String;
   ocbcLogin = false;
 
   socialLogin = false; // Check if the user has used facebook or google to login

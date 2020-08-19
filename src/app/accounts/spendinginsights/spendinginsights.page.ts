@@ -26,7 +26,7 @@ export class SpendingInsightsPage implements OnInit {
           'Accept': 'application/json',
           'client_id': '05451865-7d39-4704-b495-803f11d2dd09',
           'uuid': 'aae5acdc-f196-48c7-8d10-e027ffd54552',
-          'Authorization': 'Bearer ' + userService.accessToken,
+          'Authorization': 'Bearer ' + userService.citiaccessToken,
           'Cookie': 'RSA=164292451157170727520200729230711; RSA=164292451157170727520200729230711; RSA=164292451157170727520200729230711; CITI_SITE=gtdc'
         },
         'maxRedirects': 20
