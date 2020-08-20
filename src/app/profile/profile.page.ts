@@ -26,9 +26,9 @@ export class ProfilePage implements OnInit {
     this.navCtrl.navigateForward(['/profile/changepassword']);
   }
 
-  updateProfile() {
-    this.navCtrl.navigateForward(['/profile/updateprofile']);
-  }
+  // updateProfile() {
+  //   this.navCtrl.navigateForward(['/profile/updateprofile']);
+  // }
 
   async deleteAccount() {
     const alert = await this.alertCtrl.create({
