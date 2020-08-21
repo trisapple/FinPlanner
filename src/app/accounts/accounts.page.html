@@ -28,6 +28,7 @@
   
   <br><br>
 
+  <div *ngIf="userService.citiLogin">
   <ion-list *ngFor="let each of expensesService.citiaccountGroups">
     <ion-list-header style="font-size: 24px; font-weight: bold;">
       {{ each.accountGroup }} <!-- Account Group Name -->
@@ -63,37 +64,41 @@
       </app-expandable>
     </div>
   </ion-list>
+  </div>
 
   <!-- OCBC -->
-  <ion-list *ngFor="let each of expensesService.ocbcaccountGroups">
+  <div *ngIf="userService.ocbcLogin">
+  <ion-list>
     <ion-list-header style="font-size: 24px; font-weight: bold;">
-      {{ each.result }} <!-- Account Group Name -->
+      OCBC Credit Cards <!-- Account Group Name -->
       <!-- For now one will only be displayed -->
     </ion-list-header>
 
     <!-- Accounts -->
-    <div *ngFor="let account of each.results">
-      <ion-item (click)="expandItem(account)">
+    <div *ngFor="let each of expensesService.ocbcaccountGroups">
+      <!-- <ion-item (click)="expandItem(each)"> -->
+      <ion-item>
         <ion-label>
-          <h2>{{ account.cardDesc}}</h2> <!-- Account Name -->
-          <p>{{ account.maskedCardNo }}</p> <!-- Account Number -->
+          <h2>{{ each.cardDesc}}</h2> <!-- Account Name -->
+          <p>{{ each.maskedCardNo }}</p> <!-- Account Number -->
         </ion-label>
 
         <!-- For Credit Cards -->
-        <p *ngIf="account.currentBalance" style="margin-right: 16px">{{ (account.availableBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+        <p style="margin-right: 16px">{{ (each.availableBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
 
         <!-- <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">{{ (i.value.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p> -->
-        <ion-icon *ngIf="!account.expanded" name="chevron-forward"></ion-icon>
-        <ion-icon *ngIf="account.expanded" name="chevron-down"></ion-icon>
+        <!-- <ion-icon *ngIf="!account.expanded" name="chevron-forward"></ion-icon>
+        <ion-icon *ngIf="account.expanded" name="chevron-down"></ion-icon> -->
       </ion-item>
-      <app-expandable expandHeight="100px" [expanded]="account.expanded">
+      <!-- <app-expandable expandHeight="100px" [expanded]="account.expanded">
         <ion-item>
           <ion-label style="justify-content: center; display: flex;"><ion-button (click)="spendinginsights(account)">View Spending Insights</ion-button></ion-label>
           <ion-label style="justify-content: center; display: flex;"><ion-button (click)="transactionhistory(account)">View Transaction History</ion-button></ion-label>
         </ion-item>
-      </app-expandable>
+      </app-expandable> -->
     </div>
   </ion-list>
+</div>
 
 
   <!-- For quick testing using Ionic Serve -->
