@@ -20,7 +20,7 @@ export class AccountsPage implements OnInit {
     // if (item.expanded) {
     //   item.expanded = false;
     // } else {
-    //   for (let each of this.expensesService.citiaccountGroups)
+    //   for (let each of this.expensesService.citiAccounts)
     //     each["accounts"].map(listItem => {
     //       if (item == listItem) {
     //         listItem.expanded = !listItem.expanded;
@@ -124,8 +124,8 @@ export class AccountsPage implements OnInit {
                 }
               }
               accountGroup["accounts"] = accounts // Add the accounts into the "accounts" key of our temporary accountGroup object
-              expensesService.citiaccountGroups.push(accountGroup) // Add our temporary accountGroup Object comprising the accountGroup and the associated accounts into our array
-              console.log(expensesService.citiaccountGroups);
+              expensesService.citiAccounts.push(accountGroup) // Add our temporary accountGroup Object comprising the accountGroup and the associated accounts into our array
+              console.log(expensesService.citiAccounts);
             }
           });
 
@@ -171,25 +171,12 @@ export class AccountsPage implements OnInit {
             console.log(body.toString());
             console.log(JSON.parse(body.toString()))
             console.log(JSON.parse(body.toString())["result"])
-            expensesService.ocbcaccountGroups = JSON.parse(body.toString())["result"]
+            expensesService.ocbcAccounts = JSON.parse(body.toString())["result"]
            
-            for (let each of expensesService.ocbcaccountGroups) { // The 'ocbcaccountGroups' will be looped through
+            for (let each of expensesService.ocbcAccounts) { // The 'ocbcAccounts' will be looped through
              each["expanded"] = false;
             }
-            console.log(expensesService.ocbcaccountGroups)
-
-              // if (each.result == result) {
-              //   result["result"] = "Credit Cards" // Display the accountGroup in a neater manner, removing underscores and capitalising only on the first letter
-              // }
-
-              // var results = []
-
-              // for (let account of each.results) {
-              //   console.log(account);
-              //   var values: Object = Object.values(account); // Get account information and exclude the key in the Object
-              //   values[0]["expanded"] = false
-              //   results.push(values[0]); // Add it to the expensesService.accounts array. values[0] as there is one array in an array. We don't want to make the array a nested array.
-              // }
+            console.log(expensesService.ocbcAccounts)
           });          
           res.on("error", function (error) {
             console.error(error);

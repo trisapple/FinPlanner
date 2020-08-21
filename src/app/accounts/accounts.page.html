@@ -29,7 +29,7 @@
   <br><br>
 
   <div *ngIf="userService.citiLogin">
-  <ion-list *ngFor="let each of expensesService.citiaccountGroups">
+  <ion-list *ngFor="let each of expensesService.citiAccounts">
     <ion-list-header style="font-size: 24px; font-weight: bold;">
       {{ each.accountGroup }} <!-- Account Group Name -->
       <!-- For now one will only be displayed -->
@@ -75,7 +75,7 @@
     </ion-list-header>
 
     <!-- Accounts -->
-    <div *ngFor="let each of expensesService.ocbcaccountGroups">
+    <div *ngFor="let each of expensesService.ocbcAccounts">
       <ion-item (click)="expandItem(each)">
      
         <ion-label>

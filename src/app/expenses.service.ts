@@ -7,21 +7,17 @@ import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-chart
 export class ExpensesService {
 
   transactions = []; // Transactions List for the displayed account
-  // allaccounts: Array<any>; // Account Groups and accounts
 
   // Citibank
-  citiaccountGroups = []; // Each array in the accountGroups array will contain the accountGroup and its associated accounts
+  citiAccounts = []; // Each array in the accountGroups array will contain the accountGroup and its associated accounts
   accountsloaded = false; // Variable to check if the user's accounts have loaded
 
   // OCBC
-  ocbcaccountGroups =[];
+  ocbcAccounts =[];
   ocbcaccountsloaded = false;
 
-  // accountsummaryArray = []
   transactionhistorytitle: String // Display the account name on the ion-header
   transactionhistoryaccountId: String // Account id to be passed to the request path
-
-  // transactioncategories = []
 
   pieChart: GoogleChartInterface // Display the piechart
   pieChartData = [] // Pie Chart Data with key value data in array form [["category", "Amount"], ["Food", 83.65], ... ]
