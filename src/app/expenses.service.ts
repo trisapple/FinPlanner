@@ -9,8 +9,13 @@ export class ExpensesService {
   transactions = []; // Transactions List for the displayed account
   allaccounts: Array<any>; // Account Groups and accounts
 
-  accountGroups = []; // Each array in the accountGroups array will contain the accountGroup and its associated accounts
+  // Citibank
+  citiaccountGroups = []; // Each array in the accountGroups array will contain the accountGroup and its associated accounts
   accountsloaded = false; // Variable to check if the user's accounts have loaded
+
+  // OCBC
+  ocbcaccountGroups =[];
+  ocbcaccountsloaded = false;
 
   // accountsummaryArray = []
   transactionhistorytitle: String // Display the account name on the ion-header

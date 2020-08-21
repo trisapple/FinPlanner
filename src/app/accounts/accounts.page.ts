@@ -20,7 +20,7 @@ export class AccountsPage implements OnInit {
     if (item.expanded) {
       item.expanded = false;
     } else {
-      for (let each of this.expensesService.accountGroups)
+      for (let each of this.expensesService.citiaccountGroups)
         each["accounts"].map(listItem => {
           if (item == listItem) {
             listItem.expanded = !listItem.expanded;
@@ -124,8 +124,8 @@ export class AccountsPage implements OnInit {
                 }
               }
               accountGroup["accounts"] = accounts // Add the accounts into the "accounts" key of our temporary accountGroup object
-              expensesService.accountGroups.push(accountGroup) // Add our temporary accountGroup Object comprising the accountGroup and the associated accounts into our array
-              console.log(expensesService.accountGroups);
+              expensesService.citiaccountGroups.push(accountGroup) // Add our temporary accountGroup Object comprising the accountGroup and the associated accounts into our array
+              console.log(expensesService.citiaccountGroups);
             }
           });
 
@@ -138,39 +138,65 @@ export class AccountsPage implements OnInit {
       }
     }
     if (userService.ocbcLogin == true) {
-      var https = require('follow-redirects').https;
 
-      var options = {
-        'method': 'GET',
-        'hostname': 'api.ocbc.com',
-        'port': 8243,
-        'path': '/transactional/creditcardlisting/1.0',
-        'headers': {
-          'Authorization': 'Bearer e9907b0acea2e822d906e1e9e0db8330',
-          'Cookie': 'visid_incap_1634122=z3xtAN2xSiSHYiaqILb6yDSYPl8AAAAAQUIPAAAAAACwkEV6njlIOeQyUjtckt9o; nlbi_1634122=B5NSf4KDuGB8wZN6ZPv8YwAAAADP/vVam6LDQQ9qBxTbwi5q; incap_ses_944_1634122=1WzXBzs+FijsJKvlFsMZDUxGP18AAAAA2LYhS6z1dLGagQqp1SrUHA=='
-        },
-        'maxRedirects': 20
-      };
+      if (expensesService.ocbcaccountsloaded == false) {
+        ocbcaccountsummary()
+      }
 
-      var req = https.request(options, function (res) {
-        var chunks = [];
+      function ocbcaccountsummary() {
+        var https = require('follow-redirects').https;
 
-        res.on("data", function (chunk) {
-          chunks.push(chunk);
+        var options = {
+          'method': 'GET',
+          'hostname': 'api.ocbc.com',
+          'port': 8243,
+          'path': '/transactional/creditcardlisting/1.0',
+          'headers': {
+            'Authorization': 'Bearer e9907b0acea2e822d906e1e9e0db8330',
+            'Cookie': 'visid_incap_1634122=z3xtAN2xSiSHYiaqILb6yDSYPl8AAAAAQUIPAAAAAACwkEV6njlIOeQyUjtckt9o; nlbi_1634122=B5NSf4KDuGB8wZN6ZPv8YwAAAADP/vVam6LDQQ9qBxTbwi5q; incap_ses_944_1634122=1WzXBzs+FijsJKvlFsMZDUxGP18AAAAA2LYhS6z1dLGagQqp1SrUHA=='
+          },
+          'maxRedirects': 20
+        };
+  
+        var req = https.request(options, function (res) {
+          var chunks = [];
+  
+          res.on("data", function (chunk) {
+            chunks.push(chunk);
+          });
+  
+          res.on("end", function (chunk) {
+            expensesService.ocbcaccountsloaded = true // Set the accountsloaded to variable to true (indicate that the accounts have been loaded)
+            var body = Buffer.concat(chunks);
+            console.log(body.toString());
+            console.log(JSON.parse(body.toString()))
+            console.log(JSON.parse(body.toString())["result"])
+            expensesService.allaccounts = JSON.parse(body.toString())["result"]
+
+            for (let each of expensesService.allaccounts) {
+              var result = {}
+
+              if (each.result == result) {
+                result["result"] = "Credit Cards" // Display the accountGroup in a neater manner, removing underscores and capitalising only on the first letter
+              }
+
+              var results = []
+
+              for (let account of each.results) {
+                console.log(account);
+                var values: Object = Object.values(account); // Get account information and exclude the key in the Object
+                values[0]["expanded"] = false
+                results.push(values[0]); // Add it to the expensesService.accounts array. values[0] as there is one array in an array. We don't want to make the array a nested array.
+              }
+            }
+          });          
+          res.on("error", function (error) {
+            console.error(error);
+          });
         });
-
-        res.on("end", function (chunk) {
-          var body = Buffer.concat(chunks);
-          console.log(body.toString());
-          console.log(JSON.parse(body.toString()))
-        });
-
-        res.on("error", function (error) {
-          console.error(error);
-        });
-      });
-
-      req.end();
+  
+        req.end();
+      }
     }
   }
 
