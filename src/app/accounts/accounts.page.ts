@@ -21,45 +21,133 @@ export class AccountsPage implements OnInit {
       item.expanded = false;
     } else {
       for (let each of this.expensesService.accountGroups)
-      each["accounts"].map(listItem => {
-        if (item == listItem) {
-          listItem.expanded = !listItem.expanded;
-        } else {
-          listItem.expanded = false;
-        }
-        return listItem;
-      });
+        each["accounts"].map(listItem => {
+          if (item == listItem) {
+            listItem.expanded = !listItem.expanded;
+          } else {
+            listItem.expanded = false;
+          }
+          return listItem;
+        });
     }
 
   }
-  
-  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) { 
-    
+
+  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) {
+
     this.items = [
       { productName: "Test", expanded: false },
       { expanded: false }
     ];
 
-    // Check if the accounts have loaded. 
-    // If not, get the users accounts. 
-    // If loaded, do not get the users accounts again.
-    // This check is to prevent the accounts from loading twice resulting in duplicates being displayed.
-    if (expensesService.accountsloaded == false) {
-      allaccountsummary()
-    }
+    if (userService.citiLogin == true) {
 
-    function allaccountsummary() {
+      // Check if the accounts have loaded. 
+      // If not, get the users accounts. 
+      // If loaded, do not get the users accounts again.
+      // This check is to prevent the accounts from loading twice resulting in duplicates being displayed.
+      if (expensesService.accountsloaded == false) {
+        allaccountsummary()
+      }
+
+      function allaccountsummary() {
+        var https = require('follow-redirects').https;
+
+        var options = {
+          'method': 'GET',
+          'hostname': 'sandbox.apihub.citi.com',
+          'path': '/gcb/api/v1/accounts',
+          'headers': {
+            'client_id': '05451865-7d39-4704-b495-803f11d2dd09',
+            'uuid': '4c2b46cb-4e2b-4add-bae1-bf86208446a8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + userService.citiaccessToken
+          },
+          'maxRedirects': 20
+        };
+
+        var req = https.request(options, function (res) {
+          var chunks = [];
+
+          res.on("data", function (chunk) {
+            chunks.push(chunk);
+          });
+
+          res.on("end", function (chunk) {
+            expensesService.accountsloaded = true // Set the accountsloaded to variable to true (indicate that the accounts have been loaded)
+            var body = Buffer.concat(chunks);
+            console.log(body.toString());
+            console.log(JSON.parse(body.toString())["accountGroupSummary"])
+            expensesService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"] // Account Groups and accounts
+
+            // Loop through the account groups and its associated information
+            for (let each of expensesService.allaccounts) {
+
+              // Our own temporary Object will have two keys, accountGroup and accounts. 
+              // It will then be added into the expensesService.accountGroups array once we had collected all the info for that accountGroup
+              var accountGroup = {}
+
+              // The 'if' is to display the account group and its following accounts. If not included, it will not be displayed. 
+              if (each.accountGroup == "SAVINGS_AND_INVESTMENTS") {
+                accountGroup["accountGroup"] = "Savings and Investments" // Display the accountGroup in a neater manner, removing underscores and capitalising only on the first letter
+              }
+              if (each.accountGroup == "CREDIT_CARD") {
+                accountGroup["accountGroup"] = "Credit Cards"
+              }
+              if (each.accountGroup == "CHECKING") {
+                accountGroup["accountGroup"] = "Checking"
+              }
+              if (each.accountGroup == "LOANS") {
+                accountGroup["accountGroup"] = "Loans"
+              }
+              if (each.accountGroup == "INSURANCE") {
+                accountGroup["accountGroup"] = "Insurance"
+              }
+              // else {
+              //   expensesService.accountGroups.push(each.accountGroup)
+              // }
+
+              var accounts = [] // This accounts array will temporarily store the accounts associated with the accountGroup
+              if (accountGroup["accountGroup"] == "Insurance") {
+                // Loop through the accounts in the accountGroup and add it to the temporary accounts array
+                for (let account of each.insurancePolicies) {
+                  console.log(account)
+                  accounts.push(account)
+                }
+              } else {
+                // Loop through the accounts in the accountGroup and add it to the temporary accounts array
+                for (let account of each.accounts) {
+                  console.log(account);
+                  var values: Object = Object.values(account); // Get account information and exclude the key in the Object
+                  values[0]["expanded"] = false
+                  accounts.push(values[0]); // Add it to the expensesService.accounts array. values[0] as there is one array in an array. We don't want to make the array a nested array.
+                }
+              }
+              accountGroup["accounts"] = accounts // Add the accounts into the "accounts" key of our temporary accountGroup object
+              expensesService.accountGroups.push(accountGroup) // Add our temporary accountGroup Object comprising the accountGroup and the associated accounts into our array
+              console.log(expensesService.accountGroups);
+            }
+          });
+
+          res.on("error", function (error) {
+            console.error(error);
+          });
+        });
+
+        req.end();
+      }
+    }
+    if (userService.ocbcLogin == true) {
       var https = require('follow-redirects').https;
 
       var options = {
         'method': 'GET',
-        'hostname': 'sandbox.apihub.citi.com',
-        'path': '/gcb/api/v1/accounts',
+        'hostname': 'api.ocbc.com',
+        'port': 8243,
+        'path': '/transactional/creditcardlisting/1.0',
         'headers': {
-          'client_id': '05451865-7d39-4704-b495-803f11d2dd09',
-          'uuid': '4c2b46cb-4e2b-4add-bae1-bf86208446a8',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + userService.citiaccessToken
+          'Authorization': 'Bearer e9907b0acea2e822d906e1e9e0db8330',
+          'Cookie': 'visid_incap_1634122=z3xtAN2xSiSHYiaqILb6yDSYPl8AAAAAQUIPAAAAAACwkEV6njlIOeQyUjtckt9o; nlbi_1634122=B5NSf4KDuGB8wZN6ZPv8YwAAAADP/vVam6LDQQ9qBxTbwi5q; incap_ses_944_1634122=1WzXBzs+FijsJKvlFsMZDUxGP18AAAAA2LYhS6z1dLGagQqp1SrUHA=='
         },
         'maxRedirects': 20
       };
@@ -72,59 +160,9 @@ export class AccountsPage implements OnInit {
         });
 
         res.on("end", function (chunk) {
-          expensesService.accountsloaded = true // Set the accountsloaded to variable to true (indicate that the accounts have been loaded)
           var body = Buffer.concat(chunks);
           console.log(body.toString());
-          console.log(JSON.parse(body.toString())["accountGroupSummary"])
-          expensesService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"] // Account Groups and accounts
-
-          // Loop through the account groups and its associated information
-          for (let each of expensesService.allaccounts) {
-
-            // Our own temporary Object will have two keys, accountGroup and accounts. 
-            // It will then be added into the expensesService.accountGroups array once we had collected all the info for that accountGroup
-            var accountGroup = {}
-
-            // The 'if' is to display the account group and its following accounts. If not included, it will not be displayed. 
-            if (each.accountGroup == "SAVINGS_AND_INVESTMENTS") {
-              accountGroup["accountGroup"] = "Savings and Investments" // Display the accountGroup in a neater manner, removing underscores and capitalising only on the first letter
-            }
-            if (each.accountGroup == "CREDIT_CARD") {
-              accountGroup["accountGroup"] = "Credit Cards"
-            }
-            if (each.accountGroup == "CHECKING") {
-              accountGroup["accountGroup"] = "Checking"
-            }
-            if (each.accountGroup == "LOANS") {
-              accountGroup["accountGroup"] = "Loans"
-            }
-            if (each.accountGroup == "INSURANCE") {
-              accountGroup["accountGroup"] = "Insurance"
-            }
-            // else {
-            //   expensesService.accountGroups.push(each.accountGroup)
-            // }
-
-            var accounts = [] // This accounts array will temporarily store the accounts associated with the accountGroup
-            if (accountGroup["accountGroup"] == "Insurance") {
-              // Loop through the accounts in the accountGroup and add it to the temporary accounts array
-              for (let account of each.insurancePolicies) {
-                console.log(account)
-                accounts.push(account)
-              }
-            } else {
-              // Loop through the accounts in the accountGroup and add it to the temporary accounts array
-              for (let account of each.accounts) {
-                console.log(account);
-                var values: Object = Object.values(account); // Get account information and exclude the key in the Object
-                values[0]["expanded"] = false
-                accounts.push(values[0]); // Add it to the expensesService.accounts array. values[0] as there is one array in an array. We don't want to make the array a nested array.
-              }
-            }
-            accountGroup["accounts"] = accounts // Add the accounts into the "accounts" key of our temporary accountGroup object
-            expensesService.accountGroups.push(accountGroup) // Add our temporary accountGroup Object comprising the accountGroup and the associated accounts into our array
-            console.log(expensesService.accountGroups);
-          }
+          console.log(JSON.parse(body.toString()))
         });
 
         res.on("error", function (error) {
