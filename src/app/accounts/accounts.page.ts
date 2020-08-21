@@ -78,10 +78,10 @@ export class AccountsPage implements OnInit {
             var body = Buffer.concat(chunks);
             console.log(body.toString());
             console.log(JSON.parse(body.toString())["accountGroupSummary"])
-            expensesService.allaccounts = JSON.parse(body.toString())["accountGroupSummary"] // Account Groups and accounts
+            var accountGroupSummary = JSON.parse(body.toString())["accountGroupSummary"] // Account Groups and accounts
 
             // Loop through the account groups and its associated information
-            for (let each of expensesService.allaccounts) {
+            for (let each of accountGroupSummary) {
 
               // Our own temporary Object will have two keys, accountGroup and accounts. 
               // It will then be added into the expensesService.accountGroups array once we had collected all the info for that accountGroup

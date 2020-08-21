@@ -7,7 +7,7 @@ import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-chart
 export class ExpensesService {
 
   transactions = []; // Transactions List for the displayed account
-  allaccounts: Array<any>; // Account Groups and accounts
+  // allaccounts: Array<any>; // Account Groups and accounts
 
   // Citibank
   citiaccountGroups = []; // Each array in the accountGroups array will contain the accountGroup and its associated accounts
