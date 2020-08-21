@@ -76,26 +76,26 @@
 
     <!-- Accounts -->
     <div *ngFor="let each of expensesService.ocbcaccountGroups">
-      <!-- <ion-item (click)="expandItem(each)"> -->
-      <ion-item>
+      <ion-item (click)="expandItem(each)">
+     
         <ion-label>
           <h2>{{ each.cardDesc}}</h2> <!-- Account Name -->
           <p>{{ each.maskedCardNo }}</p> <!-- Account Number -->
         </ion-label>
 
-        <!-- For Credit Cards -->
+        <!-- OCBC Credit Cards -->
         <p style="margin-right: 16px">{{ (each.availableBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
 
         <!-- <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">{{ (i.value.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p> -->
-        <!-- <ion-icon *ngIf="!account.expanded" name="chevron-forward"></ion-icon>
-        <ion-icon *ngIf="account.expanded" name="chevron-down"></ion-icon> -->
+        <ion-icon *ngIf="!each.expanded" name="chevron-forward"></ion-icon>
+        <ion-icon *ngIf="each.expanded" name="chevron-down"></ion-icon>
       </ion-item>
-      <!-- <app-expandable expandHeight="100px" [expanded]="account.expanded">
+      <app-expandable expandHeight="100px" [expanded]="each.expanded">
         <ion-item>
-          <ion-label style="justify-content: center; display: flex;"><ion-button (click)="spendinginsights(account)">View Spending Insights</ion-button></ion-label>
-          <ion-label style="justify-content: center; display: flex;"><ion-button (click)="transactionhistory(account)">View Transaction History</ion-button></ion-label>
+          <ion-label style="justify-content: center; display: flex;"><ion-button (click)="spendinginsights(each)">View Spending Insights</ion-button></ion-label>
+          <ion-label style="justify-content: center; display: flex;"><ion-button (click)="transactionhistory(each)">View Transaction History</ion-button></ion-label>
         </ion-item>
-      </app-expandable> -->
+      </app-expandable>
     </div>
   </ion-list>
 </div>

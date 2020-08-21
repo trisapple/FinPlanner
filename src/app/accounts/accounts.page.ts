@@ -15,21 +15,21 @@ export class AccountsPage implements OnInit {
 
   expandItem(item): void {
 
-    // item.expanded = !item.expanded
+    item.expanded = !item.expanded
 
-    if (item.expanded) {
-      item.expanded = false;
-    } else {
-      for (let each of this.expensesService.citiaccountGroups)
-        each["accounts"].map(listItem => {
-          if (item == listItem) {
-            listItem.expanded = !listItem.expanded;
-          } else {
-            listItem.expanded = false;
-          }
-          return listItem;
-        });
-    }
+    // if (item.expanded) {
+    //   item.expanded = false;
+    // } else {
+    //   for (let each of this.expensesService.citiaccountGroups)
+    //     each["accounts"].map(listItem => {
+    //       if (item == listItem) {
+    //         listItem.expanded = !listItem.expanded;
+    //       } else {
+    //         listItem.expanded = false;
+    //       }
+    //       return listItem;
+    //     });
+    // }
 
   }
 
@@ -172,23 +172,24 @@ export class AccountsPage implements OnInit {
             console.log(JSON.parse(body.toString()))
             console.log(JSON.parse(body.toString())["result"])
             expensesService.ocbcaccountGroups = JSON.parse(body.toString())["result"]
+           
+            for (let each of expensesService.ocbcaccountGroups) { // The 'ocbcaccountGroups' will be looped through
+             each["expanded"] = false;
+            }
+            console.log(expensesService.ocbcaccountGroups)
 
-            // for (let each of expensesService.allaccounts) {
-            //   var result = {}
+              // if (each.result == result) {
+              //   result["result"] = "Credit Cards" // Display the accountGroup in a neater manner, removing underscores and capitalising only on the first letter
+              // }
 
-            //   if (each.result == result) {
-            //     result["result"] = "Credit Cards" // Display the accountGroup in a neater manner, removing underscores and capitalising only on the first letter
-            //   }
+              // var results = []
 
-            //   var results = []
-
-            //   for (let account of each.results) {
-            //     console.log(account);
-            //     var values: Object = Object.values(account); // Get account information and exclude the key in the Object
-            //     values[0]["expanded"] = false
-            //     results.push(values[0]); // Add it to the expensesService.accounts array. values[0] as there is one array in an array. We don't want to make the array a nested array.
-            //   }
-            // }
+              // for (let account of each.results) {
+              //   console.log(account);
+              //   var values: Object = Object.values(account); // Get account information and exclude the key in the Object
+              //   values[0]["expanded"] = false
+              //   results.push(values[0]); // Add it to the expensesService.accounts array. values[0] as there is one array in an array. We don't want to make the array a nested array.
+              // }
           });          
           res.on("error", function (error) {
             console.error(error);
