@@ -11,6 +11,7 @@ export class ExpensesService {
   // Citibank
   citiAccounts = []; // Each array in the accountGroups array will contain the accountGroup and its associated accounts
   accountsloaded = false; // Variable to check if the user's accounts have loaded
+  transactionhistorycardId: String;
 
   // OCBC
   ocbcAccounts =[];

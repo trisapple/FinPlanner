@@ -226,4 +226,11 @@ export class AccountsPage implements OnInit {
     this.expensesService.transactionhistoryaccountId = account.accountId // Store the account id in a global variable so that the next page can fetch the transaction details and show the expenses summary
     this.navCtrl.navigateForward(['/accounts/spendinginsights']); // Navigate to the next page
   }
+
+  ocbctransactionhistory(each) {
+    console.log(each);
+    this.expensesService.transactionhistorytitle = each.cardDesc;
+    this.expensesService.transactionhistorycardId = each.cardId;
+    this.navCtrl.navigateForward(['/accounts/transactionhistory']);
+  }
 }
