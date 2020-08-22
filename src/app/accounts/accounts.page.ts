@@ -15,22 +15,32 @@ export class AccountsPage implements OnInit {
 
   expandItem(item): void {
 
-    item.expanded = !item.expanded
+    // Can expand as many ion-items the user wishes at any one time
+    // item.expanded = !item.expanded
 
-    // if (item.expanded) {
-    //   item.expanded = false;
-    // } else {
-    //   for (let each of this.expensesService.citiAccounts)
-    //     each["accounts"].map(listItem => {
-    //       if (item == listItem) {
-    //         listItem.expanded = !listItem.expanded;
-    //       } else {
-    //         listItem.expanded = false;
-    //       }
-    //       return listItem;
-    //     });
-    // }
-
+    // Only 1 ion-item can be expanded at any one time
+    if (item.expanded) {
+      item.expanded = false;
+    } else {
+      for (let each of this.expensesService.citiAccounts) {
+        each["accounts"].map(listItem => {
+          if (item == listItem) {
+            listItem.expanded = !listItem.expanded;
+          } else {
+            listItem.expanded = false;
+          }
+          return listItem;
+        });
+      }
+      this.expensesService.ocbcAccounts.map(listItem => {
+        if (item == listItem) {
+          listItem.expanded = !listItem.expanded;
+        } else {
+          listItem.expanded = false;
+        }
+        return listItem;
+      });
+    }
   }
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) {
@@ -157,14 +167,14 @@ export class AccountsPage implements OnInit {
           },
           'maxRedirects': 20
         };
-  
+
         var req = https.request(options, function (res) {
           var chunks = [];
-  
+
           res.on("data", function (chunk) {
             chunks.push(chunk);
           });
-  
+
           res.on("end", function (chunk) {
             expensesService.ocbcaccountsloaded = true // Set the accountsloaded to variable to true (indicate that the accounts have been loaded)
             var body = Buffer.concat(chunks);
@@ -172,17 +182,17 @@ export class AccountsPage implements OnInit {
             console.log(JSON.parse(body.toString()))
             console.log(JSON.parse(body.toString())["result"])
             expensesService.ocbcAccounts = JSON.parse(body.toString())["result"]
-           
+
             for (let each of expensesService.ocbcAccounts) { // The 'ocbcAccounts' will be looped through
-             each["expanded"] = false;
+              each["expanded"] = false;
             }
             console.log(expensesService.ocbcAccounts)
-          });          
+          });
           res.on("error", function (error) {
             console.error(error);
           });
         });
-  
+
         req.end();
       }
     }
