@@ -233,4 +233,11 @@ export class AccountsPage implements OnInit {
     this.expensesService.transactionhistorycardId = each.cardId;
     this.navCtrl.navigateForward(['/accounts/transactionhistory']);
   }
+
+  ocbcspendinginsights(each) {
+    console.log(each);
+    this.expensesService.transactionhistorytitle = each.cardDesc
+    this.expensesService.transactionhistorycardId = each.cardId 
+    this.navCtrl.navigateForward(['/accounts/spendinginsights']);
+  }
 }
