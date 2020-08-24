@@ -213,6 +213,8 @@ export class AccountsPage implements OnInit {
 
   // Onclick on list item to display account name and transaction history
   // Passing the account name and account id as a global variable to be accessed in the next screen
+
+  // Citibank
   transactionhistory(account) {
     console.log(account);
     this.expensesService.transactionhistorytitle = account.productName;
@@ -227,17 +229,18 @@ export class AccountsPage implements OnInit {
     this.navCtrl.navigateForward(['/accounts/spendinginsights']); // Navigate to the next page
   }
 
+  // OCBC
   ocbctransactionhistory(each) {
     console.log(each);
     this.expensesService.transactionhistorytitle = each.cardDesc;
-    this.expensesService.transactionhistorycardId = each.cardId;
+    this.expensesService.transactionhistoryaccountId = each.cardId;
     this.navCtrl.navigateForward(['/accounts/transactionhistory']);
   }
 
   ocbcspendinginsights(each) {
     console.log(each);
     this.expensesService.transactionhistorytitle = each.cardDesc
-    this.expensesService.transactionhistorycardId = each.cardId 
+    this.expensesService.transactionhistoryaccountId = each.cardId 
     this.navCtrl.navigateForward(['/accounts/spendinginsights']);
   }
 }
