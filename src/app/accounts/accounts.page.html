@@ -77,7 +77,7 @@
     <!-- Accounts -->
     <div *ngFor="let each of expensesService.ocbcAccounts">
       <ion-item (click)="expandItem(each)">
-     
+    
         <ion-label>
           <h2>{{ each.cardDesc}}</h2> <!-- Account Name -->
           <p>{{ each.maskedCardNo }}</p> <!-- Account Number -->
@@ -98,7 +98,7 @@
       </app-expandable>
     </div>
   </ion-list>
-</div>
+  </div>
 
 
   <!-- For quick testing using Ionic Serve -->
