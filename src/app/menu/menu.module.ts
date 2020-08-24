@@ -14,12 +14,13 @@ const routes: Routes = [
     path: '',
     component: MenuPage,
     children: [
-      { path: 'home', loadChildren: () => import('../home/home.module').then( m => m.HomePageModule) },
-      { path: 'login', loadChildren: () => import('../login/login.module').then( m => m.LoginPageModule) },
-      { path: 'courses', loadChildren: () => import('../courses/courses.module').then( m => m.CoursesPageModule) },
-      { path: 'faq', loadChildren: () => import('../faq/faq.module').then( m => m.FaqPageModule)},
-      { path: 'profile', loadChildren: () => import('../profile/profile.module').then( m => m.ProfilePageModule)},
-      { path: 'accounts', loadChildren: () => import('../accounts/accounts.module').then( m => m.AccountsPageModule)}
+      { path: 'home', loadChildren: () => import('../home/home.module').then(m => m.HomePageModule) },
+      { path: 'login', loadChildren: () => import('../login/login.module').then(m => m.LoginPageModule) },
+      { path: 'courses', loadChildren: () => import('../courses/courses.module').then(m => m.CoursesPageModule) },
+      { path: 'faq', loadChildren: () => import('../faq/faq.module').then(m => m.FaqPageModule) },
+      { path: 'profile', loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule) },
+      { path: 'accounts', loadChildren: () => import('../accounts/accounts.module').then(m => m.AccountsPageModule) },
+      { path: 'todolist', loadChildren: () => import('../todolist/todolist.module').then(m => m.TodolistPageModule) },
     ]
   }
 ];
@@ -34,4 +35,4 @@ const routes: Routes = [
   ],
   declarations: [MenuPage]
 })
-export class MenuPageModule {}
+export class MenuPageModule { }
