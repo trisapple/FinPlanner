@@ -10,6 +10,8 @@ import { ExpensesService } from '../../expenses.service';
 export class TransactionHistoryPage implements OnInit {
 
   constructor(public userService: UserService, public expensesService: ExpensesService) {
+
+    // Citibank
     if (userService.citiLogin == true) {
       retrieveCitiTransactions()
 
@@ -53,6 +55,8 @@ export class TransactionHistoryPage implements OnInit {
         req.end();
       }
     }
+
+    // OCBC
     if (userService.ocbcLogin == true) {
       retrieveOCBCTransactions()
 

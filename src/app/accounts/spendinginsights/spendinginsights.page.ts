@@ -15,6 +15,7 @@ export class SpendingInsightsPage implements OnInit {
     // We load the pieChart with ngif so that it will only show if the data is populated
     expensesService.pieChart = null
 
+    // Citibank's Spending Insights 
     if (userService.citiLogin == true) {
       retrieveCitiTransactions() // Get the transaction history for the selected account
 
@@ -141,6 +142,7 @@ export class SpendingInsightsPage implements OnInit {
       }
     }
 
+    // OCBC's Spending Insights 
     if (userService.ocbcLogin == true) {
       retrieveOCBCTransactions()
 

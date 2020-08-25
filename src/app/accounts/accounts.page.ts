@@ -50,6 +50,7 @@ export class AccountsPage implements OnInit {
       { expanded: false }
     ];
 
+    // Citibank
     if (userService.citiLogin == true) {
 
       // Check if the accounts have loaded. 
@@ -147,6 +148,8 @@ export class AccountsPage implements OnInit {
         req.end();
       }
     }
+
+    // OCBC
     if (userService.ocbcLogin == true) {
 
       if (expensesService.ocbcaccountsloaded == false) {
