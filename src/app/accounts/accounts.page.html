@@ -71,8 +71,7 @@
   <div *ngIf="userService.ocbcLogin">
   <ion-list>
     <ion-list-header style="font-size: 24px; font-weight: bold;">
-      OCBC Credit Cards <!-- Account Group Name -->
-      <!-- For now one will only be displayed -->
+      OCBC Credit Cards 
     </ion-list-header>
 
     <!-- Accounts -->
@@ -80,14 +79,12 @@
       <ion-item (click)="expandItem(each)">
     
         <ion-label>
-          <h2>{{ each.cardDesc}}</h2> <!-- Account Name -->
-          <p>{{ each.maskedCardNo }}</p> <!-- Account Number -->
+          <h2>{{ each.cardDesc}}</h2> <!-- Card Name -->
+          <p>{{ each.maskedCardNo }}</p> <!-- Card Number -->
         </ion-label>
 
         <!-- OCBC Credit Cards -->
         <p style="margin-right: 16px">{{ (each.availableBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
-
-        <!-- <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">{{ (i.value.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p> -->
         <ion-icon *ngIf="!each.expanded" name="chevron-forward"></ion-icon>
         <ion-icon *ngIf="each.expanded" name="chevron-down"></ion-icon>
       </ion-item>
