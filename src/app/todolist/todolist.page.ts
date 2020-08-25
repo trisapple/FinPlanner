@@ -13,7 +13,7 @@ export class TodolistPage implements OnInit {
   ngOnInit() {
   }
 
-  nextPage() {
+  addTodo() {
     this.navCtrl.navigateForward(['/todolist/add']);
   }
 
