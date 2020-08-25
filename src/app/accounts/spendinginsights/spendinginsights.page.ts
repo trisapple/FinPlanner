@@ -155,7 +155,7 @@ export class SpendingInsightsPage implements OnInit {
           'port': 8243,
           'path': '/transactional/creditcardhistorybilled/1.0?cardId=' + expensesService.transactionhistoryaccountId + '&fromDate=24-04-2018&toDate=30-04-2018',
           'headers': {
-            'Authorization': 'Bearer e9907b0acea2e822d906e1e9e0db8330',
+            'Authorization': 'Bearer e748e2c68bae6fa287cedb352b26229a',
             'Cookie': 'visid_incap_1634122=SRmhj8YhRvWQPojeLSlj4XtPMl8AAAAAQUIPAAAAAAAKZkRHRjUakyUf5nfcXdLl; nlbi_1634122=SFkScBc1uxeqgcSTZPv8YwAAAADI2TTkpbJ1KZC36SDns83U; incap_ses_500_1634122=ZORcdal0YVBiHAd3bFvwBvJvQl8AAAAApBy8NblTnJou6+AQus4cPQ=='
           },
           'maxRedirects': 20

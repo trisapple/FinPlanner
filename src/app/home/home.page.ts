@@ -150,7 +150,7 @@ export class HomePage {
     if (this.activatedRoute.snapshot.queryParams['access_token']) {
       // console.log(this.activatedRoute.snapshot.queryParams['access_token'])
       userService.ocbcLogin = true
-      userService.ocbcaccessToken = "e9907b0acea2e822d906e1e9e0db8330"
+      userService.ocbcaccessToken = "e748e2c68bae6fa287cedb352b26229a"
       navCtrl.navigateRoot('/accounts')
     }
   }
