@@ -14,7 +14,7 @@ export class TodolistPage implements OnInit {
   }
 
   nextPage() {
-    this.navCtrl.navigateForward(['/accounts/spendinginsights']);
+    this.navCtrl.navigateForward(['/todolist/add']);
   }
 
 }
