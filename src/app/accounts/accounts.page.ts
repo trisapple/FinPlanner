@@ -165,7 +165,7 @@ export class AccountsPage implements OnInit {
           'port': 8243,
           'path': '/transactional/creditcardlisting/1.0',
           'headers': {
-            'Authorization': 'Bearer e748e2c68bae6fa287cedb352b26229a',
+            'Authorization': 'Bearer ' + userService.ocbcaccessToken,
             'Cookie': 'visid_incap_1634122=z3xtAN2xSiSHYiaqILb6yDSYPl8AAAAAQUIPAAAAAACwkEV6njlIOeQyUjtckt9o; nlbi_1634122=B5NSf4KDuGB8wZN6ZPv8YwAAAADP/vVam6LDQQ9qBxTbwi5q; incap_ses_944_1634122=1WzXBzs+FijsJKvlFsMZDUxGP18AAAAA2LYhS6z1dLGagQqp1SrUHA=='
           },
           'maxRedirects': 20
