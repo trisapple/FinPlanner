@@ -84,7 +84,6 @@ export class TransactionHistoryPage implements OnInit {
 
           res.on("end", function (chunk) {
             var body = Buffer.concat(chunks);
-            // console.log(body.toString());
             expensesService.transactions = JSON.parse(body.toString())["results"]["creditCardTransactions"]["creditCardTransactionDetail"]
           });
 
