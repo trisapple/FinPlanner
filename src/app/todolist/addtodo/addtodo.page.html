@@ -9,7 +9,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-input type="text" placeholder="Reminder Name" class="input" padding-horizontal clear-input="true"></ion-input>
+  <ion-input type="text" placeholder="Reminder Name" [(ngModel)]="name" class="input" padding-horizontal clear-input="true"></ion-input>
   <br>
   <div style="text-align: center;">
     <ion-button (click)="addTodo()">Add To-do</ion-button>
