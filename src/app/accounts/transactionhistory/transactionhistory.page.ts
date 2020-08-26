@@ -9,6 +9,8 @@ import { ExpensesService } from '../../expenses.service';
 })
 export class TransactionHistoryPage implements OnInit {
 
+  ocbcCreditCardTransaction = false;
+
   constructor(public userService: UserService, public expensesService: ExpensesService) {
 
     // Citibank
@@ -81,10 +83,15 @@ export class TransactionHistoryPage implements OnInit {
           res.on("data", function (chunk) {
             chunks.push(chunk);
           });
-
+          
           res.on("end", function (chunk) {
             var body = Buffer.concat(chunks);
             expensesService.transactions = JSON.parse(body.toString())["results"]["creditCardTransactions"]["creditCardTransactionDetail"]
+            if (expensesService.transactions.length == 0) {
+              this.ocbcCreditCardTransaction = true;
+            }
+            console.log(expensesService.transactions)
+            console.log(this.ocbcCreditCardTransaction)
           });
 
           res.on("error", function (error) {
