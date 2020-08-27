@@ -11,10 +11,11 @@ import { TodoListService } from '../todo-list.service';
 export class TodolistPage implements OnInit {
 
   constructor(public navCtrl: NavController, public todolistService: TodoListService) {
-    this.todolistService.getTodo()
+    
   }
 
   ngOnInit() {
+    this.todolistService.getTodo()
   }
 
   addTodo() {

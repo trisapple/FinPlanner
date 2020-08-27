@@ -15,12 +15,14 @@ export class AddtodoPage implements OnInit {
   date: Date
   time: Time
 
-  constructor(public navCtrl: NavController, public firestore: AngularFirestore, public todolistService: TodoListService) { }
+  constructor(public navCtrl: NavController, public firestore: AngularFirestore, public todolistService: TodoListService) { 
+
+  }
 
   ngOnInit() {
   }
 
-  addTodo() {
+  public addTodo() {
     var reminder = {}
     console.log(this.todolistService.todoList)
     reminder["name"] = this.name
@@ -31,9 +33,17 @@ export class AddtodoPage implements OnInit {
     console.log(this.name)
     console.log(this.date)
     console.log(this.time)
-    this.firestore.collection<any>('users').doc("1802328C@student.tp.edu.sg").update({todolist: this.todolistService.todoList})
-    this.todolistService.getTodo()
-    this.navCtrl.pop()
+    this.firestore.collection<any>('users').doc("1802328C@student.tp.edu.sg").update({
+      todolist: this.todolistService.todoList
+    })
+    .then(value => {
+      console.log("then function run")
+      this.todolistService.getTodo()
+      this.navCtrl.pop()
+    })
+    .catch(value => {
+      console.log(value)
+    })
   }
 
 }
