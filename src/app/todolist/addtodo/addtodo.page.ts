@@ -22,25 +22,30 @@ export class AddtodoPage implements OnInit {
   ngOnInit() {
   }
 
-  public addTodo() {
-    var reminder = {}
+  addTodo() {
+    var todo = {} // Temporary New todo Object
     console.log(this.todolistService.todoList)
-    reminder["name"] = this.name
-    reminder["dueDate"] = new Date()
-    console.log(reminder["dueDate"])
-    console.log(reminder)
-    this.todolistService.todoList.push(reminder)
+    todo["name"] = this.name // Set the name of the New todo Object
+    todo["dueDate"] = new Date() // Set the date of the New todo Object to today's date for now
+    this.todolistService.todoList.push(todo) // Add the newly added todo to the todoList array
+    
+    // For logging
+    console.log(todo["dueDate"])
+    console.log(todo)
     console.log(this.name)
     console.log(this.date)
     console.log(this.time)
+
+    // Update the user's todoList with the newly added todo added to the todoList array
     this.firestore.collection<any>('users').doc("1802328C@student.tp.edu.sg").update({
       todolist: this.todolistService.todoList
     })
+    // After it is updated, refresh the todolist and go back.
     .then(value => {
-      console.log("then function run")
       this.todolistService.getTodo()
       this.navCtrl.pop()
     })
+    // Log and catch the error
     .catch(value => {
       console.log(value)
     })

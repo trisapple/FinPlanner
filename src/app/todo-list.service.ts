@@ -13,28 +13,30 @@ export class TodoListService {
     // this.usersCollectionRef = this.firestore.collection<any>('users'); // Get the 'users' collection in Firebase Cloud Firestore
   }
 
-  public getTodo() {
+  getTodo() {
     let sub: Subscription = this.firestore.collection<any>('users').doc("1802328C@student.tp.edu.sg").valueChanges().subscribe((data) => {
       console.log(data)
+
+      // If the user has no todolist variable, create it for them
       if (data["todolist"] == undefined) {
         console.log("Data undefined run")
         this.firestore.collection<any>('users').doc("1802328C@student.tp.edu.sg").update({
           todolist: this.todoList
         })
       }
+
+      // If the user has an existing todolist variable, put it into the todoList array to display it in html.
       else {
         this.todoList = data["todolist"]
       }
+
+      // For logging
       console.log(this.todoList)
       for (let each of this.todoList) {
         console.log(each)
         console.log(each.name)
         console.log(each.dueDate)
       }
-      // this.userService.loggedin = true;
-      // this.userService.name = data["name"];
-      // this.userService.email = this.email;
-      // this.userService.provider = "Email and Password";
 
       sub.unsubscribe();
     });

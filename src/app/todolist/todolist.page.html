@@ -19,8 +19,8 @@
     <ion-item>
       <ion-checkbox color="primary" slot="start"></ion-checkbox>
       <ion-label>
-        <h2 *ngIf="each.name">{{ each.name }}</h2>
-        <p *ngIf="each.dueDate.toDate()">{{ each.dueDate.toDate() }}</p>
+        <h2 *ngIf="each.name">{{ each.name }}</h2> <!-- Name -->
+        <p *ngIf="each.dueDate.toDate()">{{ each.dueDate.toDate() }}</p> <!-- Due Date -->
       </ion-label>
     </ion-item>
   </ion-list>
