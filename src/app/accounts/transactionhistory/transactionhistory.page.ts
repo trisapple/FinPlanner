@@ -88,10 +88,10 @@ export class TransactionHistoryPage implements OnInit {
             var body = Buffer.concat(chunks);
             expensesService.transactions = JSON.parse(body.toString())["results"]["creditCardTransactions"]["creditCardTransactionDetail"]
             if (expensesService.transactions.length == 0) {
-              expensesService.ocbcCreditCardTransaction = true;
+              expensesService.ocbcCreditCardTransaction = false;
             }
             else {
-              expensesService.ocbcCreditCardTransaction = false;
+              expensesService.ocbcCreditCardTransaction = true;
             }
             console.log(expensesService.transactions.length)
             console.log(expensesService.ocbcCreditCardTransaction)
