@@ -9,7 +9,7 @@ import { ExpensesService } from '../../expenses.service';
 })
 export class TransactionHistoryPage implements OnInit {
 
-  ocbcCreditCardTransaction = false;
+  // ocbcCreditCardTransaction = false;
 
   constructor(public userService: UserService, public expensesService: ExpensesService) {
 
@@ -88,10 +88,13 @@ export class TransactionHistoryPage implements OnInit {
             var body = Buffer.concat(chunks);
             expensesService.transactions = JSON.parse(body.toString())["results"]["creditCardTransactions"]["creditCardTransactionDetail"]
             if (expensesService.transactions.length == 0) {
-              this.ocbcCreditCardTransaction = true;
+              expensesService.ocbcCreditCardTransaction = true;
             }
-            console.log(expensesService.transactions)
-            console.log(this.ocbcCreditCardTransaction)
+            else {
+              expensesService.ocbcCreditCardTransaction = false;
+            }
+            console.log(expensesService.transactions.length)
+            console.log(expensesService.ocbcCreditCardTransaction)
           });
 
           res.on("error", function (error) {
