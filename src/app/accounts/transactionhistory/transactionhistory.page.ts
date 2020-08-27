@@ -87,11 +87,11 @@ export class TransactionHistoryPage implements OnInit {
           res.on("end", function (chunk) {
             var body = Buffer.concat(chunks);
             expensesService.transactions = JSON.parse(body.toString())["results"]["creditCardTransactions"]["creditCardTransactionDetail"]
-            if (expensesService.transactions.length == 0) {
-              expensesService.ocbcCreditCardTransaction = false;
+            if (expensesService.transactions.length == 0) { // If the array is empty
+              expensesService.ocbcCreditCardTransaction = false; // No transaction history
             }
-            else {
-              expensesService.ocbcCreditCardTransaction = true;
+            else { // If array is not empty 
+              expensesService.ocbcCreditCardTransaction = true; // Has transaction history
             }
             console.log(expensesService.transactions.length)
             console.log(expensesService.ocbcCreditCardTransaction)
