@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Update To-do</ion-title>
+    <!-- Side menu button -->
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-input type="text" placeholder="Reminder Name" [(ngModel)]="todolistService.name" class="input" padding-horizontal clear-input="true"></ion-input>
+  <br>
+  <ion-item>
+    <ion-label>Remind me on </ion-label>
+    <ion-datetime displayFormat="DD MMMM YYYY h:mm A" picker-format="DD MMM YYYY h:mm A" [(ngModel)]="todolistService.date" placeholder="Select Date and Time"></ion-datetime>
+  </ion-item>
+  <br>
+  <!-- <ion-item>
+    <ion-label>Remind me on Time</ion-label>
+    <ion-datetime display-format="h:mm A" picker-format="h:mm A" [(ngModel)]="time" placeholder="Select Time"></ion-datetime>
+  </ion-item> -->
+  <br>
+  <div style="text-align: center;">
+    <ion-button (click)="updateTodo()">Update To-do</ion-button>
+  </div>
+  
+</ion-content>

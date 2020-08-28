@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
 import { TodoListService } from '../todo-list.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 
@@ -21,6 +20,12 @@ export class TodolistPage implements OnInit {
 
   addTodo() {
     this.navCtrl.navigateForward(['/todolist/add']);
+  }
+
+  updateTodo(each) {
+    this.todolistService.name = each.name
+    this.todolistService.date = new Date(each.dueDate.toDate()).toISOString()
+    this.navCtrl.navigateForward(['/todolist/update']);
   }
 
   deleteTodo(index) {

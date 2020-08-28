@@ -9,6 +9,10 @@ export class TodoListService {
 
   todoList = []
 
+  // Update todo
+  name: String
+  date: String
+
   constructor(public firestore: AngularFirestore) {
     // this.usersCollectionRef = this.firestore.collection<any>('users'); // Get the 'users' collection in Firebase Cloud Firestore
   }
