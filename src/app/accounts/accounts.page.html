@@ -30,72 +30,72 @@
 
   <!-- Citibank -->
   <div *ngIf="userService.citiLogin">
-  <ion-list *ngFor="let each of expensesService.citiAccounts">
-    <ion-list-header style="font-size: 24px; font-weight: bold;">
-      {{ each.accountGroup }} <!-- Account Group Name -->
-      <!-- For now one will only be displayed -->
-    </ion-list-header>
+    <ion-list *ngFor="let each of expensesService.citiAccounts">
+      <ion-list-header style="font-size: 24px; font-weight: bold;">
+        {{ each.accountGroup }} <!-- Account Group Name -->
+        <!-- For now one will only be displayed -->
+      </ion-list-header>
 
-    <!-- Accounts -->
-    <div *ngFor="let account of each.accounts">
-      <ion-item (click)="expandItem(account)">
-        <ion-label>
-          <h2>{{ account.productName }}</h2> <!-- Account Name -->
-          <p>{{ account.displayAccountNumber }}</p> <!-- Account Number -->
-        </ion-label>
+      <!-- Accounts -->
+      <div *ngFor="let account of each.accounts">
+        <ion-item (click)="expandItem(account)">
+          <ion-label>
+            <h2>{{ account.productName }}</h2> <!-- Account Name -->
+            <p>{{ account.displayAccountNumber }}</p> <!-- Account Number -->
+          </ion-label>
 
-        <!-- For Savings and Investments accounts, and more -->
-        <p *ngIf="account.currentBalance" style="margin-right: 16px">{{ (account.currentBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+          <!-- For Savings and Investments accounts, and more -->
+          <p *ngIf="account.currentBalance" style="margin-right: 16px">{{ (account.currentBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
 
-        <!-- For Credit Cards accounts -->
-        <p *ngIf="account.availableCredit" style="margin-right: 16px">{{ (account.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+          <!-- For Credit Cards accounts -->
+          <p *ngIf="account.availableCredit" style="margin-right: 16px">{{ (account.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
 
-        <!-- For Insurance accounts -->
-        <p *ngIf="account.totalPremiumPaidAmount" style="margin-right: 16px">{{ (account.totalPremiumPaidAmount).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+          <!-- For Insurance accounts -->
+          <p *ngIf="account.totalPremiumPaidAmount" style="margin-right: 16px">{{ (account.totalPremiumPaidAmount).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
 
-        <!-- <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">{{ (i.value.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p> -->
-        <ion-icon *ngIf="!account.expanded" name="chevron-forward"></ion-icon>
-        <ion-icon *ngIf="account.expanded" name="chevron-down"></ion-icon>
-      </ion-item>
-      <app-expandable expandHeight="100px" [expanded]="account.expanded">
-        <ion-item>
-          <ion-label style="justify-content: center; display: flex;"><ion-button (click)="spendinginsights(account)">View Spending Insights</ion-button></ion-label>
-          <ion-label style="justify-content: center; display: flex;"><ion-button (click)="transactionhistory(account)">View Transaction History</ion-button></ion-label>
+          <!-- <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">{{ (i.value.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p> -->
+          <ion-icon *ngIf="!account.expanded" name="chevron-forward"></ion-icon>
+          <ion-icon *ngIf="account.expanded" name="chevron-down"></ion-icon>
         </ion-item>
-      </app-expandable>
-    </div>
-  </ion-list>
+        <app-expandable expandHeight="100px" [expanded]="account.expanded">
+          <ion-item>
+            <ion-label style="justify-content: center; display: flex;"><ion-button (click)="spendinginsights(account)">View Spending Insights</ion-button></ion-label>
+            <ion-label style="justify-content: center; display: flex;"><ion-button (click)="transactionhistory(account)">View Transaction History</ion-button></ion-label>
+          </ion-item>
+        </app-expandable>
+      </div>
+    </ion-list>
   </div>
 
   <!-- OCBC -->
   <div *ngIf="userService.ocbcLogin">
-  <ion-list>
-    <ion-list-header style="font-size: 24px; font-weight: bold;">
-      OCBC Credit Cards 
-    </ion-list-header>
+    <ion-list>
+      <ion-list-header style="font-size: 24px; font-weight: bold;">
+        OCBC Credit Cards 
+      </ion-list-header>
 
-    <!-- Accounts -->
-    <div *ngFor="let each of expensesService.ocbcAccounts">
-      <ion-item (click)="expandItem(each)">
-    
-        <ion-label>
-          <h2>{{ each.cardDesc}}</h2> <!-- Card Name -->
-          <p>{{ each.maskedCardNo }}</p> <!-- Card Number -->
-        </ion-label>
+      <!-- Accounts -->
+      <div *ngFor="let each of expensesService.ocbcAccounts">
+        <ion-item (click)="expandItem(each)">
+      
+          <ion-label>
+            <h2>{{ each.cardDesc}}</h2> <!-- Card Name -->
+            <p>{{ each.maskedCardNo }}</p> <!-- Card Number -->
+          </ion-label>
 
-        <!-- OCBC Credit Cards -->
-        <p style="margin-right: 16px">{{ (each.availableBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
-        <ion-icon *ngIf="!each.expanded" name="chevron-forward"></ion-icon>
-        <ion-icon *ngIf="each.expanded" name="chevron-down"></ion-icon>
-      </ion-item>
-      <app-expandable expandHeight="100px" [expanded]="each.expanded">
-        <ion-item>
-          <ion-label style="justify-content: center; display: flex;"><ion-button (click)="ocbcspendinginsights(each)">View Spending Insights</ion-button></ion-label>
-          <ion-label style="justify-content: center; display: flex;"><ion-button (click)="ocbctransactionhistory(each)">View Transaction History</ion-button></ion-label>
+          <!-- OCBC Credit Cards -->
+          <p style="margin-right: 16px">{{ (each.availableBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+          <ion-icon *ngIf="!each.expanded" name="chevron-forward"></ion-icon>
+          <ion-icon *ngIf="each.expanded" name="chevron-down"></ion-icon>
         </ion-item>
-      </app-expandable>
-    </div>
-  </ion-list>
+        <app-expandable expandHeight="100px" [expanded]="each.expanded">
+          <ion-item>
+            <ion-label style="justify-content: center; display: flex;"><ion-button (click)="ocbcspendinginsights(each)">View Spending Insights</ion-button></ion-label>
+            <ion-label style="justify-content: center; display: flex;"><ion-button (click)="ocbctransactionhistory(each)">View Transaction History</ion-button></ion-label>
+          </ion-item>
+        </app-expandable>
+      </div>
+    </ion-list>
   </div>
 
 
