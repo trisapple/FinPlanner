@@ -12,14 +12,14 @@
   <ion-input type="text" placeholder="Reminder Name" [(ngModel)]="name" class="input" padding-horizontal clear-input="true"></ion-input>
   <br>
   <ion-item>
-    <ion-label>Remind me on Date</ion-label>
-    <ion-datetime displayFormat="DD MMMM YYYY h:mm A" displayFormat="DD MMM YYYY h:mm A" [(ngModel)]="date" placeholder="Select Date"></ion-datetime>
+    <ion-label>Remind me on </ion-label>
+    <ion-datetime displayFormat="DD MMMM YYYY h:mm A" picker-format="DD MMM YYYY h:mm A" [(ngModel)]="date" placeholder="Select Date and Time"></ion-datetime>
   </ion-item>
   <br>
-  <ion-item>
+  <!-- <ion-item>
     <ion-label>Remind me on Time</ion-label>
     <ion-datetime display-format="h:mm A" picker-format="h:mm A" [(ngModel)]="time" placeholder="Select Time"></ion-datetime>
-  </ion-item>
+  </ion-item> -->
   <br>
   <div style="text-align: center;">
     <ion-button (click)="addTodo()">Add To-do</ion-button>
