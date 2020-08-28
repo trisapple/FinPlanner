@@ -11,24 +11,29 @@
 <ion-content class="ion-padding">
   
   <!-- Pie Chart from Google Charts -->
-  <google-chart *ngIf="expensesService.pieChart" [data]="expensesService.pieChart"></google-chart>
+  <div *ngIf="expensesService.ocbcCreditCardTransaction">
+    <google-chart *ngIf="expensesService.pieChart" [data]="expensesService.pieChart"></google-chart>
 
-  <ion-text>Top Expenses</ion-text>
+    <ion-text>Top Expenses</ion-text>
 
-  <ion-grid>
-    <!-- Loop through the array and display the expenses -->
-    <div *ngFor="let i of expensesService.pieChartData2">
-      <ion-row style="margin-top: 6px;">
-        <ion-text>{{ i[0] }}</ion-text>
-      </ion-row>
-      <ion-row style="margin-top: 6px;">
-        <ion-text>{{ i[1].toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text>
-      </ion-row>
-      <ion-row style="margin-top: 6px;">
-        <ion-progress-bar [value]="i[1]/expensesService.total"></ion-progress-bar>
-      </ion-row>
-      <br>
-    </div>
-  </ion-grid>
+    <ion-grid>
+      <!-- Loop through the array and display the expenses -->
+      <div *ngFor="let i of expensesService.pieChartData2">
+        <ion-row style="margin-top: 6px;">
+          <ion-text>{{ i[0] }}</ion-text>
+        </ion-row>
+        <ion-row style="margin-top: 6px;">
+          <ion-text>{{ i[1].toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</ion-text>
+        </ion-row>
+        <ion-row style="margin-top: 6px;">
+          <ion-progress-bar [value]="i[1]/expensesService.total"></ion-progress-bar>
+        </ion-row>
+        <br>
+      </div>
+    </ion-grid>
+  </div>
+  <ion-label *ngIf="!expensesService.ocbcCreditCardTransaction">
+    <b style = "font-size: 20px">No Spending Insights</b>
+  </ion-label>
 
 </ion-content>

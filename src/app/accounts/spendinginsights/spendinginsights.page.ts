@@ -172,7 +172,14 @@ export class SpendingInsightsPage implements OnInit {
             var body = Buffer.concat(chunks);
             // console.log(body.toString());
             expensesService.transactions = JSON.parse(body.toString())["results"]["creditCardTransactions"]["creditCardTransactionDetail"]
-            console.log(expensesService.transactions)
+            if (expensesService.transactions.length == 0) { // If the array is empty
+              expensesService.ocbcCreditCardTransaction = false; // False means there is no transaction history
+            }
+            else { // If array is not empty 
+              expensesService.ocbcCreditCardTransaction = true; // True means there is transaction history
+            }
+            console.log(expensesService.transactions.length)
+            console.log(expensesService.ocbcCreditCardTransaction)
 
             var obj = {}
             var lifestyle = 0
