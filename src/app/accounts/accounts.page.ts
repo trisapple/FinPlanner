@@ -206,7 +206,7 @@ export class AccountsPage implements OnInit {
 
   // Redirect users to Citibank Login when user clicks on the 'Connect' Button
   citiconnect() {
-    window.open("https://sandbox.apihub.citi.com/gcb/api/authCode/oauth2/authorize?response_type=code&client_id=05451865-7d39-4704-b495-803f11d2dd09&scope=accounts_details_transactions&countryCode=SG&businessCode=GCB&locale=en_SG&state=12093&redirect_uri=http://ionicfirebase-a8213.web.app", "_blank");
+    window.open("https://sandbox.apihub.citi.com/gcb/api/authCode/oauth2/authorize?response_type=code&client_id=05451865-7d39-4704-b495-803f11d2dd09&scope=accounts_details_transactions&countryCode=SG&businessCode=GCB&locale=en_SG&state=12093&redirect_uri=https://ionicfirebase-a8213.web.app", "_blank");
   }
 
   // Redirect users to OCBC Login when user clicks on the 'Connect' Button

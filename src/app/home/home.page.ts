@@ -138,7 +138,7 @@ export class HomePage {
         var postData = qs.stringify({
           'grant_type': 'authorization_code',
           'code': this.userService.citiauthorisationCode,
-          'redirect_uri': 'http://ionicfirebase-a8213.web.app'
+          'redirect_uri': 'https://ionicfirebase-a8213.web.app'
         });
 
         req.write(postData);
