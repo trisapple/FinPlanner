@@ -21,6 +21,7 @@ export class ExpensesService {
   transactionhistorytitle: String // Display the account name on the ion-header
   transactionhistoryaccountId: String // Account id to be passed to the request path
 
+  // Piechart
   pieChart: GoogleChartInterface // Display the piechart
   pieChartData = [] // Pie Chart Data with key value data in array form [["category", "Amount"], ["Food", 83.65], ... ]
   pieChartData2 = [] // Pie Chart Data with key value data in array form excluding ["category", "Amount"] from pieChartData
