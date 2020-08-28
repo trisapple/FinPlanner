@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { TodoListService } from 'src/app/todo-list.service';
 import { Time } from '@angular/common';
@@ -15,7 +15,7 @@ export class AddtodoPage implements OnInit {
   date: Date
   // time: Time
 
-  constructor(public navCtrl: NavController, public firestore: AngularFirestore, public todolistService: TodoListService) {
+  constructor(public navCtrl: NavController, public firestore: AngularFirestore, public todolistService: TodoListService, public toastCtrl: ToastController) {
 
   }
 
@@ -24,7 +24,7 @@ export class AddtodoPage implements OnInit {
 
   addTodo() {
     if (this.name == undefined || this.name == "" || this.date == undefined) {
-      alert("Please enter a reminder name and date to be reminded")
+      this.presentToast('Please enter a reminder name and date to be reminded', 'middle', 2000);
     } else {
       var todo = {} // Temporary New todo Object
       console.log(this.todolistService.todoList)
@@ -54,6 +54,15 @@ export class AddtodoPage implements OnInit {
         })
     }
 
+  }
+
+  async presentToast(message, position, duration) {
+    const toast = await this.toastCtrl.create({
+      message,
+      position,
+      duration,
+    });
+    toast.present();
   }
 
 }
