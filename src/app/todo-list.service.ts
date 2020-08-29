@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +15,18 @@ export class TodoListService {
   date: string
   index: any
 
-  constructor(public firestore: AngularFirestore) {
+  constructor(public firestore: AngularFirestore, public userService: UserService) {
     // this.usersCollectionRef = this.firestore.collection<any>('users'); // Get the 'users' collection in Firebase Cloud Firestore
   }
 
   getTodo() {
-    let sub: Subscription = this.firestore.collection<any>('users').doc("1802328C@student.tp.edu.sg").valueChanges().subscribe((data) => {
+    let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.email).valueChanges().subscribe((data) => {
       console.log(data)
 
       // If the user has no todolist variable, create it for them
       if (data["todolist"] == undefined) {
         console.log("Data undefined run")
-        this.firestore.collection<any>('users').doc("1802328C@student.tp.edu.sg").update({
+        this.firestore.collection<any>('users').doc(this.userService.email).update({
           todolist: this.todoList
         })
       }

@@ -50,6 +50,7 @@ export class LoginPage implements OnInit {
 
             let sub: Subscription = this.userService.login(this.email).subscribe((data) => {
 
+              console.log(data)
               this.userService.loggedin = true;
               this.userService.name = data["name"];
               this.userService.email = this.email;
