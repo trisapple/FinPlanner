@@ -3,6 +3,7 @@ import { NavController, ToastController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { TodoListService } from 'src/app/todo-list.service';
 import { Time } from '@angular/common';
+import { UserService } from 'src/app/user.service';
 
 @Component({
   selector: 'app-addtodo',
@@ -15,7 +16,7 @@ export class AddtodoPage implements OnInit {
   date: Date
   // time: Time
 
-  constructor(public navCtrl: NavController, public firestore: AngularFirestore, public todolistService: TodoListService, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public firestore: AngularFirestore, public todolistService: TodoListService, public toastCtrl: ToastController, public userService: UserService) {
 
   }
 
@@ -40,7 +41,7 @@ export class AddtodoPage implements OnInit {
       // console.log(this.time)
 
       // Update the user's todoList with the newly added todo added to the todoList array
-      this.firestore.collection<any>('users').doc("1802328C@student.tp.edu.sg").update({
+      this.firestore.collection<any>('users').doc(this.userService.uid).update({
         todolist: this.todolistService.todoList
       })
         // After it is updated, refresh the todolist and go back.

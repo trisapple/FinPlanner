@@ -12,6 +12,7 @@ export class UserService {
   loggedin = false; // Check if the user is logged in
   name: String;
   email: string;
+  uid: string;
   profilePicture: String;
 
   // Citibank
@@ -35,8 +36,8 @@ export class UserService {
     return this.firestore.collection<any>('users').doc(email).valueChanges(); // Get the email (document) of the user, so we can get the firstname, lastname, email, password
   }
 
-  signup(name: string, email: string) {
-    this.firestore.collection<any>('users').doc(email).set({name});
+  signup(name: string, email: string, uid: string) {
+    this.firestore.collection<any>('users').doc(uid).set({name: name, email: email});
   }
 
   updateProfile(name: string) {

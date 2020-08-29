@@ -33,7 +33,7 @@ export class RegisterPage implements OnInit {
       this.fireauth.createUserWithEmailAndPassword(this.email, this.password)
       .then(async res => {
           console.log(res.user);
-          this.userService.signup(this.name, this.email);
+          this.userService.signup(this.name, this.email, res.user.uid);
           const user = this.fireauth.currentUser;
           (await user).sendEmailVerification();
           this.presentToast('Registered successfully! Email verification has been sent!', 'middle', 2000);

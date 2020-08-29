@@ -20,13 +20,13 @@ export class TodoListService {
   }
 
   getTodo() {
-    let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.email).valueChanges().subscribe((data) => {
+    let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
       console.log(data)
 
       // If the user has no todolist variable, create it for them
       if (data["todolist"] == undefined) {
         console.log("Data undefined run")
-        this.firestore.collection<any>('users').doc(this.userService.email).update({
+        this.firestore.collection<any>('users').doc(this.userService.uid).update({
           todolist: this.todoList
         })
       }

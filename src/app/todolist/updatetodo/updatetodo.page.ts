@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TodoListService } from 'src/app/todo-list.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { NavController } from '@ionic/angular';
+import { UserService } from 'src/app/user.service';
 
 @Component({
   selector: 'app-updatetodo',
@@ -10,7 +11,7 @@ import { NavController } from '@ionic/angular';
 })
 export class UpdatetodoPage implements OnInit {
 
-  constructor(public todolistService: TodoListService, public firestore: AngularFirestore, public navCtrl: NavController) {
+  constructor(public todolistService: TodoListService, public firestore: AngularFirestore, public navCtrl: NavController, public userService: UserService) {
     console.log(todolistService.name)
     console.log(todolistService.date)
     console.log(todolistService.index)
@@ -27,7 +28,7 @@ export class UpdatetodoPage implements OnInit {
     this.todolistService.todoList[this.todolistService.index] = todo // Update the properties of the todo
 
     // Update the user's todoList with the newly added todo added to the todoList array
-    this.firestore.collection<any>('users').doc("1802328C@student.tp.edu.sg").update({
+    this.firestore.collection<any>('users').doc(this.userService.uid).update({
       todolist: this.todolistService.todoList
     })
       // After it is updated, refresh the todolist and go back.

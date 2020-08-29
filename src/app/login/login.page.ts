@@ -48,12 +48,13 @@ export class LoginPage implements OnInit {
           if (res.user.emailVerified) { // To check whether has the user verified his/her email
             console.log(res.user);
 
-            let sub: Subscription = this.userService.login(this.email).subscribe((data) => {
+            let sub: Subscription = this.userService.login(res.user.uid).subscribe((data) => {
 
               console.log(data)
               this.userService.loggedin = true;
+              this.userService.uid = res.user.uid
               this.userService.name = data["name"];
-              this.userService.email = this.email;
+              this.userService.email = data["email"];
               this.userService.provider = "Email and Password";
 
               sub.unsubscribe();

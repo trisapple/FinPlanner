@@ -37,7 +37,7 @@ export class TodolistPage implements OnInit {
     this.todolistService.todoList.splice(index, 1)
 
     // Update the user's todoList with the newly added todo added to the todoList array
-    this.firestore.collection<any>('users').doc(this.userService.email).update({
+    this.firestore.collection<any>('users').doc(this.userService.uid).update({
       todolist: this.todolistService.todoList
     })
       // After it is updated, refresh the todolist and go back.
