@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoListService } from 'src/app/todo-list.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-updatetodo',
@@ -8,21 +10,35 @@ import { TodoListService } from 'src/app/todo-list.service';
 })
 export class UpdatetodoPage implements OnInit {
 
-  // name: String
-  // date: String
-
-  constructor(public todolistService: TodoListService) { 
-    // this.name = this.activatedRoute.snapshot.paramMap.get('name')
+  constructor(public todolistService: TodoListService, public firestore: AngularFirestore, public navCtrl: NavController) {
     console.log(todolistService.name)
     console.log(todolistService.date)
-    // this.date = this.activatedRoute.snapshot.paramMap.get('date')
+    console.log(todolistService.index)
   }
 
   ngOnInit() {
   }
 
-  updateTodo(){
+  updateTodo() {
+    var todo = {} // Temporary New todo Object
+    console.log(this.todolistService.todoList)
+    todo["name"] = this.todolistService.name // Set the name of the New todo Object
+    todo["dueDate"] = new Date(this.todolistService.date) // Set the date of the New todo Object.
+    this.todolistService.todoList[this.todolistService.index] = todo // Update the properties of the todo
 
+    // Update the user's todoList with the newly added todo added to the todoList array
+    this.firestore.collection<any>('users').doc("1802328C@student.tp.edu.sg").update({
+      todolist: this.todolistService.todoList
+    })
+      // After it is updated, refresh the todolist and go back.
+      .then(value => {
+        this.todolistService.getTodo()
+        this.navCtrl.pop()
+      })
+      // Log and catch the error
+      .catch(value => {
+        console.log(value)
+      })
   }
 
 }

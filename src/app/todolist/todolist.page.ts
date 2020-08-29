@@ -22,9 +22,11 @@ export class TodolistPage implements OnInit {
     this.navCtrl.navigateForward(['/todolist/add']);
   }
 
-  updateTodo(each) {
+  updateTodo(each, i) {
+    // Put the reminder properties into global variables which will be accessed by the update todo page
     this.todolistService.name = each.name
-    this.todolistService.date = new Date(each.dueDate.toDate()).toISOString()
+    this.todolistService.date = each.dueDate.toDate().toISOString()
+    this.todolistService.index = i // Position of todo in todolistService.todoList array
     this.navCtrl.navigateForward(['/todolist/update']);
   }
 

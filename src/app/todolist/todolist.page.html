@@ -22,7 +22,7 @@
         <h2 *ngIf="each.name">{{ each.name }}</h2> <!-- Name -->
         <p *ngIf="each.dueDate.toDate()">{{ each.dueDate.toDate() }}</p> <!-- Due Date -->
       </ion-label>
-      <ion-button (click)="updateTodo(each)">
+      <ion-button (click)="updateTodo(each, i)">
         <ion-icon name="create"></ion-icon>
       </ion-button>
       <ion-button (click)="deleteTodo(i)">
