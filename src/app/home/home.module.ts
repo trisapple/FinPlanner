@@ -10,6 +10,8 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 import { HomePageRoutingModule } from './home-routing.module';
 
+
+
 const routes: Routes = [
   {
     path: '',
