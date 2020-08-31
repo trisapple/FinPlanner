@@ -14,6 +14,7 @@ export class TodoListService {
   name: String
   date: string
   index: any
+  checked: Boolean
 
   constructor(public firestore: AngularFirestore, public userService: UserService) {
     // this.usersCollectionRef = this.firestore.collection<any>('users'); // Get the 'users' collection in Firebase Cloud Firestore
@@ -22,6 +23,8 @@ export class TodoListService {
   getTodo() {
     let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
       console.log(data)
+      console.log(this.userService.uid)
+      console.log(data["todolist"])
 
       // If the user has no todolist variable, create it for them
       if (data["todolist"] == undefined) {

@@ -190,7 +190,9 @@ export class LoginPage implements OnInit {
         this.userService.email = res.user.email;
         this.userService.profilePicture = res.user.photoURL;
         this.userService.uid = res.user.uid;
-        this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
+        if (res.additionalUserInfo.isNewUser) {
+          this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
+        }
         this.presentToast('Login Successfully!', 'middle', 2000);
         console.log('From --Google--');
         console.log(res);
