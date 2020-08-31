@@ -8,10 +8,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<!-- <ion-content class="ion-padding">
+  <h1 style="text-align: center;">FAQ( Frequent Asked Question)</h1>
   <ion-card (click)="expandItem(item)" *ngFor="let item of items">
     <ion-card-header>
-      <ion-card-title>My Neighbour Totoro</ion-card-title>
+      <ion-label><h2>My Neighbour Totoro</h2></ion-label>
     </ion-card-header>
 
     <ion-card-content>
@@ -28,13 +29,18 @@
         <p>
           Hello there.
         </p>
-        <p>
-          Hello there.
-        </p>
-        <p>
-          Hello there.
-        </p>
       </app-expandable>
     </ion-card-content>
   </ion-card>
+</ion-content> -->
+
+<ion-content padding>
+
+  <app-mi-accordion 
+     *ngFor="let item of items" 
+     name="{{ item.name }}" 
+     description="{{ item.description }}"
+     (change)="captureName($event)">
+  </app-mi-accordion>
+
 </ion-content>
