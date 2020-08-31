@@ -17,7 +17,7 @@
   <ion-list *ngFor="let each of todolistService.todoList; let i = index">
     <!-- <ion-list-header>Test</ion-list-header> -->
     <ion-item>
-      <ion-checkbox [(ngModel)]="each.checked" color="primary" slot="start"></ion-checkbox>
+      <ion-checkbox [(ngModel)]="each.checked" (ionChange)="todocheck(each, i)" color="primary" slot="start"></ion-checkbox>
       <ion-label>
         <h2 *ngIf="each.name">{{ each.name }}</h2> <!-- Name -->
         <p *ngIf="each.dueDate.toDate()">{{ each.dueDate.toDate() }}</p> <!-- Due Date -->

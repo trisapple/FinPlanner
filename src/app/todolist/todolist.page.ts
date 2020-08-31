@@ -25,6 +25,15 @@ export class TodolistPage implements OnInit {
     this.navCtrl.navigateForward(['/todolist/add']);
   }
 
+  todocheck(each, i) {
+    this.todolistService.todoList[i]["checked"] = each.checked // Check or uncheck the todo
+    
+    // Update the user's todoList with the newly checked or unchecked todo
+    this.firestore.collection<any>('users').doc(this.userService.uid).update({
+      todolist: this.todolistService.todoList
+    })
+  }
+
   updateTodo(each, i) {
     // Put the reminder properties into global variables which will be accessed by the update todo page
     this.todolistService.name = each.name
