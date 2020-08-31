@@ -25,6 +25,7 @@ export class UpdatetodoPage implements OnInit {
     console.log(this.todolistService.todoList)
     todo["name"] = this.todolistService.name // Set the name of the New todo Object
     todo["dueDate"] = new Date(this.todolistService.date) // Set the date of the New todo Object.
+    todo["checked"] = this.todolistService.checked
     this.todolistService.todoList[this.todolistService.index] = todo // Update the properties of the todo
 
     // Update the user's todoList with the newly added todo added to the todoList array

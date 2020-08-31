@@ -31,6 +31,7 @@ export class AddtodoPage implements OnInit {
       console.log(this.todolistService.todoList)
       todo["name"] = this.name // Set the name of the New todo Object
       todo["dueDate"] = new Date(this.date) // Set the date of the New todo Object.
+      todo["checked"] = false
       this.todolistService.todoList.push(todo) // Add the newly added todo to the todoList array
 
       // For logging

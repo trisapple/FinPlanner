@@ -29,6 +29,7 @@ export class TodolistPage implements OnInit {
     // Put the reminder properties into global variables which will be accessed by the update todo page
     this.todolistService.name = each.name
     this.todolistService.date = each.dueDate.toDate().toISOString()
+    this.todolistService.checked = each.checked
     this.todolistService.index = i // Position of todo in todolistService.todoList array
     this.navCtrl.navigateForward(['/todolist/update']);
   }
