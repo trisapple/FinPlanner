@@ -28,17 +28,7 @@ h2 {
 
  div {
     position: relative;
-    padding: 2em;
-    background: rgba(230, 230, 230, 1);
-    border-bottom: 1px solid rgba(210, 210, 210, 1);
-
-
-    ion-button {
-       position: absolute;
-       bottom: 20px;
-       right: 20px;
-    }
-
+    padding-top: 20px;
  }
 
  /* Following classes display/hide the 'menu'

@@ -34,13 +34,13 @@
   </ion-card>
 </ion-content> -->
 
-<ion-content padding>
+<ion-content class="ion-padding">
+  <h1 style="text-align: center;">FAQ (Frequent Asked Question)</h1>
 
   <app-mi-accordion 
      *ngFor="let item of items" 
      name="{{ item.name }}" 
-     description="{{ item.description }}"
-     (change)="captureName($event)">
+     description="{{ item.description }}">
   </app-mi-accordion>
 
 </ion-content>

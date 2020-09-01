@@ -1,14 +1,8 @@
 <h2 (click)="toggleAccordion()">
   {{ name }}
-   <span *ngIf="isMenuOpen">&#9650;</span>
-   <span *ngIf="!isMenuOpen">&#9660;</span>
+   <span *ngIf="isMenuOpen"><ion-icon name="chevron-down"></ion-icon></span>
+   <span *ngIf="!isMenuOpen"><ion-icon name="chevron-forward"></ion-icon></span>
 </h2>
 <div [ngClass]="this.isMenuOpen ? 'active' : 'inactive'">
    <p>{{ description }}</p>
-   <ion-button 
-      type="button" 
-      color="primary" 
-      fill="solid" 
-      size="default" 
-      (click)="broadcastName(name)">Console log me!</ion-button>
 </div>

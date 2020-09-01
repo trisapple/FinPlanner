@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-mi-accordion',
@@ -8,7 +8,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class MiAccordionComponent implements OnInit {
   @Input() name: string;
   @Input() description: string;
-  @Output() change: EventEmitter<string> = new EventEmitter<string>();
   public isMenuOpen: boolean = false;
 
 
@@ -18,10 +17,6 @@ export class MiAccordionComponent implements OnInit {
 
   public toggleAccordion(): void{
     this.isMenuOpen = !this.isMenuOpen;
-  }
-
-  public broadcastName(name: string): void{
-    this.change.emit(name);
   }
 
 }
