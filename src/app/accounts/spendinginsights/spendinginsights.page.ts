@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ExpensesService } from '../../expenses.service';
 import { UserService } from '../../user.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-spendinginsights',
@@ -9,7 +10,7 @@ import { UserService } from '../../user.service';
 })
 export class SpendingInsightsPage implements OnInit {
 
-  constructor(public expensesService: ExpensesService, public userService: UserService) { 
+  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController) { 
 
     // Null the pieChart so that we can refresh the pie chart when switching to another account
     // We load the pieChart with ngif so that it will only show if the data is populated
@@ -249,6 +250,11 @@ export class SpendingInsightsPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  view() {
+    this.navCtrl.navigateForward(['/accounts/savingssuggestion']);
+    console.log(this.view)
   }
 
 }
