@@ -184,7 +184,7 @@ export class SpendingInsightsPage implements OnInit {
 
             var obj = {}
             var lifestyle = 0
-            var recurringfees = 0
+            var food = 0
             var others = 0
             expensesService.total = 0
 
@@ -193,7 +193,7 @@ export class SpendingInsightsPage implements OnInit {
                 lifestyle += creditCardTransactionDetail.transactionAmount
               }
               else if (creditCardTransactionDetail.transactionDescription == "PRXXXXX SINGAPORE") {
-                recurringfees += creditCardTransactionDetail.transactionAmount
+                food += creditCardTransactionDetail.transactionAmount
               }
               else {
                 others += creditCardTransactionDetail.transactionAmount
@@ -203,7 +203,7 @@ export class SpendingInsightsPage implements OnInit {
 
             obj["category"] = 'Amount'
             obj["Lifestyle"] = lifestyle
-            obj["Recurring Fees"] = recurringfees
+            obj["Food"] = food
             obj["Others"] = others
 
             console.log(obj)
