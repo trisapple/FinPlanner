@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 import { TodoListService } from '../todo-list.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from '../user.service';
@@ -11,7 +11,7 @@ import { UserService } from '../user.service';
 })
 export class TodolistPage implements OnInit {
 
-  constructor(public navCtrl: NavController, public todolistService: TodoListService, public firestore: AngularFirestore, public userService: UserService) {
+  constructor(public navCtrl: NavController, public todolistService: TodoListService, public firestore: AngularFirestore, public userService: UserService, public alertController: AlertController) {
     
   }
 
@@ -43,22 +43,42 @@ export class TodolistPage implements OnInit {
     this.navCtrl.navigateForward(['/todolist/update']);
   }
 
-  deleteTodo(index) {
-    this.todolistService.todoList.splice(index, 1)
+  async deleteTodo(index) {
+    const alert = await this.alertController.create({
+      // cssClass: 'my-custom-class',
+      header: 'Delete To-do?',
+      message: 'Are you sure you want to delete the to-do?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          // cssClass: 'secondary',
+          handler: () => {
+            console.log('Cancelled');
+          }
+        }, {
+          text: 'Yes',
+          handler: () => {
+            this.todolistService.todoList.splice(index, 1)
 
-    // Update the user's todoList with the newly added todo added to the todoList array
-    this.firestore.collection<any>('users').doc(this.userService.uid).update({
-      todolist: this.todolistService.todoList
-    })
-      // After it is updated, refresh the todolist and go back.
-      .then(value => {
-        this.todolistService.getTodo()
-        this.navCtrl.pop()
-      })
-      // Log and catch the error
-      .catch(value => {
-        console.log(value)
-      })
+            // Update the user's todoList with the newly added todo added to the todoList array
+            this.firestore.collection<any>('users').doc(this.userService.uid).update({
+              todolist: this.todolistService.todoList
+            })
+              // After it is updated, refresh the todolist and go back.
+              .then(value => {
+                this.todolistService.getTodo()
+                this.navCtrl.pop()
+              })
+              // Log and catch the error
+              .catch(value => {
+                console.log(value)
+              })
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
-
 }
