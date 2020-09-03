@@ -45,8 +45,11 @@ export class UserService {
     this.name = name;
   }
 
-  deleteAccount(email: string) {
-    this.firestore.collection<any>('users').doc(email).delete();
+  deleteAccount(uid: string) {
+    this.firestore.collection<any>('users').doc(uid).delete();
+    this.name = ""
+    this.email = ""
+    this.uid = ""
     this.loggedin = false;
   }
 }
