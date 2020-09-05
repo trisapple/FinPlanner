@@ -1,4 +1,5 @@
 import { Component, OnInit} from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-faq',
@@ -45,8 +46,9 @@ export class FaqPage implements OnInit{
     }
   ];
 
-  constructor(){
+  constructor(public navCtrl: NavController){ 
   }
+
 
   // public items: any = [];
 
@@ -79,5 +81,9 @@ export class FaqPage implements OnInit{
   //   ];
   //  }
   ngOnInit() {
+  }
+
+  gotoaskques() {
+   this.navCtrl.navigateForward(['/faq/askquestions']);
   }
 }
