@@ -5,6 +5,11 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="gotoaskques()">
+        Ask Question
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -43,5 +48,5 @@
      description="{{ item.description }}">
   </app-mi-accordion>
 
-  <ion-button style="margin-top: 40px;" (click)="gotoaskques()">Ask Question</ion-button>
+  <!-- <ion-button style="margin-top: 40px;" (click)="gotoaskques()">Ask Question</ion-button> -->
 </ion-content>
