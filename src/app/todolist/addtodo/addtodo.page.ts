@@ -28,11 +28,13 @@ export class AddtodoPage implements OnInit {
       this.presentToast('Please enter a reminder name and date to be reminded', 'middle', 2000);
     } else {
       var todo = {} // Temporary New todo Object
-      console.log(this.todolistService.todoList)
       todo["name"] = this.name // Set the name of the New todo Object
       todo["dueDate"] = new Date(this.date) // Set the date of the New todo Object.
       todo["checked"] = false
-      this.todolistService.todoList.push(todo) // Add the newly added todo to the todoList array
+      this.todolistService.localtodoList.push(todo) // Add the newly added todo to the todoList array
+
+      console.log(this.todolistService.firetodoList)
+      console.log(this.todolistService.localtodoList)
 
       // For logging
       console.log(todo["dueDate"])
@@ -43,7 +45,7 @@ export class AddtodoPage implements OnInit {
 
       // Update the user's todoList with the newly added todo added to the todoList array
       this.firestore.collection<any>('users').doc(this.userService.uid).update({
-        todolist: this.todolistService.todoList
+        todolist: this.todolistService.localtodoList
       })
         // After it is updated, refresh the todolist and go back.
         .then(value => {

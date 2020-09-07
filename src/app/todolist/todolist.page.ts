@@ -26,11 +26,12 @@ export class TodolistPage implements OnInit {
   }
 
   todocheck(each, i) {
-    this.todolistService.todoList[i]["checked"] = each.checked // Check or uncheck the todo
+    this.todolistService.firetodoList[i]["checked"] = each.checked // Check or uncheck the todo
+    this.todolistService.localtodoList[i]["checked"] = each.checked
     
     // Update the user's todoList with the newly checked or unchecked todo
     this.firestore.collection<any>('users').doc(this.userService.uid).update({
-      todolist: this.todolistService.todoList
+      todolist: this.todolistService.firetodoList
     })
   }
 
@@ -59,11 +60,11 @@ export class TodolistPage implements OnInit {
         }, {
           text: 'Yes',
           handler: () => {
-            this.todolistService.todoList.splice(index, 1)
+            this.todolistService.localtodoList.splice(index, 1)
 
             // Update the user's todoList with the newly added todo added to the todoList array
             this.firestore.collection<any>('users').doc(this.userService.uid).update({
-              todolist: this.todolistService.todoList
+              todolist: this.todolistService.localtodoList
             })
               // After it is updated, refresh the todolist and go back.
               .then(value => {

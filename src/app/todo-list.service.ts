@@ -8,7 +8,8 @@ import { UserService } from './user.service';
 })
 export class TodoListService {
 
-  todoList = []
+  firetodoList = []
+  localtodoList = []
 
   // Update todo
   name: String
@@ -30,18 +31,19 @@ export class TodoListService {
       if (data["todolist"] == undefined) {
         console.log("Data undefined run")
         this.firestore.collection<any>('users').doc(this.userService.uid).update({
-          todolist: this.todoList
+          todolist: this.firetodoList
         })
       }
 
       // If the user has an existing todolist variable, put it into the todoList array to display it in html.
       else {
-        this.todoList = data["todolist"]
+        this.firetodoList = data["todolist"]
+        this.localtodoList = [...this.firetodoList]
       }
 
       // For logging
-      console.log(this.todoList)
-      for (let each of this.todoList) {
+      console.log(this.firetodoList)
+      for (let each of this.firetodoList) {
         console.log(each)
         console.log(each.name)
         console.log(each.dueDate)

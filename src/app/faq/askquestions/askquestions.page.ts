@@ -37,9 +37,9 @@ export class AskquestionsPage implements OnInit {
       }
   }
 
- clickView () {
-  this.navCtrl.push (QueslistPage);
-  }
+//  clickView () {
+//   this.navCtrl.push (QueslistPage);
+//   }
 
   async presentToast(message: string) {
     const toast = await this.toastCtrl.create({

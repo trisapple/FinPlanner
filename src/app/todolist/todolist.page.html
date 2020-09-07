@@ -14,7 +14,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list *ngFor="let each of todolistService.todoList; let i = index">
+  <ion-list *ngFor="let each of todolistService.firetodoList; let i = index">
     <!-- <ion-list-header>Test</ion-list-header> -->
     <ion-item>
       <ion-checkbox [(ngModel)]="each.checked" (ionChange)="todocheck(each, i)" color="primary" slot="start"></ion-checkbox>

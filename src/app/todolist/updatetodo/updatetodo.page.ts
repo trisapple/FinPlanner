@@ -22,15 +22,15 @@ export class UpdatetodoPage implements OnInit {
 
   updateTodo() {
     var todo = {} // Temporary New todo Object
-    console.log(this.todolistService.todoList)
+    console.log(this.todolistService.firetodoList)
     todo["name"] = this.todolistService.name // Set the name of the New todo Object
     todo["dueDate"] = new Date(this.todolistService.date) // Set the date of the New todo Object.
     todo["checked"] = this.todolistService.checked
-    this.todolistService.todoList[this.todolistService.index] = todo // Update the properties of the todo
+    this.todolistService.localtodoList[this.todolistService.index] = todo // Update the properties of the todo
 
     // Update the user's todoList with the newly added todo added to the todoList array
     this.firestore.collection<any>('users').doc(this.userService.uid).update({
-      todolist: this.todolistService.todoList
+      todolist: this.todolistService.localtodoList
     })
       // After it is updated, refresh the todolist and go back.
       .then(value => {
