@@ -18,7 +18,7 @@ const routes: Routes = [
       { path: 'login', loadChildren: () => import('../login/login.module').then(m => m.LoginPageModule) },
       { path: 'courses', loadChildren: () => import('../courses/courses.module').then(m => m.CoursesPageModule) },
       { path: 'faq', loadChildren: () => import('../faq/faq.module').then(m => m.FaqPageModule) },
-      { path: 'fxrates', loadChildren: () => import('../fxrates/fxrates.module').then(m => m.FxratesPageModule) },
+      { path: 'exchangerates', loadChildren: () => import('../exchangerates/exchangerates.module').then(m => m.ExchangeratesPageModule) },
       { path: 'profile', loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule) },
       { path: 'accounts', loadChildren: () => import('../accounts/accounts.module').then(m => m.AccountsPageModule) },
       { path: 'todolist', loadChildren: () => import('../todolist/todolist.module').then(m => m.TodolistPageModule) },

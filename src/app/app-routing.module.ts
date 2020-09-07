@@ -14,7 +14,13 @@ const routes: Routes = [
   { path: 'todolist/add', loadChildren: () => import('./todolist/addtodo/addtodo.module').then(m => m.AddtodoPageModule) },
   { path: 'todolist/update', loadChildren: () => import('./todolist/updatetodo/updatetodo.module').then(m => m.UpdatetodoPageModule) },
   { path: 'accounts/savingssuggestion', loadChildren: () => import('./accounts/savingssuggestion/savingssuggestion.module').then( m => m.SavingssuggestionPageModule) },
-  { path: 'fxrates', loadChildren: () => import('./fxrates/fxrates.module').then( m => m.FxratesPageModule) },
+  { path: 'exchangerates/fxrates', loadChildren: () => import('./exchangerates//fxrates/fxrates.module').then( m => m.FxratesPageModule) },
+  { path: 'exchangerates/stocks', loadChildren: () => import('./exchangerates/stocks/stocks.module').then( m => m.StocksPageModule) },
+  { path: 'exchangerates/crypto', loadChildren: () => import('./exchangerates/crypto/crypto.module').then( m => m.CryptoPageModule) },
+  { path: 'exchangerates', loadChildren: () => import('./exchangerates/exchangerates.module').then( m => m.ExchangeratesPageModule) },
+
+  
+
 
   
 
