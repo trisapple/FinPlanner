@@ -10,11 +10,118 @@ import { NavController } from '@ionic/angular';
 })
 export class SpendingInsightsPage implements OnInit {
 
-  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController) { 
+  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController) {
 
     // Null the pieChart so that we can refresh the pie chart when switching to another account
     // We load the pieChart with ngif so that it will only show if the data is populated
     expensesService.pieChart = null
+
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'GET',
+      'hostname': 'cors-anywhere.herokuapp.com',
+      'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + this.expensesService.saltedgeconnection["id"] + '&account_id=' + this.expensesService.saltedgeaccount["id"],
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'Origin': ''
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, function (res) {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        console.log(JSON.parse(body.toString()));
+        expensesService.transactions = JSON.parse(body.toString())["data"]
+        console.log(expensesService.transactions)
+
+        // Variables to keep track of the amount spent in the transaction categories
+        var obj = {} // Set up an empty Object
+        var phone = 0
+        var bills = 0
+        var lifestyle = 0
+        var taxes = 0
+        var recurringfees = 0
+        var others = 0
+        expensesService.total = 0
+
+        // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
+        for (let transaction of expensesService.transactions) {
+          if (Math.sign(transaction.amount) == -1) {
+
+            // If the transaction description is "COLD STORAGE-EASTWOOD" or "COLD STORAGE-EASTWOOD SINGAPORE SG", add the transaction amount to the food variable. 
+            if (transaction.category == "phone") {
+              phone += Math.abs(transaction.amount)
+            }
+            else {
+              others += Math.abs(transaction.amount)
+            }
+            expensesService.total += Math.abs(transaction.amount) // Add up the amounts of all the transactions (regardless of name or description)
+          }
+        }
+
+        // Assign the empty Object key value pairs to display the information in HTML
+        obj["category"] = 'Amount'
+        obj["Phone"] = phone
+        obj["Bills"] = bills
+        obj["Lifestyle"] = lifestyle
+        obj["Taxes"] = taxes
+        obj["Recurring Fees"] = recurringfees
+        obj["Others"] = others
+
+        // obj["Total"] = total
+
+        console.log(obj)
+        // expensesService.transactioncategories.push(obj) // Push the object into an array
+        // console.log(expensesService.transactioncategories)
+
+        expensesService.pieChartData = Object.entries(obj); // Make the key value pairs in the object into an array (to put into google chart dataTable)
+        // {{"category": "Amount"}, {"Food": 83.65}, ...} becomes 
+        // [["category", "Amount"], ["Food", 83.65], ... ]
+
+        // Create another array for the progress bar because we need to remove the obj["category"] = 'Amount' at the beginning
+        expensesService.pieChartData2 = Object.entries(obj);
+        expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
+
+        // Sort the top expenses categories in descending order (from largest to smallest)
+        expensesService.pieChartData2.sort(function (a, b) {
+          return b[1] - a[1]
+        });
+
+        console.log(expensesService.pieChartData)
+
+        // Piechart Data
+        expensesService.pieChart = {
+          chartType: 'PieChart',
+          dataTable: expensesService.pieChartData,
+          //opt_firstRowIsData: true,
+          options: {
+            'title': 'Spendings by Category',
+            height: 400,
+            width: '100%',
+            pieHole: 0.5,
+            backgroundColor: { fill: 'transparent' },
+            legend: { textStyle: { color: 'gray' } }
+          },
+        };
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    req.end();
 
     // Citibank's Spending Insights 
     if (userService.citiLogin == true) {
@@ -35,14 +142,14 @@ export class SpendingInsightsPage implements OnInit {
           },
           'maxRedirects': 20
         };
-    
+
         var req = https.request(options, function (res) {
           var chunks = [];
-    
+
           res.on("data", function (chunk) {
             chunks.push(chunk);
           });
-    
+
           // After the request is finished (whether failure or success), the codes inside there will run
           res.on("end", function (chunk) {
             var body = Buffer.concat(chunks);
@@ -112,7 +219,7 @@ export class SpendingInsightsPage implements OnInit {
             expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
 
             // Sort the top expenses categories in descending order (from largest to smallest)
-            expensesService.pieChartData2.sort(function(a,b) {
+            expensesService.pieChartData2.sort(function (a, b) {
               return b[1] - a[1]
             });
 
@@ -128,17 +235,17 @@ export class SpendingInsightsPage implements OnInit {
                 height: 400,
                 width: '100%',
                 pieHole: 0.5,
-                backgroundColor: { fill:'transparent' },
-                legend: {textStyle: {color: 'gray'}}
+                backgroundColor: { fill: 'transparent' },
+                legend: { textStyle: { color: 'gray' } }
               },
             };
           });
-    
+
           res.on("error", function (error) {
             console.error(error);
           });
         });
-    
+
         req.end();
       }
     }
@@ -198,7 +305,7 @@ export class SpendingInsightsPage implements OnInit {
               else {
                 others += creditCardTransactionDetail.transactionAmount
               }
-              expensesService.total += creditCardTransactionDetail.transactionAmount 
+              expensesService.total += creditCardTransactionDetail.transactionAmount
             }
 
             obj["category"] = 'Amount'
@@ -217,7 +324,7 @@ export class SpendingInsightsPage implements OnInit {
             expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
 
             // Sort the top expenses categories in descending order (from largest to smallest)
-            expensesService.pieChartData2.sort(function(a,b) {
+            expensesService.pieChartData2.sort(function (a, b) {
               return b[1] - a[1]
             });
 
@@ -233,8 +340,8 @@ export class SpendingInsightsPage implements OnInit {
                 height: 400,
                 width: '100%',
                 pieHole: 0.5,
-                backgroundColor: { fill:'transparent' },
-                legend: {textStyle: {color: 'gray'}}
+                backgroundColor: { fill: 'transparent' },
+                legend: { textStyle: { color: 'gray' } }
               },
             };
           });
