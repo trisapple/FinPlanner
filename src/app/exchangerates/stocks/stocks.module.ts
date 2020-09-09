@@ -13,7 +13,7 @@ import { StocksPage } from './stocks.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    StocksPageRoutingModule
+    StocksPageRoutingModule,
   ],
   declarations: [StocksPage]
 })
