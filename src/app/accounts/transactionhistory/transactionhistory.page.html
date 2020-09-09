@@ -12,13 +12,18 @@
   <ion-grid>
 
     <!-- Header Row -->
-    <ion-row *ngIf="expensesService.ocbcCreditCardTransaction">
+    <ion-row *ngIf="expensesService.transactions && expensesService.transactions.length != 0">
       <ion-col size-xs="3" size-md="2">
         <div>
           Date
         </div>
       </ion-col>
-      <ion-col size-xs="6" size-md="8">
+      <ion-col size-xs="3" size-md="4">
+        <div>
+          Category
+        </div>
+      </ion-col>
+      <ion-col size-xs="3" size-md="4">
         <div>
           Description
         </div>
@@ -34,21 +39,26 @@
     <ion-row *ngFor="let each of expensesService.transactions">
       <ion-col size-xs="3" size-md="2">
         <div>
-          {{ each.transactionDate }}
+          {{ each.made_on }}
         </div>
       </ion-col>
-      <ion-col size-xs="6" size-md="8">
+      <ion-col size-xs="3" size-md="4">
         <div>
-          {{ each.transactionDescription }}
+          {{ each.category }}
+        </div>
+      </ion-col>
+      <ion-col size-xs="3" size-md="4">
+        <div>
+          {{ each.description }}
         </div>
       </ion-col>
       <ion-col size-xs="3" size-md="2">
         <div>
-          {{ (each.transactionAmount).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}
+          {{ (each.amount) }} {{ each.currency_code }}
         </div>
       </ion-col>
     </ion-row>  
-    <ion-label *ngIf="!expensesService.ocbcCreditCardTransaction" style = "font-size: 20px" class="ocbc">
+    <ion-label *ngIf="!expensesService.transactions || expensesService.transactions.length == 0" style = "font-size: 20px" class="ocbc">
       No Transaction History
     </ion-label>
   </ion-grid>

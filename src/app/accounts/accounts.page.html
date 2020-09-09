@@ -11,22 +11,24 @@
 <ion-content class="ion-padding">
 
   <!-- Citibank Connect Button -->
-  <div style="display: flex; align-items: center">
+  <!-- <div style="display: flex; align-items: center">
     <ion-text>Citibank</ion-text>
     <ion-button *ngIf="!userService.citiLogin" (click)=citiconnect() style="margin-left: auto;">Connect</ion-button>
     <ion-button *ngIf="userService.citiLogin" style="margin-left: auto;" color="success">Connected</ion-button>
   </div>
 
-  <br>
+  <br> -->
 
   <!-- OCBC Connect Button -->
-  <div style="display: flex; align-items: center">
+  <!-- <div style="display: flex; align-items: center">
     <ion-text>OCBC</ion-text>
     <ion-button *ngIf = "!userService.ocbcLogin" (click)=ocbcconnect() style="margin-left: auto;">Connect</ion-button>
     <ion-button *ngIf="userService.ocbcLogin" style="margin-left: auto;" color="success">Connected</ion-button>
   </div>
   
-  <br><br>
+  <br><br> -->
+
+  <ion-button (click)=saltedgeconnect()>Connect Bank Account</ion-button>
 
   <!-- Citibank -->
   <div *ngIf="userService.citiLogin">
@@ -98,6 +100,24 @@
     </ion-list>
   </div>
 
+  <ion-list>
+    <ion-list-header style="font-size: 24px; font-weight: bold;">
+      Connected Banks 
+    </ion-list-header>
+
+    <!-- Accounts -->
+    <div *ngFor="let each of expensesService.saltedgeconnections">
+      <ion-item *ngIf="each.status === 'active'" (click)="gotoAccounts(each)">
+    
+        <ion-label>
+          <h2>{{ each.provider_name}}</h2> <!-- Card Name -->
+        </ion-label>
+
+        <!-- OCBC Credit Cards -->
+        <ion-icon name="chevron-forward"></ion-icon>
+      </ion-item>
+    </div>
+  </ion-list>
 
   <!-- For quick testing using Ionic Serve -->
   <!-- <div>

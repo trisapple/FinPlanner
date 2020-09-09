@@ -11,10 +11,10 @@
 <ion-content class="ion-padding">
   
   <!-- Pie Chart from Google Charts -->
-  <div *ngIf="expensesService.ocbcCreditCardTransaction">
+  <div *ngIf="expensesService.transactions && expensesService.transactions.length > 0">
     <google-chart *ngIf="expensesService.pieChart" [data]="expensesService.pieChart"></google-chart>
 
-    <ion-text>Top Expenses</ion-text>
+    <!-- <ion-text>Top Expenses</ion-text> -->
 
     <ion-grid>
       <!-- Loop through the array and display the expenses -->
@@ -33,7 +33,7 @@
     </ion-grid>
     <ion-button expand = "block" (click) = "view()">View Savings Suggestions</ion-button>
   </div>
-  <ion-label *ngIf="!expensesService.ocbcCreditCardTransaction" style = "font-size: 20px" class="ocbc">
+  <ion-label *ngIf="!expensesService.transactions || expensesService.transactions.length == 0" style = "font-size: 20px" class="ocbc">
     No Spending Insights
   </ion-label>
 

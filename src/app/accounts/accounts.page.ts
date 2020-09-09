@@ -13,6 +13,93 @@ export class AccountsPage implements OnInit {
 
   public items: any = [];
 
+  // In the saltedgeconnect() function, we will 
+  // 1. Create the customer 
+  // 2. Create the connection
+  saltedgeconnect() {
+    // Create the customer
+    var https = require('follow-redirects').https;
+    
+    var options = {
+      'method': 'POST',
+      'hostname': 'cors-anywhere.herokuapp.com',
+      'path': '/https://www.saltedge.com/api/v5/customers/',
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'Origin': ''
+      },
+      'maxRedirects': 20
+    };
+    
+    var req = https.request(options, function (res) {
+      var chunks = [];
+    
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+    
+      res.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        console.log(body.toString());
+        console.log(JSON.parse(body.toString()));
+
+        // Create the connection
+        var options = {
+          'method': 'POST',
+          'hostname': 'cors-anywhere.herokuapp.com',
+          'path': '/https://www.saltedge.com/api/v5/connect_sessions/create',
+          'headers': {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+            'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+            'Origin': ''
+          },
+          'maxRedirects': 20
+        };
+
+        var req = https.request(options, function (res) {
+          var chunks = [];
+        
+          res.on("data", function (chunk) {
+            chunks.push(chunk);
+          });
+        
+          res.on("end", function (chunk) {
+            var body = Buffer.concat(chunks);
+            console.log(body.toString());
+            console.log(JSON.parse(body.toString()));
+            window.open(JSON.parse(body.toString())["data"]["connect_url"], "_blank");
+          });
+        
+          res.on("error", function (error) {
+            console.error(error);
+          });
+        });
+        
+        var postData = JSON.stringify({"data":{"customer_id":"301926924224039280","return_connection_id":true,"consent":{"scopes":["account_details","transactions_details"]},"attempt":{"fetch_scopes":["accounts","transactions"]}}});
+        
+        req.write(postData);
+        
+        req.end();
+      
+      });
+    
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+    
+    var postData = JSON.stringify({"data":{"identifier":"test1234@example.com"}});
+    
+    req.write(postData);
+    
+    req.end();
+  }
+
   expandItem(item): void {
 
     // Can expand as many ion-items the user wishes at any one time
@@ -43,12 +130,56 @@ export class AccountsPage implements OnInit {
     }
   }
 
+  gotoAccounts(each) {
+    console.log(each)
+    this.expensesService.saltedgeconnection = each
+    this.navCtrl.navigateForward(["/accounts/accountslist"])
+  }
+
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) {
 
     this.items = [
       { productName: "Test", expanded: false },
       { expanded: false }
     ];
+
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'GET',
+      'hostname': 'cors-anywhere.herokuapp.com',
+      'path': '/https://www.saltedge.com/api/v5/connections?customer_id=301926924224039280',
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'Origin': ''
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, function (res) {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        // console.log(body.toString());
+        console.log(JSON.parse(body.toString()));
+        expensesService.saltedgeconnections = JSON.parse(body.toString())["data"]
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    req.end();
+
 
     // Citibank
     if (userService.citiLogin == true) {

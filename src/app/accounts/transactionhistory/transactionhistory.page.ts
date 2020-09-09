@@ -13,6 +13,43 @@ export class TransactionHistoryPage implements OnInit {
 
   constructor(public userService: UserService, public expensesService: ExpensesService) {
 
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'GET',
+      'hostname': 'cors-anywhere.herokuapp.com',
+      'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + this.expensesService.saltedgeconnection["id"] + '&account_id=' + this.expensesService.saltedgeaccount["id"],
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'Origin': ''
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, function (res) {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        console.log(JSON.parse(body.toString()));
+        expensesService.transactions = JSON.parse(body.toString())["data"]
+        console.log(expensesService.transactions)
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    req.end();
+
     // Citibank
     if (userService.citiLogin == true) {
       retrieveCitiTransactions()
