@@ -11,7 +11,7 @@
 <ion-content class="ion-padding">
   
   <!-- Pie Chart from Google Charts -->
-  <div *ngIf="expensesService.ocbcCreditCardTransaction">
+  <div>
     <google-chart *ngIf="expensesService.pieChart" [data]="expensesService.pieChart"></google-chart>
 
     <ion-text>Top Expenses</ion-text>

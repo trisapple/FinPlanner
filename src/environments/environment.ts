@@ -12,7 +12,7 @@ export const environment = {
     storageBucket: 'ionicfirebase-a8213.appspot.com',
     messagingSenderId: '671807746722',
     appId: '1:671807746722:web:64349ee31958dece29ddfb'
-  }
+  },
 };
 
 /*
