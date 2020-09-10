@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlphaVantageAPI } from 'alpha-vantage-cli';
+// import { AlphaVantageAPI } from 'alpha-vantage-cli';
 import { ExpensesService } from '../../expenses.service';
 
 @Component({
@@ -9,21 +9,21 @@ import { ExpensesService } from '../../expenses.service';
 })
 export class StocksPage implements OnInit {
 
-  av(){
-    var AlphaVantageAPI = require('alpha-vantage-cli').AlphaVantageAPI;
+  // av(){
+  //   var AlphaVantageAPI = require('alpha-vantage-cli').AlphaVantageAPI;
 
-    var yourApiKey = 'L5345HVJSEBMJTHF';
-    var alphaVantageAPI = new AlphaVantageAPI(yourApiKey, 'compact', true);
+  //   var yourApiKey = 'L5345HVJSEBMJTHF';
+  //   var alphaVantageAPI = new AlphaVantageAPI(yourApiKey, 'compact', true);
 
-    alphaVantageAPI.getDailyData('MSFT')
-        .then(dailyData => {
-            console.log("Daily data:");
-            console.log(dailyData);
-        })
-        .catch(err => {
-            console.error(err);
-        });
-  }
+  //   alphaVantageAPI.getDailyData('MSFT')
+  //       .then(dailyData => {
+  //           console.log("Daily data:");
+  //           console.log(dailyData);
+  //       })
+  //       .catch(err => {
+  //           console.error(err);
+  //       });
+  // }
 
   constructor(private expensesService: ExpensesService) {
 
