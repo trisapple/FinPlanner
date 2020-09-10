@@ -99,6 +99,10 @@ export class SpendingInsightsPage implements OnInit {
         expensesService.pieChartData2 = Object.entries(obj);
         expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
 
+        for (let category of expensesService.pieChartData2) {
+          category[1] = category[1].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode })
+        }
+
         // Sort the top expenses categories in descending order (from largest to smallest)
         expensesService.pieChartData2.sort(function (a, b) {
           return b[1] - a[1]
