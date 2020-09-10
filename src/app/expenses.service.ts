@@ -35,6 +35,7 @@ export class ExpensesService {
   saltedgeconnection = []
   saltedgeaccounts = []
   saltedgeaccount = []
+  saltedgeaccountcurrencycode: String
 
   constructor() { }
 }

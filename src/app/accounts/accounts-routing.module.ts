@@ -8,10 +8,6 @@ const routes: Routes = [
     path: '',
     component: AccountsPage
   },
-  {
-    path: 'accountslist',
-    loadChildren: () => import('./accountslist/accountslist.module').then( m => m.AccountslistPageModule)
-  }
 ];
 
 @NgModule({
