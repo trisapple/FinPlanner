@@ -41,6 +41,9 @@ export class TransactionHistoryPage implements OnInit {
         console.log(JSON.parse(body.toString()));
         expensesService.transactions = JSON.parse(body.toString())["data"]
         console.log(expensesService.transactions)
+        for (let transaction of expensesService.transactions) {
+          transaction["amount"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode })
+        }
       });
 
       res.on("error", function (error) {

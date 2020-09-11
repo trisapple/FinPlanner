@@ -14,6 +14,7 @@ export class AccountslistPage implements OnInit {
     console.log(account);
     this.expensesService.saltedgeaccount = account
     this.expensesService.transactionhistorytitle = account.nature;
+    this.expensesService.saltedgeaccountcurrencycode = account.currency_code
     // this.expensesService.transactionhistoryaccountId = account.accountId;
     this.navCtrl.navigateForward(['/accounts/transactionhistory']);
   }

@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+import { ExpensesService } from '../expenses.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,8 @@ export class LoginPage implements OnInit {
               public http: HttpClient,
               public platform: Platform,
               private googlePlus: GooglePlus,
-              private fb: Facebook
+              private fb: Facebook,
+              public expensesService: ExpensesService
               ) { }
 
   ngOnInit() {
@@ -56,6 +58,7 @@ export class LoginPage implements OnInit {
               this.userService.name = data["name"];
               this.userService.email = data["email"];
               this.userService.provider = "Email and Password";
+              this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
 
               sub.unsubscribe();
             });
