@@ -10,11 +10,6 @@ export class CryptoPage implements OnInit {
 
   constructor(private expensesService: ExpensesService) {
 
-    if (expensesService.exchangeRatesLoaded == false) {
-      crypto()
-    }
-
-    function crypto() {
       var https = require('follow-redirects').https;
 
       var options = {
@@ -47,7 +42,6 @@ export class CryptoPage implements OnInit {
       });
 
       req.end();
-    }
 
     // if (expensesService.cryptoloaded == false) {
     //   cryptoSGD()

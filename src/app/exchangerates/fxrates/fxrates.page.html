@@ -8,7 +8,25 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class = "ion-padding">
+
+  <h3>USD to SGD</h3>
+
+  <ion-item>
+    <h4>Last Refreshed: {{ expensesService.fxrates["6. Last Refreshed"] }}</h4>
+  </ion-item>
+
+  <ion-item>
+    <h4>Exchange Rate: {{ expensesService.fxrates["5. Exchange Rate"] }}</h4>
+  </ion-item>
+
+  <ion-item>
+    <h4>Bid Price: {{ expensesService.fxrates["8. Bid Price"] }}</h4>
+  </ion-item>
+
+  <ion-item>
+    <h4>Ask Price: {{ expensesService.fxrates["9. Ask Price"] }}</h4>
+  </ion-item>
 
 </ion-content>
 

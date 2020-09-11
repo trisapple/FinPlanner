@@ -28,11 +28,6 @@ export class StocksPage implements OnInit {
 
   constructor(private expensesService: ExpensesService, private userService: UserService) {
 
-      if (expensesService.exchangeRatesLoaded == false) {
-        msft()
-      }
-
-      function msft() {
         var https = require('follow-redirects').https;
       
         var options = {
@@ -77,7 +72,6 @@ export class StocksPage implements OnInit {
         });
 
         req.end();
-      }
       
     // function msft() {
     //   var https = require('follow-redirects').https;
