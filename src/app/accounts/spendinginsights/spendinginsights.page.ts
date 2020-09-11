@@ -74,6 +74,7 @@ export class SpendingInsightsPage implements OnInit {
             // }
             expensesService.total += Math.abs(transaction.amount) // Add up the amounts of all the transactions (regardless of name or description)
           }
+          console.log(expensesService.total)
         }
 
         // Assign the empty Object key value pairs to display the information in HTML
@@ -100,7 +101,8 @@ export class SpendingInsightsPage implements OnInit {
         expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
 
         for (let category of expensesService.pieChartData2) {
-          category[1] = category[1].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode })
+          category[2] = category[1].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode })
+          category[3] = (category[1]/expensesService.total*100).toFixed(1)
         }
 
         // Sort the top expenses categories in descending order (from largest to smallest)
