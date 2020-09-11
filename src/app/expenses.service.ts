@@ -31,6 +31,11 @@ export class ExpensesService {
   msftloaded = false;
   msftStocks = [];
 
+  // Crypto 
+  cryptoloaded = false;
+  crypto = [];
+  // cryptoSG = [];
+
   saltedgeconnections = []
   saltedgeconnection = []
   saltedgeaccounts = []
