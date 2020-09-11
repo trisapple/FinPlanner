@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { UserService } from '../user.service';
 
 
 @Component({
@@ -9,7 +10,7 @@ import { NavController } from '@ionic/angular';
 })
 export class ExchangeratesPage implements OnInit {
 
-  constructor(public navCtrl: NavController) { }
+  constructor(public navCtrl: NavController, public userService: UserService) { }
 
   ngOnInit() {
   }

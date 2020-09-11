@@ -10,33 +10,38 @@
 
 <ion-content class = "ion-padding">
 
-  <ion-label style = "font-size: 20px">
-    View Realtime <b>Stocks</b>, <b>FX Rates</b> & <b>Cryptocurrencies</b> Exchange Rates:
-  </ion-label>
+  <div *ngIf = "userService.loggedin">
+    <ion-label style = "font-size: 20px">
+      View Realtime <b>Stocks</b>, <b>FX Rates</b> & <b>Cryptocurrencies</b> Exchange Rates:
+    </ion-label>
 
-  <ion-card>
-    <ion-item>
-      <ion-label style = "font-size: 15px">Stocks</ion-label>
-      <ion-button fill="solid" slot="end" (click) = "stocks()">View</ion-button>
-    </ion-item>
-  </ion-card>
+    <ion-card>
+      <ion-item>
+        <ion-label style = "font-size: 15px">Stocks</ion-label>
+        <ion-button fill="solid" slot="end" (click) = "stocks()">View</ion-button>
+      </ion-item>
+    </ion-card>
 
-  <br>
+    <br>
 
-  <ion-card>
-    <ion-item>
-      <ion-label style = "font-size: 15px">FX Rates</ion-label>
-      <ion-button fill="solid" slot="end" (click) = "fxrates()">View</ion-button>
-    </ion-item>
-  </ion-card>
+    <ion-card>
+      <ion-item>
+        <ion-label style = "font-size: 15px">FX Rates</ion-label>
+        <ion-button fill="solid" slot="end" (click) = "fxrates()">View</ion-button>
+      </ion-item>
+    </ion-card>
 
-  <br>
+    <br>
 
-  <ion-card>
-    <ion-item>
-      <ion-label style = "font-size: 15px">Cryptocurrencies</ion-label>
-      <ion-button fill="solid" slot="end" (click) = "crypto()">View</ion-button>
-    </ion-item>
-  </ion-card>
+    <ion-card>
+      <ion-item>
+        <ion-label style = "font-size: 15px">Cryptocurrencies</ion-label>
+        <ion-button fill="solid" slot="end" (click) = "crypto()">View</ion-button>
+      </ion-item>
+    </ion-card>
+  </div>
 
+  <!-- <div *ngIf = "!userService.loggedin">
+    <ion-button>Log In</ion-button>
+  </div> -->
 </ion-content>
