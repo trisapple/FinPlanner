@@ -54,20 +54,21 @@ export class StocksPage implements OnInit {
           res.on("end", function (chunk) {
             var body = Buffer.concat(chunks);
             // console.log(body.toString());
-            console.log (JSON.parse(body.toString())["Global Quote"])            
+            console.log (JSON.parse(body.toString())["Global Quote"])
 
-            var msft = {}
+            expensesService.msftStocks = JSON.parse(body.toString())["Global Quote"]
 
-            msft["latestTradingDay"] = JSON.parse(body.toString())["Global Quote"]["07. latest trading day"]
-            msft["open"] = JSON.parse(body.toString())["Global Quote"]["02. open"]
-            msft["high"] = JSON.parse(body.toString())["Global Quote"]["03. high"]
-            msft["low"] = JSON.parse(body.toString())["Global Quote"]["04. low"]
-            msft["close"] = JSON.parse(body.toString())["Global Quote"]["08. previous close"]
-            msft["volume"] = JSON.parse(body.toString())["Global Quote"]["06. volume"]
+            // var msft = {}
 
-            expensesService.msftStocks.push(msft)
-            console.log(expensesService.msftStocks)
+            // msft["latestTradingDay"] = JSON.parse(body.toString())["Global Quote"]["07. latest trading day"]
+            // msft["open"] = JSON.parse(body.toString())["Global Quote"]["02. open"]
+            // msft["high"] = JSON.parse(body.toString())["Global Quote"]["03. high"]
+            // msft["low"] = JSON.parse(body.toString())["Global Quote"]["04. low"]
+            // msft["close"] = JSON.parse(body.toString())["Global Quote"]["08. previous close"]
+            // msft["volume"] = JSON.parse(body.toString())["Global Quote"]["06. volume"]
 
+            // expensesService.msftStocks.push(msft)
+            // console.log(expensesService.msftStocks)
           });
 
           res.on("error", function (error) {
