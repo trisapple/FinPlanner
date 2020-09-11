@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-courses',
@@ -20,9 +21,32 @@ export class CoursesPage implements OnInit {
   //   },
 
   // ];
-  constructor() { }
+  constructor(public navCtrl: NavController) {}
 
   ngOnInit() {
   }
 
+  gotoplan() {
+    this.navCtrl.navigateForward(['/courses/planning']);
+   }
+
+  gotoinvest() {
+    this.navCtrl.navigateForward(['/courses/invest']);
+   }
+  
+  gotosave() {
+    this.navCtrl.navigateForward(['/courses/save']);
+   }
+
+  gotoEtf() {
+    this.navCtrl.navigateForward(['/courses/etf']);
+   }
+
+  gotoretire() {
+    this.navCtrl.navigateForward(['/courses/retire']);
+   }
+  
+   gototips() {
+    this.navCtrl.navigateForward(['/courses/tips']);
+   }
 }

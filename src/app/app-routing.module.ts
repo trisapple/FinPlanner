@@ -19,9 +19,31 @@ const routes: Routes = [
   { path: 'exchangerates/crypto', loadChildren: () => import('./exchangerates/crypto/crypto.module').then( m => m.CryptoPageModule) },
   { path: 'accounts/accountslist', loadChildren: () => import('./accounts/accountslist/accountslist.module').then( m => m.AccountslistPageModule) },
   {
-    path: 'planning',
+    path: 'courses/planning',
     loadChildren: () => import('./courses/planning/planning.module').then( m => m.PlanningPageModule)
+  },
+  {
+    path: 'courses/invest',
+    loadChildren: () => import('./courses/invest/invest.module').then( m => m.InvestPageModule)
+  },
+  {
+    path: 'courses/save',
+    loadChildren: () => import('./courses/save/save.module').then( m => m.SavePageModule)
+  },
+  {
+    path: 'courses/etf',
+    loadChildren: () => import('./courses/etf/etf.module').then( m => m.ETFPageModule)
+  },
+  {
+    path: 'courses/retire',
+    loadChildren: () => import('./courses/retire/retire.module').then( m => m.RetirePageModule)
+  },
+  {
+    path: 'courses/tips',
+    loadChildren: () => import('./courses/tips/tips.module').then( m => m.TipsPageModule)
   }
+
+
 
   // { path: 'exchangerates', loadChildren: () => import('./exchangerates/exchangerates.module').then( m => m.ExchangeratesPageModule) },
 ];
