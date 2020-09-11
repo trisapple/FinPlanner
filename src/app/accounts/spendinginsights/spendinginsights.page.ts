@@ -55,29 +55,35 @@ export class SpendingInsightsPage implements OnInit {
         var others = 0
         expensesService.total = 0
 
+        obj["category"] = 'Amount'
+
         // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
         for (let transaction of expensesService.transactions) {
           if (Math.sign(transaction.amount) == -1) {
+            if (obj[transaction.category] == undefined) {
+              obj[transaction.category] = 0
+            }
+            obj[transaction.category] += Math.abs(transaction.amount)
 
             // If the transaction description is "COLD STORAGE-EASTWOOD" or "COLD STORAGE-EASTWOOD SINGAPORE SG", add the transaction amount to the food variable. 
-            if (transaction.category == "phone") {
-              phone += Math.abs(transaction.amount)
-            }
-            else {
-              others += Math.abs(transaction.amount)
-            }
+            // if (transaction.category == "phone") {
+            //   phone += Math.abs(transaction.amount)
+            // }
+            // else {
+            //   others += Math.abs(transaction.amount)
+            // }
             expensesService.total += Math.abs(transaction.amount) // Add up the amounts of all the transactions (regardless of name or description)
           }
         }
 
         // Assign the empty Object key value pairs to display the information in HTML
-        obj["category"] = 'Amount'
-        obj["Phone"] = phone
-        obj["Bills"] = bills
-        obj["Lifestyle"] = lifestyle
-        obj["Taxes"] = taxes
-        obj["Recurring Fees"] = recurringfees
-        obj["Others"] = others
+
+        // obj["Phone"] = phone
+        // obj["Bills"] = bills
+        // obj["Lifestyle"] = lifestyle
+        // obj["Taxes"] = taxes
+        // obj["Recurring Fees"] = recurringfees
+        // obj["Others"] = others
 
         // obj["Total"] = total
 
@@ -92,6 +98,10 @@ export class SpendingInsightsPage implements OnInit {
         // Create another array for the progress bar because we need to remove the obj["category"] = 'Amount' at the beginning
         expensesService.pieChartData2 = Object.entries(obj);
         expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
+
+        for (let category of expensesService.pieChartData2) {
+          category[1] = category[1].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode })
+        }
 
         // Sort the top expenses categories in descending order (from largest to smallest)
         expensesService.pieChartData2.sort(function (a, b) {

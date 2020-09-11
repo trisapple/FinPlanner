@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'exchangerates/fxrates', loadChildren: () => import('./exchangerates//fxrates/fxrates.module').then( m => m.FxratesPageModule) },
   { path: 'exchangerates/stocks', loadChildren: () => import('./exchangerates/stocks/stocks.module').then( m => m.StocksPageModule) },
   { path: 'exchangerates/crypto', loadChildren: () => import('./exchangerates/crypto/crypto.module').then( m => m.CryptoPageModule) },
+  { path: 'accounts/accountslist', loadChildren: () => import('./accounts/accountslist/accountslist.module').then( m => m.AccountslistPageModule) }
   // { path: 'exchangerates', loadChildren: () => import('./exchangerates/exchangerates.module').then( m => m.ExchangeratesPageModule) },
 ];
 

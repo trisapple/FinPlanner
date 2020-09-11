@@ -12,27 +12,28 @@
 
   <h3>Microsoft (MSFT)</h3>
 
-  <ion-item>
-    <h4>Last Refreshed: {{ lastRefreshedDate }}</h4>
-  </ion-item>
+    <ion-item>
+      <h4>Last Refreshed: {{ expensesService.msftStocks["07. latest trading day"] }}</h4>
+    </ion-item>
 
-  <ion-item>
-    <h4>Open:  {{ open }}</h4>
-  </ion-item>
+    <ion-item>
+      <h4>Open:  {{ expensesService.msftStocks["02. open"] }}</h4>
+    </ion-item>
 
-  <ion-item>
-    <h4>High:  {{ high }}</h4>
-  </ion-item>
+    <ion-item>
+      <h4>High:  {{ expensesService.msftStocks["03. high"] }}</h4>
+    </ion-item>
 
-  <ion-item>
-    <h4>Low:  {{ low }}</h4>
-  </ion-item>
+    <ion-item>
+      <h4>Low:  {{ expensesService.msftStocks["04. low"] }}</h4>
+    </ion-item>
 
-  <ion-item>
-    <h4>Close:  {{ close }}</h4>
-  </ion-item>
+    <ion-item>
+      <h4>Close:  {{ expensesService.msftStocks["08. previous close"] }}</h4>
+    </ion-item>
 
-  <ion-item>
-    <h4>Volume:  {{ volume }}</h4>
-  </ion-item>
+    <ion-item>
+      <h4>Volume:  {{ expensesService.msftStocks["06. volume"] }}</h4>
+    </ion-item>
+  
 </ion-content>

@@ -3,6 +3,8 @@ import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { ExpensesService } from '../expenses.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-accounts',
@@ -19,7 +21,7 @@ export class AccountsPage implements OnInit {
   saltedgeconnect() {
     // Create the customer
     var https = require('follow-redirects').https;
-    
+
     var options = {
       'method': 'POST',
       'hostname': 'cors-anywhere.herokuapp.com',
@@ -33,18 +35,32 @@ export class AccountsPage implements OnInit {
       },
       'maxRedirects': 20
     };
-    
-    var req = https.request(options, function (res) {
+
+    var req = https.request(options, res => {
       var chunks = [];
-    
+
       res.on("data", function (chunk) {
         chunks.push(chunk);
       });
-    
-      res.on("end", function (chunk) {
+
+      res.on("end", chunk => {
         var body = Buffer.concat(chunks);
         console.log(body.toString());
         console.log(JSON.parse(body.toString()));
+
+        if (JSON.parse(body.toString())["data"]) {
+          if (this.userService.loggedin == true) {
+            this.firestore.collection<any>('users').doc(this.userService.uid).update({
+              saltedgecustomerid: JSON.parse(body.toString())["data"]["id"]
+            })
+            this.expensesService.saltedgecustomerid = JSON.parse(body.toString())["data"]["id"]
+          } else {
+            this.firestore.collection<any>('users').doc("test1234@example.com").set({
+              saltedgecustomerid: JSON.parse(body.toString())["data"]["id"]
+            })
+            this.expensesService.saltedgecustomerid = JSON.parse(body.toString())["data"]["id"]
+          }
+        }
 
         // Create the connection
         var options = {
@@ -63,40 +79,44 @@ export class AccountsPage implements OnInit {
 
         var req = https.request(options, function (res) {
           var chunks = [];
-        
+
           res.on("data", function (chunk) {
             chunks.push(chunk);
           });
-        
+
           res.on("end", function (chunk) {
             var body = Buffer.concat(chunks);
             console.log(body.toString());
             console.log(JSON.parse(body.toString()));
             window.open(JSON.parse(body.toString())["data"]["connect_url"], "_blank");
           });
-        
+
           res.on("error", function (error) {
             console.error(error);
           });
         });
-        
-        var postData = JSON.stringify({"data":{"customer_id":"301926924224039280","return_connection_id":true,"consent":{"scopes":["account_details","transactions_details"]},"attempt":{"fetch_scopes":["accounts","transactions"]}}});
-        
+
+        var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "return_connection_id": true, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
+
         req.write(postData);
-        
+
         req.end();
-      
+
       });
-    
+
       res.on("error", function (error) {
         console.error(error);
       });
     });
-    
-    var postData = JSON.stringify({"data":{"identifier":"test1234@example.com"}});
-    
+
+    if (this.userService.loggedin == true) {
+      var postData = JSON.stringify({ "data": { "identifier": this.userService.email } });
+    } else {
+      var postData = JSON.stringify({ "data": { "identifier": "test1234@example.com" } });
+    }
+
     req.write(postData);
-    
+
     req.end();
   }
 
@@ -136,50 +156,64 @@ export class AccountsPage implements OnInit {
     this.navCtrl.navigateForward(["/accounts/accountslist"])
   }
 
-  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService) {
+  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore) {
+
+    if (this.userService.loggedin != true) {
+      let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
+
+        console.log(data)
+        this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
+
+        sub.unsubscribe();
+        getsaltedgeaccounts()
+      });
+    } else {
+      getsaltedgeaccounts()
+    }
 
     this.items = [
       { productName: "Test", expanded: false },
       { expanded: false }
     ];
 
-    var https = require('follow-redirects').https;
+    function getsaltedgeaccounts() {
+      var https = require('follow-redirects').https;
 
-    var options = {
-      'method': 'GET',
-      'hostname': 'cors-anywhere.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/connections?customer_id=301926924224039280',
-      'headers': {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
-        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
-        'Origin': ''
-      },
-      'maxRedirects': 20
-    };
+      var options = {
+        'method': 'GET',
+        'hostname': 'cors-anywhere.herokuapp.com',
+        'path': '/https://www.saltedge.com/api/v5/connections?customer_id=' + expensesService.saltedgecustomerid,
+        'headers': {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+          'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+          'Origin': ''
+        },
+        'maxRedirects': 20
+      };
 
-    var req = https.request(options, function (res) {
-      var chunks = [];
+      var req = https.request(options, function (res) {
+        var chunks = [];
 
-      res.on("data", function (chunk) {
-        chunks.push(chunk);
+        res.on("data", function (chunk) {
+          chunks.push(chunk);
+        });
+
+        res.on("end", function (chunk) {
+          var body = Buffer.concat(chunks);
+          // console.log(body.toString());
+          console.log(JSON.parse(body.toString()));
+          expensesService.saltedgeconnections = JSON.parse(body.toString())["data"]
+        });
+
+        res.on("error", function (error) {
+          console.error(error);
+        });
       });
 
-      res.on("end", function (chunk) {
-        var body = Buffer.concat(chunks);
-        // console.log(body.toString());
-        console.log(JSON.parse(body.toString()));
-        expensesService.saltedgeconnections = JSON.parse(body.toString())["data"]
-      });
-
-      res.on("error", function (error) {
-        console.error(error);
-      });
-    });
-
-    req.end();
-
+      req.end();
+    }
 
     // Citibank
     if (userService.citiLogin == true) {
@@ -368,13 +402,13 @@ export class AccountsPage implements OnInit {
     console.log(each);
     this.expensesService.transactionhistorytitle = each.cardDesc;
     this.expensesService.transactionhistoryaccountId = each.cardId; // Store the card id in a global variable so that the next page can fetch the transaction details and show the expenses summary
-    this.navCtrl.navigateForward(['/accounts/transactionhistory']); 
+    this.navCtrl.navigateForward(['/accounts/transactionhistory']);
   }
 
   ocbcspendinginsights(each) {
     console.log(each);
     this.expensesService.transactionhistorytitle = each.cardDesc
-    this.expensesService.transactionhistoryaccountId = each.cardId 
+    this.expensesService.transactionhistoryaccountId = each.cardId
     this.navCtrl.navigateForward(['/accounts/spendinginsights']);
   }
 }
