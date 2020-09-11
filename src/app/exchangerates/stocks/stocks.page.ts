@@ -28,7 +28,7 @@ export class StocksPage implements OnInit {
 
   constructor(private expensesService: ExpensesService, private userService: UserService) {
 
-      if (expensesService.msftloaded == false) {
+      if (expensesService.exchangeRatesLoaded == false) {
         msft()
       }
 
