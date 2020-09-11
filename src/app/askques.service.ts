@@ -7,19 +7,23 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class AskQuesService {
 
-  uid: string;
-  username: string;
-  email: string;
-  ques: string;
+  // uid: string;
+  // username: string;
+  // email: string;
+  // ques: string;
   // usersquesCollectionRef: AngularFirestoreCollection<any>;
 
   constructor(public firestore: AngularFirestore) {
     // this.usersquesCollectionRef = this.firestore.collection<any>('usersques');
   }
 
-  addUpdateContact(username: string, email: string, ques: string, uid: string){
-    this.firestore.collection<any>('users').doc(uid).set({username: username, email: email, ques: ques});
-    }
+  // addUpdateContact(username: string, email: string, ques: string, uid: string){
+  //   this.firestore.collection<any>('users').doc(uid).set({username: username, email: email, ques: ques});
+  // }
+
+  addUpdateContact(ques: string, uid: string){
+    this.firestore.collection<any>('users').doc(uid).update({ ques: ques});
+  }
 
   deleteContact(name: string){
     this.firestore.collection<any>('users').doc(name).delete();
