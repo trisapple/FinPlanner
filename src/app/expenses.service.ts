@@ -28,14 +28,12 @@ export class ExpensesService {
   total = 0 // Put the total spending of the account as a global variable so that it can be accessed from the html
 
   // Stocks
-  msftloaded = false;
+  exchangeRatesLoaded = false;
   msftStocks = [];
 
   // Crypto 
-  cryptoloaded = false;
   crypto = [];
-  // cryptoSG = [];
-
+  
   saltedgeconnections = []
   saltedgeconnection = []
   saltedgeaccounts = []

@@ -10,7 +10,7 @@ export class CryptoPage implements OnInit {
 
   constructor(private expensesService: ExpensesService) {
 
-    if (expensesService.cryptoloaded == false) {
+    if (expensesService.exchangeRatesLoaded == false) {
       crypto()
     }
 
