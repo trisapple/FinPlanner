@@ -13,7 +13,7 @@ export class AccountslistPage implements OnInit {
   transactionhistory(account) {
     console.log(account);
     this.expensesService.saltedgeaccount = account
-    this.expensesService.transactionhistorytitle = account.nature;
+    this.expensesService.transactionhistorytitle = account.account_name;
     this.expensesService.saltedgeaccountcurrencycode = account.currency_code
     // this.expensesService.transactionhistoryaccountId = account.accountId;
     this.navCtrl.navigateForward(['/accounts/transactionhistory']);
@@ -22,7 +22,7 @@ export class AccountslistPage implements OnInit {
   // Onclick to next page, passing account information to the next page
   spendinginsights(account) {
     this.expensesService.saltedgeaccount = account
-    this.expensesService.transactionhistorytitle = account.nature
+    this.expensesService.transactionhistorytitle = account.account_name
     this.expensesService.saltedgeaccountcurrencycode = account.currency_code
     // this.expensesService.transactionhistoryaccountId = account.accountId // Store the account id in a global variable so that the next page can fetch the transaction details and show the expenses summary
     this.navCtrl.navigateForward(['/accounts/spendinginsights']); // Navigate to the next page
@@ -50,7 +50,7 @@ export class AccountslistPage implements OnInit {
     var test = []
   }
 
-  constructor(public expensesService: ExpensesService, public navCtrl: NavController) { 
+  constructor(public expensesService: ExpensesService, public navCtrl: NavController) {
     var https = require('follow-redirects').https;
 
     var options = {
@@ -81,14 +81,21 @@ export class AccountslistPage implements OnInit {
 
         function humanize(str) {
           var i, frags = str.split('_');
-          for (i=0; i<frags.length; i++) {
+          for (i = 0; i < frags.length; i++) {
             frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
           }
           return frags.join(' ');
         }
 
         for (let each of expensesService.saltedgeaccounts) {
-          each["nature"] = humanize(each["nature"])
+
+          if (each["extra"]["account_name"]) {
+            each["account_name"] = each["extra"]["account_name"]
+          } else {
+            each["account_name"] = humanize(each["nature"])
+          }
+
+          // each["nature"] = humanize(each["nature"])
           // if (each["nature"] == 'account') {
           //   each["nature"] = 'Account'
           // }
