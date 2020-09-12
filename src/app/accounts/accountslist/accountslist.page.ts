@@ -78,16 +78,26 @@ export class AccountslistPage implements OnInit {
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
         expensesService.saltedgeaccounts = JSON.parse(body.toString())["data"]
+
+        function humanize(str) {
+          var i, frags = str.split('_');
+          for (i=0; i<frags.length; i++) {
+            frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+          }
+          return frags.join(' ');
+        }
+
         for (let each of expensesService.saltedgeaccounts) {
-          if (each["nature"] == 'account') {
-            each["nature"] = 'Account'
-          }
-          if (each["nature"] == 'savings') {
-            each["nature"] = 'Savings'
-          }
-          if (each["nature"] == 'credit_card') {
-            each["nature"] = 'Credit Card'
-          }
+          each["nature"] = humanize(each["nature"])
+          // if (each["nature"] == 'account') {
+          //   each["nature"] = 'Account'
+          // }
+          // if (each["nature"] == 'savings') {
+          //   each["nature"] = 'Savings'
+          // }
+          // if (each["nature"] == 'credit_card') {
+          //   each["nature"] = 'Credit Card'
+          // }
           each["expanded"] = false
         }
         console.log(expensesService.saltedgeaccounts)

@@ -57,8 +57,17 @@ export class SpendingInsightsPage implements OnInit {
 
         obj["category"] = 'Amount'
 
+        function humanize(str) {
+          var i, frags = str.split('_');
+          for (i=0; i<frags.length; i++) {
+            frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+          }
+          return frags.join(' ');
+        }
+
         // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
         for (let transaction of expensesService.transactions) {
+          transaction.category = humanize(transaction.category)
           if (Math.sign(transaction.amount) == -1) {
             if (obj[transaction.category] == undefined) {
               obj[transaction.category] = 0
