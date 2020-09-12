@@ -26,5 +26,9 @@ export class ExchangeratesPage implements OnInit {
   crypto() {
     this.navCtrl.navigateForward(['/exchangerates/crypto']);
   }
+
+  Login() {
+    this.navCtrl.navigateForward(['/login'])
+  }
  
 }
