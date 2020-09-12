@@ -41,7 +41,9 @@
     </ion-card>
   </div>
 
-  <!-- <div *ngIf = "!userService.loggedin">
-    <ion-button>Log In</ion-button>
-  </div> -->
+  <div *ngIf = "!userService.loggedin" class = "container">
+    <ion-label>Please log in</ion-label>
+    <br>
+    <ion-button (click) = "Login()">Log In</ion-button>
+  </div>
 </ion-content>
