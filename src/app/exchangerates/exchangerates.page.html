@@ -10,7 +10,7 @@
 
 <ion-content class = "ion-padding">
 
-  <div *ngIf = "userService.loggedin">
+  <!-- <div *ngIf = "userService.loggedin"> -->
     <ion-label style = "font-size: 20px">
       View Realtime <b>Stocks</b>, <b>FX Rates</b> & <b>Cryptocurrencies</b> Exchange Rates:
     </ion-label>
@@ -39,11 +39,11 @@
         <ion-button fill="solid" slot="end" (click) = "crypto()">View</ion-button>
       </ion-item>
     </ion-card>
-  </div>
+  <!-- </div> -->
 
-  <div *ngIf = "!userService.loggedin" class = "container">
+  <!-- <div *ngIf = "!userService.loggedin" class = "container">
     <ion-label>Please log in</ion-label>
     <br>
     <ion-button (click) = "Login()">Log In</ion-button>
-  </div>
+  </div> -->
 </ion-content>

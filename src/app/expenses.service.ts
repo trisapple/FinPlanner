@@ -29,6 +29,7 @@ export class ExpensesService {
 
   // Stocks
   msftStocks = [];
+  teslaStocks = [];
 
   // Crypto 
   crypto = [];
