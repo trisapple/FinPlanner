@@ -45,10 +45,12 @@ export class TransactionHistoryPage implements OnInit {
           transaction["category"] = humanize(transaction["category"])
           transaction["amount"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode })
         }
+        
+        expensesService.transactions.reverse() // Sort by latest transactions first
 
         function humanize(str) {
           var i, frags = str.split('_');
-          for (i=0; i<frags.length; i++) {
+          for (i = 0; i < frags.length; i++) {
             frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
           }
           return frags.join(' ');
@@ -68,7 +70,7 @@ export class TransactionHistoryPage implements OnInit {
 
       function retrieveCitiTransactions() {
         var https = require('follow-redirects').https;
-    
+
         var options = {
           'method': 'GET',
           'hostname': 'sandbox.apihub.citi.com',
@@ -82,14 +84,14 @@ export class TransactionHistoryPage implements OnInit {
           },
           'maxRedirects': 20
         };
-    
+
         var req = https.request(options, function (res) {
           var chunks = [];
-    
+
           res.on("data", function (chunk) {
             chunks.push(chunk);
           });
-    
+
           res.on("end", function (chunk) {
             var body = Buffer.concat(chunks);
             // console.log(body.toString());
@@ -97,12 +99,12 @@ export class TransactionHistoryPage implements OnInit {
             expensesService.transactions = JSON.parse(body.toString())["transaction"] // Transactions List
             console.log(expensesService.transactions)
           });
-    
+
           res.on("error", function (error) {
             console.error(error);
           });
         });
-    
+
         req.end();
       }
     }
@@ -132,7 +134,7 @@ export class TransactionHistoryPage implements OnInit {
           res.on("data", function (chunk) {
             chunks.push(chunk);
           });
-          
+
           res.on("end", function (chunk) {
             var body = Buffer.concat(chunks);
             expensesService.transactions = JSON.parse(body.toString())["results"]["creditCardTransactions"]["creditCardTransactionDetail"]
