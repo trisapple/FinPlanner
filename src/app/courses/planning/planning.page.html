@@ -7,33 +7,31 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <div class="container">
-    <img src="../assets/plan.jpg" alt="Learn" style="width:80%">
-    <h1><strong>Financial Planning and Basics</strong></h1>
+    <img class ="pic1" src="../assets/plan.jpg" alt="Learn" style="width:80%">
+    <div class="centered">Financial Planning and Basics</div>
+    <div class="centered-1">There are essential steps in financial planning that you should take to set yourself up for success, no matter what your financial goals are.</div>
   </div>
 
-  <div class="cardview">
+
+
+  <div class="cardview" *ngFor="let item of items">
+    
     <ion-col>
       <ion-card class="card">
-        <img src="../../assets/plan.jpg" alt="ion" width="50%" class="list">
+        <iframe class="list" height="300px" [src]="item.vid"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <ion-row>
-          <ion-col>
-            <ion-card-title>Hello</ion-card-title>
-            <ion-card-header>Hi</ion-card-header>
-            <ion-card-content>Jesus</ion-card-content>
-          </ion-col>
-        </ion-row>
-      </ion-card>
-    </ion-col>
-    <ion-col>
-      <ion-card class="card">
-        <img src="../../assets/plan.jpg" alt="ion" width="50%" class="list">
-        <ion-row>
-          <ion-col>
-            <ion-card-title>Hello</ion-card-title>
-            <ion-card-header>Hi</ion-card-header>
-            <ion-card-content>Jesus</ion-card-content>
+          <ion-col class="padding">
+            <ion-card-header>
+              <ion-card-subtitle>
+                <ion-icon class="icon" name="videocam"></ion-icon>
+                {{item.sub}}
+              </ion-card-subtitle>
+              <ion-card-title>{{item.head}}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>{{item.des}}</ion-card-content>
+            <ion-card-content style="float: right;">{{item.time}}</ion-card-content>
           </ion-col>
         </ion-row>
       </ion-card>

@@ -2,10 +2,13 @@
     position: relative;
     text-align: center;
   }
-
+.pic1 {
+    opacity: 0.75;
+}
 .list {
     float: left;
     position: static;
+    width: 50%;
 }
 
 .cardview { 
@@ -18,3 +21,31 @@
     display: block;
     margin: auto;
 }
+
+.padding {
+    padding: 20px;
+}
+
+.icon {
+    font-size: 20px;
+    position: relative;
+    top: 5px;
+}
+
+.centered {
+    position: absolute;
+    top: 40%;   
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    font-size: 3.4vw;
+  }
+
+  .centered-1 {
+    position: absolute;
+    top: 55%;   
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    font-size: 1.5vw;
+  }
