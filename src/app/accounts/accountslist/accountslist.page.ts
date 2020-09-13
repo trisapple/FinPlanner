@@ -94,6 +94,7 @@ export class AccountslistPage implements OnInit {
           } else {
             each["account_name"] = humanize(each["nature"])
           }
+          each["balance"] = each["balance"].toLocaleString('en-SG', { style: 'currency', currency: each["currency_code"] })
 
           // each["nature"] = humanize(each["nature"])
           // if (each["nature"] == 'account') {
