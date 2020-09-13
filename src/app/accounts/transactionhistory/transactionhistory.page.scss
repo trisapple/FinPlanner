@@ -4,3 +4,13 @@
   width: 93vw;
   margin-top: 215px;
 }
+
+.date {
+  --background: lightgray;
+}
+
+@media (prefers-color-scheme: dark) {
+  .date {
+    --background: #808080;
+  }
+}

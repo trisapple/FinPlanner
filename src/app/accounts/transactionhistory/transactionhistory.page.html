@@ -64,7 +64,7 @@
   </ion-grid>
 
   <div *ngFor="let each of expensesService.transactions">
-    <ion-item style="--background: lightgray;">
+    <ion-item class="date">
       {{ each.made_on }}
     </ion-item>
     <ion-item>
