@@ -113,8 +113,14 @@
           <h2>{{ each.provider_name }}</h2> <!-- Card Name -->
           <p>Last Synced: {{ each.last_success_at }}</p> <!-- Card Name -->
         </ion-label>
-        <ion-button>Sync</ion-button>
-        <ion-button style="margin-right: 16px;">Delete</ion-button>
+        <!-- <ion-button>Sync</ion-button> -->
+        <!-- <ion-button >Delete</ion-button> -->
+        <ion-button >
+          <ion-icon name="sync"></ion-icon>
+        </ion-button>
+        <ion-button style="margin-right: 16px;">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
 
         <!-- OCBC Credit Cards -->
         <ion-icon name="chevron-forward"></ion-icon>
