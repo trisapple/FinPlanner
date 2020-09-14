@@ -156,6 +156,50 @@ export class AccountsPage implements OnInit {
     this.navCtrl.navigateForward(["/accounts/accountslist"])
   }
 
+  reconnect(connection_id) {
+    console.log("reconnect")
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'POST',
+      'hostname': 'cors-anywhere.herokuapp.com',
+      'path': '/https://www.saltedge.com/api/v5/connect_sessions/reconnect',
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'Origin': ''
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, function (res) {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        console.log(JSON.parse(body.toString()));
+        window.open(JSON.parse(body.toString())["data"]["connect_url"], "_blank");
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "connection_id": connection_id, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
+
+    req.write(postData);
+
+    req.end();
+
+  }
+
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore) {
 
     if (this.userService.loggedin != true) {

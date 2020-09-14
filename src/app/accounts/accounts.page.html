@@ -115,7 +115,7 @@
         </ion-label>
         <!-- <ion-button>Sync</ion-button> -->
         <!-- <ion-button >Delete</ion-button> -->
-        <ion-button >
+        <ion-button (click)="reconnect(each.id)">
           <ion-icon name="sync"></ion-icon>
         </ion-button>
         <ion-button style="margin-right: 16px;">
