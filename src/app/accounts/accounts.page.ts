@@ -163,7 +163,7 @@ export class AccountsPage implements OnInit {
     var options = {
       'method': 'POST',
       'hostname': 'cors-anywhere.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/connect_sessions/reconnect',
+      'path': '/https://www.saltedge.com/api/v5/connect_sessions/refresh',
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -174,17 +174,59 @@ export class AccountsPage implements OnInit {
       'maxRedirects': 20
     };
 
-    var req = https.request(options, function (res) {
+    var req = https.request(options, res => {
       var chunks = [];
 
       res.on("data", function (chunk) {
         chunks.push(chunk);
       });
 
-      res.on("end", function (chunk) {
+      res.on("end", chunk => {
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
-        window.open(JSON.parse(body.toString())["data"]["connect_url"], "_blank");
+        if (JSON.parse(body.toString())["error"]) {
+
+          var options = {
+            'method': 'POST',
+            'hostname': 'cors-anywhere.herokuapp.com',
+            'path': '/https://www.saltedge.com/api/v5/connect_sessions/reconnect',
+            'headers': {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+              'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+              'Origin': ''
+            },
+            'maxRedirects': 20
+          };
+
+          var req = https.request(options, function (res) {
+            var chunks = [];
+
+            res.on("data", function (chunk) {
+              chunks.push(chunk);
+            });
+
+            res.on("end", function (chunk) {
+              var body = Buffer.concat(chunks);
+              console.log(JSON.parse(body.toString()));
+              window.open(JSON.parse(body.toString())["data"]["connect_url"], "_blank");
+            });
+
+            res.on("error", function (error) {
+              console.error(error);
+            });
+          });
+
+          var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "connection_id": connection_id, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
+
+          req.write(postData);
+
+          req.end();
+
+        } else {
+          window.open(JSON.parse(body.toString())["data"]["connect_url"], "_blank");
+        }
       });
 
       res.on("error", function (error) {
@@ -192,7 +234,7 @@ export class AccountsPage implements OnInit {
       });
     });
 
-    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "connection_id": connection_id, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
+    var postData = JSON.stringify({ "data": { "connection_id": connection_id } });
 
     req.write(postData);
 
