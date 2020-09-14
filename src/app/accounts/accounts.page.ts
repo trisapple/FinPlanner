@@ -205,6 +205,14 @@ export class AccountsPage implements OnInit {
           // console.log(body.toString());
           console.log(JSON.parse(body.toString()));
           expensesService.saltedgeconnections = JSON.parse(body.toString())["data"]
+          for (let connection of expensesService.saltedgeconnections) {
+            console.log(connection["last_success_at"])
+            if (connection["last_success_at"] == null) {
+              connection["last_success_at"] = "Never"
+            } else {
+              connection["last_success_at"] = new Date(connection["last_success_at"]).toLocaleString()
+            }
+          }
         });
 
         res.on("error", function (error) {
