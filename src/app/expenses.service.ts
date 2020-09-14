@@ -7,6 +7,7 @@ import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-chart
 export class ExpensesService {
 
   transactions = []; // Transactions List for the displayed account
+  transactions2 = []
   ocbcCreditCardTransaction = false;
  
   // Citibank

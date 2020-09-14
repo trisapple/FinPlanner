@@ -41,12 +41,26 @@ export class TransactionHistoryPage implements OnInit {
         console.log(JSON.parse(body.toString()));
         expensesService.transactions = JSON.parse(body.toString())["data"]
         console.log(expensesService.transactions)
+        expensesService.transactions.reverse() // Sort by latest transactions first
+
+        var obj = {}
+        var transactionlist = []
         for (let transaction of expensesService.transactions) {
+
           transaction["category"] = humanize(transaction["category"])
           transaction["amount"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode })
+
+          if (obj[transaction["made_on"]] == undefined) {
+            transactionlist = []
+          }
+          transactionlist.push(transaction)
+          obj[transaction["made_on"]] = transactionlist
+
         }
-        
-        expensesService.transactions.reverse() // Sort by latest transactions first
+        var obj2 = Object.entries(obj)
+        expensesService.transactions2 = obj2
+
+        console.log(expensesService.transactions2)
 
         function humanize(str) {
           var i, frags = str.split('_');

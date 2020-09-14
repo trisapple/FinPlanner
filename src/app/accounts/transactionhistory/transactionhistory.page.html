@@ -63,11 +63,11 @@
     </ion-label> -->
   </ion-grid>
 
-  <div *ngFor="let each of expensesService.transactions">
+  <div *ngFor="let each of expensesService.transactions2">
     <ion-item class="date">
-      {{ each.made_on }}
+      {{ each[0] }}
     </ion-item>
-    <ion-item>
+    <ion-item *ngFor="let each of each[1]">
       <ion-label class="ion-text-wrap">
         <h2>{{ each.description }}</h2>
         <p>{{ each.category }}</p>
