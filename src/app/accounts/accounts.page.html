@@ -107,9 +107,9 @@
 
     <!-- Accounts -->
     <div *ngFor="let each of expensesService.saltedgeconnections">
-      <ion-item (click)="gotoAccounts(each)">
+      <ion-item>
     
-        <ion-label>
+        <ion-label (click)="gotoAccounts(each)">
           <h2>{{ each.provider_name }}</h2> <!-- Card Name -->
           <p>Last Synced: {{ each.last_success_at }}</p> <!-- Card Name -->
         </ion-label>
@@ -118,7 +118,7 @@
         <ion-button (click)="reconnect(each.id)">
           <ion-icon name="sync"></ion-icon>
         </ion-button>
-        <ion-button style="margin-right: 16px;">
+        <ion-button (click)="deleteconnection(each.id)" style="margin-right: 16px;">
           <ion-icon name="trash"></ion-icon>
         </ion-button>
 

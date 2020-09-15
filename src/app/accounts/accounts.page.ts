@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { ExpensesService } from '../expenses.service';
@@ -200,7 +200,114 @@ export class AccountsPage implements OnInit {
 
   }
 
-  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore) {
+  async deleteconnection(connection_id) {
+    const alert = await this.alertController.create({
+      // cssClass: 'my-custom-class',
+      header: 'Delete Connected Bank?',
+      message: 'Are you sure you want to delete the connected bank?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          // cssClass: 'secondary',
+          handler: () => {
+            console.log('Cancelled');
+          }
+        }, {
+          text: 'Yes',
+          handler: () => {
+            console.log('Yes')
+            var https = require('follow-redirects').https;
+
+            var options = {
+              'method': 'DELETE',
+              'hostname': 'cors-anywhere.herokuapp.com',
+              'path': '/https://www.saltedge.com/api/v5/connections/' + connection_id,
+              'headers': {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+                'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+                'Origin': ''
+              },
+              'maxRedirects': 20
+            };
+
+            var req = https.request(options, (res) => {
+              var chunks = [];
+
+              res.on("data", function (chunk) {
+                chunks.push(chunk);
+              });
+
+              res.on("end", (chunk) => {
+                var body = Buffer.concat(chunks);
+                console.log(JSON.parse(body.toString()));
+                this.getsaltedgeaccounts()
+              });
+
+              res.on("error", function (error) {
+                console.error(error);
+              });
+            });
+
+            req.end();
+
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  getsaltedgeaccounts() {
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'GET',
+      'hostname': 'cors-anywhere.herokuapp.com',
+      'path': '/https://www.saltedge.com/api/v5/connections?customer_id=' + this.expensesService.saltedgecustomerid,
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'Origin': ''
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, (res) => {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end",  (chunk) => {
+        var body = Buffer.concat(chunks);
+        // console.log(body.toString());
+        console.log(JSON.parse(body.toString()));
+        this.expensesService.saltedgeconnections = JSON.parse(body.toString())["data"]
+        for (let connection of this.expensesService.saltedgeconnections) {
+          console.log(connection["last_success_at"])
+          if (connection["last_success_at"] == null) {
+            connection["last_success_at"] = "Never"
+          } else {
+            connection["last_success_at"] = new Date(connection["last_success_at"]).toLocaleString()
+          }
+        }
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    req.end();
+  }
+
+  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController) {
 
     if (this.userService.loggedin != true) {
       let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
@@ -209,63 +316,16 @@ export class AccountsPage implements OnInit {
         this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
 
         sub.unsubscribe();
-        getsaltedgeaccounts()
+        this.getsaltedgeaccounts()
       });
     } else {
-      getsaltedgeaccounts()
+      this.getsaltedgeaccounts()
     }
 
     this.items = [
       { productName: "Test", expanded: false },
       { expanded: false }
     ];
-
-    function getsaltedgeaccounts() {
-      var https = require('follow-redirects').https;
-
-      var options = {
-        'method': 'GET',
-        'hostname': 'cors-anywhere.herokuapp.com',
-        'path': '/https://www.saltedge.com/api/v5/connections?customer_id=' + expensesService.saltedgecustomerid,
-        'headers': {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
-          'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
-          'Origin': ''
-        },
-        'maxRedirects': 20
-      };
-
-      var req = https.request(options, function (res) {
-        var chunks = [];
-
-        res.on("data", function (chunk) {
-          chunks.push(chunk);
-        });
-
-        res.on("end", function (chunk) {
-          var body = Buffer.concat(chunks);
-          // console.log(body.toString());
-          console.log(JSON.parse(body.toString()));
-          expensesService.saltedgeconnections = JSON.parse(body.toString())["data"]
-          for (let connection of expensesService.saltedgeconnections) {
-            console.log(connection["last_success_at"])
-            if (connection["last_success_at"] == null) {
-              connection["last_success_at"] = "Never"
-            } else {
-              connection["last_success_at"] = new Date(connection["last_success_at"]).toLocaleString()
-            }
-          }
-        });
-
-        res.on("error", function (error) {
-          console.error(error);
-        });
-      });
-
-      req.end();
-    }
 
     // Citibank
     if (userService.citiLogin == true) {
