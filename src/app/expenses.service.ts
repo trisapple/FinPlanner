@@ -33,7 +33,8 @@ export class ExpensesService {
   teslaStocks = [];
 
   // Crypto 
-  crypto = [];
+  cryptoUS = [];
+  cryptoSG = [];
 
   // FXRates
   fxrates = [];
