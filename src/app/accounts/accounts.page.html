@@ -28,13 +28,14 @@
   
   <br><br> -->
 
-  <ion-button (click)=saltedgeconnect()>Connect Bank Account</ion-button>
+  <!-- <ion-button (click)=saltedgeconnect()>Connect Bank Account</ion-button> -->
 
   <!-- Citibank -->
   <div *ngIf="userService.citiLogin">
     <ion-list *ngFor="let each of expensesService.citiAccounts">
       <ion-list-header style="font-size: 24px; font-weight: bold;">
-        {{ each.accountGroup }} <!-- Account Group Name -->
+        {{ each.accountGroup }}
+        <!-- Account Group Name -->
         <!-- For now one will only be displayed -->
       </ion-list-header>
 
@@ -47,13 +48,16 @@
           </ion-label>
 
           <!-- For Savings and Investments accounts, and more -->
-          <p *ngIf="account.currentBalance" style="margin-right: 16px">{{ (account.currentBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+          <p *ngIf="account.currentBalance" style="margin-right: 16px">
+            {{ (account.currentBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
 
           <!-- For Credit Cards accounts -->
-          <p *ngIf="account.availableCredit" style="margin-right: 16px">{{ (account.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+          <p *ngIf="account.availableCredit" style="margin-right: 16px">
+            {{ (account.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
 
           <!-- For Insurance accounts -->
-          <p *ngIf="account.totalPremiumPaidAmount" style="margin-right: 16px">{{ (account.totalPremiumPaidAmount).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+          <p *ngIf="account.totalPremiumPaidAmount" style="margin-right: 16px">
+            {{ (account.totalPremiumPaidAmount).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
 
           <!-- <p *ngFor="let i of account | keyvalue" style="margin-right: 16px">{{ (i.value.availableCredit).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p> -->
           <ion-icon *ngIf="!account.expanded" name="chevron-forward"></ion-icon>
@@ -61,8 +65,12 @@
         </ion-item>
         <app-expandable expandHeight="100px" [expanded]="account.expanded">
           <ion-item>
-            <ion-label style="justify-content: center; display: flex;"><ion-button (click)="spendinginsights(account)">View Spending Insights</ion-button></ion-label>
-            <ion-label style="justify-content: center; display: flex;"><ion-button (click)="transactionhistory(account)">View Transaction History</ion-button></ion-label>
+            <ion-label style="justify-content: center; display: flex;">
+              <ion-button (click)="spendinginsights(account)">View Spending Insights</ion-button>
+            </ion-label>
+            <ion-label style="justify-content: center; display: flex;">
+              <ion-button (click)="transactionhistory(account)">View Transaction History</ion-button>
+            </ion-label>
           </ion-item>
         </app-expandable>
       </div>
@@ -73,27 +81,32 @@
   <div *ngIf="userService.ocbcLogin">
     <ion-list>
       <ion-list-header style="font-size: 24px; font-weight: bold;">
-        OCBC Credit Cards 
+        OCBC Credit Cards
       </ion-list-header>
 
       <!-- Accounts -->
       <div *ngFor="let each of expensesService.ocbcAccounts">
         <ion-item (click)="expandItem(each)">
-      
+
           <ion-label>
             <h2>{{ each.cardDesc}}</h2> <!-- Card Name -->
             <p>{{ each.maskedCardNo }}</p> <!-- Card Number -->
           </ion-label>
 
           <!-- OCBC Credit Cards -->
-          <p style="margin-right: 16px">{{ (each.availableBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
+          <p style="margin-right: 16px">
+            {{ (each.availableBalance).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }) }}</p>
           <ion-icon *ngIf="!each.expanded" name="chevron-forward"></ion-icon>
           <ion-icon *ngIf="each.expanded" name="chevron-down"></ion-icon>
         </ion-item>
         <app-expandable expandHeight="100px" [expanded]="each.expanded">
           <ion-item>
-            <ion-label style="justify-content: center; display: flex;"><ion-button (click)="ocbcspendinginsights(each)">View Spending Insights</ion-button></ion-label>
-            <ion-label style="justify-content: center; display: flex;"><ion-button (click)="ocbctransactionhistory(each)">View Transaction History</ion-button></ion-label>
+            <ion-label style="justify-content: center; display: flex;">
+              <ion-button (click)="ocbcspendinginsights(each)">View Spending Insights</ion-button>
+            </ion-label>
+            <ion-label style="justify-content: center; display: flex;">
+              <ion-button (click)="ocbctransactionhistory(each)">View Transaction History</ion-button>
+            </ion-label>
           </ion-item>
         </app-expandable>
       </div>
@@ -102,13 +115,13 @@
 
   <ion-list>
     <ion-list-header style="font-size: 24px; font-weight: bold;">
-      Connected Banks 
+      Connected Banks
     </ion-list-header>
 
     <!-- Accounts -->
     <div *ngFor="let each of expensesService.saltedgeconnections">
       <ion-item>
-    
+
         <ion-label (click)="gotoAccounts(each)">
           <h2>{{ each.provider_name }}</h2> <!-- Card Name -->
           <p>Last Synced: {{ each.last_success_at }}</p> <!-- Card Name -->
@@ -126,6 +139,13 @@
         <ion-icon name="chevron-forward"></ion-icon>
       </ion-item>
     </div>
+    <ion-item (click)=saltedgeconnect()>
+      <ion-icon style="margin-right: 16px" name="add"></ion-icon>
+      <ion-label>
+        <h2>Connect Bank Account</h2>
+      </ion-label>
+    </ion-item>
+
   </ion-list>
 
   <!-- For quick testing using Ionic Serve -->
