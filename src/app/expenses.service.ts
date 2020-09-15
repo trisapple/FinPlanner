@@ -38,6 +38,7 @@ export class ExpensesService {
 
   // FXRates
   fxrates = [];
+  fxratesSG = [];
   
   saltedgeconnections = []
   saltedgeconnection = []
