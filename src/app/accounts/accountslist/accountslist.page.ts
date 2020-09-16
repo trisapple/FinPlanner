@@ -29,7 +29,6 @@ export class AccountslistPage implements OnInit {
   }
 
   expandItem(item): void {
-
     // Can expand as many ion-items the user wishes at any one time
     // item.expanded = !item.expanded
 
@@ -46,16 +45,16 @@ export class AccountslistPage implements OnInit {
         return listItem;
       });
     }
-
-    var test = []
   }
 
+  // Get the list of accounts based on the bank
   constructor(public expensesService: ExpensesService, public navCtrl: NavController) {
     var https = require('follow-redirects').https;
 
     var options = {
       'method': 'GET',
       'hostname': 'cors-anywhere.herokuapp.com',
+      // connection_id determines which accounts to get
       'path': '/https://www.saltedge.com/api/v5/accounts?connection_id=' + this.expensesService.saltedgeconnection["id"],
       'headers': {
         'Accept': 'application/json',
@@ -79,6 +78,7 @@ export class AccountslistPage implements OnInit {
         console.log(JSON.parse(body.toString()));
         expensesService.saltedgeaccounts = JSON.parse(body.toString())["data"]
 
+        // Automatically remove underscores and capitalise every word retrieved from the API
         function humanize(str) {
           var i, frags = str.split('_');
           for (i = 0; i < frags.length; i++) {
@@ -87,6 +87,7 @@ export class AccountslistPage implements OnInit {
           return frags.join(' ');
         }
 
+        // Loop through the accounts to get the account name (or nature) and the balance
         for (let each of expensesService.saltedgeaccounts) {
 
           if (each["extra"]["account_name"]) {
@@ -95,18 +96,7 @@ export class AccountslistPage implements OnInit {
             each["account_name"] = humanize(each["nature"])
           }
           each["balance"] = each["balance"].toLocaleString('en-SG', { style: 'currency', currency: each["currency_code"] })
-
-          // each["nature"] = humanize(each["nature"])
-          // if (each["nature"] == 'account') {
-          //   each["nature"] = 'Account'
-          // }
-          // if (each["nature"] == 'savings') {
-          //   each["nature"] = 'Savings'
-          // }
-          // if (each["nature"] == 'credit_card') {
-          //   each["nature"] = 'Credit Card'
-          // }
-          each["expanded"] = false
+          each["expanded"] = false // Allow the expandable to work
         }
         console.log(expensesService.saltedgeaccounts)
       });

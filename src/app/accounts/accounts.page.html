@@ -123,22 +123,23 @@
       <ion-item>
 
         <ion-label (click)="gotoAccounts(each)">
-          <h2>{{ each.provider_name }}</h2> <!-- Card Name -->
-          <p>Last Synced: {{ each.last_success_at }}</p> <!-- Card Name -->
+          <h2>{{ each.provider_name }}</h2> <!-- Bank Name -->
+          <p>Last Synced: {{ each.last_success_at }}</p> <!-- Last Synced Date and Time -->
         </ion-label>
-        <!-- <ion-button>Sync</ion-button> -->
-        <!-- <ion-button >Delete</ion-button> -->
+        <!-- Reconnect Bank -->
         <ion-button (click)="reconnect(each.id)">
           <ion-icon name="sync"></ion-icon>
         </ion-button>
+        <!-- Delete Bank -->
         <ion-button (click)="deleteconnection(each.id)" style="margin-right: 16px;">
           <ion-icon name="trash"></ion-icon>
         </ion-button>
 
-        <!-- OCBC Credit Cards -->
         <ion-icon name="chevron-forward"></ion-icon>
       </ion-item>
     </div>
+
+    <!-- Connect Bank Account -->
     <ion-item (click)=createconnection()>
       <ion-icon style="margin-right: 16px" name="add"></ion-icon>
       <ion-label>

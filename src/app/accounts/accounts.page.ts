@@ -15,6 +15,7 @@ export class AccountsPage implements OnInit {
 
   public items: any = [];
 
+  // Connect Bank
   createconnection() {
     // Create the connection
     var https = require('follow-redirects').https;
@@ -43,7 +44,7 @@ export class AccountsPage implements OnInit {
         var body = Buffer.concat(chunks);
         console.log(body.toString());
         console.log(JSON.parse(body.toString()));
-        window.open(JSON.parse(body.toString())["data"]["connect_url"], "_blank");
+        window.open(JSON.parse(body.toString())["data"]["connect_url"], "_blank"); // Open a new tab and redirect the user to the connect url to connect their bank account
       });
 
       res.on("error", function (error) {
@@ -51,6 +52,7 @@ export class AccountsPage implements OnInit {
       });
     });
 
+    // The customer_id determines where to connect the bank account to
     var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "return_connection_id": true, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
 
     req.write(postData);
@@ -88,14 +90,15 @@ export class AccountsPage implements OnInit {
     }
   }
 
+  // When user clicks on their bank, they will be presented a list of their corresponding accounts
   gotoAccounts(each) {
     console.log(each)
     this.expensesService.saltedgeconnection = each
     this.navCtrl.navigateForward(["/accounts/accountslist"])
   }
 
+  // Reconnect Bank to refresh data
   reconnect(connection_id) {
-    console.log("reconnect")
     var https = require('follow-redirects').https;
 
     var options = {
@@ -130,6 +133,7 @@ export class AccountsPage implements OnInit {
       });
     });
 
+    // The customer_id and connection_id determines the connection to refresh
     var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "connection_id": connection_id, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
 
     req.write(postData);
@@ -138,7 +142,9 @@ export class AccountsPage implements OnInit {
 
   }
 
+  // Delete connection
   async deleteconnection(connection_id) {
+    // Create pop up to ask if user wants to delete or not
     const alert = await this.alertController.create({
       // cssClass: 'my-custom-class',
       header: 'Delete Connected Bank?',
@@ -160,6 +166,7 @@ export class AccountsPage implements OnInit {
             var options = {
               'method': 'DELETE',
               'hostname': 'cors-anywhere.herokuapp.com',
+              // The connection_id determines which connection to delete
               'path': '/https://www.saltedge.com/api/v5/connections/' + connection_id,
               'headers': {
                 'Accept': 'application/json',
@@ -181,7 +188,7 @@ export class AccountsPage implements OnInit {
               res.on("end", (chunk) => {
                 var body = Buffer.concat(chunks);
                 console.log(JSON.parse(body.toString()));
-                this.getsaltedgeaccounts()
+                this.getsaltedgeaccounts() // Refresh the list of bank accounts
               });
 
               res.on("error", function (error) {
@@ -198,6 +205,7 @@ export class AccountsPage implements OnInit {
     await alert.present();
   }
 
+  // Load the bank accounts
   getsaltedgeaccounts() {
     var https = require('follow-redirects').https;
 
