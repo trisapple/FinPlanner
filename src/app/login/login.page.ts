@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { ExpensesService } from '../expenses.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-login',
@@ -26,16 +27,17 @@ export class LoginPage implements OnInit {
   error = '';
 
   constructor(private fireauth: AngularFireAuth,
-              public alertController: AlertController,
-              public toastCtrl: ToastController,
-              public navCtrl: NavController,
-              public userService: UserService,
-              public http: HttpClient,
-              public platform: Platform,
-              private googlePlus: GooglePlus,
-              private fb: Facebook,
-              public expensesService: ExpensesService
-              ) { }
+    public alertController: AlertController,
+    public toastCtrl: ToastController,
+    public navCtrl: NavController,
+    public userService: UserService,
+    public http: HttpClient,
+    public platform: Platform,
+    private googlePlus: GooglePlus,
+    private fb: Facebook,
+    public expensesService: ExpensesService,
+    public firestore: AngularFirestore
+  ) { }
 
   ngOnInit() {
   }
@@ -70,7 +72,7 @@ export class LoginPage implements OnInit {
             this.presentToast('Please verfiy your email!', 'middle', 2000); // Will be executed if email is not verified
           }
         })
-        .catch (async error => {
+        .catch(async error => {
           const toast = this.toastCtrl.create({
             message: error.message,
             position: 'middle',
@@ -107,13 +109,13 @@ export class LoginPage implements OnInit {
           console.log('Logged into Facebook!', res);
           const accessToken = res.authResponse.accessToken;
           this.fireauth.signInWithCredential(firebase.auth.FacebookAuthProvider.credential(accessToken))
-          .then (res => {
-            this.getFacebookUserData(accessToken);
-          })
-          .catch (err => {
-            console.log(err);
-            alert(err);
-          });
+            .then(res => {
+              this.getFacebookUserData(accessToken);
+            })
+            .catch(err => {
+              console.log(err);
+              alert(err);
+            });
         })
         .catch(e => {
           console.log('Error logging into Facebook', e);
@@ -125,19 +127,28 @@ export class LoginPage implements OnInit {
     else {
       this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then(res => {
-        this.getFacebookUserData((<any>res).credential.accessToken); // Get the user's Facebook Account Data
-        this.presentToast('Login Successfully!', 'middle', 2000);
-        console.log(res);
-        this.userService.uid = res.user.uid
-        this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
-        this.navCtrl.navigateRoot('/home');
-      })
-      .catch(err => {
-        console.log(err);
-        alert(err);
-      });
+          this.getFacebookUserData((<any>res).credential.accessToken); // Get the user's Facebook Account Data
+          this.presentToast('Login Successfully!', 'middle', 2000);
+          console.log(res);
+          this.userService.uid = res.user.uid
+          if (res.additionalUserInfo.isNewUser) {
+            this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
+            this.createcustomer()
+          } else {
+            let sub: Subscription = this.userService.login(res.user.uid).subscribe((data) => {
+              console.log(data)
+              this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
+              sub.unsubscribe();
+            });
+          }
+          this.navCtrl.navigateRoot('/home');
+        })
+        .catch(err => {
+          console.log(err);
+          alert(err);
+        });
     }
-}
+  }
 
   getFacebookUserData(accessToken) {
     const endpoint = `https://graph.facebook.com/me?fields=name,email,picture.width(400).height(400)&access_token=${accessToken}`
@@ -186,27 +197,84 @@ export class LoginPage implements OnInit {
     // If running on the web
     else {
       this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then( res => {
-        // Get the user's Google Account Data
-        this.userService.loggedin = true;
-        this.userService.name = res.user.displayName;
-        this.userService.email = res.user.email;
-        this.userService.profilePicture = res.user.photoURL;
-        this.userService.uid = res.user.uid;
-        if (res.additionalUserInfo.isNewUser) {
-          this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
-        }
-        this.presentToast('Login Successfully!', 'middle', 2000);
-        console.log('From --Google--');
-        console.log(res);
-        this.userService.socialLogin = true;
-        this.userService.provider = "Google";
-        this.navCtrl.navigateRoot('/home');
-      })
-      .catch(err => {
-        console.log(err);
-        alert(err);
-      });
+        .then(res => {
+          // Get the user's Google Account Data
+          this.userService.loggedin = true;
+          this.userService.name = res.user.displayName;
+          this.userService.email = res.user.email;
+          this.userService.profilePicture = res.user.photoURL;
+          this.userService.uid = res.user.uid;
+          if (res.additionalUserInfo.isNewUser) {
+            this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
+            this.createcustomer()
+          } else {
+            let sub: Subscription = this.userService.login(res.user.uid).subscribe((data) => {
+              console.log(data)
+              this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
+              sub.unsubscribe();
+            })
+          }
+          this.presentToast('Login Successfully!', 'middle', 2000);
+          console.log('From --Google--');
+          console.log(res);
+          this.userService.socialLogin = true;
+          this.userService.provider = "Google";
+          this.navCtrl.navigateRoot('/home');
+        })
+        .catch(err => {
+          console.log(err);
+          alert(err);
+        });
     }
+  }
+
+  createcustomer() {
+    // Create the customer
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'POST',
+      'hostname': 'cors-anywhere.herokuapp.com',
+      'path': '/https://www.saltedge.com/api/v5/customers/',
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'Origin': ''
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, res => {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", chunk => {
+        var body = Buffer.concat(chunks);
+        console.log(body.toString());
+        console.log(JSON.parse(body.toString()));
+
+        if (JSON.parse(body.toString())["data"]) {
+          this.firestore.collection<any>('users').doc(this.userService.uid).update({
+            saltedgecustomerid: JSON.parse(body.toString())["data"]["id"]
+          })
+          this.expensesService.saltedgecustomerid = JSON.parse(body.toString())["data"]["id"]
+        }
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    var postData = JSON.stringify({ "data": { "identifier": this.userService.email } });
+
+    req.write(postData);
+
+    req.end();
   }
 }
