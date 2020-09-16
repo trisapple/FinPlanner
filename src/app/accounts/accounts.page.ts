@@ -91,6 +91,7 @@ export class AccountsPage implements OnInit {
   }
 
   // When user clicks on their bank, they will be presented a list of their corresponding accounts
+  // Pass the relevant array to the accountslist page
   gotoAccounts(each) {
     console.log(each)
     this.expensesService.saltedgeconnection = each

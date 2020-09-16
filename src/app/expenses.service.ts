@@ -40,12 +40,12 @@ export class ExpensesService {
   fxrates = [];
   fxratesSG = [];
   
-  saltedgeconnections = []
-  saltedgeconnection = []
-  saltedgeaccounts = []
-  saltedgeaccount = []
-  saltedgeaccountcurrencycode: String
-  saltedgecustomerid: String
+  saltedgeconnections = [] // Array of connected banks
+  saltedgeconnection = [] // Array of Connected Bank information
+  saltedgeaccounts = [] // Array of accounts for the connected bank
+  saltedgeaccount = [] // Array of account information 
+  saltedgeaccountcurrencycode: String // Currency code for spending insights and transaction history to display the corresponding currency symbol
+  saltedgecustomerid: String // Salt Edge customer id to fetch user's connected banks
 
   constructor() { }
 }
