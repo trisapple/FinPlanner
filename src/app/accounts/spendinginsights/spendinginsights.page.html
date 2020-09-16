@@ -20,13 +20,13 @@
       <!-- Loop through the array and display the expenses -->
       <div *ngFor="let i of expensesService.pieChartData2">
         <ion-row style="margin-top: 6px;">
-          <ion-text>{{ i[0] }}</ion-text>
+          <ion-text>{{ i[0] }}</ion-text> <!-- Category -->
         </ion-row>
         <ion-row style="margin-top: 6px;">
-          <ion-text>{{ i[2] }} ({{ i[3] }}%)</ion-text>
+          <ion-text>{{ i[2] }} ({{ i[3] }}%)</ion-text> <!-- Percentage of total expenses -->
         </ion-row>
         <ion-row style="margin-top: 6px;">
-          <ion-progress-bar [value]="i[1]/expensesService.total"></ion-progress-bar>
+          <ion-progress-bar [value]="i[1]/expensesService.total"></ion-progress-bar> <!-- Percentage as Progress Bar -->
         </ion-row>
         <br>
       </div>

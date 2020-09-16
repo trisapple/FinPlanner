@@ -18,6 +18,7 @@ export class TransactionHistoryPage implements OnInit {
     var options = {
       'method': 'GET',
       'hostname': 'cors-anywhere.herokuapp.com',
+      // The connection_id and account_id determines where to retrieve the transaction history
       'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + this.expensesService.saltedgeconnection["id"] + '&account_id=' + this.expensesService.saltedgeaccount["id"],
       'headers': {
         'Accept': 'application/json',
@@ -47,21 +48,30 @@ export class TransactionHistoryPage implements OnInit {
         var transactionlist = []
         for (let transaction of expensesService.transactions) {
 
-          transaction["category"] = humanize(transaction["category"])
-          transaction["amount"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode })
+          transaction["category"] = humanize(transaction["category"]) // Remove underscores and capitalise every word
+          transaction["amount"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode }) // Include currency symbol 
 
+          // The 5 lines of code below will collate transactions by date
+          // transaction["made_on"] is the date of transaction
+
+          // Once we start from the first date or move to a new date, we empty the transactionlist array
           if (obj[transaction["made_on"]] == undefined) {
             transactionlist = []
           }
-          transactionlist.push(transaction)
-          obj[transaction["made_on"]] = transactionlist
+
+          transactionlist.push(transaction) // Add the transaction to the array
+          obj[transaction["made_on"]] = transactionlist // Set the transactionlist array as the value of the date key 
+          // e.g. {2018-04-23: Array, 2018-04-22: Array, ... }
 
         }
-        var obj2 = Object.entries(obj)
+        console.log(obj)
+        var obj2 = Object.entries(obj) // Convert the object into an array so that we can interate it in HTML
+        // e.g. [["2018-04-23", Array], ["2018-04-22", Array], ... ]
         expensesService.transactions2 = obj2
 
         console.log(expensesService.transactions2)
 
+        // Remove underscores and capitalise every word (e.g. fees_and_charges becomes Fees And Charges)
         function humanize(str) {
           var i, frags = str.split('_');
           for (i = 0; i < frags.length; i++) {

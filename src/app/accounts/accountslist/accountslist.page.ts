@@ -78,7 +78,7 @@ export class AccountslistPage implements OnInit {
         console.log(JSON.parse(body.toString()));
         expensesService.saltedgeaccounts = JSON.parse(body.toString())["data"]
 
-        // Automatically remove underscores and capitalise every word retrieved from the API
+        // Remove underscores and capitalise every word (e.g. fees_and_charges becomes Fees And Charges)
         function humanize(str) {
           var i, frags = str.split('_');
           for (i = 0; i < frags.length; i++) {
@@ -95,7 +95,7 @@ export class AccountslistPage implements OnInit {
           } else {
             each["account_name"] = humanize(each["nature"])
           }
-          each["balance"] = each["balance"].toLocaleString('en-SG', { style: 'currency', currency: each["currency_code"] })
+          each["balance"] = each["balance"].toLocaleString('en-SG', { style: 'currency', currency: each["currency_code"] }) // Include currency symbol
           each["expanded"] = false // Allow the expandable to work
         }
         console.log(expensesService.saltedgeaccounts)

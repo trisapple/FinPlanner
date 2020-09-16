@@ -47,16 +47,11 @@ export class SpendingInsightsPage implements OnInit {
 
         // Variables to keep track of the amount spent in the transaction categories
         var obj = {} // Set up an empty Object
-        var phone = 0
-        var bills = 0
-        var lifestyle = 0
-        var taxes = 0
-        var recurringfees = 0
-        var others = 0
-        expensesService.total = 0
+        expensesService.total = 0 // Start from 0
 
-        obj["category"] = 'Amount'
+        obj["category"] = 'Amount' // Add this for the pie chart
 
+        // Remove underscores and capitalise every word (e.g. fees_and_charges becomes Fees And Charges)
         function humanize(str) {
           var i, frags = str.split('_');
           for (i=0; i<frags.length; i++) {
@@ -67,51 +62,33 @@ export class SpendingInsightsPage implements OnInit {
 
         // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
         for (let transaction of expensesService.transactions) {
-          transaction.category = humanize(transaction.category)
+          transaction.category = humanize(transaction.category) // Remove underscores and capitalise every word
+          // If the transaction is a negative value
           if (Math.sign(transaction.amount) == -1) {
+            // If the category has not yet been added to the Object, start it from 0 and add up the value
             if (obj[transaction.category] == undefined) {
-              obj[transaction.category] = 0
+              obj[transaction.category] = 0 // Start from 0
             }
-            obj[transaction.category] += Math.abs(transaction.amount)
+            obj[transaction.category] += Math.abs(transaction.amount) // Add up the value to the Object
 
-            // If the transaction description is "COLD STORAGE-EASTWOOD" or "COLD STORAGE-EASTWOOD SINGAPORE SG", add the transaction amount to the food variable. 
-            // if (transaction.category == "phone") {
-            //   phone += Math.abs(transaction.amount)
-            // }
-            // else {
-            //   others += Math.abs(transaction.amount)
-            // }
             expensesService.total += Math.abs(transaction.amount) // Add up the amounts of all the transactions (regardless of name or description)
           }
           console.log(expensesService.total)
         }
 
-        // Assign the empty Object key value pairs to display the information in HTML
-
-        // obj["Phone"] = phone
-        // obj["Bills"] = bills
-        // obj["Lifestyle"] = lifestyle
-        // obj["Taxes"] = taxes
-        // obj["Recurring Fees"] = recurringfees
-        // obj["Others"] = others
-
-        // obj["Total"] = total
-
         console.log(obj)
-        // expensesService.transactioncategories.push(obj) // Push the object into an array
-        // console.log(expensesService.transactioncategories)
 
         expensesService.pieChartData = Object.entries(obj); // Make the key value pairs in the object into an array (to put into google chart dataTable)
-        // {{"category": "Amount"}, {"Food": 83.65}, ...} becomes 
+        // {"category": "Amount", "Food": 83.65, ...} becomes 
         // [["category", "Amount"], ["Food", 83.65], ... ]
 
-        // Create another array for the progress bar because we need to remove the obj["category"] = 'Amount' at the beginning
+        // Create another array for the progress bar because we need to remove the obj["category"] = 'Amount' at the beginning to display the progress bar of the expenses
         expensesService.pieChartData2 = Object.entries(obj);
         expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
 
         for (let category of expensesService.pieChartData2) {
-          category[2] = category[1].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode })
-          category[3] = (category[1]/expensesService.total*100).toFixed(1)
+          category[2] = category[1].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode }) // Add currency symbol
+          category[3] = (category[1]/expensesService.total*100).toFixed(1) // Percentage of total expenses
         }
 
         // Sort the top expenses categories in descending order (from largest to smallest)
