@@ -58,14 +58,6 @@ export class AccountsPage implements OnInit {
     req.end();
   }
 
-  // In the saltedgeconnect() function, we will 
-  // 1. Create the customer 
-  // 2. Create the connection
-  saltedgeconnect() {
-    // this.createcustomer()
-    this.createconnection()
-  }
-
   expandItem(item): void {
 
     // Can expand as many ion-items the user wishes at any one time
