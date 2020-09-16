@@ -46,7 +46,7 @@ export class TransactionHistoryPage implements OnInit {
         var transactionlist = []
         for (let transaction of expensesService.transactions) {
 
-          transaction["category"] = humanize(transaction["category"]) // Remove underscores and capitalise every word
+          transaction["category"] = expensesService.humanize(transaction["category"]) // Remove underscores and capitalise every word
           transaction["amount"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode }) // Include currency symbol 
 
           // The 5 lines of code below will collate transactions by date
@@ -68,15 +68,6 @@ export class TransactionHistoryPage implements OnInit {
         expensesService.transactions2 = obj2
 
         console.log(expensesService.transactions2)
-
-        // Remove underscores and capitalise every word (e.g. fees_and_charges becomes Fees And Charges)
-        function humanize(str) {
-          var i, frags = str.split('_');
-          for (i = 0; i < frags.length; i++) {
-            frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
-          }
-          return frags.join(' ');
-        }
       });
 
       res.on("error", function (error) {

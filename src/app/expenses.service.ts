@@ -28,7 +28,7 @@ export class ExpensesService {
   // FXRates
   fxrates = [];
   fxratesSG = [];
-  
+
   saltedgeconnections = [] // Array of connected banks
   saltedgeconnection = [] // Array of Connected Bank information
   saltedgeaccounts = [] // Array of accounts for the connected bank
@@ -37,4 +37,13 @@ export class ExpensesService {
   saltedgecustomerid: String // Salt Edge customer id to fetch user's connected banks
 
   constructor() { }
+
+  // Remove underscores and capitalise every word (e.g. fees_and_charges becomes Fees And Charges)
+  humanize(str) {
+    var i, frags = str.split('_');
+    for (i = 0; i < frags.length; i++) {
+      frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+    }
+    return frags.join(' ');
+  }
 }

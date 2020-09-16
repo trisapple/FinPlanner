@@ -51,18 +51,9 @@ export class SpendingInsightsPage implements OnInit {
 
         obj["category"] = 'Amount' // Add this for the pie chart
 
-        // Remove underscores and capitalise every word (e.g. fees_and_charges becomes Fees And Charges)
-        function humanize(str) {
-          var i, frags = str.split('_');
-          for (i=0; i<frags.length; i++) {
-            frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
-          }
-          return frags.join(' ');
-        }
-
         // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
         for (let transaction of expensesService.transactions) {
-          transaction.category = humanize(transaction.category) // Remove underscores and capitalise every word
+          transaction.category = expensesService.humanize(transaction.category) // Remove underscores and capitalise every word
           // If the transaction is a negative value
           if (Math.sign(transaction.amount) == -1) {
             // If the category has not yet been added to the Object, start it from 0 and add up the value

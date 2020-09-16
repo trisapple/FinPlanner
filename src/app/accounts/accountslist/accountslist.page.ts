@@ -75,22 +75,13 @@ export class AccountslistPage implements OnInit {
         console.log(JSON.parse(body.toString()));
         expensesService.saltedgeaccounts = JSON.parse(body.toString())["data"]
 
-        // Remove underscores and capitalise every word (e.g. fees_and_charges becomes Fees And Charges)
-        function humanize(str) {
-          var i, frags = str.split('_');
-          for (i = 0; i < frags.length; i++) {
-            frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
-          }
-          return frags.join(' ');
-        }
-
         // Loop through the accounts to get the account name (or nature) and the balance
         for (let each of expensesService.saltedgeaccounts) {
 
           if (each["extra"]["account_name"]) {
             each["account_name"] = each["extra"]["account_name"]
           } else {
-            each["account_name"] = humanize(each["nature"])
+            each["account_name"] = expensesService.humanize(each["nature"])
           }
           each["balance"] = each["balance"].toLocaleString('en-SG', { style: 'currency', currency: each["currency_code"] }) // Include currency symbol
           each["expanded"] = false // Allow the expandable to work
