@@ -14,8 +14,6 @@
   <div *ngIf="expensesService.transactions && expensesService.transactions.length > 0">
     <google-chart *ngIf="expensesService.pieChart" [data]="expensesService.pieChart"></google-chart>
 
-    <!-- <ion-text>Top Expenses</ion-text> -->
-
     <ion-grid>
       <!-- Loop through the array and display the expenses -->
       <div *ngFor="let i of expensesService.pieChartData2">

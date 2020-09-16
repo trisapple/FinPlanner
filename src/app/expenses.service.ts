@@ -8,19 +8,8 @@ export class ExpensesService {
 
   transactions = []; // Transactions List for the displayed account
   transactions2 = [] // Sorted transactions list
-  ocbcCreditCardTransaction = false;
- 
-  // Citibank
-  citiAccounts = []; // Each array in the accountGroups array will contain the accountGroup and its associated accounts
-  accountsloaded = false; // Variable to check if the user's accounts have loaded
-  // transactionhistorycardId: String;
-
-  // OCBC
-  ocbcAccounts =[];
-  ocbcaccountsloaded = false;
 
   transactionhistorytitle: String // Display the account name on the ion-header
-  transactionhistoryaccountId: String // Account id to be passed to the request path
 
   // Piechart
   pieChart: GoogleChartInterface // Display the piechart

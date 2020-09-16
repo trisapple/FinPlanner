@@ -9,13 +9,11 @@ import { NavController } from '@ionic/angular';
 })
 export class AccountslistPage implements OnInit {
 
-  // Citibank
   transactionhistory(account) {
     console.log(account);
     this.expensesService.saltedgeaccount = account
     this.expensesService.transactionhistorytitle = account.account_name;
     this.expensesService.saltedgeaccountcurrencycode = account.currency_code
-    // this.expensesService.transactionhistoryaccountId = account.accountId;
     this.navCtrl.navigateForward(['/accounts/transactionhistory']);
   }
 
@@ -24,7 +22,6 @@ export class AccountslistPage implements OnInit {
     this.expensesService.saltedgeaccount = account
     this.expensesService.transactionhistorytitle = account.account_name
     this.expensesService.saltedgeaccountcurrencycode = account.currency_code
-    // this.expensesService.transactionhistoryaccountId = account.accountId // Store the account id in a global variable so that the next page can fetch the transaction details and show the expenses summary
     this.navCtrl.navigateForward(['/accounts/spendinginsights']); // Navigate to the next page
   }
 
