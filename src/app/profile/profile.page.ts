@@ -3,6 +3,7 @@ import { UserService } from '../user.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ToastController, AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
+import { ExpensesService } from '../expenses.service';
 
 
 
@@ -13,7 +14,7 @@ import { NavController } from '@ionic/angular';
 })
 export class ProfilePage implements OnInit {
 
-  constructor(public userService: UserService, private fireauth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController, public navCtrl: NavController) {
+  constructor(public userService: UserService, private fireauth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController, public navCtrl: NavController, public expensesService: ExpensesService) {
     if (userService.socialLogin == false) {
       this.userService.profilePicture = 'assets/avatar.png';
     }
@@ -32,29 +33,30 @@ export class ProfilePage implements OnInit {
 
   async deleteAccount() {
     const alert = await this.alertCtrl.create({
-        header: 'Delete Account',
-        message: 'Are you sure you want to delete your account?',
-        buttons: [
-          {
-            text: 'Yes',
-            handler: async () => {
-              this.userService.deleteAccount(this.userService.uid);
-              (await this.fireauth.currentUser).delete();
-              this.navCtrl.navigateRoot(['/home']); // If 'yes' is clicked
-              this.presentToast('Account Deleted!', 'middle', 2000);
-              console.log('Yes clicked');
-            }
-          },
-          {
-            text: 'No',
-            handler: () => {
-              // this.navCtrl.pop(); // If 'no' is clicked. Additionally, pop means it will go back to the previous page
-              console.log('No clicked');
-            }
+      header: 'Delete Account',
+      message: 'Are you sure you want to delete your account?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: async () => {
+            this.deletecustomer()
+            this.userService.deleteAccount(this.userService.uid);
+            (await this.fireauth.currentUser).delete();
+            this.navCtrl.navigateRoot(['/home']); // If 'yes' is clicked
+            this.presentToast('Account Deleted!', 'middle', 2000);
+            console.log('Yes clicked');
           }
-        ]
-      });
-      alert.present();
+        },
+        {
+          text: 'No',
+          handler: () => {
+            // this.navCtrl.pop(); // If 'no' is clicked. Additionally, pop means it will go back to the previous page
+            console.log('No clicked');
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   // 'async' returns a promise value
@@ -67,6 +69,42 @@ export class ProfilePage implements OnInit {
       duration,
     });
     toast.present();
+  }
+
+  deletecustomer() {
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'DELETE',
+      'hostname': 'cors-anywhere.herokuapp.com',
+      'path': '/https://www.saltedge.com/api/v5/customers/' + this.expensesService.saltedgecustomerid,
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4'
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, function (res) {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        console.log(JSON.parse(body.toString()));
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    req.end();
   }
 
 }

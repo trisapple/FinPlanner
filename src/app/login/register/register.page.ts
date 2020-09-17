@@ -100,7 +100,7 @@ export class RegisterPage implements OnInit {
           this.firestore.collection<any>('users').doc(uid).update({
             saltedgecustomerid: JSON.parse(body.toString())["data"]["id"]
           })
-          this.expensesService.saltedgecustomerid = JSON.parse(body.toString())["data"]["id"]
+          // this.expensesService.saltedgecustomerid = JSON.parse(body.toString())["data"]["id"]
         }
       });
 
