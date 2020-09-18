@@ -13,66 +13,66 @@ import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-chart
 })
 export class HomePage {
 
-  public columnChart1: GoogleChartInterface;
-  public columnChart2: GoogleChartInterface;
-  public barChart: GoogleChartInterface;
-  public pieChart: GoogleChartInterface;
+  // public columnChart1: GoogleChartInterface;
+  // public columnChart2: GoogleChartInterface;
+  // public barChart: GoogleChartInterface;
+  // public pieChart: GoogleChartInterface;
 
 
-  loadColumnChart() {
-    this.columnChart1 = {
-      chartType: 'ColumnChart',
-      dataTable: [
-        ['City', '2010 Population'],
-        ['New York City, NY', 8175000],
-        ['Los Angeles, CA', 3792000],
-        ['Chicago, IL', 2695000],
-        ['Houston, TX', 2099000],
-        ['Philadelphia, PA', 1526000]
-      ],
-      //opt_firstRowIsData: true,
-      options: {
-        title: 'Population of Largest U.S. Cities',
-        height: 600,
-        chartArea: { height: '400' },
-        hAxis: {
-          title: 'Total Population',
-          minValue: 0
-        },
-        vAxis: {
-          title: 'City'
-        }
-      },
-    };
-  }
+  // loadColumnChart() {
+  //   this.columnChart1 = {
+  //     chartType: 'ColumnChart',
+  //     dataTable: [
+  //       ['City', '2010 Population'],
+  //       ['New York City, NY', 8175000],
+  //       ['Los Angeles, CA', 3792000],
+  //       ['Chicago, IL', 2695000],
+  //       ['Houston, TX', 2099000],
+  //       ['Philadelphia, PA', 1526000]
+  //     ],
+  //     //opt_firstRowIsData: true,
+  //     options: {
+  //       title: 'Population of Largest U.S. Cities',
+  //       height: 600,
+  //       chartArea: { height: '400' },
+  //       hAxis: {
+  //         title: 'Total Population',
+  //         minValue: 0
+  //       },
+  //       vAxis: {
+  //         title: 'City'
+  //       }
+  //     },
+  //   };
+  // }
 
-  loadSimplePieChart() {
-    this.pieChart = {
-      chartType: 'PieChart',
-      dataTable: [
-        ['Task', 'Hours per Day'],
-        ['Work', 11],
-        ['Eat', 2],
-        ['Commute', 2],
-        ['Watch TV', 2],
-        ['Sleep', 7]
-      ],
-      //opt_firstRowIsData: true,
-      options: {
-        'title': 'Tasks',
-        height: 600,
-        width: '100%',
-        is3D: true,
-        backgroundColor: { fill: 'transparent' },
-        legend: { textStyle: { color: 'gray' } }
-      },
-    };
-  }
+  // loadSimplePieChart() {
+  //   this.pieChart = {
+  //     chartType: 'PieChart',
+  //     dataTable: [
+  //       ['Task', 'Hours per Day'],
+  //       ['Work', 11],
+  //       ['Eat', 2],
+  //       ['Commute', 2],
+  //       ['Watch TV', 2],
+  //       ['Sleep', 7]
+  //     ],
+  //     //opt_firstRowIsData: true,
+  //     options: {
+  //       'title': 'Tasks',
+  //       height: 600,
+  //       width: '100%',
+  //       is3D: true,
+  //       backgroundColor: { fill: 'transparent' },
+  //       legend: { textStyle: { color: 'gray' } }
+  //     },
+  //   };
+  // }
 
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService) {
-    this.loadColumnChart();
-    this.loadSimplePieChart();
+    // this.loadColumnChart();
+    // this.loadSimplePieChart();
 
     // if (this.activatedRoute.snapshot.queryParams['code']) {
     //   citiLogin = true
