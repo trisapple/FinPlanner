@@ -232,7 +232,7 @@ export class AccountsPage implements OnInit {
             balances.push(currency)
             console.log(currency)
   
-            this.firestore.collection('users').doc(this.userService.uid).update({
+            this.firestore.collection('users').doc("test1234@example.com").update({
               balances: balances
             })
       
