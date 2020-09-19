@@ -93,9 +93,9 @@ export class HomePage {
     if (userService.loggedin == false) {
       let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
         console.log(data)
-        console.log(data.balances[0])
-        console.log(Object.entries(data.balances[0]))
-        for (let each of Object.entries(data.balances[0])) {
+        console.log(data["balances"][0])
+        console.log(Object.entries(data["balances"][0]))
+        for (let each of Object.entries(data["balances"][0])) {
           console.log(`${each[1]} ${each[0]}`)
           var string = `${each[1]} ${each[0]} `
           this.total = this.total.concat(string)
@@ -108,9 +108,9 @@ export class HomePage {
     } else {
       let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
         console.log(data)
-        console.log(data.balances[0])
-        console.log(Object.entries(data.balances[0]))
-        for (let each of Object.entries(data.balances[0])) {
+        console.log(data["balances"][0])
+        console.log(Object.entries(data["balances"][0]))
+        for (let each of Object.entries(data["balances"][0])) {
           console.log(`${each[1]} ${each[0]}`)
           var string = `${each[1]} ${each[0]} `
           this.total = this.total.concat(string)
