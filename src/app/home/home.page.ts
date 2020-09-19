@@ -90,7 +90,7 @@ export class HomePage {
     // I put at home page as this is where the user will get redirected to. 
 
 
-    let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
+    let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
       console.log(data)
       console.log(data.balances[0])
       console.log(Object.entries(data.balances[0]))

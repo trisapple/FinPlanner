@@ -211,7 +211,7 @@ export class AccountsPage implements OnInit {
         var balances = []
         var currency = {}
 
-        let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").collection("saltedgeconnections").valueChanges().subscribe((data) => {
+        let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).collection("saltedgeconnections").valueChanges().subscribe((data) => {
           console.log(data)
           for (let each of data) {
             console.log(each)
@@ -231,7 +231,7 @@ export class AccountsPage implements OnInit {
           balances.push(currency)
           console.log(currency)
 
-          this.firestore.collection('users').doc("test1234@example.com").update({
+          this.firestore.collection('users').doc(this.userService.uid).update({
             balances: balances
           })
     

@@ -88,7 +88,7 @@ export class AccountslistPage implements OnInit {
         balances.push(currency)
         console.log(currency)
 
-        firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(expensesService.saltedgeconnection["id"]).set({
+        firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(expensesService.saltedgeconnection["id"]).set({
           connectioninfo: JSON.parse(body.toString())["data"],
           balances: balances
         })
