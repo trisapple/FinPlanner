@@ -211,32 +211,61 @@ export class AccountsPage implements OnInit {
         var balances = []
         var currency = {}
 
-        let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).collection("saltedgeconnections").valueChanges().subscribe((data) => {
-          console.log(data)
-          for (let each of data) {
-            console.log(each)
-            console.log(each.balances[0])
-            console.log(Object.keys(each.balances[0]))
-
-            for (let each2 of Object.keys(each.balances[0])) {
-              console.log(each2)
-              console.log(each.balances[0][each2])
-
-              if (currency[each2] == undefined) {
-                currency[each2] = 0 // Start from 0
+        if (this.userService.loggedin == false) {
+          let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").collection("saltedgeconnections").valueChanges().subscribe((data) => {
+            console.log(data)
+            for (let each of data) {
+              console.log(each)
+              console.log(each.balances[0])
+              console.log(Object.keys(each.balances[0]))
+  
+              for (let each2 of Object.keys(each.balances[0])) {
+                console.log(each2)
+                console.log(each.balances[0][each2])
+  
+                if (currency[each2] == undefined) {
+                  currency[each2] = 0 // Start from 0
+                }
+                currency[each2] += each.balances[0][each2]
               }
-              currency[each2] += each.balances[0][each2]
             }
-          }
-          balances.push(currency)
-          console.log(currency)
-
-          this.firestore.collection('users').doc(this.userService.uid).update({
-            balances: balances
-          })
-    
-          sub.unsubscribe();
-        });
+            balances.push(currency)
+            console.log(currency)
+  
+            this.firestore.collection('users').doc(this.userService.uid).update({
+              balances: balances
+            })
+      
+            sub.unsubscribe();
+          });
+        } else {
+          let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).collection("saltedgeconnections").valueChanges().subscribe((data) => {
+            console.log(data)
+            for (let each of data) {
+              console.log(each)
+              console.log(each.balances[0])
+              console.log(Object.keys(each.balances[0]))
+  
+              for (let each2 of Object.keys(each.balances[0])) {
+                console.log(each2)
+                console.log(each.balances[0][each2])
+  
+                if (currency[each2] == undefined) {
+                  currency[each2] = 0 // Start from 0
+                }
+                currency[each2] += each.balances[0][each2]
+              }
+            }
+            balances.push(currency)
+            console.log(currency)
+  
+            this.firestore.collection('users').doc(this.userService.uid).update({
+              balances: balances
+            })
+      
+            sub.unsubscribe();
+          });  
+        }
 
         for (let connection of this.expensesService.saltedgeconnections) {
           console.log(connection["last_success_at"])

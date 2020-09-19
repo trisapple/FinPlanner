@@ -90,42 +90,38 @@ export class HomePage {
     // I put at home page as this is where the user will get redirected to. 
 
 
-    let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
-      console.log(data)
-      console.log(data.balances[0])
-      console.log(Object.entries(data.balances[0]))
-      for (let each of Object.entries(data.balances[0])) {
-        console.log(`${each[1]} ${each[0]}`)
-        var string = `${each[1]} ${each[0]} `
-        this.total = this.total.concat(string)
+    if (userService.loggedin == false) {
+      let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
+        console.log(data)
+        console.log(data.balances[0])
+        console.log(Object.entries(data.balances[0]))
+        for (let each of Object.entries(data.balances[0])) {
+          console.log(`${each[1]} ${each[0]}`)
+          var string = `${each[1]} ${each[0]} `
+          this.total = this.total.concat(string)
+          console.log(this.total)
+        }
         console.log(this.total)
-      }
-      console.log(this.total)
-      
-      // for (let each of data) {
-      //   console.log(each)
-      //   console.log(each.balances[0])
-      //   console.log(Object.keys(each.balances[0]))
+  
+        sub.unsubscribe();
+      });
+    } else {
+      let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
+        console.log(data)
+        console.log(data.balances[0])
+        console.log(Object.entries(data.balances[0]))
+        for (let each of Object.entries(data.balances[0])) {
+          console.log(`${each[1]} ${each[0]}`)
+          var string = `${each[1]} ${each[0]} `
+          this.total = this.total.concat(string)
+          console.log(this.total)
+        }
+        console.log(this.total)
+  
+        sub.unsubscribe();
+      });
+    }
 
-      //   for (let each2 of Object.keys(each.balances[0])) {
-      //     console.log(each2)
-      //     console.log(each.balances[0][each2])
-
-      //     if (currency[each2] == undefined) {
-      //       currency[each2] = 0 // Start from 0
-      //     }
-      //     currency[each2] += each.balances[0][each2]
-      //   }
-      // }
-      // balances.push(currency)
-      // console.log(currency)
-
-      // this.firestore.collection('users').doc("test1234@example.com").update({
-      //   balances: balances
-      // })
-
-      sub.unsubscribe();
-    });
 
     if (this.activatedRoute.snapshot.queryParams['code']) {
       // If there is no authorisation code (Get auth code)

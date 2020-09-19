@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ExpensesService } from 'src/app/expenses.service';
 import { NavController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { UserService } from 'src/app/user.service';
 
 @Component({
   selector: 'app-accountslist',
@@ -46,7 +47,7 @@ export class AccountslistPage implements OnInit {
   }
 
   // Get the list of accounts based on the bank
-  constructor(public expensesService: ExpensesService, public navCtrl: NavController, public firestore: AngularFirestore) {
+  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public firestore: AngularFirestore) {
     var https = require('follow-redirects').https;
 
     var options = {
@@ -88,10 +89,17 @@ export class AccountslistPage implements OnInit {
         balances.push(currency)
         console.log(currency)
 
-        firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(expensesService.saltedgeconnection["id"]).set({
-          connectioninfo: JSON.parse(body.toString())["data"],
-          balances: balances
-        })
+        if (userService.loggedin == false) {
+          firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(expensesService.saltedgeconnection["id"]).set({
+            connectioninfo: JSON.parse(body.toString())["data"],
+            balances: balances
+          })
+        } else {
+          firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(expensesService.saltedgeconnection["id"]).set({
+            connectioninfo: JSON.parse(body.toString())["data"],
+            balances: balances
+          })
+        }
 
         // Loop through the accounts to get the account name (or nature) and the balance
         for (let each of expensesService.saltedgeaccounts) {
