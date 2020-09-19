@@ -3,7 +3,7 @@
     text-align: center;
   }
 .pic1 {
-    opacity: 0.75;
+    filter: brightness(60%);
 }
 .list {
     float: left;
@@ -39,6 +39,7 @@
     transform: translate(-50%, -50%);
     width: 80%;
     font-size: 3.4vw;
+    color: white;
   }
 
   .centered-1 {
@@ -48,4 +49,5 @@
     transform: translate(-50%, -50%);
     width: 60%;
     font-size: 1.5vw;
+    color: white;
   }

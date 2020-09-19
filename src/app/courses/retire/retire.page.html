@@ -7,6 +7,37 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+  <div class="container">
+    <img class ="pic1" src="../assets/retire.jpg" alt="Learn" style="width:80%">
+    <div class="centered">How to Plan for Your Retirement</div>
+    <div class="centered-1">It's never too soon to start planning your retirement. Here, we explain how to use the various retirement vehicles in Singapore, such as CPF and SRS, and how to have an effective retirement plan that brings peace of mind.</div>
+  </div>
 
+
+
+  <div class="cardview" *ngFor="let item of items">
+    
+    <ion-col>
+      <ion-card class="card">
+        <iframe class="list" height="300px" [src]="item.vid"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <ion-row>
+          <ion-col class="padding">
+            <ion-card-header>
+              <ion-card-subtitle>
+                <ion-icon class="icon" name="videocam"></ion-icon>
+                {{item.sub}}
+              </ion-card-subtitle>
+              <ion-card-title>{{item.head}}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>{{item.des}}</ion-card-content>
+            <ion-card-content style="float: right;margin-top: 50px;">{{item.time}}</ion-card-content>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-col>
+  </div>
+  
 </ion-content>
+
+
