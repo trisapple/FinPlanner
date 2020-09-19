@@ -9,39 +9,39 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ETFPage implements OnInit {
   public items = [
     {
-      vid:<any> 'https://www.youtube.com/embed/ggv21pNgbtM',
+      vid:<any> 'https://www.youtube.com/embed/z-2ah1Sj1ps',
       sub: 'LESSON 1',
       head: 'Asset allocation vs. Securities selection',
       des: 'In this video, you will be learning why you should focus on asset allocation, not securities selection.',
-      time: '3 mins'
+      time: '19 mins'
     },
     {
-      vid:<any> 'https://www.youtube.com/embed/aXDuLxEJqBo',
+      vid:<any> 'https://www.youtube.com/embed/7gkQHSW3hkE',
       sub: 'LESSON 2',
       head: 'How to get exposure to different asset classes',
       des: 'In this video, you will be learning how to get exposure to different asset classes and also what you should consider when deciding on an asset class mix.',
-      time: '5 mins'
+      time: '11 mins'
     },
     {
-      vid:<any> 'https://www.youtube.com/embed/SR8-qWu549c',
+      vid:<any> 'https://www.youtube.com/embed/w7iJJn2aQnM',
       sub: 'LESSON 3',
       head: 'How to pick the right ETFs',
       des: 'In this video, you will be learning how to pick the right ETFs as there are plently of ETFs from which you choose. However, some ETFs are a better choice than others.',
-      time: '6 mins'
+      time: '4 mins'
     },
     {
-      vid:<any> 'https://www.youtube.com/embed/CU4l_rs50Kk',
+      vid:<any> 'https://www.youtube.com/embed/VYxUUrVjUEM',
       sub: 'LESSON 4',
-      head: 'How to build an efficent portfolio',
+      head: 'How to build an efficient portfolio',
       des: 'In this video, you will be learning how to build an efficent portfolio.',
-      time: '3 mins'
+      time: '4 mins'
     },
     {
-      vid:<any> 'https://www.youtube.com/embed/CU4l_rs50Kk',
+      vid:<any> 'https://www.youtube.com/embed/a8TnAk8abFo',
       sub: 'LESSON 5',
       head: 'How to Invest with ETFs: Key Summary',
       des: 'In this video, we will summarise what we have gone through in the previous 4 videos.',
-      time: '3 mins'
+      time: '4 mins'
     }
   ];
 

@@ -16,6 +16,7 @@ const routes: Routes = [
     children: [
       { path: 'home', loadChildren: () => import('../home/home.module').then(m => m.HomePageModule) },
       { path: 'login', loadChildren: () => import('../login/login.module').then(m => m.LoginPageModule) },
+      { path: 'news', loadChildren: () => import('../news/news.module').then(m => m.NewsPageModule) },
       { path: 'courses', loadChildren: () => import('../courses/courses.module').then(m => m.CoursesPageModule) },
       { path: 'faq', loadChildren: () => import('../faq/faq.module').then(m => m.FaqPageModule) },
       { path: 'exchangerates', loadChildren: () => import('../exchangerates/exchangerates.module').then(m => m.ExchangeratesPageModule) },
