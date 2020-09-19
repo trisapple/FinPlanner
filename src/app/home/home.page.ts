@@ -2,9 +2,12 @@ import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
+import { Subscription } from 'rxjs';
 
 
 import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-charts-interfaces';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { ExpensesService } from '../expenses.service';
 
 @Component({
   selector: 'app-home',
@@ -69,8 +72,9 @@ export class HomePage {
   //   };
   // }
 
+  total = ""
 
-  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService) {
+  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService) {
     // this.loadColumnChart();
     // this.loadSimplePieChart();
 
@@ -84,6 +88,40 @@ export class HomePage {
 
     // Citibank backend code to get auth code, access token and transaction history for now
     // I put at home page as this is where the user will get redirected to. 
+
+
+    if (userService.loggedin == false) {
+      let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
+        console.log(data)
+        console.log(data["balances"][0])
+        console.log(Object.entries(data["balances"][0]))
+        for (let each of Object.entries(data["balances"][0])) {
+          console.log(`${each[1]} ${each[0]}`)
+          var string = `${each[1]} ${each[0]} `
+          this.total = this.total.concat(string)
+          console.log(this.total)
+        }
+        console.log(this.total)
+  
+        sub.unsubscribe();
+      });
+    } else {
+      let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
+        console.log(data)
+        console.log(data["balances"][0])
+        console.log(Object.entries(data["balances"][0]))
+        for (let each of Object.entries(data["balances"][0])) {
+          console.log(`${each[1]} ${each[0]}`)
+          var string = `${each[1]} ${each[0]} `
+          this.total = this.total.concat(string)
+          console.log(this.total)
+        }
+        console.log(this.total)
+  
+        sub.unsubscribe();
+      });
+    }
+
 
     if (this.activatedRoute.snapshot.queryParams['code']) {
       // If there is no authorisation code (Get auth code)

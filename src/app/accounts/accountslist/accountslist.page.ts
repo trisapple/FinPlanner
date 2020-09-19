@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ExpensesService } from 'src/app/expenses.service';
 import { NavController } from '@ionic/angular';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { UserService } from 'src/app/user.service';
 
 @Component({
   selector: 'app-accountslist',
@@ -45,7 +47,7 @@ export class AccountslistPage implements OnInit {
   }
 
   // Get the list of accounts based on the bank
-  constructor(public expensesService: ExpensesService, public navCtrl: NavController) {
+  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public firestore: AngularFirestore) {
     var https = require('follow-redirects').https;
 
     var options = {
@@ -70,10 +72,34 @@ export class AccountslistPage implements OnInit {
         chunks.push(chunk);
       });
 
-      res.on("end", function (chunk) {
+      res.on("end", (chunk) => {
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
         expensesService.saltedgeaccounts = JSON.parse(body.toString())["data"]
+
+        var balances = []
+        var currency = {}
+
+        for (let each of JSON.parse(body.toString())["data"]) {
+          if (currency[each.currency_code] == undefined) {
+            currency[each.currency_code] = 0 // Start from 0
+          }
+          currency[each.currency_code] += each.balance
+        }
+        balances.push(currency)
+        console.log(currency)
+
+        if (userService.loggedin == false) {
+          firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(expensesService.saltedgeconnection["id"]).set({
+            connectioninfo: JSON.parse(body.toString())["data"],
+            balances: balances
+          })
+        } else {
+          firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(expensesService.saltedgeconnection["id"]).set({
+            connectioninfo: JSON.parse(body.toString())["data"],
+            balances: balances
+          })
+        }
 
         // Loop through the accounts to get the account name (or nature) and the balance
         for (let each of expensesService.saltedgeaccounts) {
