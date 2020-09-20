@@ -72,7 +72,7 @@ export class HomePage {
   //   };
   // }
 
-  total = ""
+  total = []
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService) {
     // this.loadColumnChart();
@@ -95,12 +95,13 @@ export class HomePage {
         console.log(data)
         console.log(data["balances"][0])
         console.log(Object.entries(data["balances"][0]))
-        for (let each of Object.entries(data["balances"][0])) {
-          console.log(`${each[1]} ${each[0]}`)
+        this.total = Object.entries(data["balances"][0])
+        for (let each of this.total) {
+          // console.log(`${each[1]} ${each[0]}`)
           each[1] = parseInt(each[1].toString()).toLocaleString('en-SG', { style: 'currency', currency: each[0] })
-          var string = `${each[1]} <br><br>`
-          this.total = this.total.concat(string)
-          console.log(this.total)
+          // var string = `${each[1]} <br><br>`
+          // this.total = this.total.concat(string)
+          // console.log(this.total)
         }
         console.log(this.total)
   
@@ -111,12 +112,13 @@ export class HomePage {
         console.log(data)
         console.log(data["balances"][0])
         console.log(Object.entries(data["balances"][0]))
-        for (let each of Object.entries(data["balances"][0])) {
-          console.log(`${each[1]} ${each[0]}`)
+        this.total = Object.entries(data["balances"][0])
+        for (let each of this.total) {
+          // console.log(`${each[1]} ${each[0]}`)
           each[1] = parseInt(each[1].toString()).toLocaleString('en-SG', { style: 'currency', currency: each[0] })
-          var string = `${each[1]} <br><br>`
-          this.total = this.total.concat(string)
-          console.log(this.total)
+          // var string = `${each[1]} <br><br>`
+          // this.total = this.total.concat(string)
+          // console.log(this.total)
         }
         console.log(this.total)
   
