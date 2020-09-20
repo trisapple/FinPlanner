@@ -7,6 +7,24 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content class="ion-padding">
+  <div class="container"> 
+  <h1><strong>All News</strong></h1>
+  <ion-grid>
+    <h3><strong>Top Headlines</strong></h3>
+    <ion-row>
+      <ion-col *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)" size-xs="6" size-md="4" >
+        <div>
+          <ion-card color="light">
+            <ion-img [src]="article.urlToImage"></ion-img>
+            <ion-card-header>
+              <ion-card-title class="font">{{article.title}}</ion-card-title>
+              <p>{{article.description}}</p>
+            </ion-card-header>
+          </ion-card>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  </div>
 </ion-content>
