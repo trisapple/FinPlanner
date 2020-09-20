@@ -73,6 +73,7 @@ export class HomePage {
   // }
 
   total = []
+  expenses = []
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService) {
     // this.loadColumnChart();
@@ -104,7 +105,7 @@ export class HomePage {
           // console.log(this.total)
         }
         console.log(this.total)
-  
+
         sub.unsubscribe();
       });
     } else {
@@ -121,10 +122,65 @@ export class HomePage {
           // console.log(this.total)
         }
         console.log(this.total)
-  
+
         sub.unsubscribe();
       });
     }
+
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'GET',
+      'hostname': 'cors-anywhere.herokuapp.com',
+      'path': '/http://www.saltedge.com/api/v5/reports/310867760563358601',
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4'
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, (res) => {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", (chunk) => {
+        var body = Buffer.concat(chunks);
+        console.log(JSON.parse(body.toString()));
+        this.expenses = JSON.parse(body.toString()).data.data.result.accounts_summary.expense.total_per_month
+        var currencycode = JSON.parse(body.toString()).data.currency_code
+
+        for (let each of this.expenses) {
+          if (each["month"] == 6) {
+            each["month"] = "June"
+          }
+          if (each["month"] == 7) {
+            each["month"] = "July"
+          }
+          if (each["month"] == 8) {
+            each["month"] = "August"
+          }
+          if (each["month"] == 9) {
+            each["month"] = "September"
+          }
+          each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: currencycode })
+          
+        }
+        console.log(this.expenses)
+
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    req.end();
 
     if (this.activatedRoute.snapshot.queryParams['code']) {
       // If there is no authorisation code (Get auth code)

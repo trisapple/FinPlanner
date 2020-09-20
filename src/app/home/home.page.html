@@ -30,6 +30,9 @@
     </ion-card-header>
   </ion-card>
 
+  <h3>Expenses</h3>
+  <p *ngFor="let each of expenses">{{ each["month"] }} {{ each["year"] }} - {{ each["amount"] }}</p>
+
 </ion-content>
 
 <!-- <ion-content>
