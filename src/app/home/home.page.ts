@@ -72,9 +72,10 @@ export class HomePage {
   //   };
   // }
 
-  total = []
+  total = ""
   expenses = []
   income = []
+  currencycode = ""
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService) {
     // this.loadColumnChart();
@@ -92,41 +93,41 @@ export class HomePage {
     // I put at home page as this is where the user will get redirected to. 
 
 
-    if (userService.loggedin == false) {
-      let sub: Subscription = firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
-        console.log(data)
-        console.log(data["balances"][0])
-        console.log(Object.entries(data["balances"][0]))
-        this.total = Object.entries(data["balances"][0])
-        for (let each of this.total) {
-          // console.log(`${each[1]} ${each[0]}`)
-          each[1] = parseInt(each[1].toString()).toLocaleString('en-SG', { style: 'currency', currency: each[0] })
-          // var string = `${each[1]} <br><br>`
-          // this.total = this.total.concat(string)
-          // console.log(this.total)
-        }
-        console.log(this.total)
+    // if (userService.loggedin == false) {
+    //   let sub: Subscription = firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
+    //     console.log(data)
+    //     console.log(data["balances"][0])
+    //     console.log(Object.entries(data["balances"][0]))
+    //     this.total = Object.entries(data["balances"][0])
+    //     for (let each of this.total) {
+    //       // console.log(`${each[1]} ${each[0]}`)
+    //       each[1] = parseInt(each[1].toString()).toLocaleString('en-SG', { style: 'currency', currency: each[0] })
+    //       // var string = `${each[1]} <br><br>`
+    //       // this.total = this.total.concat(string)
+    //       // console.log(this.total)
+    //     }
+    //     console.log(this.total)
 
-        sub.unsubscribe();
-      });
-    } else {
-      let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
-        console.log(data)
-        console.log(data["balances"][0])
-        console.log(Object.entries(data["balances"][0]))
-        this.total = Object.entries(data["balances"][0])
-        for (let each of this.total) {
-          // console.log(`${each[1]} ${each[0]}`)
-          each[1] = parseInt(each[1].toString()).toLocaleString('en-SG', { style: 'currency', currency: each[0] })
-          // var string = `${each[1]} <br><br>`
-          // this.total = this.total.concat(string)
-          // console.log(this.total)
-        }
-        console.log(this.total)
+    //     sub.unsubscribe();
+    //   });
+    // } else {
+    //   let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
+    //     console.log(data)
+    //     console.log(data["balances"][0])
+    //     console.log(Object.entries(data["balances"][0]))
+    //     this.total = Object.entries(data["balances"][0])
+    //     for (let each of this.total) {
+    //       // console.log(`${each[1]} ${each[0]}`)
+    //       each[1] = parseInt(each[1].toString()).toLocaleString('en-SG', { style: 'currency', currency: each[0] })
+    //       // var string = `${each[1]} <br><br>`
+    //       // this.total = this.total.concat(string)
+    //       // console.log(this.total)
+    //     }
+    //     console.log(this.total)
 
-        sub.unsubscribe();
-      });
-    }
+    //     sub.unsubscribe();
+    //   });
+    // }
 
     var https = require('follow-redirects').https;
 
@@ -155,9 +156,11 @@ export class HomePage {
         console.log(JSON.parse(body.toString()));
 
         this.expenses = JSON.parse(body.toString()).data.data.result.accounts_summary.expense.total_per_month
-        var currencycode = JSON.parse(body.toString()).data.currency_code
+        this.currencycode = JSON.parse(body.toString()).data.currency_code
 
         this.income = JSON.parse(body.toString()).data.data.result.accounts_summary.income.total_per_month
+
+        this.total = JSON.parse(body.toString()).data.data.result.accounts_summary.balance.end_date_amount.toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
 
         for (let each of this.expenses) {
           if (each["month"] == 6) {
@@ -172,7 +175,7 @@ export class HomePage {
           if (each["month"] == 9) {
             each["month"] = "September"
           }
-          each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: currencycode })
+          each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
         }
         for (let each of this.income) {
           if (each["month"] == 6) {
@@ -187,7 +190,7 @@ export class HomePage {
           if (each["month"] == 9) {
             each["month"] = "September"
           }
-          each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: currencycode })
+          each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
         }
         console.log(this.expenses)
 
