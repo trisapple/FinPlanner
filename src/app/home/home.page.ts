@@ -73,6 +73,9 @@ export class HomePage {
   // }
 
   total = ""
+  expenses = []
+  income = []
+  currencycode = ""
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService) {
     // this.loadColumnChart();
@@ -90,107 +93,184 @@ export class HomePage {
     // I put at home page as this is where the user will get redirected to. 
 
 
-    if (userService.loggedin == false) {
-      let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
-        console.log(data)
-        console.log(data["balances"][0])
-        console.log(Object.entries(data["balances"][0]))
-        for (let each of Object.entries(data["balances"][0])) {
-          console.log(`${each[1]} ${each[0]}`)
-          var string = `${each[1]} ${each[0]} `
-          this.total = this.total.concat(string)
-          console.log(this.total)
-        }
-        console.log(this.total)
-  
-        sub.unsubscribe();
+    // if (userService.loggedin == false) {
+    //   let sub: Subscription = firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
+    //     console.log(data)
+    //     console.log(data["balances"][0])
+    //     console.log(Object.entries(data["balances"][0]))
+    //     this.total = Object.entries(data["balances"][0])
+    //     for (let each of this.total) {
+    //       // console.log(`${each[1]} ${each[0]}`)
+    //       each[1] = parseInt(each[1].toString()).toLocaleString('en-SG', { style: 'currency', currency: each[0] })
+    //       // var string = `${each[1]} <br><br>`
+    //       // this.total = this.total.concat(string)
+    //       // console.log(this.total)
+    //     }
+    //     console.log(this.total)
+
+    //     sub.unsubscribe();
+    //   });
+    // } else {
+    //   let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
+    //     console.log(data)
+    //     console.log(data["balances"][0])
+    //     console.log(Object.entries(data["balances"][0]))
+    //     this.total = Object.entries(data["balances"][0])
+    //     for (let each of this.total) {
+    //       // console.log(`${each[1]} ${each[0]}`)
+    //       each[1] = parseInt(each[1].toString()).toLocaleString('en-SG', { style: 'currency', currency: each[0] })
+    //       // var string = `${each[1]} <br><br>`
+    //       // this.total = this.total.concat(string)
+    //       // console.log(this.total)
+    //     }
+    //     console.log(this.total)
+
+    //     sub.unsubscribe();
+    //   });
+    // }
+
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'GET',
+      'hostname': 'cors-anywhere.herokuapp.com',
+      'path': '/http://www.saltedge.com/api/v5/reports/310867760563358601',
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4'
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, (res) => {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
       });
-    } else {
-      let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
-        console.log(data)
-        console.log(data["balances"][0])
-        console.log(Object.entries(data["balances"][0]))
-        for (let each of Object.entries(data["balances"][0])) {
-          console.log(`${each[1]} ${each[0]}`)
-          var string = `${each[1]} ${each[0]} `
-          this.total = this.total.concat(string)
-          console.log(this.total)
+
+      res.on("end", (chunk) => {
+        var body = Buffer.concat(chunks);
+        console.log(JSON.parse(body.toString()));
+
+        this.expenses = JSON.parse(body.toString()).data.data.result.accounts_summary.expense.total_per_month
+        this.currencycode = JSON.parse(body.toString()).data.currency_code
+
+        this.income = JSON.parse(body.toString()).data.data.result.accounts_summary.income.total_per_month
+
+        this.total = JSON.parse(body.toString()).data.data.result.accounts_summary.balance.end_date_amount.toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+
+        for (let each of this.expenses) {
+          if (each["month"] == 6) {
+            each["month"] = "June"
+          }
+          if (each["month"] == 7) {
+            each["month"] = "July"
+          }
+          if (each["month"] == 8) {
+            each["month"] = "August"
+          }
+          if (each["month"] == 9) {
+            each["month"] = "September"
+          }
+          each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
         }
-        console.log(this.total)
-  
-        sub.unsubscribe();
+        for (let each of this.income) {
+          if (each["month"] == 6) {
+            each["month"] = "June"
+          }
+          if (each["month"] == 7) {
+            each["month"] = "July"
+          }
+          if (each["month"] == 8) {
+            each["month"] = "August"
+          }
+          if (each["month"] == 9) {
+            each["month"] = "September"
+          }
+          each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+        }
+        console.log(this.expenses)
+
       });
-    }
 
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
 
-    if (this.activatedRoute.snapshot.queryParams['code']) {
-      // If there is no authorisation code (Get auth code)
-      if (!this.userService.citiauthorisationCode) {
-        this.userService.citiauthorisationCode = this.activatedRoute.snapshot.queryParams['code'];
-        console.log(this.activatedRoute.snapshot.queryParams['code'])
-      }
-      console.log(this.userService.citiauthorisationCode);
+    req.end();
 
-      // If there is auth code and no access token (Get access token)
-      if (this.userService.citiauthorisationCode && !this.userService.citiaccessToken) {
+    // if (this.activatedRoute.snapshot.queryParams['code']) {
+    //   // If there is no authorisation code (Get auth code)
+    //   if (!this.userService.citiauthorisationCode) {
+    //     this.userService.citiauthorisationCode = this.activatedRoute.snapshot.queryParams['code'];
+    //     console.log(this.activatedRoute.snapshot.queryParams['code'])
+    //   }
+    //   console.log(this.userService.citiauthorisationCode);
 
-        var https = require('follow-redirects').https;
+    //   // If there is auth code and no access token (Get access token)
+    //   if (this.userService.citiauthorisationCode && !this.userService.citiaccessToken) {
 
-        var qs = require('querystring');
+    //     var https = require('follow-redirects').https;
 
-        var options = {
-          'method': 'POST',
-          'hostname': 'sandbox.apihub.citi.com',
-          'path': '/gcb/api/authCode/oauth2/token/sg/gcb',
-          'headers': {
-            'Accept': 'application/json',
-            'Authorization': 'Basic MDU0NTE4NjUtN2QzOS00NzA0LWI0OTUtODAzZjExZDJkZDA5OlY4a1QybVM1eVkyeUE0aEM2YkU4YUMyZUU3Y0U1Z0w4dkIydUQxakcxcUw1ZUUyYlgx',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Cookie': 'RSA=164292451157170727520200729230711; bizToken=fU2UtG1g/AI3JOqozWsTWkpiT9WhJwTX6VEA7KVJYStvXsBe/bJYuBCltpb6fjNrrpyNQvfhu79O3O8ZnQchXSGf35FKcMTX2DeZL3uIoPu7wr8+7KmPSSzipBMzyXxgoFmg4C4kDc9BrI7l90mgcEFbrdOZCuKcrgl9CYY59EK+yurqvFtwgYpitFFTIGX1WiLqSt7VIXZMPgNmen1dLlGkFnlxSE3CFqqFIuQW6ClDmyj3jTHxCyU/Ekcl9rbj72U8n0rcCXvGoyNup6FxPiBW2n5ICSI7p8yMLn+HentBjKsrGksl1tCrdBjz8t3M+qvQvF/RW1ckJO46EiYz9spF1G132H73c3zyBBOc5lVyZ2HzjkwKYifkE2DTiDr5tQPyUBkfy/AaaJiGY0Yw8MwK8HM+YbcRWYxdXwi9WleOuW0F5+Ug/FzLx16MZx3LVHh7qcsgwqRAxgM1nOKR9RqOdRyxvVrmp52bh0lie5Q=; CITI_SITE=gtdc'
-          },
-          'maxRedirects': 20
-        };
+    //     var qs = require('querystring');
 
-        var req = https.request(options, function (res) {
-          var chunks = [];
+    //     var options = {
+    //       'method': 'POST',
+    //       'hostname': 'sandbox.apihub.citi.com',
+    //       'path': '/gcb/api/authCode/oauth2/token/sg/gcb',
+    //       'headers': {
+    //         'Accept': 'application/json',
+    //         'Authorization': 'Basic MDU0NTE4NjUtN2QzOS00NzA0LWI0OTUtODAzZjExZDJkZDA5OlY4a1QybVM1eVkyeUE0aEM2YkU4YUMyZUU3Y0U1Z0w4dkIydUQxakcxcUw1ZUUyYlgx',
+    //         'Content-Type': 'application/x-www-form-urlencoded',
+    //         'Cookie': 'RSA=164292451157170727520200729230711; bizToken=fU2UtG1g/AI3JOqozWsTWkpiT9WhJwTX6VEA7KVJYStvXsBe/bJYuBCltpb6fjNrrpyNQvfhu79O3O8ZnQchXSGf35FKcMTX2DeZL3uIoPu7wr8+7KmPSSzipBMzyXxgoFmg4C4kDc9BrI7l90mgcEFbrdOZCuKcrgl9CYY59EK+yurqvFtwgYpitFFTIGX1WiLqSt7VIXZMPgNmen1dLlGkFnlxSE3CFqqFIuQW6ClDmyj3jTHxCyU/Ekcl9rbj72U8n0rcCXvGoyNup6FxPiBW2n5ICSI7p8yMLn+HentBjKsrGksl1tCrdBjz8t3M+qvQvF/RW1ckJO46EiYz9spF1G132H73c3zyBBOc5lVyZ2HzjkwKYifkE2DTiDr5tQPyUBkfy/AaaJiGY0Yw8MwK8HM+YbcRWYxdXwi9WleOuW0F5+Ug/FzLx16MZx3LVHh7qcsgwqRAxgM1nOKR9RqOdRyxvVrmp52bh0lie5Q=; CITI_SITE=gtdc'
+    //       },
+    //       'maxRedirects': 20
+    //     };
 
-          res.on("data", function (chunk) {
-            chunks.push(chunk);
-          });
+    //     var req = https.request(options, function (res) {
+    //       var chunks = [];
 
-          res.on("end", function (chunk) {
-            var body = Buffer.concat(chunks);
-            console.log(body.toString());
-            console.log(JSON.parse(body.toString())["access_token"])
-            userService.citiaccessToken = (JSON.parse(body.toString())["access_token"])
-            userService.citiLogin = true
-            console.log(userService.citiLogin)
-            navCtrl.navigateRoot('/accounts')
-          });
+    //       res.on("data", function (chunk) {
+    //         chunks.push(chunk);
+    //       });
 
-          res.on("error", function (error) {
-            console.error(error);
-          });
-        });
+    //       res.on("end", function (chunk) {
+    //         var body = Buffer.concat(chunks);
+    //         console.log(body.toString());
+    //         console.log(JSON.parse(body.toString())["access_token"])
+    //         userService.citiaccessToken = (JSON.parse(body.toString())["access_token"])
+    //         userService.citiLogin = true
+    //         console.log(userService.citiLogin)
+    //         navCtrl.navigateRoot('/accounts')
+    //       });
 
-        var postData = qs.stringify({
-          'grant_type': 'authorization_code',
-          'code': this.userService.citiauthorisationCode,
-          'redirect_uri': 'https://ionicfirebase-a8213.web.app'
-        });
+    //       res.on("error", function (error) {
+    //         console.error(error);
+    //       });
+    //     });
 
-        req.write(postData);
+    //     var postData = qs.stringify({
+    //       'grant_type': 'authorization_code',
+    //       'code': this.userService.citiauthorisationCode,
+    //       'redirect_uri': 'https://ionicfirebase-a8213.web.app'
+    //     });
 
-        req.end();
-        console.log(postData);
-      }
-    }
-    if (this.activatedRoute.snapshot.queryParams['access_token']) {
-      // console.log(this.activatedRoute.snapshot.queryParams['access_token'])
-      userService.ocbcLogin = true
-      userService.ocbcaccessToken = "e748e2c68bae6fa287cedb352b26229a"
-      navCtrl.navigateRoot('/accounts')
-    }
+    //     req.write(postData);
+
+    //     req.end();
+    //     console.log(postData);
+    //   }
+    // }
+    // if (this.activatedRoute.snapshot.queryParams['access_token']) {
+    //   // console.log(this.activatedRoute.snapshot.queryParams['access_token'])
+    //   userService.ocbcLogin = true
+    //   userService.ocbcaccessToken = "e748e2c68bae6fa287cedb352b26229a"
+    //   navCtrl.navigateRoot('/accounts')
+    // }
   }
 
   ngOnInit() {

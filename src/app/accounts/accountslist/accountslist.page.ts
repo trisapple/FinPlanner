@@ -65,7 +65,7 @@ export class AccountslistPage implements OnInit {
       'maxRedirects': 20
     };
 
-    var req = https.request(options, function (res) {
+    var req = https.request(options, (res) => {
       var chunks = [];
 
       res.on("data", function (chunk) {
@@ -79,6 +79,8 @@ export class AccountslistPage implements OnInit {
 
         var balances = []
         var currency = {}
+        var balancescurrencycode = []
+        var currencycode = {}
 
         for (let each of JSON.parse(body.toString())["data"]) {
           if (currency[each.currency_code] == undefined) {
@@ -86,18 +88,25 @@ export class AccountslistPage implements OnInit {
           }
           currency[each.currency_code] += each.balance
         }
+        for (let each of Object.keys(currency)) {
+          currencycode[each] = currency[each].toLocaleString('en-SG', { style: 'currency', currency: each })
+        }
+        // each["balance"].toLocaleString('en-SG', { style: 'currency', currency: each["currency_code"] })
         balances.push(currency)
+        balancescurrencycode.push(currencycode)
         console.log(currency)
 
         if (userService.loggedin == false) {
           firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(expensesService.saltedgeconnection["id"]).set({
             connectioninfo: JSON.parse(body.toString())["data"],
-            balances: balances
+            balances: balances,
+            balancescurrencycode: balancescurrencycode
           })
         } else {
           firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(expensesService.saltedgeconnection["id"]).set({
             connectioninfo: JSON.parse(body.toString())["data"],
-            balances: balances
+            balances: balances,
+            balancescurrencycode: balancescurrencycode
           })
         }
 

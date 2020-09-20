@@ -62,11 +62,11 @@ export class LoginPage implements OnInit {
               this.userService.provider = "Email and Password";
               this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
 
+              this.presentToast('Login Successfully!', 'middle', 2000); // Will be executed if email is verified
+              this.navCtrl.navigateRoot('/home');
+
               sub.unsubscribe();
             });
-
-            this.presentToast('Login Successfully!', 'middle', 2000); // Will be executed if email is verified
-            this.navCtrl.navigateRoot('/home');
           }
           else {
             this.presentToast('Please verfiy your email!', 'middle', 2000); // Will be executed if email is not verified

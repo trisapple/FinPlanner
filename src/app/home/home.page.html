@@ -17,12 +17,25 @@
   <br>
   <ion-progress-bar color="secondary" value="0.5"></ion-progress-bar> -->
 
-  <h1 style="text-align:left;">
-    Total
-    <span style="float:right;">
+  <h3 style="text-align:left;">
+    Aggregated Account Balance
+    <!-- <span [innerHTML]="total" class="item-text-wrap" style="float:right;">
       {{total}}
-    </span>
-  </h1>
+    </span> -->
+  </h3>
+  <!-- <p [innerHTML]="total"></p> -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>{{ currencycode }}<span style="float :right;">{{ total }}</span></ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  <br>
+  <h3>Expenses</h3>
+  <p *ngFor="let each of expenses">{{ each["month"] }} {{ each["year"] }} - {{ each["amount"] }}</p>
+  <br>
+  <h3>Income</h3>
+  <p *ngFor="let each of income">{{ each["month"] }} {{ each["year"] }} - {{ each["amount"] }}</p>
 
 </ion-content>
 
