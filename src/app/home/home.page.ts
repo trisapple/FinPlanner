@@ -74,6 +74,7 @@ export class HomePage {
 
   total = []
   expenses = []
+  income = []
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService) {
     // this.loadColumnChart();
@@ -152,8 +153,11 @@ export class HomePage {
       res.on("end", (chunk) => {
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
+
         this.expenses = JSON.parse(body.toString()).data.data.result.accounts_summary.expense.total_per_month
         var currencycode = JSON.parse(body.toString()).data.currency_code
+
+        this.income = JSON.parse(body.toString()).data.data.result.accounts_summary.income.total_per_month
 
         for (let each of this.expenses) {
           if (each["month"] == 6) {
@@ -169,7 +173,21 @@ export class HomePage {
             each["month"] = "September"
           }
           each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: currencycode })
-          
+        }
+        for (let each of this.income) {
+          if (each["month"] == 6) {
+            each["month"] = "June"
+          }
+          if (each["month"] == 7) {
+            each["month"] = "July"
+          }
+          if (each["month"] == 8) {
+            each["month"] = "August"
+          }
+          if (each["month"] == 9) {
+            each["month"] = "September"
+          }
+          each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: currencycode })
         }
         console.log(this.expenses)
 
