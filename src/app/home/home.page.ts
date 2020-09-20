@@ -182,74 +182,74 @@ export class HomePage {
 
     req.end();
 
-    if (this.activatedRoute.snapshot.queryParams['code']) {
-      // If there is no authorisation code (Get auth code)
-      if (!this.userService.citiauthorisationCode) {
-        this.userService.citiauthorisationCode = this.activatedRoute.snapshot.queryParams['code'];
-        console.log(this.activatedRoute.snapshot.queryParams['code'])
-      }
-      console.log(this.userService.citiauthorisationCode);
+    // if (this.activatedRoute.snapshot.queryParams['code']) {
+    //   // If there is no authorisation code (Get auth code)
+    //   if (!this.userService.citiauthorisationCode) {
+    //     this.userService.citiauthorisationCode = this.activatedRoute.snapshot.queryParams['code'];
+    //     console.log(this.activatedRoute.snapshot.queryParams['code'])
+    //   }
+    //   console.log(this.userService.citiauthorisationCode);
 
-      // If there is auth code and no access token (Get access token)
-      if (this.userService.citiauthorisationCode && !this.userService.citiaccessToken) {
+    //   // If there is auth code and no access token (Get access token)
+    //   if (this.userService.citiauthorisationCode && !this.userService.citiaccessToken) {
 
-        var https = require('follow-redirects').https;
+    //     var https = require('follow-redirects').https;
 
-        var qs = require('querystring');
+    //     var qs = require('querystring');
 
-        var options = {
-          'method': 'POST',
-          'hostname': 'sandbox.apihub.citi.com',
-          'path': '/gcb/api/authCode/oauth2/token/sg/gcb',
-          'headers': {
-            'Accept': 'application/json',
-            'Authorization': 'Basic MDU0NTE4NjUtN2QzOS00NzA0LWI0OTUtODAzZjExZDJkZDA5OlY4a1QybVM1eVkyeUE0aEM2YkU4YUMyZUU3Y0U1Z0w4dkIydUQxakcxcUw1ZUUyYlgx',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Cookie': 'RSA=164292451157170727520200729230711; bizToken=fU2UtG1g/AI3JOqozWsTWkpiT9WhJwTX6VEA7KVJYStvXsBe/bJYuBCltpb6fjNrrpyNQvfhu79O3O8ZnQchXSGf35FKcMTX2DeZL3uIoPu7wr8+7KmPSSzipBMzyXxgoFmg4C4kDc9BrI7l90mgcEFbrdOZCuKcrgl9CYY59EK+yurqvFtwgYpitFFTIGX1WiLqSt7VIXZMPgNmen1dLlGkFnlxSE3CFqqFIuQW6ClDmyj3jTHxCyU/Ekcl9rbj72U8n0rcCXvGoyNup6FxPiBW2n5ICSI7p8yMLn+HentBjKsrGksl1tCrdBjz8t3M+qvQvF/RW1ckJO46EiYz9spF1G132H73c3zyBBOc5lVyZ2HzjkwKYifkE2DTiDr5tQPyUBkfy/AaaJiGY0Yw8MwK8HM+YbcRWYxdXwi9WleOuW0F5+Ug/FzLx16MZx3LVHh7qcsgwqRAxgM1nOKR9RqOdRyxvVrmp52bh0lie5Q=; CITI_SITE=gtdc'
-          },
-          'maxRedirects': 20
-        };
+    //     var options = {
+    //       'method': 'POST',
+    //       'hostname': 'sandbox.apihub.citi.com',
+    //       'path': '/gcb/api/authCode/oauth2/token/sg/gcb',
+    //       'headers': {
+    //         'Accept': 'application/json',
+    //         'Authorization': 'Basic MDU0NTE4NjUtN2QzOS00NzA0LWI0OTUtODAzZjExZDJkZDA5OlY4a1QybVM1eVkyeUE0aEM2YkU4YUMyZUU3Y0U1Z0w4dkIydUQxakcxcUw1ZUUyYlgx',
+    //         'Content-Type': 'application/x-www-form-urlencoded',
+    //         'Cookie': 'RSA=164292451157170727520200729230711; bizToken=fU2UtG1g/AI3JOqozWsTWkpiT9WhJwTX6VEA7KVJYStvXsBe/bJYuBCltpb6fjNrrpyNQvfhu79O3O8ZnQchXSGf35FKcMTX2DeZL3uIoPu7wr8+7KmPSSzipBMzyXxgoFmg4C4kDc9BrI7l90mgcEFbrdOZCuKcrgl9CYY59EK+yurqvFtwgYpitFFTIGX1WiLqSt7VIXZMPgNmen1dLlGkFnlxSE3CFqqFIuQW6ClDmyj3jTHxCyU/Ekcl9rbj72U8n0rcCXvGoyNup6FxPiBW2n5ICSI7p8yMLn+HentBjKsrGksl1tCrdBjz8t3M+qvQvF/RW1ckJO46EiYz9spF1G132H73c3zyBBOc5lVyZ2HzjkwKYifkE2DTiDr5tQPyUBkfy/AaaJiGY0Yw8MwK8HM+YbcRWYxdXwi9WleOuW0F5+Ug/FzLx16MZx3LVHh7qcsgwqRAxgM1nOKR9RqOdRyxvVrmp52bh0lie5Q=; CITI_SITE=gtdc'
+    //       },
+    //       'maxRedirects': 20
+    //     };
 
-        var req = https.request(options, function (res) {
-          var chunks = [];
+    //     var req = https.request(options, function (res) {
+    //       var chunks = [];
 
-          res.on("data", function (chunk) {
-            chunks.push(chunk);
-          });
+    //       res.on("data", function (chunk) {
+    //         chunks.push(chunk);
+    //       });
 
-          res.on("end", function (chunk) {
-            var body = Buffer.concat(chunks);
-            console.log(body.toString());
-            console.log(JSON.parse(body.toString())["access_token"])
-            userService.citiaccessToken = (JSON.parse(body.toString())["access_token"])
-            userService.citiLogin = true
-            console.log(userService.citiLogin)
-            navCtrl.navigateRoot('/accounts')
-          });
+    //       res.on("end", function (chunk) {
+    //         var body = Buffer.concat(chunks);
+    //         console.log(body.toString());
+    //         console.log(JSON.parse(body.toString())["access_token"])
+    //         userService.citiaccessToken = (JSON.parse(body.toString())["access_token"])
+    //         userService.citiLogin = true
+    //         console.log(userService.citiLogin)
+    //         navCtrl.navigateRoot('/accounts')
+    //       });
 
-          res.on("error", function (error) {
-            console.error(error);
-          });
-        });
+    //       res.on("error", function (error) {
+    //         console.error(error);
+    //       });
+    //     });
 
-        var postData = qs.stringify({
-          'grant_type': 'authorization_code',
-          'code': this.userService.citiauthorisationCode,
-          'redirect_uri': 'https://ionicfirebase-a8213.web.app'
-        });
+    //     var postData = qs.stringify({
+    //       'grant_type': 'authorization_code',
+    //       'code': this.userService.citiauthorisationCode,
+    //       'redirect_uri': 'https://ionicfirebase-a8213.web.app'
+    //     });
 
-        req.write(postData);
+    //     req.write(postData);
 
-        req.end();
-        console.log(postData);
-      }
-    }
-    if (this.activatedRoute.snapshot.queryParams['access_token']) {
-      // console.log(this.activatedRoute.snapshot.queryParams['access_token'])
-      userService.ocbcLogin = true
-      userService.ocbcaccessToken = "e748e2c68bae6fa287cedb352b26229a"
-      navCtrl.navigateRoot('/accounts')
-    }
+    //     req.end();
+    //     console.log(postData);
+    //   }
+    // }
+    // if (this.activatedRoute.snapshot.queryParams['access_token']) {
+    //   // console.log(this.activatedRoute.snapshot.queryParams['access_token'])
+    //   userService.ocbcLogin = true
+    //   userService.ocbcaccessToken = "e748e2c68bae6fa287cedb352b26229a"
+    //   navCtrl.navigateRoot('/accounts')
+    // }
   }
 
   ngOnInit() {
