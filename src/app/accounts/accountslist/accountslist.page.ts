@@ -65,7 +65,7 @@ export class AccountslistPage implements OnInit {
       'maxRedirects': 20
     };
 
-    var req = https.request(options, function (res) {
+    var req = https.request(options, (res) => {
       var chunks = [];
 
       res.on("data", function (chunk) {
