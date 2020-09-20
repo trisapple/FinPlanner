@@ -91,13 +91,14 @@ export class HomePage {
 
 
     if (userService.loggedin == false) {
-      let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
+      let sub: Subscription = firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
         console.log(data)
         console.log(data["balances"][0])
         console.log(Object.entries(data["balances"][0]))
         for (let each of Object.entries(data["balances"][0])) {
           console.log(`${each[1]} ${each[0]}`)
-          var string = `${each[1]} ${each[0]} `
+          each[1] = parseInt(each[1].toString()).toLocaleString('en-SG', { style: 'currency', currency: each[0] })
+          var string = `${each[1]} `
           this.total = this.total.concat(string)
           console.log(this.total)
         }
@@ -112,7 +113,8 @@ export class HomePage {
         console.log(Object.entries(data["balances"][0]))
         for (let each of Object.entries(data["balances"][0])) {
           console.log(`${each[1]} ${each[0]}`)
-          var string = `${each[1]} ${each[0]} `
+          each[1] = parseInt(each[1].toString()).toLocaleString('en-SG', { style: 'currency', currency: each[0] })
+          var string = `${each[1]} `
           this.total = this.total.concat(string)
           console.log(this.total)
         }
@@ -121,7 +123,6 @@ export class HomePage {
         sub.unsubscribe();
       });
     }
-
 
     if (this.activatedRoute.snapshot.queryParams['code']) {
       // If there is no authorisation code (Get auth code)
