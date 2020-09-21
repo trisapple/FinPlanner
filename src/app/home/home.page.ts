@@ -77,6 +77,7 @@ export class HomePage {
   expenses = []
   income = []
   currencycode = ""
+  sgdonly = true
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService) {
     // this.loadColumnChart();
@@ -182,6 +183,9 @@ export class HomePage {
         this.originaltotal = Object.entries(originaltotal)
         for (let each of this.originaltotal) {
           each[1] = each[1].toLocaleString('en-SG', { style: 'currency', currency: each[0] }) // Add currency symbol
+          if (each[0] != "SGD") {
+            this.sgdonly = false
+          }
         }
         console.log(this.originaltotal)
         // this.originaltotal.push(originaltotal)

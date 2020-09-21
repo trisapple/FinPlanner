@@ -18,7 +18,7 @@
   <ion-progress-bar color="secondary" value="0.5"></ion-progress-bar> -->
 
   <h3 style="text-align:left;">
-    Aggregated Account Balance
+    Account Balances in {{ currencycode }}
     <!-- <span [innerHTML]="total" class="item-text-wrap" style="float:right;">
       {{total}}
     </span> -->
@@ -29,11 +29,23 @@
       <ion-card-subtitle>{{ currencycode }}<span style="float :right;">{{ total }}</span></ion-card-subtitle>
     </ion-card-header>
   </ion-card>
+  <br>
+
+  <div *ngIf=!sgdonly>
+
+
+  <h3 style="text-align:left;">
+    Account Balances in original currencies
+    <!-- <span [innerHTML]="total" class="item-text-wrap" style="float:right;">
+      {{total}}
+    </span> -->
+  </h3>
   <ion-card *ngFor="let each of originaltotal">
     <ion-card-header>
       <ion-card-subtitle>{{ each[0] }}<span style="float :right;">{{ each[1] }}</span></ion-card-subtitle>
     </ion-card-header>
   </ion-card>
+</div>
 
   <br>
   <h3>Expenses</h3>
