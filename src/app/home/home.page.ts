@@ -73,6 +73,7 @@ export class HomePage {
   // }
 
   total = ""
+  originaltotal = []
   expenses = []
   income = []
   currencycode = ""
@@ -134,12 +135,13 @@ export class HomePage {
     var options = {
       'method': 'GET',
       'hostname': 'cors-anywhere.herokuapp.com',
-      'path': '/http://www.saltedge.com/api/v5/reports/310867760563358601',
+      'path': '/https://www.saltedge.com/api/v5/reports/310877788942895670',
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
-        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4'
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'Origin': ''
       },
       'maxRedirects': 20
     };
@@ -162,6 +164,29 @@ export class HomePage {
 
         this.total = JSON.parse(body.toString()).data.data.result.accounts_summary.balance.end_date_amount.toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
 
+        var originaltotal = {}
+        for (let each of JSON.parse(body.toString()).data.data.connections) {
+          // console.log(each.accounts)
+          for (let each2 of each.accounts) {
+            console.log(each2)
+            console.log(each2.original_balance)
+            console.log(each2.original_currency_code)
+
+            // If the category has not yet been added to the Object, start it from 0 and add up the value
+            if (originaltotal[each2.original_currency_code] == undefined) {
+              originaltotal[each2.original_currency_code] = 0 // Start from 0
+            }
+            originaltotal[each2.original_currency_code] += each2.original_balance // Add up the value to the Object
+          }
+        }
+        this.originaltotal = Object.entries(originaltotal)
+        for (let each of this.originaltotal) {
+          each[1] = each[1].toLocaleString('en-SG', { style: 'currency', currency: each[0] }) // Add currency symbol
+        }
+        console.log(this.originaltotal)
+        // this.originaltotal.push(originaltotal)
+
+        // Expenses
         for (let each of this.expenses) {
           if (each["month"] == 6) {
             each["month"] = "June"
@@ -177,6 +202,8 @@ export class HomePage {
           }
           each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
         }
+
+        // Income
         for (let each of this.income) {
           if (each["month"] == 6) {
             each["month"] = "June"
