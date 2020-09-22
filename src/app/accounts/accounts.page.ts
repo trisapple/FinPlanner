@@ -162,7 +162,7 @@ export class AccountsPage implements OnInit {
                 } else {
                   this.firestore.collection<any>('users').doc(this.userService.uid).collection("saltedgeconnections").doc(connection_id).delete()
                 }
-                this.recreateinsight()
+                // this.recreateinsight()
                 this.getsaltedgeaccounts() // Refresh the list of bank accounts
               });
 
