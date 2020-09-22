@@ -262,12 +262,26 @@ export class AccountsPage implements OnInit {
       });
     });
 
-    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": "2020-06-01", "to_date": "2020-09-30" } });
+    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": "2020-01-01", "to_date": this.formatDate(new Date()) } });
 
     req.write(postData);
 
     req.end();
 
+  }
+
+  formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 
   // Load the bank accounts
@@ -395,7 +409,7 @@ export class AccountsPage implements OnInit {
     //     this.getsaltedgeaccounts()
     //   });
     // } else {
-      this.getsaltedgeaccounts()
+    this.getsaltedgeaccounts()
     // }
   }
 

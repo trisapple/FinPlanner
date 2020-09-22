@@ -163,7 +163,7 @@ export class HomePage {
       });
     });
 
-    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": "2020-06-01", "to_date": "2020-09-30" } });
+    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": "2020-01-01", "to_date": this.formatDate(new Date()) } });
 
     req.write(postData);
 
@@ -233,6 +233,21 @@ export class HomePage {
 
         // Expenses
         for (let each of this.expenses) {
+          if (each["month"] == 1) {
+            each["month"] = "January"
+          }
+          if (each["month"] == 2) {
+            each["month"] = "February"
+          }
+          if (each["month"] == 3) {
+            each["month"] = "March"
+          }
+          if (each["month"] == 4) {
+            each["month"] = "April"
+          }
+          if (each["month"] == 5) {
+            each["month"] = "May"
+          }
           if (each["month"] == 6) {
             each["month"] = "June"
           }
@@ -244,12 +259,36 @@ export class HomePage {
           }
           if (each["month"] == 9) {
             each["month"] = "September"
+          }
+          if (each["month"] == 10) {
+            each["month"] = "October"
+          }
+          if (each["month"] == 11) {
+            each["month"] = "November"
+          }
+          if (each["month"] == 12) {
+            each["month"] = "December"
           }
           each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
         }
 
         // Income
         for (let each of this.income) {
+          if (each["month"] == 1) {
+            each["month"] = "January"
+          }
+          if (each["month"] == 2) {
+            each["month"] = "February"
+          }
+          if (each["month"] == 3) {
+            each["month"] = "March"
+          }
+          if (each["month"] == 4) {
+            each["month"] = "April"
+          }
+          if (each["month"] == 5) {
+            each["month"] = "May"
+          }
           if (each["month"] == 6) {
             each["month"] = "June"
           }
@@ -261,6 +300,15 @@ export class HomePage {
           }
           if (each["month"] == 9) {
             each["month"] = "September"
+          }
+          if (each["month"] == 10) {
+            each["month"] = "October"
+          }
+          if (each["month"] == 11) {
+            each["month"] = "November"
+          }
+          if (each["month"] == 12) {
+            each["month"] = "December"
           }
           each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
         }
@@ -274,6 +322,20 @@ export class HomePage {
     });
 
     req.end();
+  }
+
+  formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService) {
@@ -331,6 +393,9 @@ export class HomePage {
     // if (this.activatedRoute.snapshot.queryParams['connection_id']) {
 
     // }
+
+    console.log(new Date().toDateString())
+    console.log(this.formatDate(new Date()))
 
     if (this.userService.loggedin == false) {
       let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
