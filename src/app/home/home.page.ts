@@ -78,6 +78,7 @@ export class HomePage {
   income = []
   currencycode = ""
   sgdonly = true
+  saltedgereportid = ""
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService) {
     // this.loadColumnChart();
@@ -131,108 +132,233 @@ export class HomePage {
     //   });
     // }
 
-    var https = require('follow-redirects').https;
+    if (this.userService.loggedin == false) {
+      let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
+        console.log(data)
+        console.log(data["saltedgereportid"])
+        this.saltedgereportid = data["saltedgereportid"]
 
-    var options = {
-      'method': 'GET',
-      'hostname': 'cors-anywhere.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/reports/310877788942895670',
-      'headers': {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
-        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
-        'Origin': ''
-      },
-      'maxRedirects': 20
-    };
+        sub.unsubscribe();
 
-    var req = https.request(options, (res) => {
-      var chunks = [];
+        var https = require('follow-redirects').https;
 
-      res.on("data", function (chunk) {
-        chunks.push(chunk);
-      });
+        var options = {
+          'method': 'GET',
+          'hostname': 'cors-anywhere.herokuapp.com',
+          'path': '/https://www.saltedge.com/api/v5/reports/' + this.saltedgereportid,
+          'headers': {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+            'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+            'Origin': ''
+          },
+          'maxRedirects': 20
+        };
 
-      res.on("end", (chunk) => {
-        var body = Buffer.concat(chunks);
-        console.log(JSON.parse(body.toString()));
+        var req = https.request(options, (res) => {
+          var chunks = [];
 
-        this.expenses = JSON.parse(body.toString()).data.data.result.accounts_summary.expense.total_per_month
-        this.currencycode = JSON.parse(body.toString()).data.currency_code
+          res.on("data", function (chunk) {
+            chunks.push(chunk);
+          });
 
-        this.income = JSON.parse(body.toString()).data.data.result.accounts_summary.income.total_per_month
+          res.on("end", (chunk) => {
+            var body = Buffer.concat(chunks);
+            console.log(JSON.parse(body.toString()));
 
-        this.total = JSON.parse(body.toString()).data.data.result.accounts_summary.balance.end_date_amount.toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+            this.expenses = JSON.parse(body.toString()).data.data.result.accounts_summary.expense.total_per_month
+            this.currencycode = JSON.parse(body.toString()).data.currency_code
 
-        var originaltotal = {}
-        for (let each of JSON.parse(body.toString()).data.data.connections) {
-          // console.log(each.accounts)
-          for (let each2 of each.accounts) {
-            console.log(each2)
-            console.log(each2.original_balance)
-            console.log(each2.original_currency_code)
+            this.income = JSON.parse(body.toString()).data.data.result.accounts_summary.income.total_per_month
 
-            // If the category has not yet been added to the Object, start it from 0 and add up the value
-            if (originaltotal[each2.original_currency_code] == undefined) {
-              originaltotal[each2.original_currency_code] = 0 // Start from 0
+            this.total = JSON.parse(body.toString()).data.data.result.accounts_summary.balance.end_date_amount.toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+
+            var originaltotal = {}
+            for (let each of JSON.parse(body.toString()).data.data.connections) {
+              // console.log(each.accounts)
+              for (let each2 of each.accounts) {
+                console.log(each2)
+                console.log(each2.original_balance)
+                console.log(each2.original_currency_code)
+
+                // If the category has not yet been added to the Object, start it from 0 and add up the value
+                if (originaltotal[each2.original_currency_code] == undefined) {
+                  originaltotal[each2.original_currency_code] = 0 // Start from 0
+                }
+                originaltotal[each2.original_currency_code] += each2.original_balance // Add up the value to the Object
+              }
             }
-            originaltotal[each2.original_currency_code] += each2.original_balance // Add up the value to the Object
-          }
-        }
-        this.originaltotal = Object.entries(originaltotal)
-        for (let each of this.originaltotal) {
-          each[1] = each[1].toLocaleString('en-SG', { style: 'currency', currency: each[0] }) // Add currency symbol
-          if (each[0] != "SGD") {
-            this.sgdonly = false
-          }
-        }
-        console.log(this.originaltotal)
-        // this.originaltotal.push(originaltotal)
+            this.originaltotal = Object.entries(originaltotal)
+            for (let each of this.originaltotal) {
+              each[1] = each[1].toLocaleString('en-SG', { style: 'currency', currency: each[0] }) // Add currency symbol
+              if (each[0] != "SGD") {
+                this.sgdonly = false
+              }
+            }
+            console.log(this.originaltotal)
+            // this.originaltotal.push(originaltotal)
 
-        // Expenses
-        for (let each of this.expenses) {
-          if (each["month"] == 6) {
-            each["month"] = "June"
-          }
-          if (each["month"] == 7) {
-            each["month"] = "July"
-          }
-          if (each["month"] == 8) {
-            each["month"] = "August"
-          }
-          if (each["month"] == 9) {
-            each["month"] = "September"
-          }
-          each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
-        }
+            // Expenses
+            for (let each of this.expenses) {
+              if (each["month"] == 6) {
+                each["month"] = "June"
+              }
+              if (each["month"] == 7) {
+                each["month"] = "July"
+              }
+              if (each["month"] == 8) {
+                each["month"] = "August"
+              }
+              if (each["month"] == 9) {
+                each["month"] = "September"
+              }
+              each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+            }
 
-        // Income
-        for (let each of this.income) {
-          if (each["month"] == 6) {
-            each["month"] = "June"
-          }
-          if (each["month"] == 7) {
-            each["month"] = "July"
-          }
-          if (each["month"] == 8) {
-            each["month"] = "August"
-          }
-          if (each["month"] == 9) {
-            each["month"] = "September"
-          }
-          each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
-        }
-        console.log(this.expenses)
+            // Income
+            for (let each of this.income) {
+              if (each["month"] == 6) {
+                each["month"] = "June"
+              }
+              if (each["month"] == 7) {
+                each["month"] = "July"
+              }
+              if (each["month"] == 8) {
+                each["month"] = "August"
+              }
+              if (each["month"] == 9) {
+                each["month"] = "September"
+              }
+              each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+            }
+            console.log(this.expenses)
 
+          });
+
+          res.on("error", function (error) {
+            console.error(error);
+          });
+        });
+
+        req.end();
       });
+    } else {
+      let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
+        console.log(data)
+        console.log(data["saltedgereportid"])
+        this.saltedgereportid = data["saltedgereportid"]
 
-      res.on("error", function (error) {
-        console.error(error);
+        sub.unsubscribe();
+
+        var https = require('follow-redirects').https;
+
+        var options = {
+          'method': 'GET',
+          'hostname': 'cors-anywhere.herokuapp.com',
+          'path': '/https://www.saltedge.com/api/v5/reports/' + this.saltedgereportid,
+          'headers': {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+            'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+            'Origin': ''
+          },
+          'maxRedirects': 20
+        };
+
+        var req = https.request(options, (res) => {
+          var chunks = [];
+
+          res.on("data", function (chunk) {
+            chunks.push(chunk);
+          });
+
+          res.on("end", (chunk) => {
+            var body = Buffer.concat(chunks);
+            console.log(JSON.parse(body.toString()));
+
+            this.expenses = JSON.parse(body.toString()).data.data.result.accounts_summary.expense.total_per_month
+            this.currencycode = JSON.parse(body.toString()).data.currency_code
+
+            this.income = JSON.parse(body.toString()).data.data.result.accounts_summary.income.total_per_month
+
+            this.total = JSON.parse(body.toString()).data.data.result.accounts_summary.balance.end_date_amount.toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+
+            var originaltotal = {}
+            for (let each of JSON.parse(body.toString()).data.data.connections) {
+              // console.log(each.accounts)
+              for (let each2 of each.accounts) {
+                console.log(each2)
+                console.log(each2.original_balance)
+                console.log(each2.original_currency_code)
+
+                // If the category has not yet been added to the Object, start it from 0 and add up the value
+                if (originaltotal[each2.original_currency_code] == undefined) {
+                  originaltotal[each2.original_currency_code] = 0 // Start from 0
+                }
+                originaltotal[each2.original_currency_code] += each2.original_balance // Add up the value to the Object
+              }
+            }
+            this.originaltotal = Object.entries(originaltotal)
+            for (let each of this.originaltotal) {
+              each[1] = each[1].toLocaleString('en-SG', { style: 'currency', currency: each[0] }) // Add currency symbol
+              if (each[0] != "SGD") {
+                this.sgdonly = false
+              }
+            }
+            console.log(this.originaltotal)
+            // this.originaltotal.push(originaltotal)
+
+            // Expenses
+            for (let each of this.expenses) {
+              if (each["month"] == 6) {
+                each["month"] = "June"
+              }
+              if (each["month"] == 7) {
+                each["month"] = "July"
+              }
+              if (each["month"] == 8) {
+                each["month"] = "August"
+              }
+              if (each["month"] == 9) {
+                each["month"] = "September"
+              }
+              each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+            }
+
+            // Income
+            for (let each of this.income) {
+              if (each["month"] == 6) {
+                each["month"] = "June"
+              }
+              if (each["month"] == 7) {
+                each["month"] = "July"
+              }
+              if (each["month"] == 8) {
+                each["month"] = "August"
+              }
+              if (each["month"] == 9) {
+                each["month"] = "September"
+              }
+              each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+            }
+            console.log(this.expenses)
+
+          });
+
+          res.on("error", function (error) {
+            console.error(error);
+          });
+        });
+
+        req.end();
       });
-    });
+    }
 
-    req.end();
+
+
+
 
     // if (this.activatedRoute.snapshot.queryParams['code']) {
     //   // If there is no authorisation code (Get auth code)
