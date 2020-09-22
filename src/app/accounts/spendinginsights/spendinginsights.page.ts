@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ExpensesService } from '../../expenses.service';
 import { UserService } from '../../user.service';
 import { NavController } from '@ionic/angular';
+import { SaltedgeService } from 'src/app/saltedge.service';
 
 @Component({
   selector: 'app-spendinginsights',
@@ -10,7 +11,7 @@ import { NavController } from '@ionic/angular';
 })
 export class SpendingInsightsPage implements OnInit {
 
-  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController) {
+  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public saltedgeService: SaltedgeService) {
 
     // Null the pieChart so that we can refresh the pie chart when switching to another account
     // We load the pieChart with ngif so that it will only show if the data is populated
@@ -21,7 +22,7 @@ export class SpendingInsightsPage implements OnInit {
     var options = {
       'method': 'GET',
       'hostname': 'cors-anywhere.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + this.expensesService.saltedgeconnection["id"] + '&account_id=' + this.expensesService.saltedgeaccount["id"],
+      'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + this.saltedgeService.saltedgeconnection["id"] + '&account_id=' + this.saltedgeService.saltedgeaccount["id"],
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ export class SpendingInsightsPage implements OnInit {
         expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
 
         for (let category of expensesService.pieChartData2) {
-          category[2] = category[1].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode }) // Add currency symbol
+          category[2] = category[1].toLocaleString('en-SG', { style: 'currency', currency: saltedgeService.saltedgeaccountcurrencycode }) // Add currency symbol
           category[3] = (category[1]/expensesService.total*100).toFixed(1) // Percentage of total expenses
         }
 

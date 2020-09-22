@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{expensesService.saltedgeconnection["provider_name"]}}</ion-title>
+    <ion-title>{{saltedgeService.saltedgeconnection["provider_name"]}}</ion-title>
     <!-- Side menu button -->
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -12,7 +12,7 @@
 
   <ion-list>
     <!-- Accounts -->
-    <div *ngFor="let each of expensesService.saltedgeaccounts" (click)="expandItem(each)">
+    <div *ngFor="let each of saltedgeService.saltedgeaccounts" (click)="expandItem(each)">
       <ion-item>
     
         <ion-label>

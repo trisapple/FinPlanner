@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-charts-interfaces';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ExpensesService } from '../expenses.service';
+import { SaltedgeService } from '../saltedge.service';
 
 @Component({
   selector: 'app-home',
@@ -85,7 +86,7 @@ export class HomePage {
     var options = {
       'method': 'DELETE',
       'hostname': 'cors-anywhere.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/reports/' + this.expensesService.saltedgereportid,
+      'path': '/https://www.saltedge.com/api/v5/reports/' + this.saltedgeService.saltedgereportid,
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -154,7 +155,7 @@ export class HomePage {
             saltedgereportid: JSON.parse(body.toString())["data"]["id"]
           })
         }
-        this.expensesService.saltedgereportid = JSON.parse(body.toString())["data"]["id"]
+        this.saltedgeService.saltedgereportid = JSON.parse(body.toString())["data"]["id"]
         this.getinsight()
       });
 
@@ -163,7 +164,7 @@ export class HomePage {
       });
     });
 
-    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": "2020-01-01", "to_date": this.formatDate(new Date()) } });
+    var postData = JSON.stringify({ "data": { "customer_id": this.saltedgeService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": "2020-01-01", "to_date": this.formatDate(new Date()) } });
 
     req.write(postData);
 
@@ -177,7 +178,7 @@ export class HomePage {
     var options = {
       'method': 'GET',
       'hostname': 'cors-anywhere.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/reports/' + this.expensesService.saltedgereportid,
+      'path': '/https://www.saltedge.com/api/v5/reports/' + this.saltedgeService.saltedgereportid,
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -338,7 +339,7 @@ export class HomePage {
     return [year, month, day].join('-');
   }
 
-  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService) {
+  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
     // this.loadColumnChart();
     // this.loadSimplePieChart();
 
@@ -401,8 +402,8 @@ export class HomePage {
       let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
         console.log(data)
         console.log(data["saltedgereportid"])
-        this.expensesService.saltedgereportid = data["saltedgereportid"]
-        this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
+        this.saltedgeService.saltedgereportid = data["saltedgereportid"]
+        this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"]
 
         sub.unsubscribe();
 
@@ -412,7 +413,7 @@ export class HomePage {
       let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
         console.log(data)
         console.log(data["saltedgereportid"])
-        this.expensesService.saltedgereportid = data["saltedgereportid"]
+        this.saltedgeService.saltedgereportid = data["saltedgereportid"]
 
         sub.unsubscribe();
 

@@ -17,8 +17,6 @@ export class ExpensesService {
   pieChartData2 = [] // Pie Chart Data with key value data in array form excluding ["category", "Amount"] from pieChartData to display the progress bar of the expenses
   total = 0 // Put the total spending of the account as a global variable so that it can be accessed from the html
 
-
-
   // Stocks
   msftStocks = [];
   teslaStocks = [];
@@ -30,14 +28,6 @@ export class ExpensesService {
   // FXRates
   fxrates = [];
   fxratesSG = [];
-
-  saltedgeconnections = [] // Array of connected banks
-  saltedgeconnection = [] // Array of Connected Bank information
-  saltedgeaccounts = [] // Array of accounts for the connected bank
-  saltedgeaccount = [] // Array of account information 
-  saltedgeaccountcurrencycode: String // Currency code for spending insights and transaction history to display the corresponding currency symbol
-  saltedgecustomerid: String // Salt Edge customer id to fetch user's connected banks
-  saltedgereportid: String // Salt Edge Report id to display insights in home page
 
   constructor() { }
 

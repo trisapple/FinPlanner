@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { ToastController, AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { ExpensesService } from '../expenses.service';
+import { SaltedgeService } from '../saltedge.service';
 
 
 
@@ -14,7 +15,7 @@ import { ExpensesService } from '../expenses.service';
 })
 export class ProfilePage implements OnInit {
 
-  constructor(public userService: UserService, private fireauth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController, public navCtrl: NavController, public expensesService: ExpensesService) {
+  constructor(public userService: UserService, private fireauth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController, public navCtrl: NavController, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
     if (userService.socialLogin == false) {
       this.userService.profilePicture = 'assets/avatar.png';
     }
@@ -77,7 +78,7 @@ export class ProfilePage implements OnInit {
     var options = {
       'method': 'DELETE',
       'hostname': 'cors-anywhere.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/customers/' + this.expensesService.saltedgecustomerid,
+      'path': '/https://www.saltedge.com/api/v5/customers/' + this.saltedgeService.saltedgecustomerid,
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

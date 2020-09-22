@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../user.service';
 import { ExpensesService } from '../../expenses.service';
+import { SaltedgeService } from 'src/app/saltedge.service';
 
 @Component({
   selector: 'app-transactionhistory',
@@ -9,7 +10,7 @@ import { ExpensesService } from '../../expenses.service';
 })
 export class TransactionHistoryPage implements OnInit {
 
-  constructor(public userService: UserService, public expensesService: ExpensesService) {
+  constructor(public userService: UserService, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
 
     var https = require('follow-redirects').https;
 
@@ -17,7 +18,7 @@ export class TransactionHistoryPage implements OnInit {
       'method': 'GET',
       'hostname': 'cors-anywhere.herokuapp.com',
       // The connection_id and account_id determines where to retrieve the transaction history
-      'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + this.expensesService.saltedgeconnection["id"] + '&account_id=' + this.expensesService.saltedgeaccount["id"],
+      'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + this.saltedgeService.saltedgeconnection["id"] + '&account_id=' + this.saltedgeService.saltedgeaccount["id"],
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -47,7 +48,7 @@ export class TransactionHistoryPage implements OnInit {
         for (let transaction of expensesService.transactions) {
 
           transaction["category"] = expensesService.humanize(transaction["category"]) // Remove underscores and capitalise every word
-          transaction["amount"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: expensesService.saltedgeaccountcurrencycode }) // Include currency symbol 
+          transaction["amount"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: saltedgeService.saltedgeaccountcurrencycode }) // Include currency symbol 
 
           // The 5 lines of code below will collate transactions by date
           // transaction["made_on"] is the date of transaction

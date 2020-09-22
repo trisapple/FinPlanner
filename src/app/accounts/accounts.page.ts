@@ -5,6 +5,7 @@ import { UserService } from '../user.service';
 import { ExpensesService } from '../expenses.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
+import { SaltedgeService } from '../saltedge.service';
 
 @Component({
   selector: 'app-accounts',
@@ -51,7 +52,7 @@ export class AccountsPage implements OnInit {
     });
 
     // The customer_id determines where to connect the bank account to
-    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "return_connection_id": true, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
+    var postData = JSON.stringify({ "data": { "customer_id": this.saltedgeService.saltedgecustomerid, "return_connection_id": true, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
 
     req.write(postData);
 
@@ -62,7 +63,7 @@ export class AccountsPage implements OnInit {
   // Pass the relevant array to the accountslist page
   gotoAccounts(each) {
     console.log(each)
-    this.expensesService.saltedgeconnection = each
+    this.saltedgeService.saltedgeconnection = each
     this.navCtrl.navigateForward(["/accounts/accountslist"])
   }
 
@@ -103,7 +104,7 @@ export class AccountsPage implements OnInit {
     });
 
     // The customer_id and connection_id determines the connection to refresh
-    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "connection_id": connection_id, "return_connection_id": true, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
+    var postData = JSON.stringify({ "data": { "customer_id": this.saltedgeService.saltedgecustomerid, "connection_id": connection_id, "return_connection_id": true, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
 
     req.write(postData);
 
@@ -186,7 +187,7 @@ export class AccountsPage implements OnInit {
     var options = {
       'method': 'DELETE',
       'hostname': 'cors-anywhere.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/reports/' + this.expensesService.saltedgereportid,
+      'path': '/https://www.saltedge.com/api/v5/reports/' + this.saltedgeService.saltedgereportid,
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -262,7 +263,7 @@ export class AccountsPage implements OnInit {
       });
     });
 
-    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": "2020-01-01", "to_date": this.formatDate(new Date()) } });
+    var postData = JSON.stringify({ "data": { "customer_id": this.saltedgeService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": "2020-01-01", "to_date": this.formatDate(new Date()) } });
 
     req.write(postData);
 
@@ -291,7 +292,7 @@ export class AccountsPage implements OnInit {
     var options = {
       'method': 'GET',
       'hostname': 'cors-anywhere.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/connections?customer_id=' + this.expensesService.saltedgecustomerid,
+      'path': '/https://www.saltedge.com/api/v5/connections?customer_id=' + this.saltedgeService.saltedgecustomerid,
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -313,7 +314,7 @@ export class AccountsPage implements OnInit {
         var body = Buffer.concat(chunks);
         // console.log(body.toString());
         console.log(JSON.parse(body.toString()));
-        this.expensesService.saltedgeconnections = JSON.parse(body.toString())["data"]
+        this.saltedgeService.saltedgeconnections = JSON.parse(body.toString())["data"]
         // this.firestore.collection<any>('users').doc("test1234@example.com").update({
         //   saltedgeconnections: JSON.parse(body.toString())["data"]
         // })
@@ -377,7 +378,7 @@ export class AccountsPage implements OnInit {
           });
         }
 
-        for (let connection of this.expensesService.saltedgeconnections) {
+        for (let connection of this.saltedgeService.saltedgeconnections) {
           console.log(connection["last_success_at"])
           if (connection["last_success_at"] == null) {
             connection["last_success_at"] = "Never"
@@ -395,7 +396,7 @@ export class AccountsPage implements OnInit {
     req.end();
   }
 
-  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController) {
+  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController, public saltedgeService: SaltedgeService) {
 
     // If user is not logged in, display the test account info.
     // if (this.userService.loggedin != true) {

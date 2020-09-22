@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { ExpensesService } from './expenses.service';
+import { SaltedgeService } from './saltedge.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class UserService {
   socialLogin = false; // Check if the user has used facebook or google to login
   provider: String; // Provider name (facebook, google) to show on profile screen
 
-  constructor(public firestore: AngularFirestore, public expensesService: ExpensesService) {
+  constructor(public firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
     // this.usersCollectionRef = this.firestore.collection<any>('users'); // Get the 'users' collection in Firebase Cloud Firestore
   }
 
@@ -51,7 +52,7 @@ export class UserService {
     this.name = ""
     this.email = ""
     this.uid = ""
-    this.expensesService.saltedgecustomerid = ""
+    this.saltedgeService.saltedgecustomerid = ""
     this.loggedin = false;
   }
 }

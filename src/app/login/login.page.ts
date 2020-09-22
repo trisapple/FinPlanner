@@ -14,6 +14,7 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { ExpensesService } from '../expenses.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { SaltedgeService } from '../saltedge.service';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +37,8 @@ export class LoginPage implements OnInit {
     private googlePlus: GooglePlus,
     private fb: Facebook,
     public expensesService: ExpensesService,
-    public firestore: AngularFirestore
+    public firestore: AngularFirestore,
+    public saltedgeService: SaltedgeService
   ) { }
 
   ngOnInit() {
@@ -60,7 +62,7 @@ export class LoginPage implements OnInit {
               this.userService.name = data["name"];
               this.userService.email = data["email"];
               this.userService.provider = "Email and Password";
-              this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
+              this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"]
 
               this.presentToast('Login Successfully!', 'middle', 2000); // Will be executed if email is verified
               this.navCtrl.navigateRoot('/home');
@@ -137,7 +139,7 @@ export class LoginPage implements OnInit {
           } else {
             let sub: Subscription = this.userService.login(res.user.uid).subscribe((data) => {
               console.log(data)
-              this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
+              this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"]
               sub.unsubscribe();
             });
           }
@@ -210,7 +212,7 @@ export class LoginPage implements OnInit {
           } else {
             let sub: Subscription = this.userService.login(res.user.uid).subscribe((data) => {
               console.log(data)
-              this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
+              this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"]
               sub.unsubscribe();
             })
           }
@@ -262,7 +264,7 @@ export class LoginPage implements OnInit {
           this.firestore.collection<any>('users').doc(this.userService.uid).update({
             saltedgecustomerid: JSON.parse(body.toString())["data"]["id"]
           })
-          this.expensesService.saltedgecustomerid = JSON.parse(body.toString())["data"]["id"]
+          this.saltedgeService.saltedgecustomerid = JSON.parse(body.toString())["data"]["id"]
         }
       });
 
