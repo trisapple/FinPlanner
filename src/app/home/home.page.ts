@@ -164,7 +164,7 @@ export class HomePage {
       });
     });
 
-    var postData = JSON.stringify({ "data": { "customer_id": this.saltedgeService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": "2020-01-01", "to_date": this.formatDate(new Date()) } });
+    var postData = JSON.stringify({ "data": { "customer_id": this.saltedgeService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": "2020-01-01", "to_date": this.saltedgeService.formatDate(new Date()) } });
 
     req.write(postData);
 
@@ -325,20 +325,6 @@ export class HomePage {
     req.end();
   }
 
-  formatDate(date) {
-    var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
-
-    return [year, month, day].join('-');
-  }
-
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
     // this.loadColumnChart();
     // this.loadSimplePieChart();
@@ -396,7 +382,7 @@ export class HomePage {
     // }
 
     console.log(new Date().toDateString())
-    console.log(this.formatDate(new Date()))
+    console.log(this.saltedgeService.formatDate(new Date()))
 
     if (this.userService.loggedin == false) {
       let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {

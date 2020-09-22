@@ -163,7 +163,6 @@ export class AccountsPage implements OnInit {
                 } else {
                   this.firestore.collection<any>('users').doc(this.userService.uid).collection("saltedgeconnections").doc(connection_id).delete()
                 }
-                // this.recreateinsight()
                 this.getsaltedgeaccounts() // Refresh the list of bank accounts
               });
 
@@ -179,110 +178,6 @@ export class AccountsPage implements OnInit {
       ]
     });
     await alert.present();
-  }
-
-  recreateinsight() {
-    var https = require('follow-redirects').https;
-
-    var options = {
-      'method': 'DELETE',
-      'hostname': 'cors-anywhere.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/reports/' + this.saltedgeService.saltedgereportid,
-      'headers': {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
-        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
-        'Origin': ''
-      },
-      'maxRedirects': 20
-    };
-
-    var req = https.request(options, (res) => {
-      var chunks = [];
-
-      res.on("data", function (chunk) {
-        chunks.push(chunk);
-      });
-
-      res.on("end", (chunk) => {
-        var body = Buffer.concat(chunks);
-        console.log(JSON.parse(body.toString()));
-        this.createinsight()
-      });
-
-      res.on("error", function (error) {
-        console.error(error);
-      });
-    });
-
-    req.end();
-  }
-
-  createinsight() {
-    var https = require('follow-redirects').https;
-
-    var options = {
-      'method': 'POST',
-      'hostname': 'cors-anywhere.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/reports',
-      'headers': {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
-        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
-        'Origin': ''
-      },
-      'maxRedirects': 20
-    };
-
-    var req = https.request(options, (res) => {
-      var chunks = [];
-
-      res.on("data", function (chunk) {
-        chunks.push(chunk);
-      });
-
-      res.on("end", (chunk) => {
-        var body = Buffer.concat(chunks);
-        console.log(JSON.parse(body.toString()));
-        console.log(JSON.parse(body.toString())["data"]["id"]);
-        if (this.userService.loggedin == false) {
-          this.firestore.collection<any>('users').doc("test1234@example.com").update({
-            saltedgereportid: JSON.parse(body.toString())["data"]["id"]
-          })
-        } else {
-          this.firestore.collection<any>('users').doc(this.userService.uid).update({
-            saltedgereportid: JSON.parse(body.toString())["data"]["id"]
-          })
-        }
-      });
-
-      res.on("error", function (error) {
-        console.error(error);
-      });
-    });
-
-    var postData = JSON.stringify({ "data": { "customer_id": this.saltedgeService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": "2020-01-01", "to_date": this.formatDate(new Date()) } });
-
-    req.write(postData);
-
-    req.end();
-
-  }
-
-  formatDate(date) {
-    var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
-
-    return [year, month, day].join('-');
   }
 
   // Load the bank accounts

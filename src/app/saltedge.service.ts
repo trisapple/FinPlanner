@@ -14,4 +14,18 @@ export class SaltedgeService {
   saltedgeaccountcurrencycode: String // Currency code for spending insights and transaction history to display the corresponding currency symbol
   saltedgecustomerid: String // Salt Edge customer id to fetch user's connected banks
   saltedgereportid: String // Salt Edge Report id to display insights in home page
+
+  formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
 }
