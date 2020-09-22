@@ -103,7 +103,7 @@ export class AccountsPage implements OnInit {
     });
 
     // The customer_id and connection_id determines the connection to refresh
-    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "connection_id": connection_id, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
+    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "connection_id": connection_id, "return_connection_id": true, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
 
     req.write(postData);
 
@@ -384,19 +384,19 @@ export class AccountsPage implements OnInit {
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController) {
 
     // If user is not logged in, display the test account info.
-    if (this.userService.loggedin != true) {
-      let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
+    // if (this.userService.loggedin != true) {
+    //   let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
 
-        console.log(data)
-        this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
-        this.expensesService.saltedgereportid = data["saltedgereportid"]
+    //     console.log(data)
+    //     this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
+    //     this.expensesService.saltedgereportid = data["saltedgereportid"]
 
-        sub.unsubscribe();
-        this.getsaltedgeaccounts()
-      });
-    } else {
+    //     sub.unsubscribe();
+    //     this.getsaltedgeaccounts()
+    //   });
+    // } else {
       this.getsaltedgeaccounts()
-    }
+    // }
   }
 
   ngOnInit() {
