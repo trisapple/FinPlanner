@@ -78,7 +78,6 @@ export class HomePage {
   income = []
   currencycode = ""
   sgdonly = true
-  saltedgereportid = ""
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService) {
     // this.loadColumnChart();
@@ -136,7 +135,7 @@ export class HomePage {
       let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
         console.log(data)
         console.log(data["saltedgereportid"])
-        this.saltedgereportid = data["saltedgereportid"]
+        this.expensesService.saltedgereportid = data["saltedgereportid"]
 
         sub.unsubscribe();
 
@@ -145,7 +144,7 @@ export class HomePage {
         var options = {
           'method': 'GET',
           'hostname': 'cors-anywhere.herokuapp.com',
-          'path': '/https://www.saltedge.com/api/v5/reports/' + this.saltedgereportid,
+          'path': '/https://www.saltedge.com/api/v5/reports/' + this.expensesService.saltedgereportid,
           'headers': {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -247,7 +246,7 @@ export class HomePage {
       let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
         console.log(data)
         console.log(data["saltedgereportid"])
-        this.saltedgereportid = data["saltedgereportid"]
+        this.expensesService.saltedgereportid = data["saltedgereportid"]
 
         sub.unsubscribe();
 
@@ -256,7 +255,7 @@ export class HomePage {
         var options = {
           'method': 'GET',
           'hostname': 'cors-anywhere.herokuapp.com',
-          'path': '/https://www.saltedge.com/api/v5/reports/' + this.saltedgereportid,
+          'path': '/https://www.saltedge.com/api/v5/reports/' + this.expensesService.saltedgereportid,
           'headers': {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

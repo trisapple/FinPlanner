@@ -157,6 +157,12 @@ export class AccountsPage implements OnInit {
               res.on("end", (chunk) => {
                 var body = Buffer.concat(chunks);
                 console.log(JSON.parse(body.toString()));
+                if (this.userService.loggedin == false) {
+                  this.firestore.collection<any>('users').doc("test1234@example.com").collection("saltedgeconnections").doc(connection_id).delete()
+                } else {
+                  this.firestore.collection<any>('users').doc(this.userService.uid).collection("saltedgeconnections").doc(connection_id).delete()
+                }
+                this.recreateinsight()
                 this.getsaltedgeaccounts() // Refresh the list of bank accounts
               });
 
@@ -172,6 +178,96 @@ export class AccountsPage implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  recreateinsight() {
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'DELETE',
+      'hostname': 'cors-anywhere.herokuapp.com',
+      'path': '/https://www.saltedge.com/api/v5/reports/' + this.expensesService.saltedgereportid,
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'Origin': ''
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, (res) => {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", (chunk) => {
+        var body = Buffer.concat(chunks);
+        console.log(JSON.parse(body.toString()));
+        this.createinsight()
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    req.end();
+  }
+
+  createinsight() {
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'POST',
+      'hostname': 'cors-anywhere.herokuapp.com',
+      'path': '/https://www.saltedge.com/api/v5/reports',
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'Origin': ''
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, (res) => {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", (chunk) => {
+        var body = Buffer.concat(chunks);
+        console.log(JSON.parse(body.toString()));
+        console.log(JSON.parse(body.toString())["data"]["id"]);
+        if (this.userService.loggedin == false) {
+          this.firestore.collection<any>('users').doc("test1234@example.com").update({
+            saltedgereportid: JSON.parse(body.toString())["data"]["id"]
+          })
+        } else {
+          this.firestore.collection<any>('users').doc(this.userService.uid).update({
+            saltedgereportid: JSON.parse(body.toString())["data"]["id"]
+          })
+        }
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    var postData = JSON.stringify({ "data": { "customer_id": this.expensesService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": "2020-06-01", "to_date": "2020-09-30" } });
+
+    req.write(postData);
+
+    req.end();
+
   }
 
   // Load the bank accounts
@@ -218,11 +314,11 @@ export class AccountsPage implements OnInit {
               console.log(each)
               console.log(each.balances[0])
               console.log(Object.keys(each.balances[0]))
-  
+
               for (let each2 of Object.keys(each.balances[0])) {
                 console.log(each2)
                 console.log(each.balances[0][each2])
-  
+
                 if (currency[each2] == undefined) {
                   currency[each2] = 0 // Start from 0
                 }
@@ -231,11 +327,11 @@ export class AccountsPage implements OnInit {
             }
             balances.push(currency)
             console.log(currency)
-  
+
             this.firestore.collection('users').doc("test1234@example.com").update({
               balances: balances
             })
-      
+
             sub.unsubscribe();
           });
         } else {
@@ -245,11 +341,11 @@ export class AccountsPage implements OnInit {
               console.log(each)
               console.log(each.balances[0])
               console.log(Object.keys(each.balances[0]))
-  
+
               for (let each2 of Object.keys(each.balances[0])) {
                 console.log(each2)
                 console.log(each.balances[0][each2])
-  
+
                 if (currency[each2] == undefined) {
                   currency[each2] = 0 // Start from 0
                 }
@@ -258,13 +354,13 @@ export class AccountsPage implements OnInit {
             }
             balances.push(currency)
             console.log(currency)
-  
+
             this.firestore.collection('users').doc(this.userService.uid).update({
               balances: balances
             })
-      
+
             sub.unsubscribe();
-          });  
+          });
         }
 
         for (let connection of this.expensesService.saltedgeconnections) {
@@ -293,6 +389,7 @@ export class AccountsPage implements OnInit {
 
         console.log(data)
         this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
+        this.expensesService.saltedgereportid = data["saltedgereportid"]
 
         sub.unsubscribe();
         this.getsaltedgeaccounts()
