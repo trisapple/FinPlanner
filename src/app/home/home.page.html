@@ -54,6 +54,11 @@
   <h3>Income</h3>
   <p *ngFor="let each of income">{{ each["month"] }} {{ each["year"] }} - {{ each["amount"] }}</p>
 
+
+  <canvas #barCanvas></canvas>
+  <canvas #doughnutCanvas></canvas>
+  <canvas #lineCanvas></canvas>
+
 </ion-content>
 
 <!-- <ion-content>

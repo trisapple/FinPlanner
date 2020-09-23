@@ -53,7 +53,7 @@ export class AccountslistPage implements OnInit {
 
     var options = {
       'method': 'GET',
-      'hostname': 'cors-anywhere.herokuapp.com',
+      'hostname': 'quiet-shelf-43690.herokuapp.com',
       // connection_id determines which accounts to get
       'path': '/https://www.saltedge.com/api/v5/accounts?connection_id=' + this.saltedgeService.saltedgeconnection["id"],
       'headers': {

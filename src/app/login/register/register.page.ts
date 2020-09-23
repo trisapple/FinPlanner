@@ -72,7 +72,7 @@ export class RegisterPage implements OnInit {
 
     var options = {
       'method': 'POST',
-      'hostname': 'cors-anywhere.herokuapp.com',
+      'hostname': 'quiet-shelf-43690.herokuapp.com',
       'path': '/https://www.saltedge.com/api/v5/customers/',
       'headers': {
         'Accept': 'application/json',

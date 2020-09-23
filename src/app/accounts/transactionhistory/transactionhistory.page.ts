@@ -16,7 +16,7 @@ export class TransactionHistoryPage implements OnInit {
 
     var options = {
       'method': 'GET',
-      'hostname': 'cors-anywhere.herokuapp.com',
+      'hostname': 'quiet-shelf-43690.herokuapp.com',
       // The connection_id and account_id determines where to retrieve the transaction history
       'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + this.saltedgeService.saltedgeconnection["id"] + '&account_id=' + this.saltedgeService.saltedgeaccount["id"],
       'headers': {

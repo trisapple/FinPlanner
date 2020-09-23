@@ -77,7 +77,7 @@ export class ProfilePage implements OnInit {
 
     var options = {
       'method': 'DELETE',
-      'hostname': 'cors-anywhere.herokuapp.com',
+      'hostname': 'quiet-shelf-43690.herokuapp.com',
       'path': '/https://www.saltedge.com/api/v5/customers/' + this.saltedgeService.saltedgecustomerid,
       'headers': {
         'Accept': 'application/json',

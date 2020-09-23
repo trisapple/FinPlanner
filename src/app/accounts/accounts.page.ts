@@ -20,7 +20,7 @@ export class AccountsPage implements OnInit {
     var https = require('follow-redirects').https;
     var options = {
       'method': 'POST',
-      'hostname': 'cors-anywhere.herokuapp.com',
+      'hostname': 'quiet-shelf-43690.herokuapp.com',
       'path': '/https://www.saltedge.com/api/v5/connect_sessions/create',
       'headers': {
         'Accept': 'application/json',
@@ -73,7 +73,7 @@ export class AccountsPage implements OnInit {
 
     var options = {
       'method': 'POST',
-      'hostname': 'cors-anywhere.herokuapp.com',
+      'hostname': 'quiet-shelf-43690.herokuapp.com',
       'path': '/https://www.saltedge.com/api/v5/connect_sessions/reconnect',
       'headers': {
         'Accept': 'application/json',
@@ -135,7 +135,7 @@ export class AccountsPage implements OnInit {
 
             var options = {
               'method': 'DELETE',
-              'hostname': 'cors-anywhere.herokuapp.com',
+              'hostname': 'quiet-shelf-43690.herokuapp.com',
               // The connection_id determines which connection to delete
               'path': '/https://www.saltedge.com/api/v5/connections/' + connection_id,
               'headers': {
@@ -186,7 +186,7 @@ export class AccountsPage implements OnInit {
 
     var options = {
       'method': 'GET',
-      'hostname': 'cors-anywhere.herokuapp.com',
+      'hostname': 'quiet-shelf-43690.herokuapp.com',
       'path': '/https://www.saltedge.com/api/v5/connections?customer_id=' + this.saltedgeService.saltedgecustomerid,
       'headers': {
         'Accept': 'application/json',
