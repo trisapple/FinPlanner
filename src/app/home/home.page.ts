@@ -289,10 +289,12 @@ export class HomePage {
           }
           // var colors = this.saltedgeService.dynamicColors()
           this.labels.push(each["month"])
-          this.expensevalues.push(each["amount"])
+          
           // this.backgroundcolors.push(colors[0])
           // this.hovercolors.push(colors[1])
           // each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+          each["amount"] = Math.abs(each["amount"])
+          this.expensevalues.push(each["amount"])
         }
 
         // Income
@@ -525,11 +527,7 @@ export class HomePage {
       },
       options: {
         scales: {
-          xAxes: [{
-            stacked: true
-          }],
           yAxes: [{
-            stacked: true,
             ticks: {
               beginAtZero: true
             }
