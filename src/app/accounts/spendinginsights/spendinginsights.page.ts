@@ -15,6 +15,12 @@ export class SpendingInsightsPage implements OnInit {
   @ViewChild("doughnutCanvas") doughnutCanvas: ElementRef;
   private doughnutChart: Chart;
 
+  // Chart.js arrays for doughnut chart
+  labels = []
+  values = []
+  backgroundcolors = []
+  hovercolors = []
+
   constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public saltedgeService: SaltedgeService) {
 
     // Null the pieChart so that we can refresh the pie chart when switching to another account
@@ -37,14 +43,14 @@ export class SpendingInsightsPage implements OnInit {
       'maxRedirects': 20
     };
 
-    var req = https.request(options, function (res) {
+    var req = https.request(options, (res) => {
       var chunks = [];
 
       res.on("data", function (chunk) {
         chunks.push(chunk);
       });
 
-      res.on("end", function (chunk) {
+      res.on("end", (chunk) => {
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
         expensesService.transactions = JSON.parse(body.toString())["data"]
@@ -83,8 +89,15 @@ export class SpendingInsightsPage implements OnInit {
         expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
 
         for (let category of expensesService.pieChartData2) {
+          var colors = this.dynamicColors()
           category[2] = category[1].toLocaleString('en-SG', { style: 'currency', currency: saltedgeService.saltedgeaccountcurrencycode }) // Add currency symbol
-          category[3] = (category[1]/expensesService.total*100).toFixed(1) // Percentage of total expenses
+          category[3] = (category[1] / expensesService.total * 100).toFixed(1) // Percentage of total expenses
+          category[4] = colors[0] // Random background color
+          category[5] = colors[1] // Random hover color
+          this.labels.push(category[0])
+          this.values.push(category[1])
+          this.backgroundcolors.push(category[4])
+          this.hovercolors.push(category[5])
         }
 
         // Sort the top expenses categories in descending order (from largest to smallest)
@@ -127,20 +140,13 @@ export class SpendingInsightsPage implements OnInit {
     setTimeout(() => this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: "doughnut",
       data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: this.labels,
         datasets: [
           {
             label: "# of Votes",
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)"
-            ],
-            hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56"]
+            data: this.values,
+            backgroundColor: this.backgroundcolors,
+            hoverBackgroundColor: this.hovercolors
           }
         ]
       }
@@ -150,6 +156,16 @@ export class SpendingInsightsPage implements OnInit {
   view() {
     this.navCtrl.navigateForward(['/accounts/savingssuggestion']);
     console.log(this.view)
+  }
+
+  dynamicColors() {
+    var colors = [];
+    var r = Math.floor(Math.random() * 255)
+    var g = Math.floor(Math.random() * 255)
+    var b = Math.floor(Math.random() * 255)
+    colors.push("rgba(" + r + "," + g + "," + b + ",0.5)")
+    colors.push("rgb(" + r + "," + g + "," + b + ")")
+    return colors;
   }
 
 }
