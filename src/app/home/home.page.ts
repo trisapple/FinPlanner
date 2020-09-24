@@ -289,7 +289,7 @@ export class HomePage {
           }
           // var colors = this.saltedgeService.dynamicColors()
           this.labels.push(each["month"])
-          
+
           // this.backgroundcolors.push(colors[0])
           // this.hovercolors.push(colors[1])
           // each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
@@ -515,7 +515,7 @@ export class HomePage {
             backgroundColor: "rgba(0,204,0,0.5)",
             borderColor: "rgb(0,204,0)",
             borderWidth: 1
-          }, 
+          },
           {
             label: "Expenses",
             data: this.expensevalues,
@@ -532,6 +532,14 @@ export class HomePage {
               beginAtZero: true
             }
           }]
+        },
+        layout: {
+          padding: {
+            left: 0,
+            right: 30,
+            top: 0,
+            bottom: 0
+          }
         }
       }
     }), 5000);

@@ -34,30 +34,29 @@
   <div *ngIf=!sgdonly>
 
 
-  <h3 style="text-align:left;">
-    Account Balances in original currencies
-    <!-- <span [innerHTML]="total" class="item-text-wrap" style="float:right;">
+    <h3 style="text-align:left;">
+      Account Balances in original currencies
+      <!-- <span [innerHTML]="total" class="item-text-wrap" style="float:right;">
       {{total}}
     </span> -->
-  </h3>
-  <ion-card *ngFor="let each of originaltotal">
-    <ion-card-header>
-      <ion-card-subtitle>{{ each[0] }}<span style="float :right;">{{ each[1] }}</span></ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
-</div>
+    </h3>
+    <ion-card *ngFor="let each of originaltotal">
+      <ion-card-header>
+        <ion-card-subtitle>{{ each[0] }}<span style="float :right;">{{ each[1] }}</span></ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+  </div>
 
-  <br>
+  <!-- <br>
   <h3>Expenses</h3>
   <p *ngFor="let each of expenses">{{ each["month"] }} {{ each["year"] }} - {{ each["amount"] }}</p>
   <br>
   <h3>Income</h3>
-  <p *ngFor="let each of income">{{ each["month"] }} {{ each["year"] }} - {{ each["amount"] }}</p>
-
+  <p *ngFor="let each of income">{{ each["month"] }} {{ each["year"] }} - {{ each["amount"] }}</p> -->
 
   <canvas #barCanvas></canvas>
-  <canvas #doughnutCanvas></canvas>
-  <canvas #lineCanvas></canvas>
+  <!-- <canvas #doughnutCanvas></canvas>
+  <canvas #lineCanvas></canvas> -->
 
 </ion-content>
 
