@@ -27,6 +27,13 @@ export class HomePage {
   private doughnutChart: Chart;
   private lineChart: Chart;
 
+  // Chart.js arrays for doughnut chart
+  labels = []
+  incomevalues = []
+  expensevalues = []
+  backgroundcolors = []
+  hovercolors = []
+
   // public columnChart1: GoogleChartInterface;
   // public columnChart2: GoogleChartInterface;
   // public barChart: GoogleChartInterface;
@@ -280,7 +287,12 @@ export class HomePage {
           if (each["month"] == 12) {
             each["month"] = "December"
           }
-          each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+          // var colors = this.saltedgeService.dynamicColors()
+          this.labels.push(each["month"])
+          this.expensevalues.push(each["amount"])
+          // this.backgroundcolors.push(colors[0])
+          // this.hovercolors.push(colors[1])
+          // each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
         }
 
         // Income
@@ -321,7 +333,8 @@ export class HomePage {
           if (each["month"] == 12) {
             each["month"] = "December"
           }
-          each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+          this.incomevalues.push(each["amount"])
+          // each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
         }
         console.log(this.expenses)
 
@@ -489,46 +502,41 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-    this.barChart = new Chart(this.barCanvas.nativeElement, {
+    setTimeout(() => this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: "bar",
       data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: this.labels,
         datasets: [
           {
-            label: "# of Votes",
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)"
-            ],
-            borderColor: [
-              "rgba(255,99,132,1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)"
-            ],
+            label: "Income",
+            data: this.incomevalues,
+            backgroundColor: "rgba(0,204,0,0.5)",
+            borderColor: "rgb(0,204,0)",
+            borderWidth: 1
+          }, 
+          {
+            label: "Expenses",
+            data: this.expensevalues,
+            backgroundColor: "rgba(204,0,0,0.5)",
+            borderColor: "rgb(204,0,0)",
             borderWidth: 1
           }
         ]
       },
       options: {
         scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true
-              }
+          xAxes: [{
+            stacked: true
+          }],
+          yAxes: [{
+            stacked: true,
+            ticks: {
+              beginAtZero: true
             }
-          ]
+          }]
         }
       }
-    });
+    }), 5000);
 
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: "doughnut",

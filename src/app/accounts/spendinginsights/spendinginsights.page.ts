@@ -89,7 +89,7 @@ export class SpendingInsightsPage implements OnInit {
         expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
 
         for (let category of expensesService.pieChartData2) {
-          var colors = this.dynamicColors()
+          var colors = this.saltedgeService.dynamicColors()
           category[2] = category[1].toLocaleString('en-SG', { style: 'currency', currency: saltedgeService.saltedgeaccountcurrencycode }) // Add currency symbol
           category[3] = (category[1] / expensesService.total * 100).toFixed(1) // Percentage of total expenses
           category[4] = colors[0] // Random background color
@@ -156,16 +156,6 @@ export class SpendingInsightsPage implements OnInit {
   view() {
     this.navCtrl.navigateForward(['/accounts/savingssuggestion']);
     console.log(this.view)
-  }
-
-  dynamicColors() {
-    var colors = [];
-    var r = Math.floor(Math.random() * 255)
-    var g = Math.floor(Math.random() * 255)
-    var b = Math.floor(Math.random() * 255)
-    colors.push("rgba(" + r + "," + g + "," + b + ",0.5)")
-    colors.push("rgb(" + r + "," + g + "," + b + ")")
-    return colors;
   }
 
 }

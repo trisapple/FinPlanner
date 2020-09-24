@@ -28,4 +28,14 @@ export class SaltedgeService {
 
     return [year, month, day].join('-');
   }
+
+  dynamicColors() {
+    var colors = [];
+    var r = Math.floor(Math.random() * 255)
+    var g = Math.floor(Math.random() * 255)
+    var b = Math.floor(Math.random() * 255)
+    colors.push("rgba(" + r + "," + g + "," + b + ",0.5)")
+    colors.push("rgb(" + r + "," + g + "," + b + ")")
+    return colors;
+  }
 }
