@@ -12,7 +12,8 @@
   
   <!-- Pie Chart from Google Charts -->
   <div *ngIf="expensesService.transactions && expensesService.transactions.length > 0">
-    <google-chart *ngIf="expensesService.pieChart" [data]="expensesService.pieChart"></google-chart>
+    <!-- <google-chart *ngIf="expensesService.pieChart" [data]="expensesService.pieChart"></google-chart> -->
+    <canvas #doughnutCanvas></canvas>
 
     <ion-grid>
       <!-- Loop through the array and display the expenses -->
