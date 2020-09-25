@@ -346,16 +346,12 @@ export class HomePage {
           // each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
         }
         console.log(this.expenses)
-        // this.labels[this.labels.length - 1];
-        // this.labelsspliced.push(this.labels[this.labels.length - 1])
+
         for (let i = this.startindex; i > this.endindex; i--) {
           this.labelsspliced.push(this.labels[this.labels.length - i])
           this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
           this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
         }
-        // this.labelsspliced = this.labels.splice(0, this.labels.length - 3)
-        // this.expensevaluesspliced.splice(0, this.expensevalues.length - 3)
-        // this.incomevaluesspliced.splice(0, this.incomevalues.length - 3)
 
         console.log(this.labelsspliced)
         console.log(this.expensevaluesspliced)
@@ -679,7 +675,7 @@ export class HomePage {
           }
         }
       }
-    }), 5000);
+    }), 6000);
 
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: "doughnut",
