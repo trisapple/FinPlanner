@@ -54,6 +54,8 @@
   <h3>Income</h3>
   <p *ngFor="let each of income">{{ each["month"] }} {{ each["year"] }} - {{ each["amount"] }}</p> -->
 
+  <ion-button (click)="previous3months()">Previous 3 months</ion-button>
+  <ion-button (click)="next3months()">Next 3 months</ion-button>
   <canvas #barCanvas></canvas>
   <!-- <canvas #doughnutCanvas></canvas>
   <canvas #lineCanvas></canvas> -->

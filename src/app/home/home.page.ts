@@ -34,6 +34,13 @@ export class HomePage {
   backgroundcolors = []
   hovercolors = []
 
+  labelsspliced = []
+  incomevaluesspliced = []
+  expensevaluesspliced = []
+
+  startindex = 3
+  endindex = 0
+
   // public columnChart1: GoogleChartInterface;
   // public columnChart2: GoogleChartInterface;
   // public barChart: GoogleChartInterface;
@@ -252,43 +259,43 @@ export class HomePage {
         // Expenses
         for (let each of this.expenses) {
           if (each["month"] == 1) {
-            each["month"] = "January"
+            each["monthyear"] = "Jan " + each["year"]
           }
           if (each["month"] == 2) {
-            each["month"] = "February"
+            each["monthyear"] = "Feb " + each["year"]
           }
           if (each["month"] == 3) {
-            each["month"] = "March"
+            each["monthyear"] = "Mar " + each["year"]
           }
           if (each["month"] == 4) {
-            each["month"] = "April"
+            each["monthyear"] = "Apr " + each["year"]
           }
           if (each["month"] == 5) {
-            each["month"] = "May"
+            each["monthyear"] = "May " + each["year"]
           }
           if (each["month"] == 6) {
-            each["month"] = "June"
+            each["monthyear"] = "Jun " + each["year"]
           }
           if (each["month"] == 7) {
-            each["month"] = "July"
+            each["monthyear"] = "Jul " + each["year"]
           }
           if (each["month"] == 8) {
-            each["month"] = "August"
+            each["monthyear"] = "Aug " + each["year"]
           }
           if (each["month"] == 9) {
-            each["month"] = "September"
+            each["monthyear"] = "Sep " + each["year"]
           }
           if (each["month"] == 10) {
-            each["month"] = "October"
+            each["monthyear"] = "Oct " + each["year"]
           }
           if (each["month"] == 11) {
-            each["month"] = "November"
+            each["monthyear"] = "Nov " + each["year"]
           }
           if (each["month"] == 12) {
-            each["month"] = "December"
+            each["monthyear"] = "Dec " + each["year"]
           }
           // var colors = this.saltedgeService.dynamicColors()
-          this.labels.push(each["month"])
+          this.labels.push(each["monthyear"])
 
           // this.backgroundcolors.push(colors[0])
           // this.hovercolors.push(colors[1])
@@ -300,45 +307,59 @@ export class HomePage {
         // Income
         for (let each of this.income) {
           if (each["month"] == 1) {
-            each["month"] = "January"
+            each["monthyear"] = "Jan " + each["year"]
           }
           if (each["month"] == 2) {
-            each["month"] = "February"
+            each["monthyear"] = "Feb " + each["year"]
           }
           if (each["month"] == 3) {
-            each["month"] = "March"
+            each["monthyear"] = "Mar " + each["year"]
           }
           if (each["month"] == 4) {
-            each["month"] = "April"
+            each["monthyear"] = "Apr " + each["year"]
           }
           if (each["month"] == 5) {
-            each["month"] = "May"
+            each["monthyear"] = "May " + each["year"]
           }
           if (each["month"] == 6) {
-            each["month"] = "June"
+            each["monthyear"] = "Jun " + each["year"]
           }
           if (each["month"] == 7) {
-            each["month"] = "July"
+            each["monthyear"] = "Jul " + each["year"]
           }
           if (each["month"] == 8) {
-            each["month"] = "August"
+            each["monthyear"] = "Aug " + each["year"]
           }
           if (each["month"] == 9) {
-            each["month"] = "September"
+            each["monthyear"] = "Sep " + each["year"]
           }
           if (each["month"] == 10) {
-            each["month"] = "October"
+            each["monthyear"] = "Oct " + each["year"]
           }
           if (each["month"] == 11) {
-            each["month"] = "November"
+            each["monthyear"] = "Nov " + each["year"]
           }
           if (each["month"] == 12) {
-            each["month"] = "December"
+            each["monthyear"] = "Dec " + each["year"]
           }
           this.incomevalues.push(each["amount"])
           // each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
         }
         console.log(this.expenses)
+        // this.labels[this.labels.length - 1];
+        // this.labelsspliced.push(this.labels[this.labels.length - 1])
+        for (let i = this.startindex; i > this.endindex; i--) {
+          this.labelsspliced.push(this.labels[this.labels.length - i])
+          this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
+          this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
+        }
+        // this.labelsspliced = this.labels.splice(0, this.labels.length - 3)
+        // this.expensevaluesspliced.splice(0, this.expensevalues.length - 3)
+        // this.incomevaluesspliced.splice(0, this.incomevalues.length - 3)
+
+        console.log(this.labelsspliced)
+        console.log(this.expensevaluesspliced)
+        console.log(this.incomevaluesspliced)
 
       });
 
@@ -348,6 +369,122 @@ export class HomePage {
     });
 
     req.end();
+  }
+
+  previous3months() {
+    if (this.startindex < this.labels.length) {
+      this.startindex += 3
+      this.endindex += 3
+      this.labelsspliced = []
+      this.expensevaluesspliced = []
+      this.incomevaluesspliced = []
+      for (let i = this.startindex; i > this.endindex; i--) {
+        this.labelsspliced.push(this.labels[this.labels.length - i])
+        this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
+        this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
+      }
+      console.log(this.labelsspliced)
+      console.log(this.expensevaluesspliced)
+      console.log(this.incomevaluesspliced)
+      this.barChart = new Chart(this.barCanvas.nativeElement, {
+        type: "bar",
+        data: {
+          labels: this.labelsspliced,
+          datasets: [
+            {
+              label: "Income",
+              data: this.incomevaluesspliced,
+              backgroundColor: "rgba(0,204,0,0.5)",
+              borderColor: "rgb(0,204,0)",
+              borderWidth: 1
+            },
+            {
+              label: "Expenses",
+              data: this.expensevaluesspliced,
+              backgroundColor: "rgba(204,0,0,0.5)",
+              borderColor: "rgb(204,0,0)",
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          },
+          layout: {
+            padding: {
+              left: 0,
+              right: 30,
+              top: 0,
+              bottom: 0
+            }
+          }
+        }
+      })
+      this.barChart.update()
+    }
+  }
+
+  next3months() {
+    if (this.endindex > 0) {
+      this.startindex -= 3
+      this.endindex -= 3
+      this.labelsspliced = []
+      this.expensevaluesspliced = []
+      this.incomevaluesspliced = []
+      for (let i = this.startindex; i > this.endindex; i--) {
+        this.labelsspliced.push(this.labels[this.labels.length - i])
+        this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
+        this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
+      }
+      console.log(this.labelsspliced)
+      console.log(this.expensevaluesspliced)
+      console.log(this.incomevaluesspliced)
+      this.barChart = new Chart(this.barCanvas.nativeElement, {
+        type: "bar",
+        data: {
+          labels: this.labelsspliced,
+          datasets: [
+            {
+              label: "Income",
+              data: this.incomevaluesspliced,
+              backgroundColor: "rgba(0,204,0,0.5)",
+              borderColor: "rgb(0,204,0)",
+              borderWidth: 1
+            },
+            {
+              label: "Expenses",
+              data: this.expensevaluesspliced,
+              backgroundColor: "rgba(204,0,0,0.5)",
+              borderColor: "rgb(204,0,0)",
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          },
+          layout: {
+            padding: {
+              left: 0,
+              right: 30,
+              top: 0,
+              bottom: 0
+            }
+          }
+        }
+      })
+      this.barChart.update()
+    }
   }
 
 
@@ -507,18 +644,18 @@ export class HomePage {
     setTimeout(() => this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: "bar",
       data: {
-        labels: this.labels,
+        labels: this.labelsspliced,
         datasets: [
           {
             label: "Income",
-            data: this.incomevalues,
+            data: this.incomevaluesspliced,
             backgroundColor: "rgba(0,204,0,0.5)",
             borderColor: "rgb(0,204,0)",
             borderWidth: 1
           },
           {
             label: "Expenses",
-            data: this.expensevalues,
+            data: this.expensevaluesspliced,
             backgroundColor: "rgba(204,0,0,0.5)",
             borderColor: "rgb(204,0,0)",
             borderWidth: 1
