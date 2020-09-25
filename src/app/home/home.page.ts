@@ -679,7 +679,8 @@ export class HomePage {
             top: 0,
             bottom: 0
           }
-        }
+        },
+        maintainAspectRatio: false
       }
     }), 6000);
 
