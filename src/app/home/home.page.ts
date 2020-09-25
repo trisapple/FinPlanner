@@ -649,14 +649,14 @@ export class HomePage {
         labels: this.labelsspliced,
         datasets: [
           {
-            label: "Income",
+            label: "Money In",
             data: this.incomevaluesspliced,
             backgroundColor: "rgba(0,204,0,0.5)",
             borderColor: "rgb(0,204,0)",
             borderWidth: 1
           },
           {
-            label: "Expenses",
+            label: "Money Out",
             data: this.expensevaluesspliced,
             backgroundColor: "rgba(204,0,0,0.5)",
             borderColor: "rgb(204,0,0)",
