@@ -382,46 +382,49 @@ export class HomePage {
       console.log(this.labelsspliced)
       console.log(this.expensevaluesspliced)
       console.log(this.incomevaluesspliced)
-      this.barChart = new Chart(this.barCanvas.nativeElement, {
-        type: "bar",
-        data: {
-          labels: this.labelsspliced,
-          datasets: [
-            {
-              label: "Income",
-              data: this.incomevaluesspliced,
-              backgroundColor: "rgba(0,204,0,0.5)",
-              borderColor: "rgb(0,204,0)",
-              borderWidth: 1
-            },
-            {
-              label: "Expenses",
-              data: this.expensevaluesspliced,
-              backgroundColor: "rgba(204,0,0,0.5)",
-              borderColor: "rgb(204,0,0)",
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
-          },
-          layout: {
-            padding: {
-              left: 0,
-              right: 30,
-              top: 0,
-              bottom: 0
-            }
-          }
-        }
-      })
-      this.barChart.update()
+      // this.barChart = new Chart(this.barCanvas.nativeElement, {
+      //   type: "bar",
+      //   data: {
+      //     labels: this.labelsspliced,
+      //     datasets: [
+      //       {
+      //         label: "Income",
+      //         data: this.incomevaluesspliced,
+      //         backgroundColor: "rgba(0,204,0,0.5)",
+      //         borderColor: "rgb(0,204,0)",
+      //         borderWidth: 1
+      //       },
+      //       {
+      //         label: "Expenses",
+      //         data: this.expensevaluesspliced,
+      //         backgroundColor: "rgba(204,0,0,0.5)",
+      //         borderColor: "rgb(204,0,0)",
+      //         borderWidth: 1
+      //       }
+      //     ]
+      //   },
+      //   options: {
+      //     scales: {
+      //       yAxes: [{
+      //         ticks: {
+      //           beginAtZero: true
+      //         }
+      //       }]
+      //     },
+      //     layout: {
+      //       padding: {
+      //         left: 0,
+      //         right: 30,
+      //         top: 0,
+      //         bottom: 0
+      //       }
+      //     }
+      //   }
+      // })
+      this.barChart.data.datasets[0].data = this.incomevaluesspliced
+      this.barChart.data.datasets[1].data = this.expensevaluesspliced
+      this.barChart.data.labels = this.labelsspliced
+      this.barChart.update({duration: 0})
     }
   }
 
@@ -440,46 +443,49 @@ export class HomePage {
       console.log(this.labelsspliced)
       console.log(this.expensevaluesspliced)
       console.log(this.incomevaluesspliced)
-      this.barChart = new Chart(this.barCanvas.nativeElement, {
-        type: "bar",
-        data: {
-          labels: this.labelsspliced,
-          datasets: [
-            {
-              label: "Income",
-              data: this.incomevaluesspliced,
-              backgroundColor: "rgba(0,204,0,0.5)",
-              borderColor: "rgb(0,204,0)",
-              borderWidth: 1
-            },
-            {
-              label: "Expenses",
-              data: this.expensevaluesspliced,
-              backgroundColor: "rgba(204,0,0,0.5)",
-              borderColor: "rgb(204,0,0)",
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
-          },
-          layout: {
-            padding: {
-              left: 0,
-              right: 30,
-              top: 0,
-              bottom: 0
-            }
-          }
-        }
-      })
-      this.barChart.update()
+      // this.barChart = new Chart(this.barCanvas.nativeElement, {
+      //   type: "bar",
+      //   data: {
+      //     labels: this.labelsspliced,
+      //     datasets: [
+      //       {
+      //         label: "Income",
+      //         data: this.incomevaluesspliced,
+      //         backgroundColor: "rgba(0,204,0,0.5)",
+      //         borderColor: "rgb(0,204,0)",
+      //         borderWidth: 1
+      //       },
+      //       {
+      //         label: "Expenses",
+      //         data: this.expensevaluesspliced,
+      //         backgroundColor: "rgba(204,0,0,0.5)",
+      //         borderColor: "rgb(204,0,0)",
+      //         borderWidth: 1
+      //       }
+      //     ]
+      //   },
+      //   options: {
+      //     scales: {
+      //       yAxes: [{
+      //         ticks: {
+      //           beginAtZero: true
+      //         }
+      //       }]
+      //     },
+      //     layout: {
+      //       padding: {
+      //         left: 0,
+      //         right: 30,
+      //         top: 0,
+      //         bottom: 0
+      //       }
+      //     }
+      //   }
+      // })
+      this.barChart.data.datasets[0].data = this.incomevaluesspliced
+      this.barChart.data.datasets[1].data = this.expensevaluesspliced
+      this.barChart.data.labels = this.labelsspliced
+      this.barChart.update({duration: 0})
     }
   }
 
