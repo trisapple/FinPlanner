@@ -367,10 +367,10 @@ export class HomePage {
     req.end();
   }
 
-  previous3months() {
+  previousmonth() {
     if (this.startindex < this.labels.length) {
-      this.startindex += 3
-      this.endindex += 3
+      this.startindex += 1
+      this.endindex += 1
       this.labelsspliced = []
       this.expensevaluesspliced = []
       this.incomevaluesspliced = []
@@ -425,10 +425,10 @@ export class HomePage {
     }
   }
 
-  next3months() {
+  nextmonth() {
     if (this.endindex > 0) {
-      this.startindex -= 3
-      this.endindex -= 3
+      this.startindex -= 1
+      this.endindex -= 1
       this.labelsspliced = []
       this.expensevaluesspliced = []
       this.incomevaluesspliced = []
