@@ -13,7 +13,7 @@ import { NewsPage } from './news.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    NewsPageRoutingModule
+    NewsPageRoutingModule,
   ],
   declarations: [NewsPage]
 })

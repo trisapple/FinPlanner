@@ -26,3 +26,20 @@ ion-card-header {
   height: 126px;
   width: 100%;
 }
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.sky{
+filter: brightness(70%);
+height: auto;
+}
+
+.dropdown{
+  float: right;
+}

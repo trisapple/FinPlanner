@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../news.service';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-news',
@@ -10,11 +11,17 @@ import { Router } from '@angular/router';
 export class NewsPage implements OnInit {
   articles: any;
 
-  constructor(private newsService: NewsService, private router: Router) { 
+  private selectedSegment: string = 'topheadlines';
+  constructor(private newsService: NewsService, private router: Router, public navCtrl: NavController) { 
     this.loadBBCnews();
   }
 
   ngOnInit() {
+  }
+
+  segmentChanged(event: any) {
+    console.log(event.target.value);
+    this.selectedSegment = event.target.value;
   }
 
   loadBBCnews() {
@@ -30,5 +37,6 @@ export class NewsPage implements OnInit {
     this.newsService.currentArticle = article;
     this.router.navigate(['/news-single']);
   }
+
 
 }

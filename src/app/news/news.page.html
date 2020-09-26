@@ -8,23 +8,52 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div class="container"> 
-  <h1><strong>All News</strong></h1>
-  <ion-grid>
-    <h3><strong>Top Headlines</strong></h3>
+  <div class="container">
+    <img class="sky" src="../assets/news.jpg" alt="Learn" style="width:100%">
+    <div class="centered" style="color: white; font-size: 5vw; width:80%">News</div>
+  
+  </div>
+
+  <ion-grid fixed>
     <ion-row>
-      <ion-col *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)" size-xs="6" size-md="4" >
-        <div>
-          <ion-card color="light">
-            <ion-img [src]="article.urlToImage"></ion-img>
-            <ion-card-header>
-              <ion-card-title class="font">{{article.title}}</ion-card-title>
-              <p>{{article.description}}</p>
-            </ion-card-header>
-          </ion-card>
-        </div>
+      <ion-col size="12">
+        <ion-segment (ionChange)="segmentChanged($event)">
+          <ion-segment-button value="topheadlines">
+            <ion-label>
+              Top Headlines
+            </ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="bitcoin">
+            <ion-label>
+              Bitcoin News
+            </ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="finance">
+            <ion-label>
+              Finance News
+            </ion-label>
+          </ion-segment-button>
+        </ion-segment>
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <div class="container" *ngIf="selectedSegment == 'topheadlines'"> 
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)" size-xs="6" size-md="4" >
+          <div>
+            <ion-card color="light">
+              <ion-img [src]="article.urlToImage"></ion-img>
+              <ion-card-header>
+                <ion-card-title class="font">{{article.title}}</ion-card-title>
+                <p>{{article.description}}</p>
+              </ion-card-header>
+            </ion-card>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
+
 </ion-content>
