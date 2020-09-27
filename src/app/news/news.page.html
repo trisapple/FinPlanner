@@ -56,4 +56,22 @@
     </ion-grid>
   </div>
 
+  <div class="container" *ngIf="selectedSegment == 'bitcoin'"> 
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let article of data?.articles" (click)="onGoToNewsSinglePage(article)" size-xs="6" size-md="4" >
+          <div>
+            <ion-card color="light">
+              <ion-img [src]="article.urlToImage"></ion-img>
+              <ion-card-header>
+                <ion-card-title class="font">{{article.title}}</ion-card-title>
+                <p>{{article.description}}</p>
+              </ion-card-header>
+            </ion-card>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
 </ion-content>
