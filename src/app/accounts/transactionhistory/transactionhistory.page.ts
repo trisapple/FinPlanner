@@ -41,7 +41,7 @@ export class TransactionHistoryPage implements OnInit {
         console.log(JSON.parse(body.toString()));
         expensesService.transactions = JSON.parse(body.toString())["data"]
         console.log(expensesService.transactions)
-        expensesService.transactions.reverse() // Sort by latest transactions first
+        // expensesService.transactions.reverse() // Sort by latest transactions first
 
         var obj = {}
         var transactionlist = []
@@ -68,6 +68,18 @@ export class TransactionHistoryPage implements OnInit {
         // e.g. [["2018-04-23", Array], ["2018-04-22", Array], ... ]
         expensesService.transactions2 = obj2
 
+        // Sort by latest transactions first
+        expensesService.transactions2.sort((a, b) => {
+          if (a[0] > b[0]) {
+            return -1;
+          }
+
+          if (a[0] < b[0]) {
+            return 1;
+          }
+
+          return 0;
+        });
         console.log(expensesService.transactions2)
       });
 

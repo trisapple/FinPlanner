@@ -52,7 +52,7 @@ export class AccountsPage implements OnInit {
     });
 
     // The customer_id determines where to connect the bank account to
-    var postData = JSON.stringify({ "data": { "customer_id": this.saltedgeService.saltedgecustomerid, "return_connection_id": true, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
+    var postData = JSON.stringify({ "data": { "customer_id": this.saltedgeService.saltedgecustomerid, "return_connection_id": true, "consent": { "scopes": ["account_details", "transactions_details"], "from_date": new Date(new Date().setDate(new Date().getDate() - 365)).toDateString() }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
 
     req.write(postData);
 
@@ -104,7 +104,7 @@ export class AccountsPage implements OnInit {
     });
 
     // The customer_id and connection_id determines the connection to refresh
-    var postData = JSON.stringify({ "data": { "customer_id": this.saltedgeService.saltedgecustomerid, "connection_id": connection_id, "return_connection_id": true, "consent": { "scopes": ["account_details", "transactions_details"] }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
+    var postData = JSON.stringify({ "data": { "customer_id": this.saltedgeService.saltedgecustomerid, "connection_id": connection_id, "return_connection_id": true, "consent": { "scopes": ["account_details", "transactions_details"], "from_date": new Date(new Date().setDate(new Date().getDate() - 365)).toDateString() }, "attempt": { "fetch_scopes": ["accounts", "transactions"] } } });
 
     req.write(postData);
 
