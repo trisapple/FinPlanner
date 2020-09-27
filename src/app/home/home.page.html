@@ -64,6 +64,8 @@
   <h3>Income</h3>
   <p *ngFor="let each of income">{{ each["month"] }} {{ each["year"] }} - {{ each["amount"] }}</p> -->
 
+  <br>
+  <h3>Money In / Out</h3>
   <ion-segment (ionChange)="segmentChanged($event)" value="3months">
     <ion-segment-button value="1month" disabled>
       <ion-label>1 Month</ion-label>
