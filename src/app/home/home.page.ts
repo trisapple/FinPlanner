@@ -233,18 +233,18 @@ export class HomePage {
         this.total = JSON.parse(body.toString()).data.data.result.accounts_summary.balance.end_date_amount.toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
 
         var originaltotal = {}
-        for (let each of JSON.parse(body.toString()).data.data.connections) {
+        for (let connection of JSON.parse(body.toString()).data.data.connections) {
           // console.log(each.accounts)
-          for (let each2 of each.accounts) {
-            console.log(each2)
-            console.log(each2.original_balance)
-            console.log(each2.original_currency_code)
+          for (let account of connection.accounts) {
+            console.log(account)
+            console.log(account.original_balance)
+            console.log(account.original_currency_code)
 
             // If the category has not yet been added to the Object, start it from 0 and add up the value
-            if (originaltotal[each2.original_currency_code] == undefined) {
-              originaltotal[each2.original_currency_code] = 0 // Start from 0
+            if (originaltotal[account.original_currency_code] == undefined) {
+              originaltotal[account.original_currency_code] = 0 // Start from 0
             }
-            originaltotal[each2.original_currency_code] += each2.original_balance // Add up the value to the Object
+            originaltotal[account.original_currency_code] += account.original_balance // Add up the value to the Object
           }
         }
         this.originaltotal = Object.entries(originaltotal)

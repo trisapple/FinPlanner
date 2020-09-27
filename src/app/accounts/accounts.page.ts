@@ -215,28 +215,28 @@ export class AccountsPage implements OnInit {
         // })
 
         var balances = []
-        var currency = {}
+        var currencies = {}
 
         if (this.userService.loggedin == false) {
           let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").collection("saltedgeconnections").valueChanges().subscribe((data) => {
             console.log(data)
-            for (let each of data) {
-              console.log(each)
-              console.log(each.balances[0])
-              console.log(Object.keys(each.balances[0]))
+            for (let saltedgeconnection of data) {
+              console.log(saltedgeconnection)
+              console.log(saltedgeconnection.balances[0])
+              console.log(Object.keys(saltedgeconnection.balances[0]))
 
-              for (let each2 of Object.keys(each.balances[0])) {
-                console.log(each2)
-                console.log(each.balances[0][each2])
+              for (let currency of Object.keys(saltedgeconnection.balances[0])) {
+                console.log(currency)
+                console.log(saltedgeconnection.balances[0][currency])
 
-                if (currency[each2] == undefined) {
-                  currency[each2] = 0 // Start from 0
+                if (currencies[currency] == undefined) {
+                  currencies[currency] = 0 // Start from 0
                 }
-                currency[each2] += each.balances[0][each2]
+                currencies[currency] += saltedgeconnection.balances[0][currency]
               }
             }
-            balances.push(currency)
-            console.log(currency)
+            balances.push(currencies)
+            console.log(currencies)
 
             this.firestore.collection('users').doc("test1234@example.com").update({
               balances: balances
@@ -247,25 +247,25 @@ export class AccountsPage implements OnInit {
         } else {
           let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).collection("saltedgeconnections").valueChanges().subscribe((data) => {
             console.log(data)
-            for (let each of data) {
-              console.log(each)
-              console.log(each.balances[0])
-              console.log(Object.keys(each.balances[0]))
+            for (let saltedgeconnection of data) {
+              console.log(saltedgeconnection)
+              console.log(saltedgeconnection.balances[0])
+              console.log(Object.keys(saltedgeconnection.balances[0]))
 
-              for (let each2 of Object.keys(each.balances[0])) {
-                console.log(each2)
-                console.log(each.balances[0][each2])
+              for (let currency of Object.keys(saltedgeconnection.balances[0])) {
+                console.log(currency)
+                console.log(saltedgeconnection.balances[0][currency])
 
-                if (currency[each2] == undefined) {
-                  currency[each2] = 0 // Start from 0
+                if (currencies[currency] == undefined) {
+                  currencies[currency] = 0 // Start from 0
                 }
-                currency[each2] += each.balances[0][each2]
+                currencies[currency] += saltedgeconnection.balances[0][currency]
               }
             }
-            balances.push(currency)
-            console.log(currency)
+            balances.push(currencies)
+            console.log(currencies)
 
-            this.firestore.collection('users').doc(this.userService.uid).update({
+            this.firestore.collection('users').doc("test1234@example.com").update({
               balances: balances
             })
 
