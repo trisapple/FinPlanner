@@ -83,14 +83,14 @@ export class AccountslistPage implements OnInit {
         var balancescurrencycode = []
         var currencycode = {}
 
-        for (let each of JSON.parse(body.toString())["data"]) {
-          if (currency[each.currency_code] == undefined) {
-            currency[each.currency_code] = 0 // Start from 0
+        for (let account of JSON.parse(body.toString())["data"]) {
+          if (currency[account.currency_code] == undefined) {
+            currency[account.currency_code] = 0 // Start from 0
           }
-          currency[each.currency_code] += each.balance
+          currency[account.currency_code] += account.balance
         }
-        for (let each of Object.keys(currency)) {
-          currencycode[each] = currency[each].toLocaleString('en-SG', { style: 'currency', currency: each })
+        for (let eachcurrency of Object.keys(currency)) {
+          currencycode[eachcurrency] = currency[eachcurrency].toLocaleString('en-SG', { style: 'currency', currency: eachcurrency })
         }
         // each["balance"].toLocaleString('en-SG', { style: 'currency', currency: each["currency_code"] })
         balances.push(currency)
@@ -112,15 +112,15 @@ export class AccountslistPage implements OnInit {
         }
 
         // Loop through the accounts to get the account name (or nature) and the balance
-        for (let each of saltedgeService.saltedgeaccounts) {
+        for (let account of saltedgeService.saltedgeaccounts) {
 
-          if (each["extra"]["account_name"]) {
-            each["account_name"] = each["extra"]["account_name"]
+          if (account["extra"]["account_name"]) {
+            account["account_name"] = account["extra"]["account_name"]
           } else {
-            each["account_name"] = expensesService.humanize(each["nature"])
+            account["account_name"] = expensesService.humanize(account["nature"])
           }
-          each["balance"] = each["balance"].toLocaleString('en-SG', { style: 'currency', currency: each["currency_code"] }) // Include currency symbol
-          each["expanded"] = false // Allow the expandable to work
+          account["balance"] = account["balance"].toLocaleString('en-SG', { style: 'currency', currency: account["currency_code"] }) // Include currency symbol
+          account["expanded"] = false // Allow the expandable to work
         }
         console.log(saltedgeService.saltedgeaccounts)
       });

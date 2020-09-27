@@ -150,7 +150,7 @@ export class SpendingInsightsPage implements OnInit {
           }
         ]
       }
-    }), 2000);
+    }), 3000);
   }
 
   view() {
