@@ -143,14 +143,17 @@ export class SpendingInsightsPage implements OnInit {
         labels: this.labels,
         datasets: [
           {
-            label: "# of Votes",
+            label: "Spending Insights",
             data: this.values,
             backgroundColor: this.backgroundcolors,
             hoverBackgroundColor: this.hovercolors
           }
         ]
+      },
+      options: {
+        maintainAspectRatio: false
       }
-    }), 3000);
+    }), 6000);
   }
 
   view() {
