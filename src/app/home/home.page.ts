@@ -813,14 +813,6 @@ export class HomePage {
             }
           }]
         },
-        layout: {
-          padding: {
-            left: 0,
-            right: 30,
-            top: 0,
-            bottom: 0
-          }
-        },
         maintainAspectRatio: false
       }
     }), 6000);
