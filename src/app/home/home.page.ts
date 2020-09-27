@@ -371,124 +371,35 @@ export class HomePage {
 
   previousmonth() {
     if (this.startindex < this.labels.length) {
-      this.startindex += 1
-      this.endindex += 1
-      this.labelsspliced = []
-      this.expensevaluesspliced = []
-      this.incomevaluesspliced = []
-      for (let i = this.startindex; i > this.endindex; i--) {
-        this.labelsspliced.push(this.labels[this.labels.length - i])
-        this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
-        this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
-      }
-      console.log(this.labelsspliced)
-      console.log(this.expensevaluesspliced)
-      console.log(this.incomevaluesspliced)
-      // this.barChart = new Chart(this.barCanvas.nativeElement, {
-      //   type: "bar",
-      //   data: {
-      //     labels: this.labelsspliced,
-      //     datasets: [
-      //       {
-      //         label: "Income",
-      //         data: this.incomevaluesspliced,
-      //         backgroundColor: "rgba(0,204,0,0.5)",
-      //         borderColor: "rgb(0,204,0)",
-      //         borderWidth: 1
-      //       },
-      //       {
-      //         label: "Expenses",
-      //         data: this.expensevaluesspliced,
-      //         backgroundColor: "rgba(204,0,0,0.5)",
-      //         borderColor: "rgb(204,0,0)",
-      //         borderWidth: 1
-      //       }
-      //     ]
-      //   },
-      //   options: {
-      //     scales: {
-      //       yAxes: [{
-      //         ticks: {
-      //           beginAtZero: true
-      //         }
-      //       }]
-      //     },
-      //     layout: {
-      //       padding: {
-      //         left: 0,
-      //         right: 30,
-      //         top: 0,
-      //         bottom: 0
-      //       }
-      //     }
-      //   }
-      // })
-      this.barChart.data.datasets[0].data = this.incomevaluesspliced
-      this.barChart.data.datasets[1].data = this.expensevaluesspliced
-      this.barChart.data.labels = this.labelsspliced
-      this.barChart.update({duration: 0})
+      this.updateBarChart(1, 1)
     }
   }
 
   nextmonth() {
     if (this.endindex > 0) {
-      this.startindex -= 1
-      this.endindex -= 1
-      this.labelsspliced = []
-      this.expensevaluesspliced = []
-      this.incomevaluesspliced = []
-      for (let i = this.startindex; i > this.endindex; i--) {
-        this.labelsspliced.push(this.labels[this.labels.length - i])
-        this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
-        this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
-      }
-      console.log(this.labelsspliced)
-      console.log(this.expensevaluesspliced)
-      console.log(this.incomevaluesspliced)
-      // this.barChart = new Chart(this.barCanvas.nativeElement, {
-      //   type: "bar",
-      //   data: {
-      //     labels: this.labelsspliced,
-      //     datasets: [
-      //       {
-      //         label: "Income",
-      //         data: this.incomevaluesspliced,
-      //         backgroundColor: "rgba(0,204,0,0.5)",
-      //         borderColor: "rgb(0,204,0)",
-      //         borderWidth: 1
-      //       },
-      //       {
-      //         label: "Expenses",
-      //         data: this.expensevaluesspliced,
-      //         backgroundColor: "rgba(204,0,0,0.5)",
-      //         borderColor: "rgb(204,0,0)",
-      //         borderWidth: 1
-      //       }
-      //     ]
-      //   },
-      //   options: {
-      //     scales: {
-      //       yAxes: [{
-      //         ticks: {
-      //           beginAtZero: true
-      //         }
-      //       }]
-      //     },
-      //     layout: {
-      //       padding: {
-      //         left: 0,
-      //         right: 30,
-      //         top: 0,
-      //         bottom: 0
-      //       }
-      //     }
-      //   }
-      // })
-      this.barChart.data.datasets[0].data = this.incomevaluesspliced
-      this.barChart.data.datasets[1].data = this.expensevaluesspliced
-      this.barChart.data.labels = this.labelsspliced
-      this.barChart.update({duration: 0})
+      this.updateBarChart(-1, -1)
     }
+  }
+
+  updateBarChart(startindex, endindex) {
+    this.startindex = this.startindex + startindex
+    this.endindex = this.endindex + endindex
+    this.labelsspliced = []
+    this.expensevaluesspliced = []
+    this.incomevaluesspliced = []
+    for (let i = this.startindex; i > this.endindex; i--) {
+      this.labelsspliced.push(this.labels[this.labels.length - i])
+      this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
+      this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
+    }
+    console.log(this.labelsspliced)
+    console.log(this.expensevaluesspliced)
+    console.log(this.incomevaluesspliced)
+
+    this.barChart.data.datasets[0].data = this.incomevaluesspliced
+    this.barChart.data.datasets[1].data = this.expensevaluesspliced
+    this.barChart.data.labels = this.labelsspliced
+    this.barChart.update({ duration: 0 })
   }
 
   segmentChanged(ev: any) {
@@ -499,130 +410,28 @@ export class HomePage {
     }
     if (ev.detail.value == "3months") {
       if (this.segmentvalue == "6months") {
-        this.startindex -= 3
-        // this.endindex -= 1
-        this.labelsspliced = []
-        this.expensevaluesspliced = []
-        this.incomevaluesspliced = []
-        for (let i = this.startindex; i > this.endindex; i--) {
-          this.labelsspliced.push(this.labels[this.labels.length - i])
-          this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
-          this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
-        }
-        console.log(this.labelsspliced)
-        console.log(this.expensevaluesspliced)
-        console.log(this.incomevaluesspliced)
-  
-        this.barChart.data.datasets[0].data = this.incomevaluesspliced
-        this.barChart.data.datasets[1].data = this.expensevaluesspliced
-        this.barChart.data.labels = this.labelsspliced
-        this.barChart.update({duration: 0})
+        this.updateBarChart(-3, 0)
       }
       if (this.segmentvalue == "1year") {
-        this.startindex -= 9
-        // this.endindex -= 1
-        this.labelsspliced = []
-        this.expensevaluesspliced = []
-        this.incomevaluesspliced = []
-        for (let i = this.startindex; i > this.endindex; i--) {
-          this.labelsspliced.push(this.labels[this.labels.length - i])
-          this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
-          this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
-        }
-        console.log(this.labelsspliced)
-        console.log(this.expensevaluesspliced)
-        console.log(this.incomevaluesspliced)
-  
-        this.barChart.data.datasets[0].data = this.incomevaluesspliced
-        this.barChart.data.datasets[1].data = this.expensevaluesspliced
-        this.barChart.data.labels = this.labelsspliced
-        this.barChart.update({duration: 0})
+        this.updateBarChart(-9, 0)
       }
       this.segmentvalue = "3months"
     }
     if (ev.detail.value == "6months") {
       if (this.segmentvalue == "3months") {
-        this.startindex += 3
-        // this.endindex -= 1
-        this.labelsspliced = []
-        this.expensevaluesspliced = []
-        this.incomevaluesspliced = []
-        for (let i = this.startindex; i > this.endindex; i--) {
-          this.labelsspliced.push(this.labels[this.labels.length - i])
-          this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
-          this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
-        }
-        console.log(this.labelsspliced)
-        console.log(this.expensevaluesspliced)
-        console.log(this.incomevaluesspliced)
-  
-        this.barChart.data.datasets[0].data = this.incomevaluesspliced
-        this.barChart.data.datasets[1].data = this.expensevaluesspliced
-        this.barChart.data.labels = this.labelsspliced
-        this.barChart.update({duration: 0})
+        this.updateBarChart(3, 0)
       }
       if (this.segmentvalue == "1year") {
-        this.startindex -= 6
-        // this.endindex -= 1
-        this.labelsspliced = []
-        this.expensevaluesspliced = []
-        this.incomevaluesspliced = []
-        for (let i = this.startindex; i > this.endindex; i--) {
-          this.labelsspliced.push(this.labels[this.labels.length - i])
-          this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
-          this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
-        }
-        console.log(this.labelsspliced)
-        console.log(this.expensevaluesspliced)
-        console.log(this.incomevaluesspliced)
-  
-        this.barChart.data.datasets[0].data = this.incomevaluesspliced
-        this.barChart.data.datasets[1].data = this.expensevaluesspliced
-        this.barChart.data.labels = this.labelsspliced
-        this.barChart.update({duration: 0})
+        this.updateBarChart(-6, 0)
       }
       this.segmentvalue = "6months"
     }
     if (ev.detail.value == "1year") {
       if (this.segmentvalue == "3months") {
-        this.startindex += 9
-        // this.endindex -= 1
-        this.labelsspliced = []
-        this.expensevaluesspliced = []
-        this.incomevaluesspliced = []
-        for (let i = this.startindex; i > this.endindex; i--) {
-          this.labelsspliced.push(this.labels[this.labels.length - i])
-          this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
-          this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
-        }
-        console.log(this.labelsspliced)
-        console.log(this.expensevaluesspliced)
-        console.log(this.incomevaluesspliced)
-  
-        this.barChart.data.datasets[0].data = this.incomevaluesspliced
-        this.barChart.data.datasets[1].data = this.expensevaluesspliced
-        this.barChart.data.labels = this.labelsspliced
-        this.barChart.update({duration: 0})
+        this.updateBarChart(9, 0)
       }
       if (this.segmentvalue == "6months") {
-        this.startindex += 6
-        // this.endindex -= 1
-        this.labelsspliced = []
-        this.expensevaluesspliced = []
-        this.incomevaluesspliced = []
-        for (let i = this.startindex; i > this.endindex; i--) {
-          this.labelsspliced.push(this.labels[this.labels.length - i])
-          this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
-          this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
-        }
-        console.log(this.labelsspliced)
-        console.log(this.expensevaluesspliced)
-        console.log(this.incomevaluesspliced)
-  
-        this.barChart.data.datasets[0].data = this.incomevaluesspliced
-        this.barChart.data.datasets[1].data = this.expensevaluesspliced
-        this.barChart.data.labels = this.labelsspliced
-        this.barChart.update({duration: 0})
+        this.updateBarChart(6, 0)
       }
       this.segmentvalue = "1year"
     }
