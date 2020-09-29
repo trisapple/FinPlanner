@@ -216,6 +216,7 @@ export class AccountsPage implements OnInit {
 
         var balances = []
         var currencies = {}
+        var spendinginsights = {}
 
         if (this.userService.loggedin == false) {
           let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").collection("saltedgeconnections").valueChanges().subscribe((data) => {
@@ -224,6 +225,7 @@ export class AccountsPage implements OnInit {
               console.log(saltedgeconnection)
               console.log(saltedgeconnection.balances[0])
               console.log(Object.keys(saltedgeconnection.balances[0]))
+              console.log(Object.keys(saltedgeconnection.spendinginsights))
 
               for (let currency of Object.keys(saltedgeconnection.balances[0])) {
                 console.log(currency)
@@ -234,12 +236,29 @@ export class AccountsPage implements OnInit {
                 }
                 currencies[currency] += saltedgeconnection.balances[0][currency]
               }
+
+              for (let category of Object.keys(saltedgeconnection.spendinginsights)) {
+                console.log(category)
+                console.log(saltedgeconnection.spendinginsights[category])
+
+                if (spendinginsights[category] == undefined) {
+                  spendinginsights[category] = {} // Start from 0
+                }
+                for (let currency of Object.keys(saltedgeconnection.spendinginsights[category])) {
+                  if (spendinginsights[category][currency] == undefined) {
+                    spendinginsights[category][currency] = 0
+                  }
+                  spendinginsights[category][currency] += saltedgeconnection.spendinginsights[category][currency] // Add up the value to the Object
+                }
+              }
             }
+            console.log(spendinginsights)
             balances.push(currencies)
             console.log(currencies)
 
             this.firestore.collection('users').doc("test1234@example.com").update({
-              balances: balances
+              balances: balances,
+              spendinginsights: spendinginsights
             })
 
             sub.unsubscribe();
@@ -251,6 +270,7 @@ export class AccountsPage implements OnInit {
               console.log(saltedgeconnection)
               console.log(saltedgeconnection.balances[0])
               console.log(Object.keys(saltedgeconnection.balances[0]))
+              console.log(Object.keys(saltedgeconnection.spendinginsights))
 
               for (let currency of Object.keys(saltedgeconnection.balances[0])) {
                 console.log(currency)
@@ -261,12 +281,28 @@ export class AccountsPage implements OnInit {
                 }
                 currencies[currency] += saltedgeconnection.balances[0][currency]
               }
+
+              for (let category of Object.keys(saltedgeconnection.spendinginsights)) {
+                console.log(category)
+                console.log(saltedgeconnection.spendinginsights[category])
+                if (spendinginsights[category] == undefined) {
+                  spendinginsights[category] = {} // Start from 0
+                }
+                for (let currency of Object.keys(saltedgeconnection.spendinginsights[category])) {
+                  if (spendinginsights[category][currency] == undefined) {
+                    spendinginsights[category][currency] = 0
+                  }
+                  spendinginsights[category][currency] += saltedgeconnection.spendinginsights[category][currency] // Add up the value to the Object
+                }
+              }
             }
+            console.log(spendinginsights)
             balances.push(currencies)
             console.log(currencies)
 
-            this.firestore.collection('users').doc("test1234@example.com").update({
-              balances: balances
+            this.firestore.collection('users').doc(this.userService.uid).update({
+              balances: balances,
+              spendinginsights: spendinginsights
             })
 
             sub.unsubscribe();

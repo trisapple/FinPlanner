@@ -4,6 +4,7 @@ import { UserService } from '../../user.service';
 import { NavController } from '@ionic/angular';
 import { SaltedgeService } from 'src/app/saltedge.service';
 import { Chart } from 'chart.js';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-spendinginsights',
@@ -21,7 +22,7 @@ export class SpendingInsightsPage implements OnInit {
   backgroundcolors = []
   hovercolors = []
 
-  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public saltedgeService: SaltedgeService) {
+  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public saltedgeService: SaltedgeService, public firestore: AngularFirestore) {
 
     // Null the pieChart so that we can refresh the pie chart when switching to another account
     // We load the pieChart with ngif so that it will only show if the data is populated
@@ -94,6 +95,7 @@ export class SpendingInsightsPage implements OnInit {
           category[3] = (category[1] / expensesService.total * 100).toFixed(1) // Percentage of total expenses
           category[4] = colors[0] // Random background color
           category[5] = colors[1] // Random hover color
+          category[6] = saltedgeService.saltedgeaccountcurrencycode
           this.labels.push(category[0])
           this.values.push(category[1])
           this.backgroundcolors.push(category[4])
@@ -107,6 +109,82 @@ export class SpendingInsightsPage implements OnInit {
 
         console.log(expensesService.pieChartData)
         console.log(expensesService.pieChartData2)
+
+        var obj2 = {}
+        // obj2["spendinginsights"] = expensesService.pieChartData2
+        for (let each of expensesService.pieChartData2) {
+          obj2[each[0]] = each
+        }
+        console.log(obj2)
+
+
+        var obj3 = {}
+        if (userService.loggedin == false) {
+          firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").doc(saltedgeService.saltedgeaccount["id"]).set({
+            spendinginsights: obj2
+          }).then(() => {
+            firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
+              console.log(data)
+              for (let spendinginsight of data) {
+                console.log(spendinginsight["spendinginsights"])
+                console.log(Object.values(spendinginsight["spendinginsights"])[0])
+
+                for (let category of Object.values(spendinginsight["spendinginsights"])) {
+                  var spendinginsightaccount = category
+
+                  if (spendinginsightaccount != undefined) {
+                    if (obj3[spendinginsightaccount[0]] == undefined) {
+                      obj3[spendinginsightaccount[0]] = {} // Start from 0
+                    }
+                    if (obj3[spendinginsightaccount[0]][spendinginsightaccount[6]] == undefined) {
+                      obj3[spendinginsightaccount[0]][spendinginsightaccount[6]] = 0
+                    }
+                    obj3[spendinginsightaccount[0]][spendinginsightaccount[6]] += spendinginsightaccount[1] // Add up the value to the Object
+                  }
+                }
+
+              }
+              console.log(obj3)
+
+              firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).update({
+                spendinginsights: obj3
+              })
+            })
+          })
+        } else {
+          firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").doc(saltedgeService.saltedgeaccount["id"]).set({
+            spendinginsights: obj2
+          }).then(() => {
+            firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
+              console.log(data)
+              for (let spendinginsight of data) {
+                console.log(spendinginsight["spendinginsights"])
+                console.log(Object.values(spendinginsight["spendinginsights"])[0])
+
+                for (let category of Object.values(spendinginsight["spendinginsights"])) {
+                  var spendinginsightaccount = category
+
+                  if (spendinginsightaccount != undefined) {
+                    if (obj3[spendinginsightaccount[0]] == undefined) {
+                      obj3[spendinginsightaccount[0]] = {} // Start from 0
+                    }
+                    if (obj3[spendinginsightaccount[0]][spendinginsightaccount[6]] == undefined) {
+                      obj3[spendinginsightaccount[0]][spendinginsightaccount[6]] = 0
+                    }
+                    obj3[spendinginsightaccount[0]][spendinginsightaccount[6]] += spendinginsightaccount[1] // Add up the value to the Object
+                  }
+                }
+
+              }
+              console.log(obj3)
+
+              firestore.collection('users').doc(this.userService.uid
+                ).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).update({
+                spendinginsights: obj3
+              })
+            })
+          })
+        }
 
         // Piechart Data
         expensesService.pieChart = {
