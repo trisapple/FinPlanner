@@ -65,7 +65,8 @@
   <p *ngFor="let each of income">{{ each["month"] }} {{ each["year"] }} - {{ each["amount"] }}</p> -->
 
   <br>
-  <h3>Money In / Out</h3>
+  <h3 *ngIf="!sgdonly">Money In / Out in SGD</h3>
+  <h3 *ngIf="sgdonly">Money In / Out</h3>
   <ion-segment (ionChange)="segmentChanged($event)" value="3months">
     <ion-segment-button value="1month" disabled>
       <ion-label>1 Month</ion-label>
@@ -100,8 +101,14 @@
   <div style="height: 300px;">
     <canvas #barCanvas></canvas>
   </div>
-  <!-- <canvas #doughnutCanvas></canvas>
-  <canvas #lineCanvas></canvas> -->
+
+  <br>
+  <h3 *ngIf="!sgdonly">Spending Insights in SGD</h3>
+  <h3 *ngIf="sgdonly">Spending Insights</h3>
+  <div style="height: 300px;">
+    <canvas #doughnutCanvas></canvas>
+  </div>
+  <!-- <canvas #lineCanvas></canvas> -->
 
 </ion-content>
 

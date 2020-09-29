@@ -27,12 +27,10 @@ export class HomePage {
   private doughnutChart: Chart;
   private lineChart: Chart;
 
-  // Chart.js arrays for doughnut chart
+  // Chart.js arrays for bar chart
   labels = []
   incomevalues = []
   expensevalues = []
-  backgroundcolors = []
-  hovercolors = []
 
   labelsspliced = []
   incomevaluesspliced = []
@@ -41,6 +39,15 @@ export class HomePage {
   startindex = 3
   endindex = 0
   segmentvalue = "3months"
+
+  // Chart.js arrays for doughnut chart
+  spendinginsightlabels = []
+  spendinginsightvalues = []
+  backgroundcolors = []
+  hovercolors = []
+
+  firebasedata = {}
+  exchangerates = {}
 
   // public columnChart1: GoogleChartInterface;
   // public columnChart2: GoogleChartInterface;
@@ -227,10 +234,13 @@ export class HomePage {
 
         this.expenses = JSON.parse(body.toString()).data.data.result.accounts_summary.expense.total_per_month
         this.currencycode = JSON.parse(body.toString()).data.currency_code
-
         this.income = JSON.parse(body.toString()).data.data.result.accounts_summary.income.total_per_month
-
         this.total = JSON.parse(body.toString()).data.data.result.accounts_summary.balance.end_date_amount.toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
+
+        this.exchangerates = JSON.parse(body.toString()).data.data.exchange_rates
+        console.log(this.exchangerates)
+
+        this.spendinginsights()
 
         var originaltotal = {}
         for (let connection of JSON.parse(body.toString()).data.data.connections) {
@@ -255,7 +265,6 @@ export class HomePage {
           }
         }
         console.log(this.originaltotal)
-        // this.originaltotal.push(originaltotal)
 
         // Expenses
         for (let each of this.expenses) {
@@ -295,12 +304,7 @@ export class HomePage {
           if (each["month"] == 12) {
             each["monthyear"] = "Dec " + each["year"]
           }
-          // var colors = this.saltedgeService.dynamicColors()
           this.labels.push(each["monthyear"])
-
-          // this.backgroundcolors.push(colors[0])
-          // this.hovercolors.push(colors[1])
-          // each["amount"] = Math.abs(each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
           each["amount"] = Math.abs(each["amount"])
           this.expensevalues.push(each["amount"])
         }
@@ -345,7 +349,6 @@ export class HomePage {
             each["monthyear"] = "Dec " + each["year"]
           }
           this.incomevalues.push(each["amount"])
-          // each["amount"] = (each["amount"]).toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
         }
         console.log(this.expenses)
 
@@ -440,6 +443,36 @@ export class HomePage {
     }
   }
 
+  spendinginsights() {
+    this.spendinginsightlabels = Object.keys(this.firebasedata["spendinginsights"])
+    console.log(this.spendinginsightlabels)
+    console.log(Object.values(this.firebasedata["spendinginsights"]))
+
+    this.backgroundcolors = []
+    this.hovercolors = []
+
+    for (let eachcategory of Object.values(this.firebasedata["spendinginsights"])) {
+      var eachcategorycurrencies = Object.keys(eachcategory)
+      var categorycurrency = 0
+      for (let currency of eachcategorycurrencies) {
+        if (this.exchangerates[currency] != undefined) {
+          categorycurrency = categorycurrency + (eachcategory[currency] * this.exchangerates[currency])
+        } else {
+          categorycurrency = eachcategory[currency]
+        }
+        
+        console.log(eachcategory[currency])
+        // console.log(this.exchangerates)
+      }
+      this.spendinginsightvalues.push(categorycurrency)
+
+      var colors = this.saltedgeService.dynamicColors()
+      this.backgroundcolors.push(colors[0])
+      this.hovercolors.push(colors[1])
+    }
+    console.log(this.spendinginsightvalues)
+  }
+
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
     // this.loadColumnChart();
     // this.loadSimplePieChart();
@@ -501,6 +534,7 @@ export class HomePage {
 
     if (this.userService.loggedin == false) {
       let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
+        this.firebasedata = data
         console.log(data)
         console.log(data["saltedgereportid"])
         this.saltedgeService.saltedgereportid = data["saltedgereportid"]
@@ -512,6 +546,7 @@ export class HomePage {
       });
     } else {
       let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
+        this.firebasedata = data
         console.log(data)
         console.log(data["saltedgereportid"])
         this.saltedgeService.saltedgereportid = data["saltedgereportid"]
@@ -626,27 +661,23 @@ export class HomePage {
       }
     }), 6000);
 
-    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+    setTimeout(() => this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: "doughnut",
       data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: this.spendinginsightlabels,
         datasets: [
           {
-            label: "# of Votes",
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)"
-            ],
-            hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56"]
+            label: "Spending Insights",
+            data: this.spendinginsightvalues,
+            backgroundColor: this.backgroundcolors,
+            hoverBackgroundColor: this.hovercolors
           }
         ]
+      },
+      options: {
+        maintainAspectRatio: false
       }
-    });
+    }), 6000)
 
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: "line",
