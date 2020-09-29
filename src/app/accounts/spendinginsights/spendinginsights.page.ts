@@ -33,7 +33,7 @@ export class SpendingInsightsPage implements OnInit {
     var options = {
       'method': 'GET',
       'hostname': 'quiet-shelf-43690.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + this.saltedgeService.saltedgeconnection["id"] + '&account_id=' + this.saltedgeService.saltedgeaccount["id"],
+      'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + this.saltedgeService.saltedgeconnection["id"] + '&account_id=' + this.saltedgeService.saltedgeaccount["id"] + '&per_page=1000',
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export class SpendingInsightsPage implements OnInit {
 
             expensesService.total += Math.abs(transaction.amount) // Add up the amounts of all the transactions (regardless of name or description)
           }
-          console.log(expensesService.total)
+          // console.log(expensesService.total)
         }
 
         console.log(obj)
