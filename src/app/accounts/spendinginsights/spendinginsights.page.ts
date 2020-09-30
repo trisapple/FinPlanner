@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { SaltedgeService } from 'src/app/saltedge.service';
 import { Chart } from 'chart.js';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-spendinginsights',
@@ -122,14 +123,14 @@ export class SpendingInsightsPage implements OnInit {
         if (userService.loggedin == false) {
           firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").doc(saltedgeService.saltedgeaccount["id"]).set({
             spendinginsights: obj2
-          }).then(() => {
-            firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
+          }, { merge: true }).then(() => {
+            let sub: Subscription = firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
               console.log(data)
-              for (let spendinginsight of data) {
-                console.log(spendinginsight["spendinginsights"])
-                console.log(Object.values(spendinginsight["spendinginsights"])[0])
+              for (let account of data) {
+                console.log(account["spendinginsights"])
+                console.log(Object.values(account["spendinginsights"])[0])
 
-                for (let category of Object.values(spendinginsight["spendinginsights"])) {
+                for (let category of Object.values(account["spendinginsights"])) {
                   var spendinginsightaccount = category
 
                   if (spendinginsightaccount != undefined) {
@@ -145,23 +146,24 @@ export class SpendingInsightsPage implements OnInit {
 
               }
               console.log(obj3)
+              sub.unsubscribe();
 
-              firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).update({
+              firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).set({
                 spendinginsights: obj3
-              })
+              }, { merge: true })
             })
           })
         } else {
           firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").doc(saltedgeService.saltedgeaccount["id"]).set({
             spendinginsights: obj2
-          }).then(() => {
-            firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
+          }, { merge: true }).then(() => {
+            let sub: Subscription = firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
               console.log(data)
-              for (let spendinginsight of data) {
-                console.log(spendinginsight["spendinginsights"])
-                console.log(Object.values(spendinginsight["spendinginsights"])[0])
+              for (let account of data) {
+                console.log(account["spendinginsights"])
+                console.log(Object.values(account["spendinginsights"])[0])
 
-                for (let category of Object.values(spendinginsight["spendinginsights"])) {
+                for (let category of Object.values(account["spendinginsights"])) {
                   var spendinginsightaccount = category
 
                   if (spendinginsightaccount != undefined) {
@@ -177,11 +179,11 @@ export class SpendingInsightsPage implements OnInit {
 
               }
               console.log(obj3)
+              sub.unsubscribe();
 
-              firestore.collection('users').doc(this.userService.uid
-                ).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).update({
+              firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).set({
                 spendinginsights: obj3
-              })
+              }, { merge: true })
             })
           })
         }

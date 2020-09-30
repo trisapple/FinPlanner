@@ -102,13 +102,13 @@ export class AccountslistPage implements OnInit {
             connectioninfo: JSON.parse(body.toString())["data"],
             balances: balances,
             balancescurrencycode: balancescurrencycode
-          })
+          }, { merge: true })
         } else {
           firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).set({
             connectioninfo: JSON.parse(body.toString())["data"],
             balances: balances,
             balancescurrencycode: balancescurrencycode
-          })
+          }, { merge: true })
         }
 
         // Loop through the accounts to get the account name (or nature) and the balance

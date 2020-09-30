@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../user.service';
 import { ExpensesService } from '../../expenses.service';
 import { SaltedgeService } from 'src/app/saltedge.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-transactionhistory',
@@ -10,7 +13,7 @@ import { SaltedgeService } from 'src/app/saltedge.service';
 })
 export class TransactionHistoryPage implements OnInit {
 
-  constructor(public userService: UserService, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
+  constructor(public userService: UserService, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, public firestore: AngularFirestore) {
 
     var https = require('follow-redirects').https;
 
@@ -29,14 +32,14 @@ export class TransactionHistoryPage implements OnInit {
       'maxRedirects': 20
     };
 
-    var req = https.request(options, function (res) {
+    var req = https.request(options, (res) => {
       var chunks = [];
 
       res.on("data", function (chunk) {
         chunks.push(chunk);
       });
 
-      res.on("end", function (chunk) {
+      res.on("end", (chunk) => {
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
         expensesService.transactions = JSON.parse(body.toString())["data"]
@@ -48,7 +51,7 @@ export class TransactionHistoryPage implements OnInit {
         for (let transaction of expensesService.transactions) {
 
           transaction["category"] = expensesService.humanize(transaction["category"]) // Remove underscores and capitalise every word
-          transaction["amount"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: saltedgeService.saltedgeaccountcurrencycode }) // Include currency symbol 
+          transaction["amountcurrencycode"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: saltedgeService.saltedgeaccountcurrencycode }) // Include currency symbol 
 
           // The 5 lines of code below will collate transactions by date
           // transaction["made_on"] is the date of transaction
@@ -80,7 +83,82 @@ export class TransactionHistoryPage implements OnInit {
 
           return 0;
         });
+
+        // Sort by latest transactions first
+        expensesService.transactions.sort((a, b) => {
+          if (a["made_on"] > b["made_on"]) {
+            return -1;
+          }
+
+          if (a["made_on"] < b["made_on"]) {
+            return 1;
+          }
+
+          return 0;
+        });
+        console.log(expensesService.transactions)
         console.log(expensesService.transactions2)
+
+        var aggregatedtransactions = []
+        if (userService.loggedin == false) {
+          this.firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").doc(saltedgeService.saltedgeaccount["id"]).set({
+            transactionhistory: expensesService.transactions
+          }, { merge: true }).then(() => {
+            let sub: Subscription = firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
+              console.log(data)
+              for (let account of data) {
+                console.log(account["transactionhistory"])
+                aggregatedtransactions = aggregatedtransactions.concat(account["transactionhistory"])
+              }
+              aggregatedtransactions.sort((a, b) => {
+                if (a["made_on"] > b["made_on"]) {
+                  return -1;
+                }
+      
+                if (a["made_on"] < b["made_on"]) {
+                  return 1;
+                }
+      
+                return 0;
+              });
+              console.log(aggregatedtransactions)
+              sub.unsubscribe();
+
+              this.firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).set({
+                transactionhistory: aggregatedtransactions
+              }, { merge: true })
+            })
+          })
+        } else {
+          this.firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").doc(saltedgeService.saltedgeaccount["id"]).set({
+            transactionhistory: expensesService.transactions
+          }, { merge: true }).then(() => {
+            let sub: Subscription = firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
+              console.log(data)
+              for (let account of data) {
+                console.log(account["transactionhistory"])
+                aggregatedtransactions = aggregatedtransactions.concat(account["transactionhistory"])
+              }
+              aggregatedtransactions.sort((a, b) => {
+                if (a["made_on"] > b["made_on"]) {
+                  return -1;
+                }
+      
+                if (a["made_on"] < b["made_on"]) {
+                  return 1;
+                }
+      
+                return 0;
+              });
+              console.log(aggregatedtransactions)
+              sub.unsubscribe();
+
+              this.firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).set({
+                transactionhistory: aggregatedtransactions
+              }, { merge: true })
+            })
+          })
+        }
       });
 
       res.on("error", function (error) {

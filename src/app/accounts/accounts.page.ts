@@ -217,6 +217,7 @@ export class AccountsPage implements OnInit {
         var balances = []
         var currencies = {}
         var spendinginsights = {}
+        var aggregatedtransactionhistory = []
 
         if (this.userService.loggedin == false) {
           let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").collection("saltedgeconnections").valueChanges().subscribe((data) => {
@@ -251,15 +252,29 @@ export class AccountsPage implements OnInit {
                   spendinginsights[category][currency] += saltedgeconnection.spendinginsights[category][currency] // Add up the value to the Object
                 }
               }
+              aggregatedtransactionhistory = aggregatedtransactionhistory.concat(saltedgeconnection.transactionhistory)
             }
+            aggregatedtransactionhistory.sort((a, b) => {
+              if (a["made_on"] > b["made_on"]) {
+                return -1;
+              }
+
+              if (a["made_on"] < b["made_on"]) {
+                return 1;
+              }
+
+              return 0;
+            });
             console.log(spendinginsights)
             balances.push(currencies)
             console.log(currencies)
+            console.log(aggregatedtransactionhistory)
 
-            this.firestore.collection('users').doc("test1234@example.com").update({
+            this.firestore.collection('users').doc("test1234@example.com").set({
               balances: balances,
-              spendinginsights: spendinginsights
-            })
+              spendinginsights: spendinginsights,
+              transactionhistory: aggregatedtransactionhistory
+            }, { merge: true })
 
             sub.unsubscribe();
           });
@@ -295,15 +310,30 @@ export class AccountsPage implements OnInit {
                   spendinginsights[category][currency] += saltedgeconnection.spendinginsights[category][currency] // Add up the value to the Object
                 }
               }
+              aggregatedtransactionhistory = aggregatedtransactionhistory.concat(saltedgeconnection.transactionhistory)
             }
+            aggregatedtransactionhistory.sort((a, b) => {
+              if (a["made_on"] > b["made_on"]) {
+                return -1;
+              }
+
+              if (a["made_on"] < b["made_on"]) {
+                return 1;
+              }
+
+              return 0;
+            });
+
             console.log(spendinginsights)
             balances.push(currencies)
             console.log(currencies)
+            console.log(aggregatedtransactionhistory)
 
-            this.firestore.collection('users').doc(this.userService.uid).update({
+            this.firestore.collection('users').doc(this.userService.uid).set({
               balances: balances,
-              spendinginsights: spendinginsights
-            })
+              spendinginsights: spendinginsights,
+              transactionhistory: aggregatedtransactionhistory
+            }, { merge: true })
 
             sub.unsubscribe();
           });
