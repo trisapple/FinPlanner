@@ -401,13 +401,27 @@ export class HomePage {
     this.expensevaluesspliced = []
     this.incomevaluesspliced = []
     for (let i = this.startindex; i > this.endindex; i--) {
-      this.labelsspliced.push(this.labels[this.labels.length - i])
-      this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
-      this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
+      if (this.labels[this.labels.length - i] == undefined) {
+        this.labelsspliced.push("")
+      } else {
+        this.labelsspliced.push(this.labels[this.labels.length - i])
+      }
+      if (this.expensevalues[this.expensevalues.length - i] == undefined) {
+        this.expensevaluesspliced.push(0)
+      } else {
+        this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
+      }
+      if (this.incomevalues[this.incomevalues.length - i] == undefined) {
+        this.incomevaluesspliced.push(0)
+      } else {
+        this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
+      }
     }
     console.log(this.labelsspliced)
     console.log(this.expensevaluesspliced)
     console.log(this.incomevaluesspliced)
+    console.log(this.startindex)
+    console.log(this.endindex)
 
     this.barChart.data.datasets[0].data = this.incomevaluesspliced
     this.barChart.data.datasets[1].data = this.expensevaluesspliced
