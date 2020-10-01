@@ -451,33 +451,33 @@ export class HomePage {
   }
 
   spendinginsights() {
-    this.spendinginsightlabels = Object.keys(this.firebasedata["spendinginsights"])
-    console.log(this.spendinginsightlabels)
-    console.log(Object.values(this.firebasedata["spendinginsights"]))
+    // this.spendinginsightlabels = Object.keys(this.firebasedata["spendinginsights"])
+    // console.log(this.spendinginsightlabels)
+    // console.log(Object.values(this.firebasedata["spendinginsights"]))
 
-    this.backgroundcolors = []
-    this.hovercolors = []
+    // this.backgroundcolors = []
+    // this.hovercolors = []
 
-    for (let eachcategory of Object.values(this.firebasedata["spendinginsights"])) {
-      var eachcategorycurrencies = Object.keys(eachcategory)
-      var categorycurrency = 0
-      for (let currency of eachcategorycurrencies) {
-        if (this.exchangerates[currency] != undefined) {
-          categorycurrency = categorycurrency + (eachcategory[currency] * this.exchangerates[currency])
-        } else {
-          categorycurrency = eachcategory[currency]
-        }
+    // for (let eachcategory of Object.values(this.firebasedata["spendinginsights"])) {
+    //   var eachcategorycurrencies = Object.keys(eachcategory)
+    //   var categorycurrency = 0
+    //   for (let currency of eachcategorycurrencies) {
+    //     if (this.exchangerates[currency] != undefined) {
+    //       categorycurrency = categorycurrency + (eachcategory[currency] * this.exchangerates[currency])
+    //     } else {
+    //       categorycurrency = eachcategory[currency]
+    //     }
 
-        console.log(eachcategory[currency])
-        // console.log(this.exchangerates)
-      }
-      this.spendinginsightvalues.push(categorycurrency)
+    //     console.log(eachcategory[currency])
+    //     // console.log(this.exchangerates)
+    //   }
+    //   this.spendinginsightvalues.push(categorycurrency)
 
-      var colors = this.saltedgeService.dynamicColors()
-      this.backgroundcolors.push(colors[0])
-      this.hovercolors.push(colors[1])
-    }
-    console.log(this.spendinginsightvalues)
+    //   var colors = this.saltedgeService.dynamicColors()
+    //   this.backgroundcolors.push(colors[0])
+    //   this.hovercolors.push(colors[1])
+    // }
+    // console.log(this.spendinginsightvalues)
   }
 
   // addDays(currentDate) {
@@ -580,6 +580,33 @@ export class HomePage {
     console.log(this.defaultmonth)
     console.log(filtereddata)
 
+    var obj = {}
+    // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
+    for (let transaction of filtereddata) {
+      // If the transaction is a negative value
+      if (Math.sign(transaction.amount) == -1) {
+        // If the category has not yet been added to the Object, start it from 0 and add up the value
+        if (obj[transaction.category] == undefined) {
+          obj[transaction.category] = 0 // Start from 0
+          var colors = this.saltedgeService.dynamicColors()
+          this.backgroundcolors.push(colors[0])
+          this.hovercolors.push(colors[1])
+        }
+
+        if (this.exchangerates[transaction.currency_code] != undefined) {
+          console.log(this.exchangerates[transaction.currency_code])
+          obj[transaction.category] += Math.abs(transaction.amount) * this.exchangerates[transaction.currency_code]
+        } else {
+          obj[transaction.category] += Math.abs(transaction.amount)
+        }
+      }
+    }
+
+    this.spendinginsightlabels = Object.keys(obj)
+    this.spendinginsightvalues = Object.values(obj)
+    console.log(this.spendinginsightlabels)
+    console.log(Object.values(obj))
+    console.log(obj)
   }
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
@@ -788,36 +815,36 @@ export class HomePage {
       }
     }), 6000)
 
-    this.lineChart = new Chart(this.lineCanvas.nativeElement, {
-      type: "line",
-      data: {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
-        datasets: [
-          {
-            label: "My First dataset",
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
-            borderCapStyle: "butt",
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: "miter",
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40],
-            spanGaps: false
-          }
-        ]
-      }
-    });
+    // this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+    //   type: "line",
+    //   data: {
+    //     labels: ["January", "February", "March", "April", "May", "June", "July"],
+    //     datasets: [
+    //       {
+    //         label: "My First dataset",
+    //         fill: false,
+    //         lineTension: 0.1,
+    //         backgroundColor: "rgba(75,192,192,0.4)",
+    //         borderColor: "rgba(75,192,192,1)",
+    //         borderCapStyle: "butt",
+    //         borderDash: [],
+    //         borderDashOffset: 0.0,
+    //         borderJoinStyle: "miter",
+    //         pointBorderColor: "rgba(75,192,192,1)",
+    //         pointBackgroundColor: "#fff",
+    //         pointBorderWidth: 1,
+    //         pointHoverRadius: 5,
+    //         pointHoverBackgroundColor: "rgba(75,192,192,1)",
+    //         pointHoverBorderColor: "rgba(220,220,220,1)",
+    //         pointHoverBorderWidth: 2,
+    //         pointRadius: 1,
+    //         pointHitRadius: 10,
+    //         data: [65, 59, 80, 81, 56, 55, 40],
+    //         spanGaps: false
+    //       }
+    //     ]
+    //   }
+    // });
   }
 }
 
