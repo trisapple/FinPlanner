@@ -106,13 +106,13 @@
   <h3 *ngIf="!sgdonly">Spending Insights in SGD</h3>
   <h3 *ngIf="sgdonly">Spending Insights</h3>
   
-  <ion-segment *ngFor="let year of defaultyear" scrollable [value]="year">
+  <ion-segment *ngFor="let year of defaultyear" scrollable (ionChange)="changeyear($event)"[value]="year">
     <ion-segment-button *ngFor="let each of yeararray" [value]="each">
       <ion-label>{{ each }}</ion-label>
     </ion-segment-button>
   </ion-segment>
 
-  <ion-segment *ngFor="let month of defaultmonth" scrollable [value]="month[0]">
+  <ion-segment *ngFor="let month of defaultmonth" scrollable (ionChange)="changemonth($event)" [value]="month[0]">
     <ion-segment-button *ngFor="let each of montharray" [value]="each[0]" [disabled]="each[1]">
       <ion-label>{{ each[0] }}</ion-label>
     </ion-segment-button>

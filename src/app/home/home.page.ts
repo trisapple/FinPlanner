@@ -409,7 +409,7 @@ export class HomePage {
     this.barChart.data.datasets[0].data = this.incomevaluesspliced
     this.barChart.data.datasets[1].data = this.expensevaluesspliced
     this.barChart.data.labels = this.labelsspliced
-    this.barChart.update({ duration: 0 })
+    this.barChart.update({ duration: 1000 })
   }
 
   segmentChanged(ev: any) {
@@ -448,6 +448,137 @@ export class HomePage {
     if (ev.detail.value == "all") {
       this.segmentvalue = "all"
     }
+  }
+
+  changemonth(ev: any) {
+    console.log('Segment changed', ev);
+    console.log(ev.detail.value);
+    if (ev.detail.value == "Jan") {
+      this.defaultmonth = [["Jan", "01"]]
+    }
+    if (ev.detail.value == "Feb") {
+      this.defaultmonth = [["Feb", "02"]]
+    }
+    if (ev.detail.value == "Mar") {
+      this.defaultmonth = [["Mar", "03"]]
+    }
+    if (ev.detail.value == "Apr") {
+      this.defaultmonth = [["Apr", "04"]]
+    }
+    if (ev.detail.value == "May") {
+      this.defaultmonth = [["May", "05"]]
+    }
+    if (ev.detail.value == "Jun") {
+      this.defaultmonth = [["Jun", "06"]]
+    }
+    if (ev.detail.value == "Jul") {
+      this.defaultmonth = [["Jul", "07"]]
+    }
+    if (ev.detail.value == "Aug") {
+      this.defaultmonth = [["Aug", "08"]]
+    }
+    if (ev.detail.value == "Sep") {
+      this.defaultmonth = [["Sep", "09"]]
+    }
+    if (ev.detail.value == "Oct") {
+      this.defaultmonth = [["Oct", "10"]]
+    }
+    if (ev.detail.value == "Nov") {
+      this.defaultmonth = [["Nov", "11"]]
+    }
+    if (ev.detail.value == "Dec") {
+      this.defaultmonth = [["Dec", "12"]]
+    }
+    var filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
+    console.log(filtereddata)
+    console.log(this.defaultmonth)
+
+    var obj = {}
+    this.backgroundcolors = []
+    this.hovercolors = []
+    // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
+    for (let transaction of filtereddata) {
+      // If the transaction is a negative value
+      if (Math.sign(transaction.amount) == -1) {
+        // If the category has not yet been added to the Object, start it from 0 and add up the value
+        if (obj[transaction.category] == undefined) {
+          obj[transaction.category] = 0 // Start from 0
+          var colors = this.saltedgeService.dynamicColors()
+          this.backgroundcolors.push(colors[0])
+          this.hovercolors.push(colors[1])
+        }
+
+        if (this.exchangerates[transaction.currency_code] != undefined) {
+          console.log(this.exchangerates[transaction.currency_code])
+          obj[transaction.category] += Math.abs(transaction.amount) * this.exchangerates[transaction.currency_code]
+        } else {
+          obj[transaction.category] += Math.abs(transaction.amount)
+        }
+      }
+    }
+
+    this.spendinginsightlabels = Object.keys(obj)
+    this.spendinginsightvalues = Object.values(obj)
+    console.log(this.spendinginsightlabels)
+    console.log(Object.values(obj))
+    console.log(obj)
+
+    console.log(this.doughnutChart)
+
+    this.doughnutChart.config.data.labels = this.spendinginsightlabels
+    this.doughnutChart.config.data.datasets[0].data = this.spendinginsightvalues
+    this.doughnutChart.config.data.datasets[0].backgroundColor = this.backgroundcolors
+    this.doughnutChart.config.data.datasets[0].hoverBackgroundColor = this.hovercolors
+    this.doughnutChart.update({ duration: 1000 })
+  }
+
+  changeyear(ev: any) {
+    console.log('Segment changed', ev);
+    console.log(ev.detail.value);
+
+    this.defaultyear = [ev.detail.value]
+
+    var filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
+    console.log(filtereddata)
+    console.log(this.defaultyear)
+
+    var obj = {}
+    this.backgroundcolors = []
+    this.hovercolors = []
+    // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
+    for (let transaction of filtereddata) {
+      // If the transaction is a negative value
+      if (Math.sign(transaction.amount) == -1) {
+        // If the category has not yet been added to the Object, start it from 0 and add up the value
+        if (obj[transaction.category] == undefined) {
+          obj[transaction.category] = 0 // Start from 0
+          var colors = this.saltedgeService.dynamicColors()
+          this.backgroundcolors.push(colors[0])
+          this.hovercolors.push(colors[1])
+        }
+
+        if (this.exchangerates[transaction.currency_code] != undefined) {
+          console.log(this.exchangerates[transaction.currency_code])
+          obj[transaction.category] += Math.abs(transaction.amount) * this.exchangerates[transaction.currency_code]
+        } else {
+          obj[transaction.category] += Math.abs(transaction.amount)
+        }
+      }
+    }
+
+    this.spendinginsightlabels = Object.keys(obj)
+    this.spendinginsightvalues = Object.values(obj)
+    console.log(this.spendinginsightlabels)
+    console.log(Object.values(obj))
+    console.log(obj)
+
+    console.log(this.doughnutChart)
+
+    this.doughnutChart.config.data.labels = this.spendinginsightlabels
+    this.doughnutChart.config.data.datasets[0].data = this.spendinginsightvalues
+    this.doughnutChart.config.data.datasets[0].backgroundColor = this.backgroundcolors
+    this.doughnutChart.config.data.datasets[0].hoverBackgroundColor = this.hovercolors
+    this.doughnutChart.update({ duration: 1000 })
   }
 
   spendinginsights() {
@@ -514,56 +645,56 @@ export class HomePage {
       this.yeararray.push(i)
     }
     console.log(this.yeararray)
-    this.defaultyear.push(this.yeararray[0])
+    this.defaultyear = [this.yeararray[0]]
 
     if ((new Date(made_on_latest).getFullYear()) != (new Date(made_on_first).getFullYear())) {
       if ((new Date(made_on_latest).getMonth()) == 11) {
         this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
-        this.defaultmonth.push(["Dec", "12"])
+        this.defaultmonth = [["Dec", "12"]]
       }
       if ((new Date(made_on_latest).getMonth()) == 10) {
         this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", true]]
-        this.defaultmonth.push(["Nov", "11"])
+        this.defaultmonth = [["Nov", "11"]]
       }
       if ((new Date(made_on_latest).getMonth()) == 9) {
         this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", true], ["Dec", true]]
-        this.defaultmonth.push(["Oct", "10"])
+        this.defaultmonth = [["Oct", "10"]]
       }
       if ((new Date(made_on_latest).getMonth()) == 8) {
         this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth.push(["Sep", "09"])
+        this.defaultmonth = [["Sep", "09"]]
       }
       if ((new Date(made_on_latest).getMonth()) == 7) {
         this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth.push(["Aug", "08"])
+        this.defaultmonth = [["Aug", "08"]]
       }
       if ((new Date(made_on_latest).getMonth()) == 6) {
         this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth.push(["Jul", "07"])
+        this.defaultmonth = [["Jul", "07"]]
       }
       if ((new Date(made_on_latest).getMonth()) == 5) {
         this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth.push(["Jun", "06"])
+        this.defaultmonth = [["Jun", "06"]]
       }
       if ((new Date(made_on_latest).getMonth()) == 4) {
         this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth.push(["May", "05"])
+        this.defaultmonth = [["May", "05"]]
       }
       if ((new Date(made_on_latest).getMonth()) == 3) {
         this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth.push(["Apr", "04"])
+        this.defaultmonth = [["Apr", "04"]]
       }
       if ((new Date(made_on_latest).getMonth()) == 2) {
         this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth.push(["Mar", "03"])
+        this.defaultmonth = [["Mar", "03"]]
       }
       if ((new Date(made_on_latest).getMonth()) == 1) {
         this.montharray = [["Jan", false], ["Feb", false], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth.push(["Feb", "02"])
+        this.defaultmonth = [["Feb", "02"]]
       }
       if ((new Date(made_on_latest).getMonth()) == 0) {
         this.montharray = [["Jan", false], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth.push(["Jan", "01"])
+        this.defaultmonth = [["Jan", "01"]]
       }
     } else {
       this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
@@ -571,7 +702,7 @@ export class HomePage {
         console.log(i)
         this.montharray[i][1] = false
       }
-      this.defaultmonth.push([this.montharray[new Date(made_on_latest).getMonth()][0], ('0' + (new Date(made_on_latest).getMonth() + 1)).slice(-2)])
+      this.defaultmonth = [[this.montharray[new Date(made_on_latest).getMonth()][0], ('0' + (new Date(made_on_latest).getMonth() + 1)).slice(-2)]]
       console.log(this.defaultmonth)
     }
 
@@ -581,6 +712,8 @@ export class HomePage {
     console.log(filtereddata)
 
     var obj = {}
+    this.backgroundcolors = []
+    this.hovercolors = []
     // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
     for (let transaction of filtereddata) {
       // If the transaction is a negative value
