@@ -105,55 +105,19 @@
   <br>
   <h3 *ngIf="!sgdonly">Spending Insights in SGD</h3>
   <h3 *ngIf="sgdonly">Spending Insights</h3>
-  <!-- <ion-segment scrollable value="2020">
-    <ion-segment-button value="2020">
-      <ion-label>2020</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="2019">
-      <ion-label>2019</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="2018">
-      <ion-label>2018</ion-label>
+  
+  <ion-segment *ngFor="let year of defaultyear" scrollable [value]="year">
+    <ion-segment-button *ngFor="let each of yeararray" [value]="each">
+      <ion-label>{{ each }}</ion-label>
     </ion-segment-button>
   </ion-segment>
-  <ion-segment scrollable value="Jan">
-    <ion-segment-button value="Jan">
-      <ion-label>Jan</ion-label>
+
+  <ion-segment *ngFor="let month of defaultmonth" scrollable [value]="month[0]">
+    <ion-segment-button *ngFor="let each of montharray" [value]="each[0]" [disabled]="each[1]">
+      <ion-label>{{ each[0] }}</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="Feb">
-      <ion-label>Feb</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Mar">
-      <ion-label>Mar</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Apr">
-      <ion-label>Apr</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="May">
-      <ion-label>May</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Jun">
-      <ion-label>Jun</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Jul">
-      <ion-label>Jul</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Aug">
-      <ion-label>Aug</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Sep">
-      <ion-label>Sep</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Oct">
-      <ion-label>Oct</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Nov">
-      <ion-label>Nov</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Dec">
-      <ion-label>Dec</ion-label>
-    </ion-segment-button>
-  </ion-segment> -->
+  </ion-segment>
+
   <div style="height: 300px;">
     <canvas #doughnutCanvas></canvas>
   </div>
