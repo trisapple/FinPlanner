@@ -49,6 +49,7 @@ export class HomePage {
   firebasedata = {}
   exchangerates = {}
   filtereddata = []
+  filtereddata2 = []
 
   // Ion-segment
   yeararray = []
@@ -508,6 +509,7 @@ export class HomePage {
       this.defaultmonth = [["Dec", "12"]]
     }
     this.filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
+    
     console.log(this.filtereddata)
     console.log(this.defaultmonth)
 
@@ -542,6 +544,7 @@ export class HomePage {
     console.log(obj)
 
     console.log(this.doughnutChart)
+    this.filtereddata2 = this.filtereddata.slice()
 
     this.doughnutChart.config.data.labels = this.spendinginsightlabels
     this.doughnutChart.config.data.datasets[0].data = this.spendinginsightvalues
@@ -736,6 +739,7 @@ export class HomePage {
     console.log(obj)
 
     console.log(this.doughnutChart)
+    this.filtereddata2 = this.filtereddata.slice()
 
     this.doughnutChart.config.data.labels = this.spendinginsightlabels
     this.doughnutChart.config.data.datasets[0].data = this.spendinginsightvalues
@@ -896,6 +900,8 @@ export class HomePage {
         }
       }
     }
+
+    this.filtereddata2 = this.filtereddata.slice()
 
     this.spendinginsightlabels = Object.keys(obj)
     this.spendinginsightvalues = Object.values(obj)
@@ -1117,7 +1123,7 @@ export class HomePage {
           var dataset;
 
           const { left, right, top, bottom } = this.doughnutChart.chartArea;
-          if (evt.offsetX > left && evt.offsetX < right &&evt.offsetY > top && evt.offsetY < bottom) {
+          if (evt.offsetX > left && evt.offsetX < right && evt.offsetY > top && evt.offsetY < bottom) {
             if (elements.length) {
               var index = elements[0]._index;
               datasetIndex = elements[0]._datasetIndex;
@@ -1129,6 +1135,7 @@ export class HomePage {
   
               dataset.backgroundColor[index] = this.hovercolors[index]; // click color
               dataset.hoverBackgroundColor[index] = this.hovercolors[index];
+              this.filtereddata2 = this.filtereddata.filter(each => each["category"].includes(this.spendinginsightlabels[index]) && Math.sign(each.amount) == -1); // Filtered expenses by category
             } else {
               // remove hover styles
               for (datasetIndex = 0; datasetIndex < this.doughnutChart.data.datasets.length; ++datasetIndex) {
@@ -1136,6 +1143,7 @@ export class HomePage {
                 dataset.backgroundColor = this.backgroundcolors.slice();
                 dataset.hoverBackgroundColor = this.hovercolors.slice();
               }
+              this.filtereddata2 = this.filtereddata.slice() // Put back the originally filtered expenses
             }
             this.doughnutChart.update();
           }
