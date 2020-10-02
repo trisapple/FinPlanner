@@ -34,7 +34,7 @@ export class SaltedgeService {
     var r = Math.floor(Math.random() * 255)
     var g = Math.floor(Math.random() * 255)
     var b = Math.floor(Math.random() * 255)
-    colors.push("rgba(" + r + "," + g + "," + b + ",0.5)")
+    colors.push("rgba(" + r + "," + g + "," + b + ",0.2)")
     colors.push("rgb(" + r + "," + g + "," + b + ")")
     return colors;
   }

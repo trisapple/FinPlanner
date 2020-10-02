@@ -48,6 +48,7 @@ export class HomePage {
 
   firebasedata = {}
   exchangerates = {}
+  filtereddata = []
 
   // Ion-segment
   yeararray = []
@@ -506,15 +507,15 @@ export class HomePage {
     if (ev.detail.value == "Dec") {
       this.defaultmonth = [["Dec", "12"]]
     }
-    var filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
-    console.log(filtereddata)
+    this.filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
+    console.log(this.filtereddata)
     console.log(this.defaultmonth)
 
     var obj = {}
     this.backgroundcolors = []
     this.hovercolors = []
     // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
-    for (let transaction of filtereddata) {
+    for (let transaction of this.filtereddata) {
       // If the transaction is a negative value
       if (Math.sign(transaction.amount) == -1) {
         // If the category has not yet been added to the Object, start it from 0 and add up the value
@@ -700,15 +701,15 @@ export class HomePage {
     }
 
 
-    var filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
-    console.log(filtereddata)
+    this.filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
+    console.log(this.filtereddata)
     console.log(this.defaultyear)
 
     var obj = {}
     this.backgroundcolors = []
     this.hovercolors = []
     // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
-    for (let transaction of filtereddata) {
+    for (let transaction of this.filtereddata) {
       // If the transaction is a negative value
       if (Math.sign(transaction.amount) == -1) {
         // If the category has not yet been added to the Object, start it from 0 and add up the value
@@ -867,16 +868,16 @@ export class HomePage {
       console.log(this.defaultmonth)
     }
 
-    var filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
+    this.filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
     console.log(this.defaultyear)
     console.log(this.defaultmonth)
-    console.log(filtereddata)
+    console.log(this.filtereddata)
 
     var obj = {}
     this.backgroundcolors = []
     this.hovercolors = []
     // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
-    for (let transaction of filtereddata) {
+    for (let transaction of this.filtereddata) {
       // If the transaction is a negative value
       if (Math.sign(transaction.amount) == -1) {
         // If the category has not yet been added to the Object, start it from 0 and add up the value
@@ -1109,7 +1110,37 @@ export class HomePage {
         ]
       },
       options: {
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        onClick: (evt, elements) => {
+          console.log(evt)
+          var datasetIndex;
+          var dataset;
+
+          const { left, right, top, bottom } = this.doughnutChart.chartArea;
+          if (evt.offsetX > left && evt.offsetX < right &&evt.offsetY > top && evt.offsetY < bottom) {
+            if (elements.length) {
+              var index = elements[0]._index;
+              datasetIndex = elements[0]._datasetIndex;
+  
+              // Reset old state
+              dataset = this.doughnutChart.data.datasets[datasetIndex];
+              dataset.backgroundColor = this.backgroundcolors.slice();
+              dataset.hoverBackgroundColor = this.hovercolors.slice();
+  
+              dataset.backgroundColor[index] = this.hovercolors[index]; // click color
+              dataset.hoverBackgroundColor[index] = this.hovercolors[index];
+              
+            } else {
+              // remove hover styles
+              for (datasetIndex = 0; datasetIndex < this.doughnutChart.data.datasets.length; ++datasetIndex) {
+                dataset = this.doughnutChart.data.datasets[datasetIndex];
+                dataset.backgroundColor = this.backgroundcolors.slice();
+                dataset.hoverBackgroundColor = this.hovercolors.slice();
+              }
+            }
+            this.doughnutChart.update();
+          }
+        }
       }
     }), 6000)
 
