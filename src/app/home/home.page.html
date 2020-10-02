@@ -121,6 +121,14 @@
   <div style="height: 300px;">
     <canvas #doughnutCanvas></canvas>
   </div>
+  <br>
+  <ion-item *ngFor="let each of filtereddata">
+    <ion-label class="ion-text-wrap">
+      <h2>{{ each.description }}</h2>
+      <p>{{ each.made_on }} | {{ each.category }}</p>
+    </ion-label>
+    <p>{{ each.amountcurrencycode }}</p>
+  </ion-item>
   <!-- <canvas #lineCanvas></canvas> -->
 
 </ion-content>

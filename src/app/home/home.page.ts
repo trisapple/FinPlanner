@@ -1129,7 +1129,6 @@ export class HomePage {
   
               dataset.backgroundColor[index] = this.hovercolors[index]; // click color
               dataset.hoverBackgroundColor[index] = this.hovercolors[index];
-              
             } else {
               // remove hover styles
               for (datasetIndex = 0; datasetIndex < this.doughnutChart.data.datasets.length; ++datasetIndex) {
