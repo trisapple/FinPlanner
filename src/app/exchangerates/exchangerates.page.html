@@ -11,34 +11,36 @@
 <ion-content class = "ion-padding">
 
   <!-- <div *ngIf = "userService.loggedin"> -->
-    <ion-label style = "font-size: 20px">
+    <ion-label style = "font-size: 22px">
       View Realtime <b>Stocks</b>, <b>FX Rates</b> & <b>Cryptocurrencies</b> Exchange Rates:
     </ion-label>
+    <br>
+    <br>
 
-    <ion-card>
+    <ion-list>
       <ion-item>
-        <ion-label style = "font-size: 15px">Stocks</ion-label>
+        <ion-label style = "font-size: 18px"><b>Stocks</b></ion-label>
         <ion-button fill="solid" slot="end" (click) = "stocks()">View</ion-button>
       </ion-item>
-    </ion-card>
+    </ion-list>
 
     <br>
 
-    <ion-card>
+    <ion-list>
       <ion-item>
-        <ion-label style = "font-size: 15px">FX Rates</ion-label>
+        <ion-label style = "font-size: 18px"><b>FX Rates</b></ion-label>
         <ion-button fill="solid" slot="end" (click) = "fxrates()">View</ion-button>
       </ion-item>
-    </ion-card>
+    </ion-list>
 
     <br>
 
-    <ion-card>
+    <ion-list>
       <ion-item>
-        <ion-label style = "font-size: 15px">Cryptocurrencies</ion-label>
+        <ion-label style = "font-size: 18px"><b>Cryptocurrencies</b></ion-label>
         <ion-button fill="solid" slot="end" (click) = "crypto()">View</ion-button>
       </ion-item>
-    </ion-card>
+    </ion-list>
   <!-- </div> -->
 
   <!-- <div *ngIf = "!userService.loggedin" class = "container">

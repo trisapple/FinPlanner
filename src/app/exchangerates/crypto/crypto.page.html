@@ -9,24 +9,24 @@
 </ion-header>
 
 <ion-content class = "ion-padding">
+  <ion-list>
+    <h3><b>BTC to USD</b></h3>
+    <ion-item>
+      <h4>Last Refreshed: {{ expensesService.cryptoUS["6. Last Refreshed"] }}</h4>
+    </ion-item>
 
-  <h3>BTC to USD</h3>
+    <ion-item>
+      <h4>Exchange Rate: {{ expensesService.cryptoUS["5. Exchange Rate"] }}</h4>
+    </ion-item>
 
-  <ion-item>
-    <h4>Last Refreshed: {{ expensesService.cryptoUS["6. Last Refreshed"] }}</h4>
-  </ion-item>
+    <ion-item>
+      <h4>Bid Price: {{ expensesService.cryptoUS["8. Bid Price"] }}</h4>
+    </ion-item>
 
-  <ion-item>
-    <h4>Exchange Rate: {{ expensesService.cryptoUS["5. Exchange Rate"] }}</h4>
-  </ion-item>
-
-  <ion-item>
-    <h4>Bid Price: {{ expensesService.cryptoUS["8. Bid Price"] }}</h4>
-  </ion-item>
-
-  <ion-item>
-    <h4>Ask Price: {{ expensesService.cryptoUS["9. Ask Price"] }}</h4>
-  </ion-item>
+    <ion-item>
+      <h4>Ask Price: {{ expensesService.cryptoUS["9. Ask Price"] }}</h4>
+    </ion-item>
+  </ion-list>
 
   <!-- <h3>BTC to SGD</h3>
 
