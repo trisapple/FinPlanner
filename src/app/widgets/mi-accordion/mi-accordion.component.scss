@@ -29,6 +29,8 @@ h2 {
  div {
     position: relative;
     padding-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
  }
 
  /* Following classes display/hide the 'menu'
@@ -41,3 +43,13 @@ h2 {
  .inactive {
     display: none;
  }
+
+ion-item:hover {
+   --background: lightgray;
+}
+
+@media (prefers-color-scheme: dark) {
+   ion-item:hover {
+       --background: #808080;
+   }
+}

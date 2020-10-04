@@ -41,12 +41,18 @@
 
 <ion-content class="ion-padding">
   <h1 style="text-align: center;">FAQ (Frequent Asked Question)</h1>
-
-  <app-mi-accordion 
-     *ngFor="let item of items" 
-     name="{{ item.name }}" 
-     description="{{ item.description }}">
-  </app-mi-accordion>
+<!-- 
+  <ion-list>
+    <ion-item>
+      <ion-label> -->
+        <app-mi-accordion 
+          *ngFor="let item of items" 
+          name="{{ item.name }}" 
+          description="{{ item.description }}" class = "hover">
+        </app-mi-accordion>
+      <!-- </ion-label>
+    </ion-item>
+  </ion-list> -->
 
   <!-- <ion-button style="margin-top: 40px;" (click)="gotoaskques()">Ask Question</ion-button> -->
 </ion-content>
