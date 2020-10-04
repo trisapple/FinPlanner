@@ -4,3 +4,13 @@
     color: white;
     padding: 180px 0;
 }
+
+ion-item:hover {
+    --background: lightgray;
+}
+
+@media (prefers-color-scheme: dark) {
+    ion-item:hover {
+        --background: #808080;
+    }
+}
