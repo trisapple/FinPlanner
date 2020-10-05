@@ -1,14 +1,9 @@
-<ion-list>
-   <ion-item>
-      <ion-label>
-         <h2 (click)="toggleAccordion()">
-         {{ name }}
-            <span *ngIf="isMenuOpen"><ion-icon name="chevron-down"></ion-icon></span>
-            <span *ngIf="!isMenuOpen"><ion-icon name="chevron-forward"></ion-icon></span>
-         </h2>
-      </ion-label>
+
+   <ion-item (click)="toggleAccordion()">
+      <ion-label>{{ name }}</ion-label>
+      <ion-icon *ngIf="isMenuOpen" name="chevron-down"></ion-icon>
+      <ion-icon *ngIf="!isMenuOpen" name="chevron-forward"></ion-icon>
    </ion-item>
-         <div [ngClass]="this.isMenuOpen ? 'active' : 'inactive'">
-            <p>{{ description }}</p>
-         </div>
-</ion-list>
+   <ion-item [ngClass]="this.isMenuOpen ? 'active' : 'inactive'">
+      <ion-label class="ion-text-wrap">{{ description }}</ion-label>
+   </ion-item>
