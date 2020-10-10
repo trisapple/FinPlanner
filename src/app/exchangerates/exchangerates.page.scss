@@ -2,7 +2,6 @@
     position: relative;
     text-align: center;
     color: white;
-    padding: 180px 0;
 }
 
 ion-item:hover {
@@ -13,4 +12,35 @@ ion-item:hover {
     ion-item:hover {
         --background: #808080;
     }
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+.sky{
+  filter: brightness(80%);
+}
+
+.list {
+    float: left;
+    position: static;
+    width: 50%;
+}
+
+.cardview { 
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.card {
+    width: 80%;
+    display: block;
+    margin: auto;
+}
+
+.padding {
+    padding: 20px;
 }
