@@ -38,7 +38,7 @@ export class ExchangeratesPage implements OnInit {
 
   loadBBCnews() {
     this.newsService
-    .getData("top-headlines?sources=bbc-news")
+    .getData("top-headlines?country=us&category=business")
     .subscribe(news => {
       this.articles = news['articles'];
       console.log(this.articles);
