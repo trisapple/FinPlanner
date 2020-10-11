@@ -4,8 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
 
-
-import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-charts-interfaces';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ExpensesService } from '../expenses.service';
 import { SaltedgeService } from '../saltedge.service';
@@ -59,62 +57,6 @@ export class HomePage {
 
   made_on_latest = ""
   made_on_first = ""
-
-  // public columnChart1: GoogleChartInterface;
-  // public columnChart2: GoogleChartInterface;
-  // public barChart: GoogleChartInterface;
-  // public pieChart: GoogleChartInterface;
-
-
-  // loadColumnChart() {
-  //   this.columnChart1 = {
-  //     chartType: 'ColumnChart',
-  //     dataTable: [
-  //       ['City', '2010 Population'],
-  //       ['New York City, NY', 8175000],
-  //       ['Los Angeles, CA', 3792000],
-  //       ['Chicago, IL', 2695000],
-  //       ['Houston, TX', 2099000],
-  //       ['Philadelphia, PA', 1526000]
-  //     ],
-  //     //opt_firstRowIsData: true,
-  //     options: {
-  //       title: 'Population of Largest U.S. Cities',
-  //       height: 600,
-  //       chartArea: { height: '400' },
-  //       hAxis: {
-  //         title: 'Total Population',
-  //         minValue: 0
-  //       },
-  //       vAxis: {
-  //         title: 'City'
-  //       }
-  //     },
-  //   };
-  // }
-
-  // loadSimplePieChart() {
-  //   this.pieChart = {
-  //     chartType: 'PieChart',
-  //     dataTable: [
-  //       ['Task', 'Hours per Day'],
-  //       ['Work', 11],
-  //       ['Eat', 2],
-  //       ['Commute', 2],
-  //       ['Watch TV', 2],
-  //       ['Sleep', 7]
-  //     ],
-  //     //opt_firstRowIsData: true,
-  //     options: {
-  //       'title': 'Tasks',
-  //       height: 600,
-  //       width: '100%',
-  //       is3D: true,
-  //       backgroundColor: { fill: 'transparent' },
-  //       legend: { textStyle: { color: 'gray' } }
-  //     },
-  //   };
-  // }
 
   total = ""
   originaltotal = []
@@ -251,7 +193,6 @@ export class HomePage {
         this.exchangerates = JSON.parse(body.toString()).data.data.exchange_rates
         console.log(this.exchangerates)
 
-        this.spendinginsights()
         this.transactionhistory()
 
         var originaltotal = {}
@@ -748,52 +689,6 @@ export class HomePage {
     this.doughnutChart.update({ duration: 1000 })
   }
 
-  spendinginsights() {
-    // this.spendinginsightlabels = Object.keys(this.firebasedata["spendinginsights"])
-    // console.log(this.spendinginsightlabels)
-    // console.log(Object.values(this.firebasedata["spendinginsights"]))
-
-    // this.backgroundcolors = []
-    // this.hovercolors = []
-
-    // for (let eachcategory of Object.values(this.firebasedata["spendinginsights"])) {
-    //   var eachcategorycurrencies = Object.keys(eachcategory)
-    //   var categorycurrency = 0
-    //   for (let currency of eachcategorycurrencies) {
-    //     if (this.exchangerates[currency] != undefined) {
-    //       categorycurrency = categorycurrency + (eachcategory[currency] * this.exchangerates[currency])
-    //     } else {
-    //       categorycurrency = eachcategory[currency]
-    //     }
-
-    //     console.log(eachcategory[currency])
-    //     // console.log(this.exchangerates)
-    //   }
-    //   this.spendinginsightvalues.push(categorycurrency)
-
-    //   var colors = this.saltedgeService.dynamicColors()
-    //   this.backgroundcolors.push(colors[0])
-    //   this.hovercolors.push(colors[1])
-    // }
-    // console.log(this.spendinginsightvalues)
-  }
-
-  // addDays(currentDate) {
-  //   let date = new Date(currentDate);
-  //   date.setDate(date.getDate() + 1);
-  //   return date;
-  // }
-
-  // getDates(startDate, stopDate) {
-  //   var dateArray = new Array();
-  //   var currentDate = startDate;
-  //   while (currentDate <= stopDate) {
-  //     dateArray.push(new Date(currentDate));
-  //     currentDate = this.addDays(currentDate);
-  //   }
-  //   return dateArray;
-  // }
-
   transactionhistory() {
     console.log(this.firebasedata["transactionhistory"])
 
@@ -911,60 +806,6 @@ export class HomePage {
   }
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
-    // this.loadColumnChart();
-    // this.loadSimplePieChart();
-
-    // if (this.activatedRoute.snapshot.queryParams['code']) {
-    //   citiLogin = true
-    // }
-    // if (this.activatedRoute.snapshot.queryParams['access_token']) {
-    //   ocbcLogin = true
-    // }
-
-
-    // Citibank backend code to get auth code, access token and transaction history for now
-    // I put at home page as this is where the user will get redirected to. 
-
-
-    // if (userService.loggedin == false) {
-    //   let sub: Subscription = firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
-    //     console.log(data)
-    //     console.log(data["balances"][0])
-    //     console.log(Object.entries(data["balances"][0]))
-    //     this.total = Object.entries(data["balances"][0])
-    //     for (let each of this.total) {
-    //       // console.log(`${each[1]} ${each[0]}`)
-    //       each[1] = parseInt(each[1].toString()).toLocaleString('en-SG', { style: 'currency', currency: each[0] })
-    //       // var string = `${each[1]} <br><br>`
-    //       // this.total = this.total.concat(string)
-    //       // console.log(this.total)
-    //     }
-    //     console.log(this.total)
-
-    //     sub.unsubscribe();
-    //   });
-    // } else {
-    //   let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
-    //     console.log(data)
-    //     console.log(data["balances"][0])
-    //     console.log(Object.entries(data["balances"][0]))
-    //     this.total = Object.entries(data["balances"][0])
-    //     for (let each of this.total) {
-    //       // console.log(`${each[1]} ${each[0]}`)
-    //       each[1] = parseInt(each[1].toString()).toLocaleString('en-SG', { style: 'currency', currency: each[0] })
-    //       // var string = `${each[1]} <br><br>`
-    //       // this.total = this.total.concat(string)
-    //       // console.log(this.total)
-    //     }
-    //     console.log(this.total)
-
-    //     sub.unsubscribe();
-    //   });
-    // }
-
-    // if (this.activatedRoute.snapshot.queryParams['connection_id']) {
-
-    // }
 
     console.log(new Date().toDateString())
     console.log(this.saltedgeService.formatDate(new Date()))
@@ -997,75 +838,6 @@ export class HomePage {
         this.recreateinsight()
       });
     }
-
-    // if (this.activatedRoute.snapshot.queryParams['code']) {
-    //   // If there is no authorisation code (Get auth code)
-    //   if (!this.userService.citiauthorisationCode) {
-    //     this.userService.citiauthorisationCode = this.activatedRoute.snapshot.queryParams['code'];
-    //     console.log(this.activatedRoute.snapshot.queryParams['code'])
-    //   }
-    //   console.log(this.userService.citiauthorisationCode);
-
-    //   // If there is auth code and no access token (Get access token)
-    //   if (this.userService.citiauthorisationCode && !this.userService.citiaccessToken) {
-
-    //     var https = require('follow-redirects').https;
-
-    //     var qs = require('querystring');
-
-    //     var options = {
-    //       'method': 'POST',
-    //       'hostname': 'sandbox.apihub.citi.com',
-    //       'path': '/gcb/api/authCode/oauth2/token/sg/gcb',
-    //       'headers': {
-    //         'Accept': 'application/json',
-    //         'Authorization': 'Basic MDU0NTE4NjUtN2QzOS00NzA0LWI0OTUtODAzZjExZDJkZDA5OlY4a1QybVM1eVkyeUE0aEM2YkU4YUMyZUU3Y0U1Z0w4dkIydUQxakcxcUw1ZUUyYlgx',
-    //         'Content-Type': 'application/x-www-form-urlencoded',
-    //         'Cookie': 'RSA=164292451157170727520200729230711; bizToken=fU2UtG1g/AI3JOqozWsTWkpiT9WhJwTX6VEA7KVJYStvXsBe/bJYuBCltpb6fjNrrpyNQvfhu79O3O8ZnQchXSGf35FKcMTX2DeZL3uIoPu7wr8+7KmPSSzipBMzyXxgoFmg4C4kDc9BrI7l90mgcEFbrdOZCuKcrgl9CYY59EK+yurqvFtwgYpitFFTIGX1WiLqSt7VIXZMPgNmen1dLlGkFnlxSE3CFqqFIuQW6ClDmyj3jTHxCyU/Ekcl9rbj72U8n0rcCXvGoyNup6FxPiBW2n5ICSI7p8yMLn+HentBjKsrGksl1tCrdBjz8t3M+qvQvF/RW1ckJO46EiYz9spF1G132H73c3zyBBOc5lVyZ2HzjkwKYifkE2DTiDr5tQPyUBkfy/AaaJiGY0Yw8MwK8HM+YbcRWYxdXwi9WleOuW0F5+Ug/FzLx16MZx3LVHh7qcsgwqRAxgM1nOKR9RqOdRyxvVrmp52bh0lie5Q=; CITI_SITE=gtdc'
-    //       },
-    //       'maxRedirects': 20
-    //     };
-
-    //     var req = https.request(options, function (res) {
-    //       var chunks = [];
-
-    //       res.on("data", function (chunk) {
-    //         chunks.push(chunk);
-    //       });
-
-    //       res.on("end", function (chunk) {
-    //         var body = Buffer.concat(chunks);
-    //         console.log(body.toString());
-    //         console.log(JSON.parse(body.toString())["access_token"])
-    //         userService.citiaccessToken = (JSON.parse(body.toString())["access_token"])
-    //         userService.citiLogin = true
-    //         console.log(userService.citiLogin)
-    //         navCtrl.navigateRoot('/accounts')
-    //       });
-
-    //       res.on("error", function (error) {
-    //         console.error(error);
-    //       });
-    //     });
-
-    //     var postData = qs.stringify({
-    //       'grant_type': 'authorization_code',
-    //       'code': this.userService.citiauthorisationCode,
-    //       'redirect_uri': 'https://ionicfirebase-a8213.web.app'
-    //     });
-
-    //     req.write(postData);
-
-    //     req.end();
-    //     console.log(postData);
-    //   }
-    // }
-    // if (this.activatedRoute.snapshot.queryParams['access_token']) {
-    //   // console.log(this.activatedRoute.snapshot.queryParams['access_token'])
-    //   userService.ocbcLogin = true
-    //   userService.ocbcaccessToken = "e748e2c68bae6fa287cedb352b26229a"
-    //   navCtrl.navigateRoot('/accounts')
-    // }
   }
 
   ionViewDidEnter() {
