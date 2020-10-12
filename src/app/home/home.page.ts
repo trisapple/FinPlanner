@@ -155,41 +155,11 @@ export class HomePage {
   changemonth(ev: any) {
     console.log('Segment changed', ev);
     console.log(ev.detail.value);
-    if (ev.detail.value == "Jan") {
-      this.defaultmonth = [["Jan", "01"]]
-    }
-    if (ev.detail.value == "Feb") {
-      this.defaultmonth = [["Feb", "02"]]
-    }
-    if (ev.detail.value == "Mar") {
-      this.defaultmonth = [["Mar", "03"]]
-    }
-    if (ev.detail.value == "Apr") {
-      this.defaultmonth = [["Apr", "04"]]
-    }
-    if (ev.detail.value == "May") {
-      this.defaultmonth = [["May", "05"]]
-    }
-    if (ev.detail.value == "Jun") {
-      this.defaultmonth = [["Jun", "06"]]
-    }
-    if (ev.detail.value == "Jul") {
-      this.defaultmonth = [["Jul", "07"]]
-    }
-    if (ev.detail.value == "Aug") {
-      this.defaultmonth = [["Aug", "08"]]
-    }
-    if (ev.detail.value == "Sep") {
-      this.defaultmonth = [["Sep", "09"]]
-    }
-    if (ev.detail.value == "Oct") {
-      this.defaultmonth = [["Oct", "10"]]
-    }
-    if (ev.detail.value == "Nov") {
-      this.defaultmonth = [["Nov", "11"]]
-    }
-    if (ev.detail.value == "Dec") {
-      this.defaultmonth = [["Dec", "12"]]
+
+    for (let i = 0; i <= this.months.length - 1; i++) {
+      if (ev.detail.value == this.months[i]) {
+        this.defaultmonth = [[this.months[i], ('0' + (i + 1)).slice(-2)]]
+      }
     }
     this.filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
 
@@ -242,150 +212,48 @@ export class HomePage {
 
     this.defaultyear = [ev.detail.value]
 
+    // If on first year of data
     if (ev.detail.value == new Date(this.made_on_first).getFullYear()) {
-      if ((new Date(this.made_on_first).getMonth()) == 11) {
-        this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", false]]
-        if (this.defaultmonth[0][0] == "Jan" || this.defaultmonth[0][0] == "Feb" || this.defaultmonth[0][0] == "Mar" || this.defaultmonth[0][0] == "Apr" || this.defaultmonth[0][0] == "May" || this.defaultmonth[0][0] == "Jun" || this.defaultmonth[0][0] == "Jul" || this.defaultmonth[0][0] == "Aug" || this.defaultmonth[0][0] == "Sep" || this.defaultmonth[0][0] == "Oct" || this.defaultmonth[0][0] == "Nov") {
-          this.defaultmonth = [["Dec", "12"]]
+
+      this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
+
+      for (let i = 0; i <= this.months.length - 1; i++) {
+        if ((new Date(this.made_on_first).getMonth()) == i) {
+          for (let i = 0; i <= (new Date(this.made_on_first).getMonth()); i++) {
+            if (i > 0) {
+              this.montharray[i - 1][1] = true
+            }
+          }
+          for (let each of this.montharray) {
+            if (each[1] == true && this.defaultmonth[0][0] == each[0]) {
+              this.defaultmonth = [[this.months[i], ('0' + (i + 1)).slice(-2)]]
+            }
+          }
         }
       }
-      if ((new Date(this.made_on_first).getMonth()) == 10) {
-        this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", false], ["Dec", false]]
-        if (this.defaultmonth[0][0] == "Jan" || this.defaultmonth[0][0] == "Feb" || this.defaultmonth[0][0] == "Mar" || this.defaultmonth[0][0] == "Apr" || this.defaultmonth[0][0] == "May" || this.defaultmonth[0][0] == "Jun" || this.defaultmonth[0][0] == "Jul" || this.defaultmonth[0][0] == "Aug" || this.defaultmonth[0][0] == "Sep" || this.defaultmonth[0][0] == "Oct") {
-          this.defaultmonth = [["Nov", "11"]]
+    }
+    // If on last year of data
+    else if (ev.detail.value == new Date(this.made_on_latest).getFullYear()) {
+
+      this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
+
+      for (let i = 0; i <= this.months.length - 1; i++) {
+        if ((new Date(this.made_on_latest).getMonth()) == i) {
+          for (let i = 0; i <= (new Date(this.made_on_latest).getMonth()); i++) {
+            this.montharray[i][1] = false
+          }
+          for (let each of this.montharray) {
+            if (each[1] == true && this.defaultmonth[0][0] == each[0]) {
+              this.defaultmonth = [[this.months[i - 1], ('0' + (i + 1)).slice(-2)]]
+            }
+          }
         }
       }
-      if ((new Date(this.made_on_first).getMonth()) == 9) {
-        this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", false], ["Nov", false], ["Dec", false]]
-        if (this.defaultmonth[0][0] == "Jan" || this.defaultmonth[0][0] == "Feb" || this.defaultmonth[0][0] == "Mar" || this.defaultmonth[0][0] == "Apr" || this.defaultmonth[0][0] == "May" || this.defaultmonth[0][0] == "Jun" || this.defaultmonth[0][0] == "Jul" || this.defaultmonth[0][0] == "Aug" || this.defaultmonth[0][0] == "Sep") {
-          this.defaultmonth = [["Oct", "10"]]
-        }
-      }
-      if ((new Date(this.made_on_first).getMonth()) == 8) {
-        this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
-        if (this.defaultmonth[0][0] == "Jan" || this.defaultmonth[0][0] == "Feb" || this.defaultmonth[0][0] == "Mar" || this.defaultmonth[0][0] == "Apr" || this.defaultmonth[0][0] == "May" || this.defaultmonth[0][0] == "Jun" || this.defaultmonth[0][0] == "Jul" || this.defaultmonth[0][0] == "Aug") {
-          this.defaultmonth = [["Sep", "09"]]
-        }
-      }
-      if ((new Date(this.made_on_first).getMonth()) == 7) {
-        this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
-        if (this.defaultmonth[0][0] == "Jan" || this.defaultmonth[0][0] == "Feb" || this.defaultmonth[0][0] == "Mar" || this.defaultmonth[0][0] == "Apr" || this.defaultmonth[0][0] == "May" || this.defaultmonth[0][0] == "Jun" || this.defaultmonth[0][0] == "Jul") {
-          this.defaultmonth = [["Aug", "08"]]
-        }
-      }
-      if ((new Date(this.made_on_first).getMonth()) == 6) {
-        this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
-        if (this.defaultmonth[0][0] == "Jan" || this.defaultmonth[0][0] == "Feb" || this.defaultmonth[0][0] == "Mar" || this.defaultmonth[0][0] == "Apr" || this.defaultmonth[0][0] == "May" || this.defaultmonth[0][0] == "Jun") {
-          this.defaultmonth = [["Jul", "07"]]
-        }
-      }
-      if ((new Date(this.made_on_first).getMonth()) == 5) {
-        this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
-        if (this.defaultmonth[0][0] == "Jan" || this.defaultmonth[0][0] == "Feb" || this.defaultmonth[0][0] == "Mar" || this.defaultmonth[0][0] == "Apr" || this.defaultmonth[0][0] == "May") {
-          this.defaultmonth = [["Jun", "06"]]
-        }
-      }
-      if ((new Date(this.made_on_first).getMonth()) == 4) {
-        this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
-        if (this.defaultmonth[0][0] == "Jan" || this.defaultmonth[0][0] == "Feb" || this.defaultmonth[0][0] == "Mar" || this.defaultmonth[0][0] == "Apr") {
-          this.defaultmonth = [["May", "05"]]
-        }
-      }
-      if ((new Date(this.made_on_first).getMonth()) == 3) {
-        this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
-        if (this.defaultmonth[0][0] == "Jan" || this.defaultmonth[0][0] == "Feb" || this.defaultmonth[0][0] == "Mar") {
-          this.defaultmonth = [["Apr", "04"]]
-        }
-      }
-      if ((new Date(this.made_on_first).getMonth()) == 2) {
-        this.montharray = [["Jan", true], ["Feb", true], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
-        if (this.defaultmonth[0][0] == "Jan" || this.defaultmonth[0][0] == "Feb") {
-          this.defaultmonth = [["Mar", "03"]]
-        }
-      }
-      if ((new Date(this.made_on_first).getMonth()) == 1) {
-        this.montharray = [["Jan", true], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
-        if (this.defaultmonth[0][0] == "Jan") {
-          this.defaultmonth = [["Feb", "02"]]
-        }
-      }
-      if ((new Date(this.made_on_first).getMonth()) == 0) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
-      }
-    } else if (ev.detail.value == new Date(this.made_on_latest).getFullYear()) {
-      if ((new Date(this.made_on_latest).getMonth()) == 11) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 10) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", true]]
-        if (this.defaultmonth[0][0] == "Dec") {
-          this.defaultmonth = [["Nov", "11"]]
-        }
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 9) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", true], ["Dec", true]]
-        if (this.defaultmonth[0][0] == "Dec" || this.defaultmonth[0][0] == "Nov") {
-          this.defaultmonth = [["Oct", "10"]]
-        }
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 8) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", true], ["Nov", true], ["Dec", true]]
-        if (this.defaultmonth[0][0] == "Dec" || this.defaultmonth[0][0] == "Nov" || this.defaultmonth[0][0] == "Oct") {
-          this.defaultmonth = [["Sep", "09"]]
-        }
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 7) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        if (this.defaultmonth[0][0] == "Dec" || this.defaultmonth[0][0] == "Nov" || this.defaultmonth[0][0] == "Oct" || this.defaultmonth[0][0] == "Sep") {
-          this.defaultmonth = [["Aug", "08"]]
-        }
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 6) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        if (this.defaultmonth[0][0] == "Dec" || this.defaultmonth[0][0] == "Nov" || this.defaultmonth[0][0] == "Oct" || this.defaultmonth[0][0] == "Sep" || this.defaultmonth[0][0] == "Aug") {
-          this.defaultmonth = [["Jul", "07"]]
-        }
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 5) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        if (this.defaultmonth[0][0] == "Dec" || this.defaultmonth[0][0] == "Nov" || this.defaultmonth[0][0] == "Oct" || this.defaultmonth[0][0] == "Sep" || this.defaultmonth[0][0] == "Aug" || this.defaultmonth[0][0] == "Jul") {
-          this.defaultmonth = [["Jun", "06"]]
-        }
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 4) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        if (this.defaultmonth[0][0] == "Dec" || this.defaultmonth[0][0] == "Nov" || this.defaultmonth[0][0] == "Oct" || this.defaultmonth[0][0] == "Sep" || this.defaultmonth[0][0] == "Aug" || this.defaultmonth[0][0] == "Jul" || this.defaultmonth[0][0] == "Jun") {
-          this.defaultmonth = [["May", "05"]]
-        }
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 3) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        if (this.defaultmonth[0][0] == "Dec" || this.defaultmonth[0][0] == "Nov" || this.defaultmonth[0][0] == "Oct" || this.defaultmonth[0][0] == "Sep" || this.defaultmonth[0][0] == "Aug" || this.defaultmonth[0][0] == "Jul" || this.defaultmonth[0][0] == "Jun" || this.defaultmonth[0][0] == "May") {
-          this.defaultmonth = [["Apr", "04"]]
-        }
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 2) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        if (this.defaultmonth[0][0] == "Dec" || this.defaultmonth[0][0] == "Nov" || this.defaultmonth[0][0] == "Oct" || this.defaultmonth[0][0] == "Sep" || this.defaultmonth[0][0] == "Aug" || this.defaultmonth[0][0] == "Jul" || this.defaultmonth[0][0] == "Jun" || this.defaultmonth[0][0] == "May" || this.defaultmonth[0][0] == "Apr") {
-          this.defaultmonth = [["Mar", "03"]]
-        }
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 1) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        if (this.defaultmonth[0][0] == "Dec" || this.defaultmonth[0][0] == "Nov" || this.defaultmonth[0][0] == "Oct" || this.defaultmonth[0][0] == "Sep" || this.defaultmonth[0][0] == "Aug" || this.defaultmonth[0][0] == "Jul" || this.defaultmonth[0][0] == "Jun" || this.defaultmonth[0][0] == "May" || this.defaultmonth[0][0] == "Apr" || this.defaultmonth[0][0] == "Mar") {
-          this.defaultmonth = [["Feb", "02"]]
-        }
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 0) {
-        this.montharray = [["Jan", false], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        if (this.defaultmonth[0][0] == "Dec" || this.defaultmonth[0][0] == "Nov" || this.defaultmonth[0][0] == "Oct" || this.defaultmonth[0][0] == "Sep" || this.defaultmonth[0][0] == "Aug" || this.defaultmonth[0][0] == "Jul" || this.defaultmonth[0][0] == "Jun" || this.defaultmonth[0][0] == "May" || this.defaultmonth[0][0] == "Apr" || this.defaultmonth[0][0] == "Mar" || this.defaultmonth[0][0] == "Feb") {
-          this.defaultmonth = [["Jan", "01"]]
-        }
-      }
-    } else {
+    }
+    // If not first or last year of data
+    else {
       this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
     }
-
 
     this.filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
     console.log(this.filtereddata)
@@ -575,64 +443,33 @@ export class HomePage {
     this.total = total.toLocaleString('en-SG', { style: 'currency', currency: "SGD" })
     console.log(this.originaltotal)
 
-    
-
+    // Load the latest year first
     for (let i = new Date(this.made_on_latest).getFullYear(); i >= new Date(this.made_on_first).getFullYear(); i--) {
       this.yeararray.push(i)
     }
     console.log(this.yeararray)
     this.defaultyear = [this.yeararray[0]]
 
+    // If there is more than 1 year of data (e.g. 2019, 2018, ...)
     if ((new Date(this.made_on_latest).getFullYear()) != (new Date(this.made_on_first).getFullYear())) {
-      if ((new Date(this.made_on_latest).getMonth()) == 11) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", false]]
-        this.defaultmonth = [["Dec", "12"]]
+
+      this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
+
+      for (let i = 0; i <= this.months.length - 1; i++) {
+        if ((new Date(this.made_on_latest).getMonth()) == i) {
+          for (let i = 0; i <= (new Date(this.made_on_latest).getMonth()); i++) {
+            this.montharray[i][1] = false
+          }
+          for (let each of this.montharray) {
+            if (each[1] == false) {
+              this.defaultmonth = [[this.months[i], ('0' + (i + 1)).slice(-2)]]
+            }
+          }
+        }
       }
-      if ((new Date(this.made_on_latest).getMonth()) == 10) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", false], ["Dec", true]]
-        this.defaultmonth = [["Nov", "11"]]
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 9) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", false], ["Nov", true], ["Dec", true]]
-        this.defaultmonth = [["Oct", "10"]]
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 8) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", false], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth = [["Sep", "09"]]
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 7) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", false], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth = [["Aug", "08"]]
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 6) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", false], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth = [["Jul", "07"]]
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 5) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", false], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth = [["Jun", "06"]]
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 4) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", false], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth = [["May", "05"]]
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 3) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", false], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth = [["Apr", "04"]]
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 2) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", false], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth = [["Mar", "03"]]
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 1) {
-        this.montharray = [["Jan", false], ["Feb", false], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth = [["Feb", "02"]]
-      }
-      if ((new Date(this.made_on_latest).getMonth()) == 0) {
-        this.montharray = [["Jan", false], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-        this.defaultmonth = [["Jan", "01"]]
-      }
-    } else {
+    } 
+    // If there is just 1 year of data
+    else {
       this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
       for (let i = new Date(this.made_on_first).getMonth(); i <= new Date(this.made_on_latest).getMonth(); i++) {
         console.log(i)
