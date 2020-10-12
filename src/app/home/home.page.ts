@@ -62,268 +62,10 @@ export class HomePage {
   originaltotal = []
   expenses = []
   income = []
-  currencycode = ""
+  currencycode = "SGD"
   sgdonly = true
 
-  recreateinsight() {
-    var https = require('follow-redirects').https;
-
-    var options = {
-      'method': 'DELETE',
-      'hostname': 'quiet-shelf-43690.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/reports/' + this.saltedgeService.saltedgereportid,
-      'headers': {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
-        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
-        'Origin': ''
-      },
-      'maxRedirects': 20
-    };
-
-    var req = https.request(options, (res) => {
-      var chunks = [];
-
-      res.on("data", function (chunk) {
-        chunks.push(chunk);
-      });
-
-      res.on("end", (chunk) => {
-        var body = Buffer.concat(chunks);
-        console.log(JSON.parse(body.toString()));
-        this.createinsight()
-      });
-
-      res.on("error", function (error) {
-        console.error(error);
-      });
-    });
-
-    req.end();
-  }
-
-  createinsight() {
-    var https = require('follow-redirects').https;
-
-    var options = {
-      'method': 'POST',
-      'hostname': 'quiet-shelf-43690.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/reports',
-      'headers': {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
-        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
-        'Origin': ''
-      },
-      'maxRedirects': 20
-    };
-
-    var req = https.request(options, (res) => {
-      var chunks = [];
-
-      res.on("data", function (chunk) {
-        chunks.push(chunk);
-      });
-
-      res.on("end", (chunk) => {
-        var body = Buffer.concat(chunks);
-        console.log(JSON.parse(body.toString()));
-        console.log(JSON.parse(body.toString())["data"]["id"]);
-        if (this.userService.loggedin == false) {
-          this.firestore.collection<any>('users').doc("test1234@example.com").update({
-            saltedgereportid: JSON.parse(body.toString())["data"]["id"]
-          })
-        } else {
-          this.firestore.collection<any>('users').doc(this.userService.uid).update({
-            saltedgereportid: JSON.parse(body.toString())["data"]["id"]
-          })
-        }
-        this.saltedgeService.saltedgereportid = JSON.parse(body.toString())["data"]["id"]
-        this.getinsight()
-      });
-
-      res.on("error", function (error) {
-        console.error(error);
-      });
-    });
-
-    var postData = JSON.stringify({ "data": { "customer_id": this.saltedgeService.saltedgecustomerid, "report_types": ["balance", "expense", "income", "savings"], "currency_code": "SGD", "from_date": this.made_on_first, "to_date": this.made_on_latest } });
-
-    req.write(postData);
-
-    req.end();
-
-  }
-
-  getinsight() {
-    var https = require('follow-redirects').https;
-
-    var options = {
-      'method': 'GET',
-      'hostname': 'quiet-shelf-43690.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/reports/' + this.saltedgeService.saltedgereportid,
-      'headers': {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
-        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
-        'Origin': ''
-      },
-      'maxRedirects': 20
-    };
-
-    var req = https.request(options, (res) => {
-      var chunks = [];
-
-      res.on("data", function (chunk) {
-        chunks.push(chunk);
-      });
-
-      res.on("end", (chunk) => {
-        var body = Buffer.concat(chunks);
-        console.log(JSON.parse(body.toString()));
-
-        this.expenses = JSON.parse(body.toString()).data.data.result.accounts_summary.expense.total_per_month
-        this.currencycode = JSON.parse(body.toString()).data.currency_code
-        this.income = JSON.parse(body.toString()).data.data.result.accounts_summary.income.total_per_month
-        this.total = JSON.parse(body.toString()).data.data.result.accounts_summary.balance.end_date_amount.toLocaleString('en-SG', { style: 'currency', currency: this.currencycode })
-
-        this.exchangerates = JSON.parse(body.toString()).data.data.exchange_rates
-        console.log(this.exchangerates)
-
-        this.transactionhistory()
-
-        var originaltotal = {}
-        for (let connection of JSON.parse(body.toString()).data.data.connections) {
-          // console.log(each.accounts)
-          for (let account of connection.accounts) {
-            console.log(account)
-            console.log(account.original_balance)
-            console.log(account.original_currency_code)
-
-            // If the category has not yet been added to the Object, start it from 0 and add up the value
-            if (originaltotal[account.original_currency_code] == undefined) {
-              originaltotal[account.original_currency_code] = 0 // Start from 0
-            }
-            originaltotal[account.original_currency_code] += account.original_balance // Add up the value to the Object
-          }
-        }
-        this.originaltotal = Object.entries(originaltotal)
-        for (let each of this.originaltotal) {
-          each[1] = each[1].toLocaleString('en-SG', { style: 'currency', currency: each[0] }) // Add currency symbol
-          if (each[0] != "SGD") {
-            this.sgdonly = false
-          }
-        }
-        console.log(this.originaltotal)
-
-        // Expenses
-        for (let each of this.expenses) {
-          if (each["month"] == 1) {
-            each["monthyear"] = "Jan " + each["year"]
-          }
-          if (each["month"] == 2) {
-            each["monthyear"] = "Feb " + each["year"]
-          }
-          if (each["month"] == 3) {
-            each["monthyear"] = "Mar " + each["year"]
-          }
-          if (each["month"] == 4) {
-            each["monthyear"] = "Apr " + each["year"]
-          }
-          if (each["month"] == 5) {
-            each["monthyear"] = "May " + each["year"]
-          }
-          if (each["month"] == 6) {
-            each["monthyear"] = "Jun " + each["year"]
-          }
-          if (each["month"] == 7) {
-            each["monthyear"] = "Jul " + each["year"]
-          }
-          if (each["month"] == 8) {
-            each["monthyear"] = "Aug " + each["year"]
-          }
-          if (each["month"] == 9) {
-            each["monthyear"] = "Sep " + each["year"]
-          }
-          if (each["month"] == 10) {
-            each["monthyear"] = "Oct " + each["year"]
-          }
-          if (each["month"] == 11) {
-            each["monthyear"] = "Nov " + each["year"]
-          }
-          if (each["month"] == 12) {
-            each["monthyear"] = "Dec " + each["year"]
-          }
-          this.labels.push(each["monthyear"])
-          each["amount"] = Math.abs(each["amount"])
-          this.expensevalues.push(each["amount"])
-        }
-        console.log(this.labels)
-
-        // Income
-        for (let each of this.income) {
-          if (each["month"] == 1) {
-            each["monthyear"] = "Jan " + each["year"]
-          }
-          if (each["month"] == 2) {
-            each["monthyear"] = "Feb " + each["year"]
-          }
-          if (each["month"] == 3) {
-            each["monthyear"] = "Mar " + each["year"]
-          }
-          if (each["month"] == 4) {
-            each["monthyear"] = "Apr " + each["year"]
-          }
-          if (each["month"] == 5) {
-            each["monthyear"] = "May " + each["year"]
-          }
-          if (each["month"] == 6) {
-            each["monthyear"] = "Jun " + each["year"]
-          }
-          if (each["month"] == 7) {
-            each["monthyear"] = "Jul " + each["year"]
-          }
-          if (each["month"] == 8) {
-            each["monthyear"] = "Aug " + each["year"]
-          }
-          if (each["month"] == 9) {
-            each["monthyear"] = "Sep " + each["year"]
-          }
-          if (each["month"] == 10) {
-            each["monthyear"] = "Oct " + each["year"]
-          }
-          if (each["month"] == 11) {
-            each["monthyear"] = "Nov " + each["year"]
-          }
-          if (each["month"] == 12) {
-            each["monthyear"] = "Dec " + each["year"]
-          }
-          this.incomevalues.push(each["amount"])
-        }
-        console.log(this.expenses)
-
-        for (let i = this.startindex; i > this.endindex; i--) {
-          this.labelsspliced.push(this.labels[this.labels.length - i])
-          this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
-          this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
-        }
-
-        console.log(this.labelsspliced)
-        console.log(this.expensevaluesspliced)
-        console.log(this.incomevaluesspliced)
-
-      });
-
-      res.on("error", function (error) {
-        console.error(error);
-      });
-    });
-
-    req.end();
-  }
+  months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
   previousmonth() {
     if (this.startindex < this.labels.length) {
@@ -450,7 +192,7 @@ export class HomePage {
       this.defaultmonth = [["Dec", "12"]]
     }
     this.filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
-    
+
     console.log(this.filtereddata)
     console.log(this.defaultmonth)
 
@@ -689,6 +431,39 @@ export class HomePage {
     this.doughnutChart.update({ duration: 1000 })
   }
 
+  getexchangerates() {
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'GET',
+      'hostname': 'api.exchangeratesapi.io',
+      'path': '/latest?base=SGD',
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, (res) => {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", (chunk) => {
+        var body = Buffer.concat(chunks);
+        console.log(JSON.parse(body.toString()));
+        this.exchangerates = JSON.parse(body.toString()).rates
+
+        this.transactionhistory()
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    req.end();
+  }
+
   transactionhistory() {
     console.log(this.firebasedata["transactionhistory"])
 
@@ -701,6 +476,106 @@ export class HomePage {
     console.log(new Date(this.made_on_first))
     console.log(new Date(this.made_on_first).getFullYear())
     console.log(new Date(this.made_on_first).getMonth())
+
+    for (let year = new Date(this.made_on_first).getFullYear(); year <= new Date(this.made_on_latest).getFullYear(); year++) {
+      console.log(year)
+
+      // If there's data for other years (e.g. data for 2017, 2018, 2019)
+      if ((new Date(this.made_on_latest).getFullYear()) != (new Date(this.made_on_first).getFullYear())) {
+        if (year == new Date(this.made_on_first).getFullYear()) {
+          for (let i = new Date(this.made_on_first).getMonth(); i <= 11; i++) {
+            console.log(i)
+            this.labels.push(this.months[i] + " " + year)
+            var filteredexpenses = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes(year + "-" + ('0' + (i + 1)).slice(-2)) && Math.sign(each.amount) == -1);
+            var filteredincome = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes(year + "-" + ('0' + (i + 1)).slice(-2)) && Math.sign(each.amount) == 1);
+            var expenses = 0
+            var income = 0
+            for (let each of filteredexpenses) {
+              expenses += Math.abs(each["amount"])
+            }
+            for (let each of filteredincome) {
+              income += each.amount
+            }
+            this.expensevalues.push(expenses)
+            this.incomevalues.push(income)
+          }
+        }
+        else if (year == new Date(this.made_on_latest).getFullYear()) {
+          for (let i = 0; i <= new Date(this.made_on_latest).getMonth(); i++) {
+            console.log(i)
+            this.labels.push(this.months[i] + " " + year)
+            var filteredexpenses = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes(year + "-" + ('0' + (i + 1)).slice(-2)) && Math.sign(each.amount) == -1);
+            var filteredincome = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes(year + "-" + ('0' + (i + 1)).slice(-2)) && Math.sign(each.amount) == 1);
+            var expenses = 0
+            var income = 0
+            for (let each of filteredexpenses) {
+              expenses += Math.abs(each["amount"])
+            }
+            for (let each of filteredincome) {
+              income += each.amount
+            }
+            this.expensevalues.push(expenses)
+            this.incomevalues.push(income)
+          }
+        } else {
+          for (let i = 0; i <= 11; i++) {
+            console.log(i)
+            this.labels.push(this.months[i] + " " + year)
+            var filteredexpenses = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes(year + "-" + ('0' + (i + 1)).slice(-2)) && Math.sign(each.amount) == -1);
+            var filteredincome = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes(year + "-" + ('0' + (i + 1)).slice(-2)) && Math.sign(each.amount) == 1);
+            var expenses = 0
+            var income = 0
+            for (let each of filteredexpenses) {
+              expenses += Math.abs(each["amount"])
+            }
+            for (let each of filteredincome) {
+              income += each.amount
+            }
+            this.expensevalues.push(expenses)
+            this.incomevalues.push(income)
+          }
+        }
+      }
+      // If there's only less than 1 year of data (e.g. only data for 2020 and no other year)
+      else {
+        for (let i = new Date(this.made_on_first).getMonth(); i <= new Date(this.made_on_latest).getMonth(); i++) {
+          console.log(i)
+          this.labels.push(this.months[i] + " " + year)
+          var filteredexpenses = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes(year + "-" + ('0' + (i + 1)).slice(-2)) && Math.sign(each.amount) == -1);
+          var filteredincome = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes(year + "-" + ('0' + (i + 1)).slice(-2)) && Math.sign(each.amount) == 1);
+          var expenses = 0
+          var income = 0
+          for (let each of filteredexpenses) {
+            expenses += Math.abs(each["amount"])
+          }
+          for (let each of filteredincome) {
+            income += each.amount
+          }
+          this.expensevalues.push(expenses)
+          this.incomevalues.push(income)
+        }
+      }
+    }
+
+    for (let i = this.startindex; i > this.endindex; i--) {
+      this.labelsspliced.push(this.labels[this.labels.length - i])
+      this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i])
+      this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
+    }
+
+    this.originaltotal = Object.entries(this.firebasedata["balances"][0])
+    var total = 0
+    for (let each of this.originaltotal) {
+      each[2] = each[1].toLocaleString('en-SG', { style: 'currency', currency: each[0] }) // Add currency symbol
+      if (each[0] != "SGD") {
+        this.sgdonly = false
+      }
+      total += each[1] * this.exchangerates[each[0]]
+    }
+    this.total = total.toLocaleString('en-SG', { style: 'currency', currency: "SGD" })
+    console.log(this.originaltotal)
+
+    
 
     for (let i = new Date(this.made_on_latest).getFullYear(); i >= new Date(this.made_on_first).getFullYear(); i--) {
       this.yeararray.push(i)
@@ -822,7 +697,8 @@ export class HomePage {
 
         sub.unsubscribe();
 
-        this.recreateinsight()
+        this.getexchangerates()
+        // this.transactionhistory()
       });
     } else {
       let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
@@ -835,7 +711,8 @@ export class HomePage {
 
         sub.unsubscribe();
 
-        this.recreateinsight()
+        this.getexchangerates()
+        // this.transactionhistory()
       });
     }
   }
@@ -872,7 +749,7 @@ export class HomePage {
         },
         maintainAspectRatio: false
       }
-    }), 6000);
+    }), 2000);
 
     setTimeout(() => this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: "doughnut",
@@ -899,12 +776,12 @@ export class HomePage {
             if (elements.length) {
               var index = elements[0]._index;
               datasetIndex = elements[0]._datasetIndex;
-  
+
               // Reset old state
               dataset = this.doughnutChart.data.datasets[datasetIndex];
               dataset.backgroundColor = this.backgroundcolors.slice();
               dataset.hoverBackgroundColor = this.hovercolors.slice();
-  
+
               dataset.backgroundColor[index] = this.hovercolors[index]; // click color
               dataset.hoverBackgroundColor[index] = this.hovercolors[index];
               this.filtereddata2 = this.filtereddata.filter(each => each["category"].includes(this.spendinginsightlabels[index]) && Math.sign(each.amount) == -1); // Filtered expenses by category
@@ -921,7 +798,7 @@ export class HomePage {
           }
         }
       }
-    }), 6000)
+    }), 2000)
 
     // this.lineChart = new Chart(this.lineCanvas.nativeElement, {
     //   type: "line",
