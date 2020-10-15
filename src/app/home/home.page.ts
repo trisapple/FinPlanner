@@ -130,7 +130,7 @@ export class HomePage {
   }
 
   // Any change in ion-segment selection at the bar chart will call this method.  
-  segmentChanged(ev: any) {
+  barchartsegmentChanged(ev: any) {
     if (ev.detail.value == "1month") {
       this.segmentvalue = "1month"
     }
