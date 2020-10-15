@@ -5,37 +5,23 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- <google-chart [data]="columnChart1"></google-chart>
-  <google-chart [data]="pieChart"></google-chart>
-  <ion-progress-bar value="0.5"></ion-progress-bar>
-  <br>
-  <ion-progress-bar color="secondary" value="0.5"></ion-progress-bar> -->
 
   <div *ngIf=!sgdonly>
     <h3 style="text-align:left;">
       Account Balances converted to {{ currencycode }}
-      <!-- <span [innerHTML]="total" class="item-text-wrap" style="float:right;">
-        {{total}}
-      </span> -->
     </h3>
   </div>
 
   <div *ngIf=sgdonly>
     <h3 style="text-align:left;">
       Account Balances
-      <!-- <span [innerHTML]="total" class="item-text-wrap" style="float:right;">
-        {{total}}
-      </span> -->
     </h3>
   </div>
 
-  <!-- <p [innerHTML]="total"></p> -->
   <ion-card>
     <ion-card-header>
       <ion-card-subtitle>{{ currencycode }}<span style="float :right;">{{ total }}</span></ion-card-subtitle>
@@ -46,9 +32,6 @@
   <div *ngIf=!sgdonly>
     <h3 style="text-align:left;">
       Account Balances in original currencies
-      <!-- <span [innerHTML]="total" class="item-text-wrap" style="float:right;">
-      {{total}}
-    </span> -->
     </h3>
     <ion-card *ngFor="let each of originaltotal">
       <ion-card-header>
@@ -56,13 +39,6 @@
       </ion-card-header>
     </ion-card>
   </div>
-
-  <!-- <br>
-  <h3>Expenses</h3>
-  <p *ngFor="let each of expenses">{{ each["month"] }} {{ each["year"] }} - {{ each["amount"] }}</p>
-  <br>
-  <h3>Income</h3>
-  <p *ngFor="let each of income">{{ each["month"] }} {{ each["year"] }} - {{ each["amount"] }}</p> -->
 
   <br>
   <h3 *ngIf="!sgdonly">Money In / Out in SGD</h3>
@@ -106,13 +82,17 @@
   <h3 *ngIf="!sgdonly">Spending Insights in SGD</h3>
   <h3 *ngIf="sgdonly">Spending Insights</h3>
   
+  <!-- The [value] at ion-segment is to set the selected value for the ion-segment -->
   <ion-segment *ngFor="let year of defaultyear" scrollable (ionChange)="changeyear($event)"[value]="year">
+    <!-- Populate the years in the ion-segment -->
     <ion-segment-button *ngFor="let each of yeararray" [value]="each">
       <ion-label>{{ each }}</ion-label>
     </ion-segment-button>
   </ion-segment>
 
+  <!-- The [value] at ion-segment is to set the selected value for the ion-segment -->
   <ion-segment *ngFor="let month of defaultmonth" scrollable (ionChange)="changemonth($event)" [value]="month[0]">
+    <!-- Populate the months in the ion-segment -->
     <ion-segment-button *ngFor="let each of montharray" [value]="each[0]" [disabled]="each[1]">
       <ion-label>{{ each[0] }}</ion-label>
     </ion-segment-button>
@@ -132,15 +112,3 @@
   <!-- <canvas #lineCanvas></canvas> -->
 
 </ion-content>
-
-<!-- <ion-content>
-  <ion-card class="welcome-card">
-    <ion-card-header>
-      <ion-card-subtitle>Simple Pie Chart</ion-card-subtitle>
-      <ion-card-title>Tasks</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <google-chart [data]="pieChart"></google-chart>
-    </ion-card-content>
-  </ion-card>
-</ion-content> -->
