@@ -292,7 +292,7 @@ export class HomePage {
         console.log(JSON.parse(body.toString()));
         this.exchangerates = JSON.parse(body.toString()).rates
 
-        this.transactionhistory()
+        this.loadHTML()
       });
 
       res.on("error", function (error) {
@@ -331,7 +331,7 @@ export class HomePage {
     }
   }
 
-  transactionhistory() {
+  loadHTML() {
     console.log(this.firebasedata["transactionhistory"])
 
     // Loop through the year from the beginning
