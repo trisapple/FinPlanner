@@ -25,10 +25,6 @@ export class SpendingInsightsPage implements OnInit {
 
   constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public saltedgeService: SaltedgeService, public firestore: AngularFirestore) {
 
-    // Null the pieChart so that we can refresh the pie chart when switching to another account
-    // We load the pieChart with ngif so that it will only show if the data is populated
-    expensesService.pieChart = null
-
     var https = require('follow-redirects').https;
 
     var options = {
@@ -187,21 +183,6 @@ export class SpendingInsightsPage implements OnInit {
             })
           })
         }
-
-        // Piechart Data
-        expensesService.pieChart = {
-          chartType: 'PieChart',
-          dataTable: expensesService.pieChartData,
-          //opt_firstRowIsData: true,
-          options: {
-            'title': 'Spendings by Category',
-            height: 400,
-            width: '100%',
-            pieHole: 0.5,
-            backgroundColor: { fill: 'transparent' },
-            legend: { textStyle: { color: 'gray' } }
-          },
-        };
       });
 
       res.on("error", function (error) {

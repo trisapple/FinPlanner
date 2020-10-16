@@ -8,15 +8,12 @@ import { SpendingInsightsPageRoutingModule } from './spendinginsights-routing.mo
 
 import { SpendingInsightsPage } from './spendinginsights.page';
 
-import { Ng2GoogleChartsModule } from 'ng2-google-charts';
-
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SpendingInsightsPageRoutingModule,
-    Ng2GoogleChartsModule
+    SpendingInsightsPageRoutingModule
   ],
   declarations: [SpendingInsightsPage]
 })

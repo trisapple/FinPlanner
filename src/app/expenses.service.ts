@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { GoogleChartInterface } from 'ng2-google-charts/esm2015/lib/google-charts-interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,6 @@ export class ExpensesService {
   transactionhistorytitle: String // Display the account name on the ion-header
 
   // Piechart
-  pieChart: GoogleChartInterface // Display the piechart
   pieChartData = [] // Pie Chart Data with key value data in array form [["category", "Amount"], ["Food", 83.65], ... ]
   pieChartData2 = [] // Pie Chart Data with key value data in array form excluding ["category", "Amount"] from pieChartData to display the progress bar of the expenses
   total = 0 // Put the total spending of the account as a global variable so that it can be accessed from the html

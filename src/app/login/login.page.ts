@@ -10,8 +10,6 @@ import * as firebase from 'firebase';
 import { Subscription } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
-import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { ExpensesService } from '../expenses.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { SaltedgeService } from '../saltedge.service';
@@ -34,8 +32,6 @@ export class LoginPage implements OnInit {
     public userService: UserService,
     public http: HttpClient,
     public platform: Platform,
-    private googlePlus: GooglePlus,
-    private fb: Facebook,
     public expensesService: ExpensesService,
     public firestore: AngularFirestore,
     public saltedgeService: SaltedgeService
@@ -103,53 +99,28 @@ export class LoginPage implements OnInit {
   }
 
   async loginWithFacebook(): Promise<void> {
-    // If running in an iOS or Android App
-    if (this.platform.is('hybrid')) {
-
-      this.fb.login(['public_profile', 'user_friends', 'email'])
-        .then((res: FacebookLoginResponse) => {
-          console.log('Logged into Facebook!', res);
-          const accessToken = res.authResponse.accessToken;
-          this.fireauth.signInWithCredential(firebase.auth.FacebookAuthProvider.credential(accessToken))
-            .then(res => {
-              this.getFacebookUserData(accessToken);
-            })
-            .catch(err => {
-              console.log(err);
-              alert(err);
-            });
-        })
-        .catch(e => {
-          console.log('Error logging into Facebook', e);
-        });
-
-      this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
-    }
-    // If running on the web
-    else {
-      this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
-        .then(res => {
-          this.getFacebookUserData((<any>res).credential.accessToken); // Get the user's Facebook Account Data
-          this.presentToast('Login Successfully!', 'middle', 2000);
-          console.log(res);
-          this.userService.uid = res.user.uid
-          if (res.additionalUserInfo.isNewUser) {
-            this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
-            this.createcustomer()
-          } else {
-            let sub: Subscription = this.userService.login(res.user.uid).subscribe((data) => {
-              console.log(data)
-              this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"]
-              sub.unsubscribe();
-            });
-          }
-          this.navCtrl.navigateRoot('/home');
-        })
-        .catch(err => {
-          console.log(err);
-          alert(err);
-        });
-    }
+    this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
+      .then(res => {
+        this.getFacebookUserData((<any>res).credential.accessToken); // Get the user's Facebook Account Data
+        this.presentToast('Login Successfully!', 'middle', 2000);
+        console.log(res);
+        this.userService.uid = res.user.uid
+        if (res.additionalUserInfo.isNewUser) {
+          this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
+          this.createcustomer()
+        } else {
+          let sub: Subscription = this.userService.login(res.user.uid).subscribe((data) => {
+            console.log(data)
+            this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"]
+            sub.unsubscribe();
+          });
+        }
+        this.navCtrl.navigateRoot('/home');
+      })
+      .catch(err => {
+        console.log(err);
+        alert(err);
+      });
   }
 
   getFacebookUserData(accessToken) {
@@ -170,64 +141,35 @@ export class LoginPage implements OnInit {
   }
 
   async loginWithGoogle() {
-    // If running in an iOS or Android App
-    if (this.platform.is('hybrid')) {
-      try {
-        const user = await this.googlePlus.login({
-          'webClientId': '671807746722-beipop6ng5ke1asn9ha50eqpm1fn677o.apps.googleusercontent.com',
-          'offline': true,
-          'scopes': 'profile email'
-        });
-
-        return await this.fireauth.signInWithCredential(
-          firebase.auth.GoogleAuthProvider.credential(user.idToken)
-        ).then(result => {
-          console.log(result);
-          this.userService.name = result["user"]["displayName"];
-          this.userService.email = result["user"]["email"];
-          this.userService.profilePicture = result["user"]["photoURL"];
-          this.userService.loggedin = true;
-          this.navCtrl.navigateRoot('/home');
-        }).catch(err => {
-          console.log(err);
-          alert(err);
-        });
-      } catch (err) {
+    this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then(res => {
+        // Get the user's Google Account Data
+        this.userService.loggedin = true;
+        this.userService.name = res.user.displayName;
+        this.userService.email = res.user.email;
+        this.userService.profilePicture = res.user.photoURL;
+        this.userService.uid = res.user.uid;
+        if (res.additionalUserInfo.isNewUser) {
+          this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
+          this.createcustomer()
+        } else {
+          let sub: Subscription = this.userService.login(res.user.uid).subscribe((data) => {
+            console.log(data)
+            this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"]
+            sub.unsubscribe();
+          })
+        }
+        this.presentToast('Login Successfully!', 'middle', 2000);
+        console.log('From --Google--');
+        console.log(res);
+        this.userService.socialLogin = true;
+        this.userService.provider = "Google";
+        this.navCtrl.navigateRoot('/home');
+      })
+      .catch(err => {
         console.log(err);
-      }
-    }
-    // If running on the web
-    else {
-      this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-        .then(res => {
-          // Get the user's Google Account Data
-          this.userService.loggedin = true;
-          this.userService.name = res.user.displayName;
-          this.userService.email = res.user.email;
-          this.userService.profilePicture = res.user.photoURL;
-          this.userService.uid = res.user.uid;
-          if (res.additionalUserInfo.isNewUser) {
-            this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
-            this.createcustomer()
-          } else {
-            let sub: Subscription = this.userService.login(res.user.uid).subscribe((data) => {
-              console.log(data)
-              this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"]
-              sub.unsubscribe();
-            })
-          }
-          this.presentToast('Login Successfully!', 'middle', 2000);
-          console.log('From --Google--');
-          console.log(res);
-          this.userService.socialLogin = true;
-          this.userService.provider = "Google";
-          this.navCtrl.navigateRoot('/home');
-        })
-        .catch(err => {
-          console.log(err);
-          alert(err);
-        });
-    }
+        alert(err);
+      });
   }
 
   createcustomer() {

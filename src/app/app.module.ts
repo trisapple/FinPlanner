@@ -13,24 +13,18 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 
-
-import { Facebook } from '@ionic-native/facebook/ngx';
 import { HttpClientModule } from '@angular/common/http';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
-import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { SafePipe } from './safe.pipe';
 
 
 @NgModule({
   declarations: [AppComponent, SafePipe],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, AngularFireModule.initializeApp(environment.config), AngularFireAuthModule, AngularFirestoreModule, Ng2GoogleChartsModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, AngularFireModule.initializeApp(environment.config), AngularFireAuthModule, AngularFirestoreModule],
   providers: [
     StatusBar,
     SplashScreen,
-    GooglePlus,
-    Facebook,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent],
