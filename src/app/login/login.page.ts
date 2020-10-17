@@ -58,7 +58,6 @@ export class LoginPage implements OnInit {
               this.userService.name = data["name"];
               this.userService.email = data["email"];
               this.userService.provider = "Email and Password";
-              this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"]
 
               this.presentToast('Login Successfully!', 'middle', 2000); // Will be executed if email is verified
               this.navCtrl.navigateRoot('/home');
@@ -108,12 +107,6 @@ export class LoginPage implements OnInit {
         if (res.additionalUserInfo.isNewUser) {
           this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
           this.createcustomer()
-        } else {
-          let sub: Subscription = this.userService.login(res.user.uid).subscribe((data) => {
-            console.log(data)
-            this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"]
-            sub.unsubscribe();
-          });
         }
         this.navCtrl.navigateRoot('/home');
       })
@@ -123,6 +116,7 @@ export class LoginPage implements OnInit {
       });
   }
 
+  // This method helps to retrieve a better quality profile picture
   getFacebookUserData(accessToken) {
     const endpoint = `https://graph.facebook.com/me?fields=name,email,picture.width(400).height(400)&access_token=${accessToken}`
     this.http.get(endpoint).toPromise().then(result => {
@@ -152,12 +146,6 @@ export class LoginPage implements OnInit {
         if (res.additionalUserInfo.isNewUser) {
           this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
           this.createcustomer()
-        } else {
-          let sub: Subscription = this.userService.login(res.user.uid).subscribe((data) => {
-            console.log(data)
-            this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"]
-            sub.unsubscribe();
-          })
         }
         this.presentToast('Login Successfully!', 'middle', 2000);
         console.log('From --Google--');
@@ -172,8 +160,8 @@ export class LoginPage implements OnInit {
       });
   }
 
+  // Create the customer in salt edge
   createcustomer() {
-    // Create the customer
     var https = require('follow-redirects').https;
 
     var options = {

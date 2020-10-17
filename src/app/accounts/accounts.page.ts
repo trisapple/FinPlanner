@@ -12,7 +12,7 @@ import { SaltedgeService } from '../saltedge.service';
   templateUrl: './accounts.page.html',
   styleUrls: ['./accounts.page.scss'],
 })
-export class AccountsPage implements OnInit {
+export class AccountsPage {
 
   // Connect Bank
   createconnection() {
@@ -109,7 +109,6 @@ export class AccountsPage implements OnInit {
     req.write(postData);
 
     req.end();
-
   }
 
   // Delete connection
@@ -207,143 +206,25 @@ export class AccountsPage implements OnInit {
 
       res.on("end", (chunk) => {
         var body = Buffer.concat(chunks);
-        // console.log(body.toString());
         console.log(JSON.parse(body.toString()));
         this.saltedgeService.saltedgeconnections = JSON.parse(body.toString())["data"]
-        // this.firestore.collection<any>('users').doc("test1234@example.com").update({
-        //   saltedgeconnections: JSON.parse(body.toString())["data"]
-        // })
-
-        var balances = []
-        var currencies = {}
-        var spendinginsights = {}
-        var aggregatedtransactionhistory = []
 
         if (this.userService.loggedin == false) {
-          let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").collection("saltedgeconnections").valueChanges().subscribe((data) => {
-            console.log(data)
-            for (let saltedgeconnection of data) {
-              console.log(saltedgeconnection)
-              console.log(saltedgeconnection.balances[0])
-              console.log(Object.keys(saltedgeconnection.balances[0]))
-              console.log(Object.keys(saltedgeconnection.spendinginsights))
-
-              for (let currency of Object.keys(saltedgeconnection.balances[0])) {
-                console.log(currency)
-                console.log(saltedgeconnection.balances[0][currency])
-
-                if (currencies[currency] == undefined) {
-                  currencies[currency] = 0 // Start from 0
-                }
-                currencies[currency] += saltedgeconnection.balances[0][currency]
-              }
-
-              for (let category of Object.keys(saltedgeconnection.spendinginsights)) {
-                console.log(category)
-                console.log(saltedgeconnection.spendinginsights[category])
-
-                if (spendinginsights[category] == undefined) {
-                  spendinginsights[category] = {} // Start from 0
-                }
-                for (let currency of Object.keys(saltedgeconnection.spendinginsights[category])) {
-                  if (spendinginsights[category][currency] == undefined) {
-                    spendinginsights[category][currency] = 0
-                  }
-                  spendinginsights[category][currency] += saltedgeconnection.spendinginsights[category][currency] // Add up the value to the Object
-                }
-              }
-              aggregatedtransactionhistory = aggregatedtransactionhistory.concat(saltedgeconnection.transactionhistory)
-            }
-            aggregatedtransactionhistory.sort((a, b) => {
-              if (a["made_on"] > b["made_on"]) {
-                return -1;
-              }
-
-              if (a["made_on"] < b["made_on"]) {
-                return 1;
-              }
-
-              return 0;
-            });
-            console.log(spendinginsights)
-            balances.push(currencies)
-            console.log(currencies)
-            console.log(aggregatedtransactionhistory)
-
-            this.firestore.collection('users').doc("test1234@example.com").set({
-              balances: balances,
-              spendinginsights: spendinginsights,
-              transactionhistory: aggregatedtransactionhistory
-            }, { merge: true })
-
-            sub.unsubscribe();
-          });
+          this.aggregateconnections("test1234@example.com")
         } else {
-          let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).collection("saltedgeconnections").valueChanges().subscribe((data) => {
-            console.log(data)
-            for (let saltedgeconnection of data) {
-              console.log(saltedgeconnection)
-              console.log(saltedgeconnection.balances[0])
-              console.log(Object.keys(saltedgeconnection.balances[0]))
-              console.log(Object.keys(saltedgeconnection.spendinginsights))
-
-              for (let currency of Object.keys(saltedgeconnection.balances[0])) {
-                console.log(currency)
-                console.log(saltedgeconnection.balances[0][currency])
-
-                if (currencies[currency] == undefined) {
-                  currencies[currency] = 0 // Start from 0
-                }
-                currencies[currency] += saltedgeconnection.balances[0][currency]
-              }
-
-              for (let category of Object.keys(saltedgeconnection.spendinginsights)) {
-                console.log(category)
-                console.log(saltedgeconnection.spendinginsights[category])
-                if (spendinginsights[category] == undefined) {
-                  spendinginsights[category] = {} // Start from 0
-                }
-                for (let currency of Object.keys(saltedgeconnection.spendinginsights[category])) {
-                  if (spendinginsights[category][currency] == undefined) {
-                    spendinginsights[category][currency] = 0
-                  }
-                  spendinginsights[category][currency] += saltedgeconnection.spendinginsights[category][currency] // Add up the value to the Object
-                }
-              }
-              aggregatedtransactionhistory = aggregatedtransactionhistory.concat(saltedgeconnection.transactionhistory)
-            }
-            aggregatedtransactionhistory.sort((a, b) => {
-              if (a["made_on"] > b["made_on"]) {
-                return -1;
-              }
-
-              if (a["made_on"] < b["made_on"]) {
-                return 1;
-              }
-
-              return 0;
-            });
-
-            console.log(spendinginsights)
-            balances.push(currencies)
-            console.log(currencies)
-            console.log(aggregatedtransactionhistory)
-
-            this.firestore.collection('users').doc(this.userService.uid).set({
-              balances: balances,
-              spendinginsights: spendinginsights,
-              transactionhistory: aggregatedtransactionhistory
-            }, { merge: true })
-
-            sub.unsubscribe();
-          });
+          this.aggregateconnections(this.userService.uid)
         }
 
+        // Loop through the salt edge connections in salt edge and get the last connected time
         for (let connection of this.saltedgeService.saltedgeconnections) {
           console.log(connection["last_success_at"])
+          // If there is no last commented time, put it as "Never"
           if (connection["last_success_at"] == null) {
             connection["last_success_at"] = "Never"
-          } else {
+          }
+          // If there is, convert it to a date to our locale string
+          // 2020-09-22T06:55:17Z --> 22/09/2020, 14:55:17
+          else {
             connection["last_success_at"] = new Date(connection["last_success_at"]).toLocaleString()
           }
         }
@@ -357,24 +238,88 @@ export class AccountsPage implements OnInit {
     req.end();
   }
 
-  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController, public saltedgeService: SaltedgeService) {
+  aggregateconnections(uid) {
+    var balances = [] // currencies Object to be pushed to this balances array (so that firebase can accept it)
+    var currencies = {} // Aggregated currencies from all salt edge connections
+    var spendinginsights = {} // Aggregated spending insights from all salt edge connections
+    var aggregatedtransactionhistory = []
 
-    // If user is not logged in, display the test account info.
-    // if (this.userService.loggedin != true) {
-    //   let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
+    // Get the salt edge connections from firebase
+    let sub: Subscription = this.firestore.collection<any>('users').doc(uid).collection("saltedgeconnections").valueChanges().subscribe((data) => {
+      console.log(data)
+      // Loop through each salt edge connection
+      for (let saltedgeconnection of data) {
+        console.log(saltedgeconnection)
+        console.log(saltedgeconnection.balances[0])
+        console.log(Object.keys(saltedgeconnection.balances[0]))
+        console.log(Object.keys(saltedgeconnection.spendinginsights))
 
-    //     console.log(data)
-    //     this.expensesService.saltedgecustomerid = data["saltedgecustomerid"]
-    //     this.expensesService.saltedgereportid = data["saltedgereportid"]
+        // Loop through the currency keys
+        // e.g. saltedgeconnection.balances[0] = {GBP: 4301, EUR: 2410}
+        // e.g. Object.keys(saltedgeconnection.balances[0]) = ["GBP", "EUR"]
+        for (let currency of Object.keys(saltedgeconnection.balances[0])) {
+          console.log(currency)
+          console.log(saltedgeconnection.balances[0][currency])
 
-    //     sub.unsubscribe();
-    //     this.getsaltedgeaccounts()
-    //   });
-    // } else {
-    this.getsaltedgeaccounts()
-    // }
+          // If the currency is not yet added to the currencies Object
+          if (currencies[currency] == undefined) {
+            currencies[currency] = 0 // Start from 0
+          }
+          // Add it to the relevant currency key
+          currencies[currency] += saltedgeconnection.balances[0][currency]
+        }
+
+        // Loop through the spending insights
+        for (let category of Object.keys(saltedgeconnection.spendinginsights)) {
+          console.log(category)
+          console.log(saltedgeconnection.spendinginsights[category])
+          // e.g. saltedgeconnection.spendinginsights[category] = {GBP: 15750, EUR: 7875}
+
+          // If the currency is not yet added to the spendinginsights Object
+          if (spendinginsights[category] == undefined) {
+            spendinginsights[category] = {} // Start with an empty object
+          }
+
+          // Loop through the currencies of the spending insight category
+          for (let currency of Object.keys(saltedgeconnection.spendinginsights[category])) {
+            // If the currency is not yet added to the spending insight category
+            if (spendinginsights[category][currency] == undefined) {
+              spendinginsights[category][currency] = 0 // Start from 0
+            }
+            // Add it to the relevant spending insight category and currency
+            spendinginsights[category][currency] += saltedgeconnection.spendinginsights[category][currency] // Add up the value to the Object
+          }
+        }
+        // Add up the transaction histories of every salt edge connection
+        aggregatedtransactionhistory = aggregatedtransactionhistory.concat(saltedgeconnection.transactionhistory)
+      }
+      // Sort the transaction history by descending order (latest transaction first)
+      aggregatedtransactionhistory.sort((a, b) => {
+        if (a["made_on"] > b["made_on"]) {
+          return -1;
+        }
+        if (a["made_on"] < b["made_on"]) {
+          return 1;
+        }
+        return 0;
+      });
+      console.log(spendinginsights)
+      balances.push(currencies)
+      console.log(currencies)
+      console.log(aggregatedtransactionhistory)
+
+      // Set the aggregated balances, spending insights and transaction history to the users collection
+      this.firestore.collection('users').doc(uid).set({
+        balances: balances,
+        spendinginsights: spendinginsights,
+        transactionhistory: aggregatedtransactionhistory
+      }, { merge: true })
+
+      sub.unsubscribe();
+    });
   }
 
-  ngOnInit() {
+  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController, public saltedgeService: SaltedgeService) {
+    this.getsaltedgeaccounts()
   }
 }

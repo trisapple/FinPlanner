@@ -223,10 +223,8 @@ export class HomePage {
               this.defaultmonth = [[this.months[i], ('0' + (i + 1)).slice(-2)]]
             }
           }
-
         }
       }
-
     }
     // If on last year of data
     else if (ev.detail.value == new Date(this.made_on_latest).getFullYear()) {
@@ -457,37 +455,28 @@ export class HomePage {
     this.spendinginsightvalues = Object.values(categories) // Values consisting of the amount spent for each category
   }
 
+  getData(uid) {
+    let sub: Subscription = this.firestore.collection<any>('users').doc(uid).valueChanges().subscribe((data) => {
+      this.firebasedata = data
+      this.made_on_latest = this.firebasedata["transactionhistory"][0]["made_on"] // Get the date of latest transaction
+      this.made_on_first = this.firebasedata["transactionhistory"][this.firebasedata["transactionhistory"].length - 1]["made_on"] // Get the date of first transaction
+      console.log(data)
+      console.log(data["saltedgereportid"])
+      this.saltedgeService.saltedgereportid = data["saltedgereportid"] // Get user's salt edge report id to get insights but for now the insights API is not working
+      this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"] // Get user's salt edge customer id to load their relevant accounts
+
+      sub.unsubscribe();
+
+      this.getexchangerates()
+      // this.transactionhistory()
+    });
+  }
+
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
-
     if (this.userService.loggedin == false) {
-      let sub: Subscription = this.firestore.collection<any>('users').doc("test1234@example.com").valueChanges().subscribe((data) => {
-        this.firebasedata = data
-        this.made_on_latest = this.firebasedata["transactionhistory"][0]["made_on"] // Get the date of latest transaction
-        this.made_on_first = this.firebasedata["transactionhistory"][this.firebasedata["transactionhistory"].length - 1]["made_on"] // Get the date of first transaction
-        console.log(data)
-        console.log(data["saltedgereportid"])
-        this.saltedgeService.saltedgereportid = data["saltedgereportid"] // Get user's salt edge report id to get insights but for now the insights API is not working
-        this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"] // Get user's salt edge customer id to load their relevant accounts
-
-        sub.unsubscribe();
-
-        this.getexchangerates()
-        // this.transactionhistory()
-      });
+      this.getData("test1234@example.com")
     } else {
-      let sub: Subscription = this.firestore.collection<any>('users').doc(this.userService.uid).valueChanges().subscribe((data) => {
-        this.firebasedata = data
-        this.made_on_latest = this.firebasedata["transactionhistory"][0]["made_on"] // Get the date of latest transaction
-        this.made_on_first = this.firebasedata["transactionhistory"][this.firebasedata["transactionhistory"].length - 1]["made_on"] // Get the date of first transaction
-        console.log(data)
-        console.log(data["saltedgereportid"])
-        this.saltedgeService.saltedgereportid = data["saltedgereportid"] // Get user's salt edge report id to get insights but for now the insights API is not working
-
-        sub.unsubscribe();
-
-        this.getexchangerates()
-        // this.transactionhistory()
-      });
+      this.getData(this.userService.uid)
     }
   }
 
