@@ -12,7 +12,6 @@ export class ExpensesService {
 
   // Piechart
   pieChartData = [] // Pie Chart Data with key value data in array form [["category", "Amount"], ["Food", 83.65], ... ]
-  pieChartData2 = [] // Pie Chart Data with key value data in array form excluding ["category", "Amount"] from pieChartData to display the progress bar of the expenses
   total = 0 // Put the total spending of the account as a global variable so that it can be accessed from the html
 
   // Stocks

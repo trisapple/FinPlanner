@@ -12,14 +12,13 @@
 
   <!-- Pie Chart from Google Charts -->
   <div *ngIf="expensesService.transactions && expensesService.transactions.length > 0">
-    <!-- <google-chart *ngIf="expensesService.pieChart" [data]="expensesService.pieChart"></google-chart> -->
     <div style="height: 300px;">
       <canvas #doughnutCanvas></canvas>
     </div>
 
     <ion-grid>
       <!-- Loop through the array and display the expenses -->
-      <div *ngFor="let i of expensesService.pieChartData2">
+      <div *ngFor="let i of expensesService.pieChartData">
         <ion-row style="margin-top: 6px;">
           <ion-text>{{ i[0] }}</ion-text> <!-- Category -->
         </ion-row>

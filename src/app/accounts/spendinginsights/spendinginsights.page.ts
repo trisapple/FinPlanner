@@ -12,16 +12,19 @@ import { Subscription } from 'rxjs';
   templateUrl: './spendinginsights.page.html',
   styleUrls: ['./spendinginsights.page.scss'],
 })
-export class SpendingInsightsPage implements OnInit {
+export class SpendingInsightsPage {
 
   @ViewChild("doughnutCanvas") doughnutCanvas: ElementRef;
   private doughnutChart: Chart;
 
   // Chart.js arrays for doughnut chart
-  labels = []
-  values = []
-  backgroundcolors = []
-  hovercolors = []
+  labels = [] // Categories
+  values = [] // Amount spent in categories
+  backgroundcolors = [] // Colours for pie chart
+  hovercolors = [] // Colours for pie chart when mouse is hovered
+
+  piechartDataobject = {} // Convert pieChartData array into Object
+  aggregatedspendinginsights = {} // Aggregated spending insights to be sent to firebase
 
   constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public saltedgeService: SaltedgeService, public firestore: AngularFirestore) {
 
@@ -55,44 +58,37 @@ export class SpendingInsightsPage implements OnInit {
         console.log(expensesService.transactions)
 
         // Variables to keep track of the amount spent in the transaction categories
-        var obj = {} // Set up an empty Object
+        var categories = {} // Set up an empty categories Object
         expensesService.total = 0 // Start from 0
 
-        obj["category"] = 'Amount' // Add this for the pie chart
-
-        // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
+        // Loop through the list of transactions and add the transaction amount to the categories accordingly. 
         for (let transaction of expensesService.transactions) {
           transaction.category = expensesService.humanize(transaction.category) // Remove underscores and capitalise every word
           // If the transaction is a negative value
           if (Math.sign(transaction.amount) == -1) {
-            // If the category has not yet been added to the Object, start it from 0 and add up the value
-            if (obj[transaction.category] == undefined) {
-              obj[transaction.category] = 0 // Start from 0
+            // If the category has not yet been added to the categories Object, start it from 0 and add up the value
+            if (categories[transaction.category] == undefined) {
+              categories[transaction.category] = 0 // Start from 0
             }
-            obj[transaction.category] += Math.abs(transaction.amount) // Add up the value to the Object
+            categories[transaction.category] += Math.abs(transaction.amount) // Add up the value to the Object
 
             expensesService.total += Math.abs(transaction.amount) // Add up the amounts of all the transactions (regardless of name or description)
           }
-          // console.log(expensesService.total)
         }
 
-        console.log(obj)
+        console.log(categories)
 
-        expensesService.pieChartData = Object.entries(obj); // Make the key value pairs in the object into an array (to put into google chart dataTable)
-        // {"category": "Amount", "Food": 83.65, ...} becomes 
-        // [["category", "Amount"], ["Food", 83.65], ... ]
+        expensesService.pieChartData = Object.entries(categories); // Make the key value pairs in the object into an array (to populate the categories and progress bars)
+        // {"Food": 83.65, "Shopping": 83.65, ...} becomes 
+        // [["Food", 83.65], ["Shopping", 83.65], ... ]
 
-        // Create another array for the progress bar because we need to remove the obj["category"] = 'Amount' at the beginning to display the progress bar of the expenses
-        expensesService.pieChartData2 = Object.entries(obj);
-        expensesService.pieChartData2.shift() // Remove the obj["category"] = 'Amount' at the beginning
-
-        for (let category of expensesService.pieChartData2) {
+        for (let category of expensesService.pieChartData) {
           var colors = this.saltedgeService.dynamicColors()
           category[2] = category[1].toLocaleString('en-SG', { style: 'currency', currency: saltedgeService.saltedgeaccountcurrencycode }) // Add currency symbol
           category[3] = (category[1] / expensesService.total * 100).toFixed(1) // Percentage of total expenses
           category[4] = colors[0] // Random background color
           category[5] = colors[1] // Random hover color
-          category[6] = saltedgeService.saltedgeaccountcurrencycode
+          category[6] = saltedgeService.saltedgeaccountcurrencycode // Currency Code of spending insight
           this.labels.push(category[0])
           this.values.push(category[1])
           this.backgroundcolors.push(category[4])
@@ -100,88 +96,22 @@ export class SpendingInsightsPage implements OnInit {
         }
 
         // Sort the top expenses categories in descending order (from largest to smallest)
-        expensesService.pieChartData2.sort(function (a, b) {
+        expensesService.pieChartData.sort(function (a, b) {
           return b[1] - a[1]
         });
 
         console.log(expensesService.pieChartData)
-        console.log(expensesService.pieChartData2)
 
-        var obj2 = {}
-        // obj2["spendinginsights"] = expensesService.pieChartData2
-        for (let each of expensesService.pieChartData2) {
-          obj2[each[0]] = each
+        // Put the pieChartData array into an object so that it can be accepted by firebase
+        for (let each of expensesService.pieChartData) {
+          this.piechartDataobject[each[0]] = each
         }
-        console.log(obj2)
+        console.log(this.piechartDataobject)
 
-
-        var obj3 = {}
         if (userService.loggedin == false) {
-          firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").doc(saltedgeService.saltedgeaccount["id"]).set({
-            spendinginsights: obj2
-          }, { merge: true }).then(() => {
-            let sub: Subscription = firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
-              console.log(data)
-              for (let account of data) {
-                console.log(account["spendinginsights"])
-                console.log(Object.values(account["spendinginsights"])[0])
-
-                for (let category of Object.values(account["spendinginsights"])) {
-                  var spendinginsightaccount = category
-
-                  if (spendinginsightaccount != undefined) {
-                    if (obj3[spendinginsightaccount[0]] == undefined) {
-                      obj3[spendinginsightaccount[0]] = {} // Start from 0
-                    }
-                    if (obj3[spendinginsightaccount[0]][spendinginsightaccount[6]] == undefined) {
-                      obj3[spendinginsightaccount[0]][spendinginsightaccount[6]] = 0
-                    }
-                    obj3[spendinginsightaccount[0]][spendinginsightaccount[6]] += spendinginsightaccount[1] // Add up the value to the Object
-                  }
-                }
-
-              }
-              console.log(obj3)
-              sub.unsubscribe();
-
-              firestore.collection('users').doc("test1234@example.com").collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).set({
-                spendinginsights: obj3
-              }, { merge: true })
-            })
-          })
+          this.spendinginsightsintofirebase("test1234@example.com")
         } else {
-          firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").doc(saltedgeService.saltedgeaccount["id"]).set({
-            spendinginsights: obj2
-          }, { merge: true }).then(() => {
-            let sub: Subscription = firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
-              console.log(data)
-              for (let account of data) {
-                console.log(account["spendinginsights"])
-                console.log(Object.values(account["spendinginsights"])[0])
-
-                for (let category of Object.values(account["spendinginsights"])) {
-                  var spendinginsightaccount = category
-
-                  if (spendinginsightaccount != undefined) {
-                    if (obj3[spendinginsightaccount[0]] == undefined) {
-                      obj3[spendinginsightaccount[0]] = {} // Start from 0
-                    }
-                    if (obj3[spendinginsightaccount[0]][spendinginsightaccount[6]] == undefined) {
-                      obj3[spendinginsightaccount[0]][spendinginsightaccount[6]] = 0
-                    }
-                    obj3[spendinginsightaccount[0]][spendinginsightaccount[6]] += spendinginsightaccount[1] // Add up the value to the Object
-                  }
-                }
-
-              }
-              console.log(obj3)
-              sub.unsubscribe();
-
-              firestore.collection('users').doc(this.userService.uid).collection("saltedgeconnections").doc(saltedgeService.saltedgeconnection["id"]).set({
-                spendinginsights: obj3
-              }, { merge: true })
-            })
-          })
+          this.spendinginsightsintofirebase(this.userService.uid)
         }
       });
 
@@ -189,12 +119,52 @@ export class SpendingInsightsPage implements OnInit {
         console.error(error);
       });
     });
-
     req.end();
-
   }
 
-  ngOnInit() {
+  spendinginsightsintofirebase(uid) {
+    this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).collection("accounts").doc(this.saltedgeService.saltedgeaccount["id"]).set({
+      // Put the account's spending insights into firebase
+      spendinginsights: this.piechartDataobject
+    }, { merge: true }).then(() => {
+      let sub: Subscription = this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
+        console.log(data)
+        // Loop through the accounts in the salt edge connection
+        for (let account of data) {
+          console.log(account["spendinginsights"])
+          console.log(Object.values(account["spendinginsights"]))
+
+          // Loop through the spending insight categories
+          for (let categorydetails of Object.values(account["spendinginsights"])) {
+            // Check to see if the account has any spending insights 
+            // Check for undefined so that we don't have an error
+            console.log(categorydetails)
+            var category = categorydetails[0]
+            var value = categorydetails[1]
+            var currencycode = categorydetails[6]
+
+            if (categorydetails != undefined) {
+              // If the category is not yet added to our aggregatedspendinginsights Object
+              if (this.aggregatedspendinginsights[category] == undefined) {
+                this.aggregatedspendinginsights[category] = {} // Start with an empty object
+              }
+              // If the currencycode is not yet added to the category in our aggregatedspendinginsights Object
+              if (this.aggregatedspendinginsights[category][currencycode] == undefined) {
+                this.aggregatedspendinginsights[category][currencycode] = 0 // Start from 0
+              }
+              this.aggregatedspendinginsights[category][currencycode] += value // Add up the value to the Object
+            }
+          }
+        }
+        console.log(this.aggregatedspendinginsights)
+        sub.unsubscribe();
+
+        // Set the aggregated spending insights to users/{{uid}}/saltedgeconnections/{{saltedgeconnectionid}}
+        this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).set({
+          spendinginsights: this.aggregatedspendinginsights
+        }, { merge: true })
+      })
+    })
   }
 
   ionViewDidEnter() {
