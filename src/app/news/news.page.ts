@@ -11,14 +11,12 @@ import { AngularFirestoreCollection } from '@angular/fire/firestore';
 })
 export class NewsPage implements OnInit {
   data: any;
-  page = 1;
   articles: any;
 
   private selectedSegment: string;
-  // private bitcoinSegment: string = 'bitcoin'
+
   constructor(private newsService: NewsService, private router: Router, public navCtrl: NavController) { 
-    this.loadBBCnews();
-    this.loadbitcoin();
+
   }
 
   ngOnInit() {
@@ -27,7 +25,32 @@ export class NewsPage implements OnInit {
   segmentChanged(event: any) {
     console.log(event.target.value);
     this.selectedSegment = event.target.value;
+    if (event.detail.value == "localheadlines") {
+      // Do something
+      this.loadlocalnews();
+    }
+    if (event.detail.value == "topheadlines") {
+      // Do something
+      this.loadBBCnews();
+    }
+    if (event.detail.value == "finance") {
+      // Do something
+      this.loadbusinessnews();
+    }
+    if (event.detail.value == "bitcoin") {
+      // Do something
+      this.loadbitcoin();
+    }
   }
+
+  loadlocalnews() {
+    this.newsService
+    .getData("top-headlines?country=SG")
+    .subscribe(news => {
+      this.articles = news['articles'];
+      console.log(this.articles);
+    });
+}
 
   loadBBCnews() {
       this.newsService
@@ -38,18 +61,22 @@ export class NewsPage implements OnInit {
       });
   }
 
-  loadbitcoin() {
+    loadbusinessnews() {
       this.newsService
-        .getData(
-          `everything?q=bitcoin&sortBy=publishedAt${
-            this.page
-          }`
-        )
-        .subscribe(data => {
-          this.articles = data['articles'];
-          console.log(this.articles);
-          this.data = data;
-        });
+      .getData("top-headlines?country=US&category=business")
+      .subscribe(news => {
+        this.articles = news['articles'];
+        console.log(this.articles);
+      });
+  }
+
+  loadbitcoin() {
+     this.newsService
+     .getData("everything?q=bitcoin&sortBy=publishedAt$")
+     .subscribe(news => {
+       this.articles = news['articles'];
+       console.log(this.articles);
+    });
   }
 
   onGoToNewsSinglePage(article) {

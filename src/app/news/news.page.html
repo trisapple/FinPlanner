@@ -17,15 +17,15 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col size="12">
-        <ion-segment (ionChange)="segmentChanged($event)">
+        <ion-segment (ionChange)="segmentChanged($event)" value="localheadlines">
+          <ion-segment-button value="localheadlines">
+            <ion-label>
+              Local Headlines
+            </ion-label>
+          </ion-segment-button>
           <ion-segment-button value="topheadlines">
             <ion-label>
               Top Headlines
-            </ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="bitcoin">
-            <ion-label>
-              Bitcoin News
             </ion-label>
           </ion-segment-button>
           <ion-segment-button value="finance">
@@ -33,45 +33,85 @@
               Finance News
             </ion-label>
           </ion-segment-button>
+          <ion-segment-button value="bitcoin">
+            <ion-label>
+              Bitcoin News
+            </ion-label>
+          </ion-segment-button>
         </ion-segment>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <div class="container" *ngIf="selectedSegment == 'topheadlines'"> 
-    <ion-grid>
-      <ion-row>
-        <ion-col *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)" size-xs="6" size-md="4" >
-          <div>
-            <ion-card color="light">
-              <ion-img [src]="article.urlToImage"></ion-img>
+  <div class="container" *ngIf="selectedSegment == 'localheadlines'">
+    <ion-row>
+      <ion-col size-xs="12" size-sm="6" size-md="12" *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)">
+        <ion-card class="card">
+          <ion-img class="list" [src]="article.urlToImage"></ion-img>
+          <ion-row>
+            <ion-col>
               <ion-card-header>
                 <ion-card-title class="font">{{article.title}}</ion-card-title>
                 <p>{{article.description}}</p>
               </ion-card-header>
-            </ion-card>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
   </div>
 
-  <div class="container" *ngIf="selectedSegment == 'bitcoin'"> 
-    <ion-grid>
-      <ion-row>
-        <ion-col *ngFor="let article of data?.articles" (click)="onGoToNewsSinglePage(article)" size-xs="6" size-md="4" >
-          <div>
-            <ion-card color="light">
-              <ion-img [src]="article.urlToImage"></ion-img>
+  <div class="container" *ngIf="selectedSegment == 'topheadlines'">
+    <ion-row>
+      <ion-col size-xs="12" size-sm="6" size-md="12" *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)">
+        <ion-card class="card">
+          <ion-img class="list" [src]="article.urlToImage"></ion-img>
+          <ion-row>
+            <ion-col>
               <ion-card-header>
                 <ion-card-title class="font">{{article.title}}</ion-card-title>
                 <p>{{article.description}}</p>
               </ion-card-header>
-            </ion-card>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
   </div>
 
+  <div class="container" *ngIf="selectedSegment == 'finance'">
+    <ion-row>
+      <ion-col size-xs="12" size-sm="6" size-md="12" *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)">
+        <ion-card class="card">
+          <ion-img class="list" [src]="article.urlToImage"></ion-img>
+          <ion-row>
+            <ion-col>
+              <ion-card-header>
+                <ion-card-title class="font">{{article.title}}</ion-card-title>
+                <p>{{article.description}}</p>
+              </ion-card-header>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div class="container" *ngIf="selectedSegment == 'bitcoin'">
+    <ion-row>
+      <ion-col size-xs="12" size-sm="6" size-md="12" *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)">
+        <ion-card class="card">
+          <ion-img class="list" [src]="article.urlToImage"></ion-img>
+          <ion-row>
+            <ion-col>
+              <ion-card-header>
+                <ion-card-title class="font">{{article.title}}</ion-card-title>
+                <p>{{article.description}}</p>
+              </ion-card-header>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-content>
