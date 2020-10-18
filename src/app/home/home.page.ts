@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
+import * as firebase from 'firebase';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ExpensesService } from '../expenses.service';
@@ -478,6 +479,21 @@ export class HomePage {
     } else {
       this.getData(this.userService.uid)
     }
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user != null) {
+          userService.loggedin = true;
+          userService.name = user.displayName;
+          userService.email = user.email;
+          userService.uid = user.uid
+          userService.provider = "Email and Password"
+          console.log(user)
+      } else {
+        // No user is signed in.
+        firebase.auth().signOut;
+      
+      }
+
+    });
   }
 
   ionViewDidEnter() {
