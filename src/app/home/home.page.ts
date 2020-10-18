@@ -481,15 +481,17 @@ export class HomePage {
     }
     firebase.auth().onAuthStateChanged(function(user) {
       if (user != null) {
+        let sub: Subscription = userService.login(user.uid).subscribe((data) => {
           userService.loggedin = true;
-          userService.name = user.displayName;
+          userService.name = data["name"]
           userService.email = user.email;
           userService.uid = user.uid
           userService.provider = "Email and Password"
           console.log(user)
+          sub.unsubscribe();
+        });
       } else {
         // No user is signed in.
-        firebase.auth().signOut;
       
       }
 
