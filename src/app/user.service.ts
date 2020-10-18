@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { ExpensesService } from './expenses.service';
 import { SaltedgeService } from './saltedge.service';
 
@@ -8,23 +8,11 @@ import { SaltedgeService } from './saltedge.service';
 })
 export class UserService {
 
-  // User Collection
-  // usersCollectionRef: AngularFirestoreCollection<any>;
-
   loggedin = false; // Check if the user is logged in
   name: String;
   email: string;
   uid: string;
   profilePicture: String;
-
-  // Citibank
-  citiauthorisationCode: String; // Authorisation code used to get the access token
-  citiaccessToken: String; // Access Token saved for API requests
-  citiLogin = false; // Check if the user has connected their account with Citi (to show Connected or Connect)
-
-  // OCBC
-  ocbcaccessToken: String;
-  ocbcLogin = false;
 
   socialLogin = false; // Check if the user has used facebook or google to login
   provider: String; // Provider name (facebook, google) to show on profile screen
