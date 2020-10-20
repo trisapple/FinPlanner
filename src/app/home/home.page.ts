@@ -474,12 +474,8 @@ export class HomePage {
   }
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
-    if (this.userService.loggedin == false) {
-      this.getData("test1234@example.com")
-    } else {
-      this.getData(this.userService.uid)
-    }
-    firebase.auth().onAuthStateChanged(function(user) {
+
+    firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
         let sub: Subscription = userService.login(user.uid).subscribe((data) => {
           userService.loggedin = true;
@@ -488,13 +484,16 @@ export class HomePage {
           userService.uid = user.uid
           userService.provider = "Email and Password"
           console.log(user)
+          if (this.userService.loggedin == false) {
+            this.getData("test1234@example.com")
+          } else {
+            this.getData(this.userService.uid)
+          }
           sub.unsubscribe();
         });
       } else {
         // No user is signed in.
-      
       }
-
     });
   }
 
