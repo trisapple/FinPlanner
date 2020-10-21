@@ -482,19 +482,33 @@ export class HomePage {
           userService.name = data["name"]
           userService.email = user.email;
           userService.uid = user.uid
-          userService.provider = "Email and Password"
-          console.log(user)
-          if (this.userService.loggedin == false) {
-            this.getData("test1234@example.com")
-          } else {
-            this.getData(this.userService.uid)
+          // userService.provider = "Email and Password"
+          if (user.providerData[0]["providerId"] == "password") {
+            userService.provider = "Email and Password"
           }
+          if (user.providerData[0]["providerId"] == "google.com") {
+            userService.provider = "Google"
+          }
+          if (user.providerData[0]["providerId"] == "facebook.com") {
+            userService.provider = "Facebook"
+          }
+          console.log(user)
+          this.getsaltedgedata()
           sub.unsubscribe();
         });
       } else {
         // No user is signed in.
+        this.getsaltedgedata()
       }
     });
+  }
+
+  getsaltedgedata() {
+    if (this.userService.loggedin == false) {
+      this.getData("test1234@example.com")
+    } else {
+      this.getData(this.userService.uid)
+    }
   }
 
   ionViewDidEnter() {
