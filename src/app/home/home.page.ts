@@ -406,11 +406,11 @@ export class HomePage {
           }
         }
       }
-    } 
+    }
     // If there is just 1 year of data
     else {
       this.montharray = [["Jan", true], ["Feb", true], ["Mar", true], ["Apr", true], ["May", true], ["Jun", true], ["Jul", true], ["Aug", true], ["Sep", true], ["Oct", true], ["Nov", true], ["Dec", true]]
-      
+
       // Loop through the months from month of first transaction to the month of latest transaction and enable the ion-segments accordingly
       for (let i = new Date(this.made_on_first).getMonth(); i <= new Date(this.made_on_latest).getMonth(); i++) {
         this.montharray[i][1] = false
@@ -487,10 +487,14 @@ export class HomePage {
             userService.provider = "Email and Password"
           }
           if (user.providerData[0]["providerId"] == "google.com") {
+            userService.socialLogin = true
             userService.provider = "Google"
+            userService.profilePicture = user.providerData[0]["photoURL"]
           }
           if (user.providerData[0]["providerId"] == "facebook.com") {
+            // userService.socialLogin = true
             userService.provider = "Facebook"
+            // userService.profilePicture = user.providerData[0]["photoURL"]
           }
           console.log(user)
           this.getsaltedgedata()
