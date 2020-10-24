@@ -3,6 +3,9 @@ import { NavController } from '@ionic/angular';
 import { UserService } from '../user.service';
 import { NewsService } from '../news.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import * as firebase from 'firebase';
+
 
 
 @Component({
@@ -14,7 +17,7 @@ export class ExchangeratesPage implements OnInit {
   articles: any;
 
   constructor(public navCtrl: NavController, public userService: UserService,private newsService: NewsService, private router: Router) {
-    this.loadBBCnews();
+    // this.loadBBCnews();
    }
 
   ngOnInit() {
@@ -36,14 +39,14 @@ export class ExchangeratesPage implements OnInit {
     this.navCtrl.navigateForward(['/login'])
   }
 
-  loadBBCnews() {
-    this.newsService
-    .getData("top-headlines?country=us&category=business")
-    .subscribe(news => {
-      this.articles = news['articles'];
-      console.log(this.articles);
-    });
-}
+//   loadBBCnews() {
+//     this.newsService
+//     .getData("top-headlines?country=us&category=business")
+//     .subscribe(news => {
+//       this.articles = news['articles'];
+//       console.log(this.articles);
+//     });
+// }
 
 onGoToNewsSinglePage(article) {
   this.newsService.currentArticle = article;
