@@ -363,6 +363,14 @@ export class HomePage {
       this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i])
     }
 
+    // Set the barchart data
+    this.barChart.data.datasets[0].data = this.incomevaluesspliced
+    this.barChart.data.datasets[1].data = this.expensevaluesspliced
+    this.barChart.data.labels = this.labelsspliced
+    this.barChart.update({ duration: 1000 }) // Refresh the barchart in HTML
+    // Duration (in milliseconds) is the how long the animation will take to finish.
+    // Remove the duration to remove the animation. 
+
     this.originaltotal = Object.entries(this.firebasedata["balances"][0]) // Get the balances of all currencies of the user (e.g. SGD, EUR, GBP)
     var total = 0 // Start from 0
     for (let each of this.originaltotal) {
@@ -454,6 +462,15 @@ export class HomePage {
     this.filtereddata2 = this.filtereddata.slice() // Copy the filtereddata array to the filtereddata2 array
     this.spendinginsightlabels = Object.keys(categories) // Category names
     this.spendinginsightvalues = Object.values(categories) // Values consisting of the amount spent for each category
+
+    // Set the piechart data
+    this.doughnutChart.config.data.labels = this.spendinginsightlabels
+    this.doughnutChart.config.data.datasets[0].data = this.spendinginsightvalues
+    this.doughnutChart.config.data.datasets[0].backgroundColor = this.backgroundcolors
+    this.doughnutChart.config.data.datasets[0].hoverBackgroundColor = this.hovercolors
+    this.doughnutChart.update({ duration: 1000 }) // Refresh the piechart in HTML
+    // Duration (in milliseconds) is the how long the animation will take to finish.
+    // Remove the duration to remove the animation. 
   }
 
   getData(uid) {
@@ -517,7 +534,7 @@ export class HomePage {
 
   ionViewDidEnter() {
     // Load bar chart
-    setTimeout(() => this.barChart = new Chart(this.barCanvas.nativeElement, {
+    this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: "bar",
       data: {
         labels: this.labelsspliced,
@@ -548,10 +565,10 @@ export class HomePage {
         },
         maintainAspectRatio: false
       }
-    }), 2000);
+    });
 
     // Load doughnut chart
-    setTimeout(() => this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: "doughnut",
       data: {
         labels: this.spendinginsightlabels,
@@ -597,7 +614,10 @@ export class HomePage {
           }
         }
       }
-    }), 2000)
+    })
+
+    console.log(this.barChart)
+    console.log(this.doughnutChart)
 
     // this.lineChart = new Chart(this.lineCanvas.nativeElement, {
     //   type: "line",

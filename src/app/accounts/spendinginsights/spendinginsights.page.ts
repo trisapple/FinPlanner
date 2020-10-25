@@ -55,6 +55,27 @@ export class SpendingInsightsPage {
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
         expensesService.transactions = JSON.parse(body.toString())["data"]
+        // if (expensesService.transactions) {
+          // if (expensesService.transactions.length > 0) {
+            // setTimeout(() => this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+            //   type: "doughnut",
+            //   data: {
+            //     labels: this.labels,
+            //     datasets: [
+            //       {
+            //         label: "Spending Insights",
+            //         data: this.values,
+            //         backgroundColor: this.backgroundcolors,
+            //         hoverBackgroundColor: this.hovercolors
+            //       }
+            //     ]
+            //   },
+            //   options: {
+            //     maintainAspectRatio: false
+            //   }
+            // }), 200);
+          // }
+        // }
         console.log(expensesService.transactions)
 
         // Variables to keep track of the amount spent in the transaction categories
@@ -107,6 +128,15 @@ export class SpendingInsightsPage {
           this.piechartDataobject[each[0]] = each
         }
         console.log(this.piechartDataobject)
+
+        // Set the piechart data
+        this.doughnutChart.config.data.labels = this.labels
+        this.doughnutChart.config.data.datasets[0].data = this.values
+        this.doughnutChart.config.data.datasets[0].backgroundColor = this.backgroundcolors
+        this.doughnutChart.config.data.datasets[0].hoverBackgroundColor = this.hovercolors
+        this.doughnutChart.update({ duration: 1000 }) // Refresh the piechart in HTML
+        // Duration (in milliseconds) is the how long the animation will take to finish.
+        // Remove the duration to remove the animation. 
 
         if (userService.loggedin == false) {
           this.spendinginsightsintofirebase("test1234@example.com")
@@ -168,7 +198,7 @@ export class SpendingInsightsPage {
   }
 
   ionViewDidEnter() {
-    setTimeout(() => this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: "doughnut",
       data: {
         labels: this.labels,
@@ -184,7 +214,7 @@ export class SpendingInsightsPage {
       options: {
         maintainAspectRatio: false
       }
-    }), 6000);
+    });
   }
 
   view() {

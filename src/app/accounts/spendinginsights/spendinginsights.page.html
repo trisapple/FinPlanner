@@ -11,7 +11,7 @@
 <ion-content class="ion-padding">
 
   <!-- Pie Chart from Google Charts -->
-  <div *ngIf="expensesService.transactions && expensesService.transactions.length > 0">
+  <!-- <div *ngIf="expensesService.transactions && expensesService.transactions.length > 0"> -->
     <div style="height: 300px;">
       <canvas #doughnutCanvas></canvas>
     </div>
@@ -32,9 +32,9 @@
       </div>
     </ion-grid>
     <ion-button expand="block" (click)="view()">View Savings Suggestions</ion-button>
-  </div>
-  <ion-label *ngIf="!expensesService.transactions || expensesService.transactions.length == 0" style="font-size: 20px" class="ocbc">
+  <!-- </div> -->
+  <!-- <ion-label *ngIf="!expensesService.transactions || expensesService.transactions.length == 0" style="font-size: 20px" class="ocbc">
     No Spending Insights
-  </ion-label>
+  </ion-label> -->
 
 </ion-content>
