@@ -28,11 +28,11 @@
               Top Headlines
             </ion-label>
           </ion-segment-button>
-          <ion-segment-button value="finance">
+          <!-- <ion-segment-button value="finance">
             <ion-label>
               Finance News
             </ion-label>
-          </ion-segment-button>
+          </ion-segment-button> -->
           <ion-segment-button value="bitcoin">
             <ion-label>
               Bitcoin News
@@ -79,7 +79,7 @@
     </ion-row>
   </div>
 
-  <div class="container" *ngIf="selectedSegment == 'finance'">
+  <!-- <div class="container" *ngIf="selectedSegment == 'finance'">
     <ion-row>
       <ion-col size-xs="12" size-sm="6" size-md="12" *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)">
         <ion-card class="card">
@@ -95,7 +95,7 @@
         </ion-card>
       </ion-col>
     </ion-row>
-  </div>
+  </div> -->
 
   <div class="container" *ngIf="selectedSegment == 'bitcoin'">
     <ion-row>
