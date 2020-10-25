@@ -17,7 +17,7 @@ export class ExchangeratesPage implements OnInit {
   articles: any;
 
   constructor(public navCtrl: NavController, public userService: UserService,private newsService: NewsService, private router: Router) {
-    // this.loadBBCnews();
+   this.loadbusinessnews()
    }
 
   ngOnInit() {
@@ -47,6 +47,15 @@ export class ExchangeratesPage implements OnInit {
 //       console.log(this.articles);
 //     });
 // }
+
+loadbusinessnews() {
+  this.newsService
+  .getData("top-headlines?country=US&category=business")
+  .subscribe(news => {
+    this.articles = news['articles'];
+    console.log(this.articles);
+  });
+}
 
 onGoToNewsSinglePage(article) {
   this.newsService.currentArticle = article;

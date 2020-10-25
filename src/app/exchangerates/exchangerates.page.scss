@@ -14,6 +14,30 @@ ion-item:hover {
     }
 }
 
+.container {
+    position: relative;
+  }
+
+  @media (max-width: 767px) {
+    .card {
+        height: 95%;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .card {
+        width: 95%;
+        display: block;
+        margin-right: 50px;
+    }
+  
+    .list {
+        float: left;
+        position: static;
+        width: 30%;
+    }
+  }
+  
 // .centered {
 //     position: absolute;
 //     top: 50%;
