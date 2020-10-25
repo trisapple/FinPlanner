@@ -492,9 +492,9 @@ export class HomePage {
             userService.profilePicture = user.providerData[0]["photoURL"]
           }
           if (user.providerData[0]["providerId"] == "facebook.com") {
-            // userService.socialLogin = true
+            userService.socialLogin = true
             userService.provider = "Facebook"
-            // userService.profilePicture = user.providerData[0]["photoURL"]
+            userService.profilePicture = user.providerData[0]["photoURL"]
           }
           console.log(user)
           this.getsaltedgedata()
