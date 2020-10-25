@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service'
 import { AngularFireAuth } from '@angular/fire/auth';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-menu',
@@ -10,35 +11,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 
 export class MenuPage implements OnInit {
 
-  // pages = [
-  //   {
-  //     title: 'Home',
-  //     url: '/home',
-  //     icon: 'home'
-  //   },
-  //   {
-  //     title: 'Expenses',
-  //     url: '/expenses',
-  //     icon: 'wallet'
-  //   },
-  //   {
-  //     title: 'Courses',
-  //     url: '/courses',
-  //     icon: 'school'
-  //   },
-  //   {
-  //     title: 'FAQ',
-  //     url: '/faq',
-  //     icon: 'help'
-  //   },
-  //   {
-  //     title: 'Login / Register',
-  //     url: '/login',
-  //     icon: 'person'
-  //   },
-  // ]
-
-  constructor(public userService: UserService, private fireauth: AngularFireAuth) { }
+  constructor(public userService: UserService, private fireauth: AngularFireAuth, public navCtrl: NavController) { }
 
   ngOnInit() {
   }
@@ -46,7 +19,9 @@ export class MenuPage implements OnInit {
   signout() {
     this.userService.loggedin = false;
     this.userService.socialLogin = false;
-    this.fireauth.signOut();
+    this.fireauth.signOut().then(() => {
+      this.navCtrl.navigateRoot('/home');
+    });
   }
 
 }
