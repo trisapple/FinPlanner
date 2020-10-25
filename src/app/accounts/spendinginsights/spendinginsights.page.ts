@@ -103,6 +103,11 @@ export class SpendingInsightsPage {
         // {"Food": 83.65, "Shopping": 83.65, ...} becomes 
         // [["Food", 83.65], ["Shopping", 83.65], ... ]
 
+        // Sort the top expenses categories in descending order (from largest to smallest)
+        expensesService.pieChartData.sort(function (a, b) {
+          return b[1] - a[1]
+        });
+
         for (let category of expensesService.pieChartData) {
           var colors = this.saltedgeService.dynamicColors()
           category[2] = category[1].toLocaleString('en-SG', { style: 'currency', currency: saltedgeService.saltedgeaccountcurrencycode }) // Add currency symbol
@@ -115,11 +120,6 @@ export class SpendingInsightsPage {
           this.backgroundcolors.push(category[4])
           this.hovercolors.push(category[5])
         }
-
-        // Sort the top expenses categories in descending order (from largest to smallest)
-        expensesService.pieChartData.sort(function (a, b) {
-          return b[1] - a[1]
-        });
 
         console.log(expensesService.pieChartData)
 
