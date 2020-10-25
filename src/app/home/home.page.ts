@@ -433,6 +433,8 @@ export class HomePage {
   // Filter transaction history and populate the pie chart
   looptransactions() {
     var categories = {}
+    this.spendinginsightlabels = []
+    this.spendinginsightvalues = []
     this.backgroundcolors = []
     this.hovercolors = []
 
@@ -460,8 +462,28 @@ export class HomePage {
     }
 
     this.filtereddata2 = this.filtereddata.slice() // Copy the filtereddata array to the filtereddata2 array
-    this.spendinginsightlabels = Object.keys(categories) // Category names
-    this.spendinginsightvalues = Object.values(categories) // Values consisting of the amount spent for each category
+    // this.spendinginsightlabels = Object.keys(categories) // Category names
+    // this.spendinginsightvalues = Object.values(categories) // Values consisting of the amount spent for each category
+
+    var categoriesarray = Object.entries(categories)
+
+    // Sort by largest value first
+    categoriesarray.sort((a, b) => {
+      if (a[1] > b[1]) {
+        return -1;
+      }
+      if (a[1] < b[1]) {
+        return 1;
+      }
+      return 0;
+    });
+
+    for (let each of categoriesarray) {
+      this.spendinginsightlabels.push(each[0])
+      this.spendinginsightvalues.push(each[1])
+    }
+
+    console.log(categoriesarray)
 
     // Set the piechart data
     this.doughnutChart.config.data.labels = this.spendinginsightlabels
