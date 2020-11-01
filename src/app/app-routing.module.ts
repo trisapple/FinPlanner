@@ -50,6 +50,11 @@ const routes: Routes = [
     path: 'news-single',
     loadChildren: () => import('./news-single/news-single.module').then( m => m.NewsSinglePageModule)
   },
+  {
+    path: 'exchangerates/rates',
+    loadChildren: () => import('./exchangerates/rates/rates.module').then( m => m.RatesPageModule)
+  },
+
 
   // { path: 'exchangerates', loadChildren: () => import('./exchangerates/exchangerates.module').then( m => m.ExchangeratesPageModule) },
 ];

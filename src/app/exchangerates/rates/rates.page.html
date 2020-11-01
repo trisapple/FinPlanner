@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Exchange Rates</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class = "ion-padding">
+
+  <ion-label>
+      View Realtime <b>Stocks</b>, <b>FX Rates</b> & <b>Cryptocurrencies</b> Exchange Rates:
+    </ion-label>
+    <br>
+    <br>
+
+   <div>
+      <ion-list> 
+        <ion-item (click) = "stocks()">
+          <ion-label>Stocks</ion-label>
+          <!-- <ion-button fill="solid" slot="end" (click) = "stocks()">View</ion-button>  -->
+          <ion-icon name="chevron-forward"></ion-icon>
+        </ion-item>
+        <ion-item (click) = "fxrates()">
+          <ion-label>FX Rates</ion-label> 
+          <!-- <ion-button fill="solid" slot="end" (click) = "fxrates()">View</ion-button>  -->
+          <ion-icon name="chevron-forward"></ion-icon>
+        </ion-item> 
+        <ion-item (click) = "crypto()">
+          <ion-label>Cryptocurrencies</ion-label> 
+          <!-- <ion-button fill="solid" slot="end" (click) = "crypto()">View</ion-button>  -->
+          <ion-icon name="chevron-forward"></ion-icon>
+        </ion-item>
+      </ion-list>
+  </div>
+
+
+</ion-content>
