@@ -26,7 +26,7 @@ ion-item:hover {
     position: relative;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 991px) {
     .card {
         height: 95%;
     }
@@ -36,7 +36,7 @@ ion-item:hover {
     }
   }
   
-  @media (min-width: 768px) {
+  @media (min-width: 992px) {
     .card {
         width: 95%;
         display: block;
