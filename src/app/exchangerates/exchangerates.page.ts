@@ -39,6 +39,10 @@ export class ExchangeratesPage implements OnInit {
     this.navCtrl.navigateForward(['/login'])
   }
 
+  rates() {
+    this.navCtrl.navigateForward(['/exchangerates/rates'])
+  }
+
 //   loadBBCnews() {
 //     this.newsService
 //     .getData("top-headlines?country=us&category=business")
