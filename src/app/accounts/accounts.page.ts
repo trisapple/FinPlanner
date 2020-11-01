@@ -169,9 +169,7 @@ export class AccountsPage {
                 console.error(error);
               });
             });
-
             req.end();
-
           }
         }
       ]
@@ -252,7 +250,7 @@ export class AccountsPage {
         console.log(saltedgeconnection)
         console.log(saltedgeconnection.balances[0])
         console.log(Object.keys(saltedgeconnection.balances[0]))
-        console.log(Object.keys(saltedgeconnection.spendinginsights))
+        // console.log(Object.keys(saltedgeconnection.spendinginsights))
 
         // Loop through the currency keys
         // e.g. saltedgeconnection.balances[0] = {GBP: 4301, EUR: 2410}
@@ -270,26 +268,26 @@ export class AccountsPage {
         }
 
         // Loop through the spending insights
-        for (let category of Object.keys(saltedgeconnection.spendinginsights)) {
-          console.log(category)
-          console.log(saltedgeconnection.spendinginsights[category])
-          // e.g. saltedgeconnection.spendinginsights[category] = {GBP: 15750, EUR: 7875}
+        // for (let category of Object.keys(saltedgeconnection.spendinginsights)) {
+        //   console.log(category)
+        //   console.log(saltedgeconnection.spendinginsights[category])
+        //   // e.g. saltedgeconnection.spendinginsights[category] = {GBP: 15750, EUR: 7875}
 
-          // If the currency is not yet added to the spendinginsights Object
-          if (spendinginsights[category] == undefined) {
-            spendinginsights[category] = {} // Start with an empty object
-          }
+        //   // If the currency is not yet added to the spendinginsights Object
+        //   if (spendinginsights[category] == undefined) {
+        //     spendinginsights[category] = {} // Start with an empty object
+        //   }
 
-          // Loop through the currencies of the spending insight category
-          for (let currency of Object.keys(saltedgeconnection.spendinginsights[category])) {
-            // If the currency is not yet added to the spending insight category
-            if (spendinginsights[category][currency] == undefined) {
-              spendinginsights[category][currency] = 0 // Start from 0
-            }
-            // Add it to the relevant spending insight category and currency
-            spendinginsights[category][currency] += saltedgeconnection.spendinginsights[category][currency] // Add up the value to the Object
-          }
-        }
+        //   // Loop through the currencies of the spending insight category
+        //   for (let currency of Object.keys(saltedgeconnection.spendinginsights[category])) {
+        //     // If the currency is not yet added to the spending insight category
+        //     if (spendinginsights[category][currency] == undefined) {
+        //       spendinginsights[category][currency] = 0 // Start from 0
+        //     }
+        //     // Add it to the relevant spending insight category and currency
+        //     spendinginsights[category][currency] += saltedgeconnection.spendinginsights[category][currency] // Add up the value to the Object
+        //   }
+        // }
         // Add up the transaction histories of every salt edge connection
         aggregatedtransactionhistory = aggregatedtransactionhistory.concat(saltedgeconnection.transactionhistory)
       }
@@ -311,7 +309,7 @@ export class AccountsPage {
       // Set the aggregated balances, spending insights and transaction history to the users collection
       this.firestore.collection('users').doc(uid).set({
         balances: balances,
-        spendinginsights: spendinginsights,
+        // spendinginsights: spendinginsights,
         transactionhistory: aggregatedtransactionhistory
       }, { merge: true })
 

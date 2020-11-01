@@ -5,7 +5,6 @@ import { SaltedgeService } from 'src/app/saltedge.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'app-transactionhistory',
   templateUrl: './transactionhistory.page.html',

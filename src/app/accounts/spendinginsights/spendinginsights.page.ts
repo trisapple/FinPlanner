@@ -55,28 +55,6 @@ export class SpendingInsightsPage {
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
         expensesService.transactions = JSON.parse(body.toString())["data"]
-        // if (expensesService.transactions) {
-          // if (expensesService.transactions.length > 0) {
-            // setTimeout(() => this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
-            //   type: "doughnut",
-            //   data: {
-            //     labels: this.labels,
-            //     datasets: [
-            //       {
-            //         label: "Spending Insights",
-            //         data: this.values,
-            //         backgroundColor: this.backgroundcolors,
-            //         hoverBackgroundColor: this.hovercolors
-            //       }
-            //     ]
-            //   },
-            //   options: {
-            //     maintainAspectRatio: false
-            //   }
-            // }), 200);
-          // }
-        // }
-        console.log(expensesService.transactions)
 
         // Variables to keep track of the amount spent in the transaction categories
         var categories = {} // Set up an empty categories Object
@@ -138,11 +116,11 @@ export class SpendingInsightsPage {
         // Duration (in milliseconds) is the how long the animation will take to finish.
         // Remove the duration to remove the animation. 
 
-        if (userService.loggedin == false) {
-          this.spendinginsightsintofirebase("test1234@example.com")
-        } else {
-          this.spendinginsightsintofirebase(this.userService.uid)
-        }
+        // if (userService.loggedin == false) {
+        //   this.spendinginsightsintofirebase("test1234@example.com")
+        // } else {
+        //   this.spendinginsightsintofirebase(this.userService.uid)
+        // }
       });
 
       res.on("error", function (error) {
@@ -152,50 +130,50 @@ export class SpendingInsightsPage {
     req.end();
   }
 
-  spendinginsightsintofirebase(uid) {
-    this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).collection("accounts").doc(this.saltedgeService.saltedgeaccount["id"]).set({
-      // Put the account's spending insights into firebase
-      spendinginsights: this.piechartDataobject
-    }, { merge: true }).then(() => {
-      let sub: Subscription = this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
-        console.log(data)
-        // Loop through the accounts in the salt edge connection
-        for (let account of data) {
-          console.log(account["spendinginsights"])
-          console.log(Object.values(account["spendinginsights"]))
+  // spendinginsightsintofirebase(uid) {
+  //   this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).collection("accounts").doc(this.saltedgeService.saltedgeaccount["id"]).set({
+  //     // Put the account's spending insights into firebase
+  //     spendinginsights: this.piechartDataobject
+  //   }, { merge: true }).then(() => {
+  //     let sub: Subscription = this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
+  //       console.log(data)
+  //       // Loop through the accounts in the salt edge connection
+  //       for (let account of data) {
+  //         console.log(account["spendinginsights"])
+  //         console.log(Object.values(account["spendinginsights"]))
 
-          // Loop through the spending insight categories
-          for (let categorydetails of Object.values(account["spendinginsights"])) {
-            // Check to see if the account has any spending insights 
-            // Check for undefined so that we don't have an error
-            console.log(categorydetails)
-            var category = categorydetails[0]
-            var value = categorydetails[1]
-            var currencycode = categorydetails[6]
+  //         // Loop through the spending insight categories
+  //         for (let categorydetails of Object.values(account["spendinginsights"])) {
+  //           // Check to see if the account has any spending insights 
+  //           // Check for undefined so that we don't have an error
+  //           console.log(categorydetails)
+  //           var category = categorydetails[0]
+  //           var value = categorydetails[1]
+  //           var currencycode = categorydetails[6]
 
-            if (categorydetails != undefined) {
-              // If the category is not yet added to our aggregatedspendinginsights Object
-              if (this.aggregatedspendinginsights[category] == undefined) {
-                this.aggregatedspendinginsights[category] = {} // Start with an empty object
-              }
-              // If the currencycode is not yet added to the category in our aggregatedspendinginsights Object
-              if (this.aggregatedspendinginsights[category][currencycode] == undefined) {
-                this.aggregatedspendinginsights[category][currencycode] = 0 // Start from 0
-              }
-              this.aggregatedspendinginsights[category][currencycode] += value // Add up the value to the Object
-            }
-          }
-        }
-        console.log(this.aggregatedspendinginsights)
-        sub.unsubscribe();
+  //           if (categorydetails != undefined) {
+  //             // If the category is not yet added to our aggregatedspendinginsights Object
+  //             if (this.aggregatedspendinginsights[category] == undefined) {
+  //               this.aggregatedspendinginsights[category] = {} // Start with an empty object
+  //             }
+  //             // If the currencycode is not yet added to the category in our aggregatedspendinginsights Object
+  //             if (this.aggregatedspendinginsights[category][currencycode] == undefined) {
+  //               this.aggregatedspendinginsights[category][currencycode] = 0 // Start from 0
+  //             }
+  //             this.aggregatedspendinginsights[category][currencycode] += value // Add up the value to the Object
+  //           }
+  //         }
+  //       }
+  //       console.log(this.aggregatedspendinginsights)
+  //       sub.unsubscribe();
 
-        // Set the aggregated spending insights to users/{{uid}}/saltedgeconnections/{{saltedgeconnectionid}}
-        this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).set({
-          spendinginsights: this.aggregatedspendinginsights
-        }, { merge: true })
-      })
-    })
-  }
+  //       // Set the aggregated spending insights to users/{{uid}}/saltedgeconnections/{{saltedgeconnectionid}}
+  //       this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).set({
+  //         spendinginsights: this.aggregatedspendinginsights
+  //       }, { merge: true })
+  //     })
+  //   })
+  // }
 
   ionViewDidEnter() {
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
