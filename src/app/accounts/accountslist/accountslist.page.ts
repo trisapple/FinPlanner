@@ -131,7 +131,6 @@ export class AccountslistPage {
 
   aggregateaccountsinconnection(uid) {
     this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).set({
-      // connectioninfo: this.saltedgeService.saltedgeaccounts,
       balances: this.balances,
       balancescurrencycode: this.balancescurrencycode
     }, { merge: true })
