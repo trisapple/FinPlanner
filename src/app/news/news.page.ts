@@ -38,6 +38,9 @@ export class NewsPage implements OnInit {
     if (event.detail.value == "bitcoin") {
       this.loadbitcoin();
     }
+    if (event.detail.value == "covid") {
+      this.loadcovid();
+    }
   }
 
   loadlocalnews() {
@@ -70,6 +73,15 @@ export class NewsPage implements OnInit {
   loadbitcoin() {
     this.newsService
       .getData("everything?q=bitcoin&sortBy=publishedAt$")
+      .subscribe(news => {
+        this.articles = news['articles'];
+        console.log(this.articles);
+      });
+  }
+
+  loadcovid() {
+    this.newsService
+      .getData("everything?q=coronavirus")
       .subscribe(news => {
         this.articles = news['articles'];
         console.log(this.articles);

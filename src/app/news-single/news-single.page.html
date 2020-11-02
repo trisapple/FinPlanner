@@ -10,9 +10,9 @@
 <h1 class="vertical-align-content"><b>{{article.title}}</b></h1>
 
 <ion-content class="ion-padding">
-  <ion-card >
+  
+  <ion-card class="img" >
     <ion-img [src]="article.urlToImage"></ion-img>
-
     <ion-card-header>
       <ion-card-title>{{article.author}}</ion-card-title>
     </ion-card-header>
@@ -28,7 +28,7 @@
       <br>
       <br>
 
-      <h3>Read more from <a href="{{article.url}}">here</a></h3>
+      <ion-button href="{{article.url}}">Read more from here</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

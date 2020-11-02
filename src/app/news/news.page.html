@@ -38,6 +38,11 @@
               Bitcoin News
             </ion-label>
           </ion-segment-button>
+          <ion-segment-button value="covid">
+            <ion-label>
+              Coronavirus News
+            </ion-label>
+          </ion-segment-button>
         </ion-segment>
       </ion-col>
     </ion-row>
@@ -98,6 +103,24 @@
   </div> -->
 
   <div class="container" *ngIf="selectedSegment == 'bitcoin'">
+    <ion-row>
+      <ion-col size-xs="12" size-sm="6" size-md="12" *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)">
+        <ion-card class="card">
+          <ion-img class="list" [src]="article.urlToImage"></ion-img>
+          <ion-row>
+            <ion-col>
+              <ion-card-header>
+                <ion-card-title class="font">{{article.title}}</ion-card-title>
+                <p>{{article.description}}</p>
+              </ion-card-header>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div class="container" *ngIf="selectedSegment == 'covid'">
     <ion-row>
       <ion-col size-xs="12" size-sm="6" size-md="12" *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)">
         <ion-card class="card">

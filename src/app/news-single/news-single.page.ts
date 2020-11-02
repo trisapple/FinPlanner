@@ -16,4 +16,5 @@ article;
     console.log(this.newsService.currentArticle);
   }
 
+  
 }
