@@ -101,11 +101,11 @@ export class AccountslistPage {
         this.balancescurrencycode.push(this.currencycode)
         console.log(this.currency)
 
-        if (userService.loggedin == false) {
-          this.aggregateaccountsinconnection("test1234@example.com")
-        } else {
-          this.aggregateaccountsinconnection(this.userService.uid)
-        }
+        // if (userService.loggedin == false) {
+        //   this.aggregateaccountsinconnection("test1234@example.com")
+        // } else {
+        //   this.aggregateaccountsinconnection(this.userService.uid)
+        // }
 
         // Loop through the accounts to get the account name (or nature) and the balance
         for (let account of saltedgeService.saltedgeaccounts) {
@@ -129,11 +129,11 @@ export class AccountslistPage {
     req.end();
   }
 
-  aggregateaccountsinconnection(uid) {
-    this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).set({
-      balances: this.balances,
-      balancescurrencycode: this.balancescurrencycode
-    }, { merge: true })
-  }
+  // aggregateaccountsinconnection(uid) {
+  //   this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).set({
+  //     balances: this.balances,
+  //     balancescurrencycode: this.balancescurrencycode
+  //   }, { merge: true })
+  // }
 
 }

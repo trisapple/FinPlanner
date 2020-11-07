@@ -518,35 +518,280 @@ export class HomePage {
       if (user != null) {
         let sub: Subscription = userService.login(user.uid).subscribe((data) => {
           userService.loggedin = true;
-          userService.name = data["name"]
+          userService.name = data["name"];
           userService.email = user.email;
-          userService.uid = user.uid
+          userService.uid = user.uid;
           // userService.provider = "Email and Password"
           if (user.providerData[0]["providerId"] == "password") {
-            userService.provider = "Email and Password"
+            userService.provider = "Email and Password";
           }
           if (user.providerData[0]["providerId"] == "google.com") {
-            userService.socialLogin = true
-            userService.provider = "Google"
-            userService.profilePicture = user.providerData[0]["photoURL"]
+            userService.socialLogin = true;
+            userService.provider = "Google";
+            userService.profilePicture = user.providerData[0]["photoURL"];
           }
           if (user.providerData[0]["providerId"] == "facebook.com") {
-            userService.socialLogin = true
-            userService.provider = "Facebook"
-            userService.profilePicture = user.providerData[0]["photoURL"]
+            userService.socialLogin = true;
+            userService.provider = "Facebook";
+            userService.profilePicture = user.providerData[0]["photoURL"];
           }
-          console.log(user)
-          this.getsaltedgedata()
+          console.log(user);
+          if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
+            this.connection_id()
+          } else {
+            this.getsaltedgedata()
+          }
           sub.unsubscribe();
         });
       } else {
         // No user is signed in.
-        this.getsaltedgedata()
+        if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
+          this.connection_id()
+        } else {
+          this.getsaltedgedata()
+        }
       }
     });
   }
 
+  connection_id() {
+    console.log(this.activatedRoute.snapshot.queryParamMap.get("connection_id"))
+
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'GET',
+      'hostname': 'quiet-shelf-43690.herokuapp.com',
+      // connection_id determines which accounts to get
+      'path': '/https://www.saltedge.com/api/v5/accounts?connection_id=' + this.activatedRoute.snapshot.queryParamMap.get("connection_id"),
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'Origin': ''
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, (res) => {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", (chunk) => {
+        var body = Buffer.concat(chunks);
+        console.log(JSON.parse(body.toString()));
+
+        var connectiondata = JSON.parse(body.toString())["data"]
+
+        var balances = [] // currency Object to be pushed to this balances array (so that firebase can accept it)
+        var currency = {} // Aggregated currencies from all accounts in the salt edge connection
+        var balancescurrencycode = [] // currencycode Object to be pushed to this balancescurrencycode array (so that firebase can accept it)
+        var currencycode = {} // Aggregated currencies from all accounts in the salt edge connection (with currency symbol)
+
+        // Loop through all accounts in the salt edge connection
+        for (let account of connectiondata) {
+          // If the currency is not yet added to the currency Object
+          if (currency[account.currency_code] == undefined) {
+            currency[account.currency_code] = 0 // Start from 0
+          }
+          // Add it to the relevant currency key
+          currency[account.currency_code] += account.balance
+        }
+        // Loop through the currency codes in the currency object and add the currency symbol to another array
+        for (let eachcurrency of Object.keys(currency)) {
+          currencycode[eachcurrency] = currency[eachcurrency].toLocaleString('en-SG', { style: 'currency', currency: eachcurrency })
+        }
+        balances.push(currency)
+        balancescurrencycode.push(currencycode)
+        console.log(currency)
+
+        if (this.userService.loggedin == false) {
+          this.aggregateaccountsinconnection("test1234@example.com", balances, balancescurrencycode, this.activatedRoute.snapshot.queryParamMap.get("connection_id"))
+        } else {
+          this.aggregateaccountsinconnection(this.userService.uid, balances, balancescurrencycode, this.activatedRoute.snapshot.queryParamMap.get("connection_id"))
+        }
+
+        for (let connection of connectiondata) {
+          var https = require('follow-redirects').https;
+
+          var options = {
+            'method': 'GET',
+            'hostname': 'quiet-shelf-43690.herokuapp.com',
+            // The connection_id and account_id determines where to retrieve the transaction history
+            'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + this.activatedRoute.snapshot.queryParamMap.get("connection_id") + '&account_id=' + connection.id + '&per_page=1000',
+            'headers': {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+              'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+              'Origin': ''
+            },
+            'maxRedirects': 20
+          };
+
+          var req = https.request(options, (res) => {
+            var chunks = [];
+
+            res.on("data", function (chunk) {
+              chunks.push(chunk);
+            });
+
+            res.on("end", (chunk) => {
+              var body = Buffer.concat(chunks);
+              console.log(JSON.parse(body.toString()));
+
+              var transactionhistory = JSON.parse(body.toString())["data"]
+
+              for (let transaction of transactionhistory) {
+                transaction["category"] = this.expensesService.humanize(transaction["category"]) // Remove underscores and capitalise every word
+                transaction["amountcurrencycode"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: connection.currency_code }) // Include currency symbol 
+              }
+
+              this.sortbylatesttransaction(transactionhistory, "made_on")
+
+              if (this.userService.loggedin == false) {
+                this.aggregatetransactionhistory("test1234@example.com", connection.connection_id, connection.id, transactionhistory)
+              } else {
+                this.aggregatetransactionhistory(this.userService.uid, connection.connection_id, connection.id, transactionhistory)
+              }
+
+            });
+
+            res.on("error", function (error) {
+              console.error(error);
+            });
+          });
+
+          req.end();
+        }
+
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    req.end();
+  }
+
+  aggregateconnections(uid) {
+    var balances = [] // currencies Object to be pushed to this balances array (so that firebase can accept it)
+    var currencies = {} // Aggregated currencies from all salt edge connections
+    var aggregatedtransactionhistory = []
+
+    // Get the salt edge connections from firebase
+    let sub: Subscription = this.firestore.collection<any>('users').doc(uid).collection("saltedgeconnections").valueChanges().subscribe((data) => {
+      console.log(data)
+      // Loop through each salt edge connection
+      for (let saltedgeconnection of data) {
+        console.log(saltedgeconnection)
+        console.log(saltedgeconnection.balances[0])
+        console.log(Object.keys(saltedgeconnection.balances[0]))
+        // console.log(Object.keys(saltedgeconnection.spendinginsights))
+
+        // Loop through the currency keys
+        // e.g. saltedgeconnection.balances[0] = {GBP: 4301, EUR: 2410}
+        // e.g. Object.keys(saltedgeconnection.balances[0]) = ["GBP", "EUR"]
+        for (let currency of Object.keys(saltedgeconnection.balances[0])) {
+          console.log(currency)
+          console.log(saltedgeconnection.balances[0][currency])
+
+          // If the currency is not yet added to the currencies Object
+          if (currencies[currency] == undefined) {
+            currencies[currency] = 0 // Start from 0
+          }
+          // Add it to the relevant currency key
+          currencies[currency] += saltedgeconnection.balances[0][currency]
+        }
+
+        // Add up the transaction histories of every salt edge connection
+        aggregatedtransactionhistory = aggregatedtransactionhistory.concat(saltedgeconnection.transactionhistory)
+      }
+      // Sort the transaction history by descending order (latest transaction first)
+      aggregatedtransactionhistory.sort((a, b) => {
+        if (a["made_on"] > b["made_on"]) {
+          return -1;
+        }
+        if (a["made_on"] < b["made_on"]) {
+          return 1;
+        }
+        return 0;
+      });
+      balances.push(currencies)
+      console.log(currencies)
+      console.log(aggregatedtransactionhistory)
+
+      // Set the aggregated balances, spending insights and transaction history to the users collection
+      this.firestore.collection('users').doc(uid).set({
+        balances: balances,
+        transactionhistory: aggregatedtransactionhistory
+      }, { merge: true }).then(() => {
+        this.getsaltedgedata()
+      })
+
+      sub.unsubscribe();
+    });
+  }
+
+  aggregatetransactionhistory(uid, connection_id, account_id, transactionhistory) {
+    // Put the account transaction history into firebase at users/{{uid}}/saltedgeconnections/{{saltedgeconnectionid}}/accounts/{{saltedgeaccountid}}
+    this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(connection_id).collection("accounts").doc(account_id).set({
+      transactionhistory: transactionhistory
+    }, { merge: true }).then(() => {
+      var aggregatedtransactions = []
+      // Get the transaction history of all accounts from firebase and put it in users/{{uid}}/saltedgeconnections/{{saltedgeconnectionid}}
+      let sub: Subscription = this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(connection_id).collection("accounts").valueChanges().subscribe((data) => {
+        console.log(data)
+        // Loop through the accounts in the salt edge connection
+        for (let account of data) {
+          console.log(account["transactionhistory"])
+          aggregatedtransactions = aggregatedtransactions.concat(account["transactionhistory"]) // Concatenate the arrays into one array
+        }
+
+        this.sortbylatesttransaction(aggregatedtransactions, "made_on")
+        console.log(aggregatedtransactions)
+
+        // Put it in users/{{uid}}/saltedgeconnections/{{saltedgeconnectionid}}
+        this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(connection_id).set({
+          transactionhistory: aggregatedtransactions
+        }, { merge: true }).then(() => {
+          this.aggregateconnections(uid)
+        })
+
+        sub.unsubscribe();
+      })
+    })
+  }
+
+  aggregateaccountsinconnection(uid, balances, balancescurrencycode, connection_id) {
+    this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(connection_id).set({
+      balances: balances,
+      balancescurrencycode: balancescurrencycode
+    }, { merge: true })
+  }
+
+  // Sort by latest transaction first
+  sortbylatesttransaction(array, field) {
+    array.sort((a, b) => {
+      if (a[field] > b[field]) {
+        return -1;
+      }
+      if (a[field] < b[field]) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
   getsaltedgedata() {
+    // var connection_id = this.activatedRoute.snapshot.queryParamMap.get("connection_id")
+    // console.log(this.activatedRoute.snapshot.queryParamMap.get("connection_id"))
+
     if (this.userService.loggedin == false) {
       this.getData("test1234@example.com")
     } else {
