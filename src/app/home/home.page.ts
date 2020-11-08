@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
 import * as firebase from 'firebase';
+import { Router } from '@angular/router';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ExpensesService } from '../expenses.service';
@@ -512,7 +513,7 @@ export class HomePage {
     });
   }
 
-  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
+  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
@@ -545,6 +546,7 @@ export class HomePage {
         });
       } else {
         // No user is signed in.
+        this.router.navigate(['/login']);
         if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
           this.connection_id()
         } else {
