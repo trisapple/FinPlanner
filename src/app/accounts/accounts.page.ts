@@ -158,11 +158,15 @@ export class AccountsPage {
                 var body = Buffer.concat(chunks);
                 console.log(JSON.parse(body.toString()));
                 if (this.userService.loggedin == false) {
-                  this.firestore.collection<any>('users').doc("test1234@example.com").collection("saltedgeconnections").doc(connection_id).delete()
+                  this.firestore.collection<any>('users').doc("test1234@example.com").collection("saltedgeconnections").doc(connection_id).delete().then(() => {
+                    this.aggregateconnections("test1234@example.com") // Refresh the list of bank accounts
+                  })
                 } else {
-                  this.firestore.collection<any>('users').doc(this.userService.uid).collection("saltedgeconnections").doc(connection_id).delete()
+                  this.firestore.collection<any>('users').doc(this.userService.uid).collection("saltedgeconnections").doc(connection_id).delete().then(() => {
+                    this.aggregateconnections(this.userService.uid) // Refresh the list of bank accounts
+                  })
                 }
-                this.getsaltedgeaccounts() // Refresh the list of bank accounts
+
               });
 
               res.on("error", function (error) {
@@ -175,6 +179,65 @@ export class AccountsPage {
       ]
     });
     await alert.present();
+  }
+
+  aggregateconnections(uid) {
+    var balances = [] // currencies Object to be pushed to this balances array (so that firebase can accept it)
+    var currencies = {} // Aggregated currencies from all salt edge connections
+    var aggregatedtransactionhistory = []
+
+    // Get the salt edge connections from firebase
+    let sub: Subscription = this.firestore.collection<any>('users').doc(uid).collection("saltedgeconnections").valueChanges().subscribe((data) => {
+      console.log(data)
+      // Loop through each salt edge connection
+      for (let saltedgeconnection of data) {
+        console.log(saltedgeconnection)
+        console.log(saltedgeconnection.balances[0])
+        console.log(Object.keys(saltedgeconnection.balances[0]))
+        // console.log(Object.keys(saltedgeconnection.spendinginsights))
+
+        // Loop through the currency keys
+        // e.g. saltedgeconnection.balances[0] = {GBP: 4301, EUR: 2410}
+        // e.g. Object.keys(saltedgeconnection.balances[0]) = ["GBP", "EUR"]
+        for (let currency of Object.keys(saltedgeconnection.balances[0])) {
+          console.log(currency)
+          console.log(saltedgeconnection.balances[0][currency])
+
+          // If the currency is not yet added to the currencies Object
+          if (currencies[currency] == undefined) {
+            currencies[currency] = 0 // Start from 0
+          }
+          // Add it to the relevant currency key
+          currencies[currency] += saltedgeconnection.balances[0][currency]
+        }
+
+        // Add up the transaction histories of every salt edge connection
+        aggregatedtransactionhistory = aggregatedtransactionhistory.concat(saltedgeconnection.transactionhistory)
+      }
+      // Sort the transaction history by descending order (latest transaction first)
+      aggregatedtransactionhistory.sort((a, b) => {
+        if (a["made_on"] > b["made_on"]) {
+          return -1;
+        }
+        if (a["made_on"] < b["made_on"]) {
+          return 1;
+        }
+        return 0;
+      });
+      balances.push(currencies)
+      console.log(currencies)
+      console.log(aggregatedtransactionhistory)
+
+      // Set the aggregated balances, spending insights and transaction history to the users collection
+      this.firestore.collection('users').doc(uid).set({
+        balances: balances,
+        transactionhistory: aggregatedtransactionhistory
+      }, { merge: true }).then(() => {
+        this.getsaltedgeaccounts()
+      })
+
+      sub.unsubscribe();
+    });
   }
 
   // Load the bank accounts
@@ -215,7 +278,6 @@ export class AccountsPage {
 
         // Loop through the salt edge connections in salt edge and get the last connected time
         for (let connection of this.saltedgeService.saltedgeconnections) {
-          console.log(connection["last_success_at"])
           // If there is no last commented time, put it as "Never"
           if (connection["last_success_at"] == null) {
             connection["last_success_at"] = "Never"
