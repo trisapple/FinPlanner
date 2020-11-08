@@ -36,4 +36,17 @@ export class ExpensesService {
     }
     return frags.join(' ');
   }
+
+  // Sort by latest transaction first
+  sortbylatesttransaction(array, field) {
+    array.sort((a, b) => {
+      if (a[field] > b[field]) {
+        return -1;
+      }
+      if (a[field] < b[field]) {
+        return 1;
+      }
+      return 0;
+    });
+  }
 }

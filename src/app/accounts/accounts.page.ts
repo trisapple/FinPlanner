@@ -270,12 +270,6 @@ export class AccountsPage {
         console.log(JSON.parse(body.toString()));
         this.saltedgeService.saltedgeconnections = JSON.parse(body.toString())["data"]
 
-        // if (this.userService.loggedin == false) {
-        //   this.aggregateconnections("test1234@example.com")
-        // } else {
-        //   this.aggregateconnections(this.userService.uid)
-        // }
-
         // Loop through the salt edge connections in salt edge and get the last connected time
         for (let connection of this.saltedgeService.saltedgeconnections) {
           // If there is no last commented time, put it as "Never"
@@ -297,63 +291,6 @@ export class AccountsPage {
 
     req.end();
   }
-
-  // aggregateconnections(uid) {
-  //   var balances = [] // currencies Object to be pushed to this balances array (so that firebase can accept it)
-  //   var currencies = {} // Aggregated currencies from all salt edge connections
-  //   var aggregatedtransactionhistory = []
-
-  //   // Get the salt edge connections from firebase
-  //   let sub: Subscription = this.firestore.collection<any>('users').doc(uid).collection("saltedgeconnections").valueChanges().subscribe((data) => {
-  //     console.log(data)
-  //     // Loop through each salt edge connection
-  //     for (let saltedgeconnection of data) {
-  //       console.log(saltedgeconnection)
-  //       console.log(saltedgeconnection.balances[0])
-  //       console.log(Object.keys(saltedgeconnection.balances[0]))
-  //       // console.log(Object.keys(saltedgeconnection.spendinginsights))
-
-  //       // Loop through the currency keys
-  //       // e.g. saltedgeconnection.balances[0] = {GBP: 4301, EUR: 2410}
-  //       // e.g. Object.keys(saltedgeconnection.balances[0]) = ["GBP", "EUR"]
-  //       for (let currency of Object.keys(saltedgeconnection.balances[0])) {
-  //         console.log(currency)
-  //         console.log(saltedgeconnection.balances[0][currency])
-
-  //         // If the currency is not yet added to the currencies Object
-  //         if (currencies[currency] == undefined) {
-  //           currencies[currency] = 0 // Start from 0
-  //         }
-  //         // Add it to the relevant currency key
-  //         currencies[currency] += saltedgeconnection.balances[0][currency]
-  //       }
-
-  //       // Add up the transaction histories of every salt edge connection
-  //       aggregatedtransactionhistory = aggregatedtransactionhistory.concat(saltedgeconnection.transactionhistory)
-  //     }
-  //     // Sort the transaction history by descending order (latest transaction first)
-  //     aggregatedtransactionhistory.sort((a, b) => {
-  //       if (a["made_on"] > b["made_on"]) {
-  //         return -1;
-  //       }
-  //       if (a["made_on"] < b["made_on"]) {
-  //         return 1;
-  //       }
-  //       return 0;
-  //     });
-  //     balances.push(currencies)
-  //     console.log(currencies)
-  //     console.log(aggregatedtransactionhistory)
-
-  //     // Set the aggregated balances, spending insights and transaction history to the users collection
-  //     this.firestore.collection('users').doc(uid).set({
-  //       balances: balances,
-  //       transactionhistory: aggregatedtransactionhistory
-  //     }, { merge: true })
-
-  //     sub.unsubscribe();
-  //   });
-  // }
 
   constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController, public saltedgeService: SaltedgeService) {
     this.getsaltedgeaccounts()

@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserService } from '../../user.service';
 import { ExpensesService } from '../../expenses.service';
 import { SaltedgeService } from 'src/app/saltedge.service';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-transactionhistory',
@@ -71,18 +70,11 @@ export class TransactionHistoryPage {
         // e.g. [["2018-04-23", Array], ["2018-04-22", Array], ... ]
         expensesService.transactions2 = Object.entries(transactionhistoryObject)
 
-        this.sortbylatesttransaction(expensesService.transactions2, 0)
-        this.sortbylatesttransaction(expensesService.transactions, "made_on")
+        expensesService.sortbylatesttransaction(expensesService.transactions2, 0)
+        expensesService.sortbylatesttransaction(expensesService.transactions, "made_on")
 
         console.log(expensesService.transactions)
         console.log(expensesService.transactions2)
-
-        // var aggregatedtransactions = []
-        // if (userService.loggedin == false) {
-        //   this.aggregatetransactionhistory("test1234@example.com")
-        // } else {
-        //   this.aggregatetransactionhistory(this.userService.uid)
-        // }
       });
 
       res.on("error", function (error) {
@@ -92,43 +84,4 @@ export class TransactionHistoryPage {
 
     req.end();
   }
-
-  // Sort by latest transaction first
-  sortbylatesttransaction(array, field) {
-    array.sort((a, b) => {
-      if (a[field] > b[field]) {
-        return -1;
-      }
-      if (a[field] < b[field]) {
-        return 1;
-      }
-      return 0;
-    });
-  }
-
-  // aggregatetransactionhistory(uid) {
-  //   // Put the account transaction history into firebase at users/{{uid}}/saltedgeconnections/{{saltedgeconnectionid}}/accounts/{{saltedgeaccountid}}
-  //   this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).collection("accounts").doc(this.saltedgeService.saltedgeaccount["id"]).set({
-  //     transactionhistory: this.expensesService.transactions
-  //   }, { merge: true }).then(() => {
-  //     // Get the transaction history of all accounts from firebase and put it in users/{{uid}}/saltedgeconnections/{{saltedgeconnectionid}}
-  //     let sub: Subscription = this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).collection("accounts").valueChanges().subscribe((data) => {
-  //       console.log(data)
-  //       // Loop through the accounts in the salt edge connection
-  //       for (let account of data) {
-  //         console.log(account["transactionhistory"])
-  //         this.aggregatedtransactions = this.aggregatedtransactions.concat(account["transactionhistory"]) // Concatenate the arrays into one array
-  //       }
-
-  //       this.sortbylatesttransaction(this.aggregatedtransactions, "made_on")
-  //       console.log(this.aggregatedtransactions)
-  //       sub.unsubscribe();
-
-  //       // Put it in users/{{uid}}/saltedgeconnections/{{saltedgeconnectionid}}
-  //       this.firestore.collection('users').doc(uid).collection("saltedgeconnections").doc(this.saltedgeService.saltedgeconnection["id"]).set({
-  //         transactionhistory: this.aggregatedtransactions
-  //       }, { merge: true })
-  //     })
-  //   })
-  // }
 }

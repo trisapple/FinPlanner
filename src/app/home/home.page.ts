@@ -651,7 +651,7 @@ export class HomePage {
                 transaction["amountcurrencycode"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: connection.currency_code }) // Include currency symbol 
               }
 
-              this.sortbylatesttransaction(transactionhistory, "made_on")
+              this.expensesService.sortbylatesttransaction(transactionhistory, "made_on")
 
               if (this.userService.loggedin == false) {
                 this.aggregatetransactionhistory("test1234@example.com", connection.connection_id, connection.id, transactionhistory)
@@ -753,7 +753,7 @@ export class HomePage {
           aggregatedtransactions = aggregatedtransactions.concat(account["transactionhistory"]) // Concatenate the arrays into one array
         }
 
-        this.sortbylatesttransaction(aggregatedtransactions, "made_on")
+        this.expensesService.sortbylatesttransaction(aggregatedtransactions, "made_on")
         console.log(aggregatedtransactions)
 
         // Put it in users/{{uid}}/saltedgeconnections/{{saltedgeconnectionid}}
@@ -773,19 +773,6 @@ export class HomePage {
       balances: balances,
       balancescurrencycode: balancescurrencycode
     }, { merge: true })
-  }
-
-  // Sort by latest transaction first
-  sortbylatesttransaction(array, field) {
-    array.sort((a, b) => {
-      if (a[field] > b[field]) {
-        return -1;
-      }
-      if (a[field] < b[field]) {
-        return 1;
-      }
-      return 0;
-    });
   }
 
   getsaltedgedata() {
