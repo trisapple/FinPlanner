@@ -14,87 +14,25 @@
     <div class="centered" style="color: white; font-size: 5vw; width:80%">Start Your Financial Literacy With Us Today</div>
   </div>
 
-  <!-- <div class="horizontal">
-      <ion-card color="light" *ngFor="let card of cards">
+  <!---Array for different courses-->
+  <!-- <div>
+      <ion-card *ngFor="let item of items">
+        <ion-img class="list" [src]="item.pic"></ion-img>
         <ion-card-header>
-          <ion-card-title>{{card.title}}</ion-card-title>
-          <ion-card-subtitle>{{card.subtitle}}</ion-card-subtitle>
+          <ion-card-subtitle>{{item.title}}</ion-card-subtitle>
         </ion-card-header>
-  
-        <ion-card-content>
-          {{card.description}}
-        </ion-card-content>
       </ion-card>
     </div> -->
+
   <h1><strong>All Courses</strong></h1>
   <ion-grid>
-    <h3><strong>Basic</strong></h3>
     <ion-row>
-      <ion-col size-xs="6" size-md="4">
+      <ion-col size-xs="12" size-sm="6" size-md="4" *ngFor="let item of items">
         <div>
-          <ion-card color="light" (click)="gotoplan()">
-            <img src="../../assets/plan.jpg" alt="ion" width="100%">
+          <ion-card color="light" (click)="gotoplan()" >
+            <ion-img class="list" [src]="item.pic"></ion-img>
             <ion-card-header>
-              <ion-card-title>Financial Planning and Basics</ion-card-title>
-              <!-- <ion-card-subtitle>BerkeleyX</ion-card-subtitle> -->
-            </ion-card-header>
-          </ion-card>
-        </div>
-      </ion-col>
-      <ion-col size-xs="6" size-md="4">
-        <div>
-          <ion-card color="light"  (click)="gotoinvest()">
-            <img src="../../assets/invest.jpg" alt="ion">
-            <ion-card-header>
-              <ion-card-title>Investing Basics</ion-card-title>
-              <!-- <ion-card-subtitle>ImperialBusinessX, ImperalX</ion-card-subtitle> -->
-            </ion-card-header>
-          </ion-card>
-        </div>
-      </ion-col>
-      <ion-col size-xs="6" size-md="4">
-        <div>
-          <ion-card color="light" (click)="gotosave()">
-            <img src="../../assets/save.png" alt="ion">
-            <ion-card-header>
-              <ion-card-title>Tips on Saving Money</ion-card-title>
-              <!-- <ion-card-subtitle>IIMBx</ion-card-subtitle> -->
-            </ion-card-header>
-          </ion-card>
-        </div>
-      </ion-col>
-    </ion-row>
-    <h3><strong>Intermediate</strong></h3>
-    <ion-row>
-      <ion-col size-xs="6" size-md="4">
-        <div>
-          <ion-card color="light" (click)="gotoEtf()">
-            <img src="../../assets/etf.jpg" alt="ion">
-            <ion-card-header>
-              <ion-card-title>How to Invest (The Right Way) with ETFs</ion-card-title>
-              <!-- <ion-card-subtitle>BerkeleyX</ion-card-subtitle> -->
-            </ion-card-header>
-          </ion-card>
-        </div>
-      </ion-col>
-      <ion-col size-xs="6" size-md="4">
-        <div>
-          <ion-card color="light" (click)="gotoretire()">
-            <img src="../../assets/retire.jpg" alt="ion">
-            <ion-card-header>
-              <ion-card-title>How to Plan for Your Retirement</ion-card-title>
-              <!-- <ion-card-subtitle>ImperialBusinessX, ImperalX</ion-card-subtitle> -->
-            </ion-card-header>
-          </ion-card>
-        </div>
-      </ion-col>
-      <ion-col size-xs="6" size-md="4">
-        <div>
-          <ion-card color="light" (click)="gototips()">
-            <img src="../../assets/crypto.jpg" alt="ion">
-            <ion-card-header>
-              <ion-card-title>Investing with Cryptocurrency</ion-card-title>
-              <!-- <ion-card-subtitle>IIMBx</ion-card-subtitle> -->
+              <ion-card-title>{{item.title}}</ion-card-title>
             </ion-card-header>
           </ion-card>
         </div>

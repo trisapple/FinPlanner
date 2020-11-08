@@ -44,3 +44,35 @@ ion-card-header {
   height: 100px;
   width: 100%;
 }
+
+@media (max-width: 767px) {
+  .light {
+      height: 95%;
+  }
+}
+
+@media (min-width: 768px) {
+  .light {
+      width: 100%;
+      display: block;
+      margin: auto;
+  }
+
+  .list {
+      position: static;
+      width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  .light {
+      width: 80%;
+      display: block;
+      margin: auto;
+  }
+
+  .list {
+      position: static;
+      width: 100%;
+  }
+}

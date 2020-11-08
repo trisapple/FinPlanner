@@ -18,9 +18,9 @@
 
   <div class="cardview" *ngFor="let item of items">
     
-    <ion-col>
+    <ion-col size-xs="12" size-sm="6" size-md="6">
       <ion-card class="card">
-        <iframe class="list" height="300px" [src]="item.vid"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe class="list" [src]="item.vid"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <ion-row>
           <ion-col class="padding">
             <ion-card-header>
