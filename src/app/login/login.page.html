@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>Login</ion-title>
     <!-- Side menu button -->
-    <ion-buttons slot="start">
+    <ion-buttons *ngIf="userService.loggedin" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
