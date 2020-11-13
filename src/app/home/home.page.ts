@@ -501,6 +501,8 @@ export class HomePage {
       this.firebasedata = data
       this.made_on_latest = this.firebasedata["transactionhistory"][0]["made_on"] // Get the date of latest transaction
       this.made_on_first = this.firebasedata["transactionhistory"][this.firebasedata["transactionhistory"].length - 1]["made_on"] // Get the date of first transaction
+
+      this.firebasedata["transactionhistory"] = this.firebasedata["transactionhistory"].filter(each => Math.sign(each.amount) == -1);
       console.log(data)
       console.log(data["saltedgereportid"])
       this.saltedgeService.saltedgereportid = data["saltedgereportid"] // Get user's salt edge report id to get insights but for now the insights API is not working
@@ -778,9 +780,6 @@ export class HomePage {
   }
 
   getsaltedgedata() {
-    // var connection_id = this.activatedRoute.snapshot.queryParamMap.get("connection_id")
-    // console.log(this.activatedRoute.snapshot.queryParamMap.get("connection_id"))
-
     if (this.userService.loggedin == false) {
       this.getData("test1234@example.com")
     } else {

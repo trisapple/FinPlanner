@@ -12,26 +12,40 @@
 
   <!-- Pie Chart from Google Charts -->
   <!-- <div *ngIf="expensesService.transactions && expensesService.transactions.length > 0"> -->
-    <div style="height: 300px;">
-      <canvas #doughnutCanvas></canvas>
-    </div>
 
-    <ion-grid>
-      <!-- Loop through the array and display the expenses -->
-      <div *ngFor="let i of expensesService.pieChartData">
-        <ion-row style="margin-top: 6px;">
-          <ion-text>{{ i[0] }}</ion-text> <!-- Category -->
-        </ion-row>
-        <ion-row style="margin-top: 6px;">
-          <ion-text>{{ i[2] }} ({{ i[3] }}%)</ion-text> <!-- Percentage of total expenses -->
-        </ion-row>
-        <ion-row style="margin-top: 6px;">
-          <ion-progress-bar [value]="i[1]/expensesService.total"></ion-progress-bar> <!-- Percentage as Progress Bar -->
-        </ion-row>
-        <br>
-      </div>
-    </ion-grid>
-    <ion-button expand="block" (click)="view()">View Savings Suggestions</ion-button>
+  <!-- The [value] at ion-segment is to set the selected value for the ion-segment -->
+  <ion-segment *ngFor="let year of defaultyear" scrollable (ionChange)="changeyear($event)" [value]="year">
+    <!-- Populate the years in the ion-segment -->
+    <ion-segment-button *ngFor="let each of yeararray" [value]="each">
+      <ion-label>{{ each }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- The [value] at ion-segment is to set the selected value for the ion-segment -->
+  <ion-segment *ngFor="let month of defaultmonth" scrollable (ionChange)="changemonth($event)" [value]="month[0]">
+    <!-- Populate the months in the ion-segment -->
+    <ion-segment-button *ngFor="let each of montharray" [value]="each[0]" [disabled]="each[1]">
+      <ion-label>{{ each[0] }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div style="height: 300px;">
+    <canvas #doughnutCanvas></canvas>
+  </div>
+
+  <br>
+
+  <ion-item *ngFor="let each of filtereddata2">
+    <ion-label class="ion-text-wrap">
+      <h2>{{ each.description }}</h2>
+      <p>{{ each.made_on }} | {{ each.category }}</p>
+    </ion-label>
+    <p>{{ each.amountcurrencycode }}</p>
+  </ion-item>
+
+  <br>
+
+  <ion-button expand="block" (click)="view()">View Savings Suggestions</ion-button>
   <!-- </div> -->
   <!-- <ion-label *ngIf="!expensesService.transactions || expensesService.transactions.length == 0" style="font-size: 20px" class="ocbc">
     No Spending Insights
