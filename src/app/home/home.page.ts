@@ -547,11 +547,11 @@ export class HomePage {
       } else {
         // No user is signed in.
         this.router.navigate(['/login']);
-        if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
-          this.connection_id()
-        } else {
-          this.getsaltedgedata()
-        }
+        // if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
+        //   this.connection_id()
+        // } else {
+        //   this.getsaltedgedata()
+        // }
       }
     });
   }
