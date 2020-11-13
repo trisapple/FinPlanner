@@ -440,7 +440,7 @@ export class HomePage {
     this.hovercolors = []
 
     // Filter the aggregated transaction history based on the year and month
-    this.filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
+    this.filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])) && Math.sign(each.amount) == -1);
 
     // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
     for (let transaction of this.filtereddata) {
@@ -501,8 +501,6 @@ export class HomePage {
       this.firebasedata = data
       this.made_on_latest = this.firebasedata["transactionhistory"][0]["made_on"] // Get the date of latest transaction
       this.made_on_first = this.firebasedata["transactionhistory"][this.firebasedata["transactionhistory"].length - 1]["made_on"] // Get the date of first transaction
-
-      this.firebasedata["transactionhistory"] = this.firebasedata["transactionhistory"].filter(each => Math.sign(each.amount) == -1);
       console.log(data)
       console.log(data["saltedgereportid"])
       this.saltedgeService.saltedgereportid = data["saltedgereportid"] // Get user's salt edge report id to get insights but for now the insights API is not working
