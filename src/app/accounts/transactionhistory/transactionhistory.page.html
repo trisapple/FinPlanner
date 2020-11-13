@@ -10,7 +10,23 @@
 
 <ion-content class="ion-padding">
 
-  <div *ngFor="let each of expensesService.transactions2">
+  <!-- The [value] at ion-segment is to set the selected value for the ion-segment -->
+  <ion-segment *ngFor="let year of defaultyear" scrollable (ionChange)="changeyear($event)" [value]="year">
+    <!-- Populate the years in the ion-segment -->
+    <ion-segment-button *ngFor="let each of yeararray" [value]="each">
+      <ion-label>{{ each }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- The [value] at ion-segment is to set the selected value for the ion-segment -->
+  <ion-segment *ngFor="let month of defaultmonth" scrollable (ionChange)="changemonth($event)" [value]="month[0]">
+    <!-- Populate the months in the ion-segment -->
+    <ion-segment-button *ngFor="let each of montharray" [value]="each[0]" [disabled]="each[1]">
+      <ion-label>{{ each[0] }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngFor="let each of filtereddata">
     <!-- Date -->
     <ion-item class="date">
       {{ each[0] }}
