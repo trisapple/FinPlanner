@@ -20,7 +20,7 @@ export class MenuPage implements OnInit {
     this.userService.loggedin = false;
     this.userService.socialLogin = false;
     this.fireauth.signOut().then(() => {
-      this.navCtrl.navigateRoot('/home');
+      this.navCtrl.navigateRoot('/login');
     });
   }
 
