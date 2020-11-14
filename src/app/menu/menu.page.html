@@ -37,6 +37,12 @@
       </ion-item>
     </ion-menu-toggle> -->
     <ion-menu-toggle>
+      <ion-item routerLink="/exchangerates" routerDirection="root" routerLinkActive="active">
+        <ion-icon name="logo-usd" slot="start"></ion-icon>
+          <ion-label>Finance</ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+    <ion-menu-toggle>
       <ion-item routerLink="/news" routerDirection="root" routerLinkActive="active">
         <ion-icon name="newspaper-outline" slot="start"></ion-icon>
           <ion-label>News</ion-label>
@@ -49,21 +55,15 @@
       </ion-item>
     </ion-menu-toggle>
     <ion-menu-toggle>
-      <ion-item routerLink="/faq" routerDirection="root" routerLinkActive="active">
-        <ion-icon name="help" slot="start"></ion-icon>
-          <ion-label>FAQ</ion-label>
-      </ion-item>
-    </ion-menu-toggle>
-    <ion-menu-toggle>
-      <ion-item routerLink="/exchangerates" routerDirection="root" routerLinkActive="active">
-        <ion-icon name="logo-usd" slot="start"></ion-icon>
-          <ion-label>Finance</ion-label>
-      </ion-item>
-    </ion-menu-toggle>
-    <ion-menu-toggle>
       <ion-item routerLink="/todolist" routerDirection="root" routerLinkActive="active">
         <ion-icon name="list-outline" slot="start"></ion-icon>
           <ion-label>To-do List</ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+    <ion-menu-toggle>
+      <ion-item routerLink="/faq" routerDirection="root" routerLinkActive="active">
+        <ion-icon name="help" slot="start"></ion-icon>
+          <ion-label>FAQ</ion-label>
       </ion-item>
     </ion-menu-toggle>
     <ion-menu-toggle *ngIf="!userService.loggedin">
