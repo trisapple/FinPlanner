@@ -6,6 +6,8 @@ import { ExpensesService } from '../expenses.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 import { SaltedgeService } from '../saltedge.service';
+import * as firebase from 'firebase';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-accounts',
@@ -292,7 +294,42 @@ export class AccountsPage {
     req.end();
   }
 
-  constructor(public navCtrl: NavController, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController, public saltedgeService: SaltedgeService) {
+  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController, public saltedgeService: SaltedgeService) {
     this.getsaltedgeaccounts()
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user != null) {
+        let sub: Subscription = userService.login(user.uid).subscribe((data) => {
+          userService.loggedin = true;
+          userService.name = data["name"];
+          userService.email = user.email;
+          userService.uid = user.uid;
+          // userService.provider = "Email and Password"
+          if (user.providerData[0]["providerId"] == "password") {
+            userService.provider = "Email and Password";
+          }
+          if (user.providerData[0]["providerId"] == "google.com") {
+            userService.socialLogin = true;
+            userService.provider = "Google";
+            userService.profilePicture = user.providerData[0]["photoURL"];
+          }
+          if (user.providerData[0]["providerId"] == "facebook.com") {
+            userService.socialLogin = true;
+            userService.provider = "Facebook";
+            userService.profilePicture = user.providerData[0]["photoURL"];
+          }
+          // console.log(user);
+          // if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
+          //   this.connection_id()
+          // } else {
+          //   this.getsaltedgedata()
+          // }
+          sub.unsubscribe();
+        });
+      } else {
+        // No user is signed in.
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }

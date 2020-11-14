@@ -5,6 +5,9 @@ import { ToastController, AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { ExpensesService } from '../expenses.service';
 import { SaltedgeService } from '../saltedge.service';
+import { Subscription } from 'rxjs';
+import * as firebase from 'firebase';
+import { Router } from '@angular/router';
 
 
 
@@ -15,10 +18,45 @@ import { SaltedgeService } from '../saltedge.service';
 })
 export class ProfilePage implements OnInit {
 
-  constructor(public userService: UserService, private fireauth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController, public navCtrl: NavController, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
+  constructor(public userService: UserService, private router: Router, private fireauth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController, public navCtrl: NavController, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
     if (userService.socialLogin == false) {
       this.userService.profilePicture = 'assets/avatar.png';
     }
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user != null) {
+        let sub: Subscription = userService.login(user.uid).subscribe((data) => {
+          userService.loggedin = true;
+          userService.name = data["name"];
+          userService.email = user.email;
+          userService.uid = user.uid;
+          // userService.provider = "Email and Password"
+          if (user.providerData[0]["providerId"] == "password") {
+            userService.provider = "Email and Password";
+          }
+          if (user.providerData[0]["providerId"] == "google.com") {
+            userService.socialLogin = true;
+            userService.provider = "Google";
+            userService.profilePicture = user.providerData[0]["photoURL"];
+          }
+          if (user.providerData[0]["providerId"] == "facebook.com") {
+            userService.socialLogin = true;
+            userService.provider = "Facebook";
+            userService.profilePicture = user.providerData[0]["photoURL"];
+          }
+          console.log(user);
+          // if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
+          //   this.connection_id()
+          // } else {
+          //   this.getsaltedgedata()
+          // }
+          sub.unsubscribe();
+        });
+      } else {
+        // No user is signed in.
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
   ngOnInit() {
