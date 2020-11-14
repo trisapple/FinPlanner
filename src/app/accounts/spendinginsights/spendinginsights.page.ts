@@ -36,6 +36,8 @@ export class SpendingInsightsPage {
   filtereddata2 = [] // Filter the transaction history further by category from the filtereddata array when the user clicks on the pie
 
   months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  month = ""
+  monthlyspend = ""
 
   constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public saltedgeService: SaltedgeService, public firestore: AngularFirestore) {
 
@@ -101,6 +103,7 @@ export class SpendingInsightsPage {
               for (let each of this.montharray) {
                 if (each[1] == false) {
                   this.defaultmonth = [[this.months[i], ('0' + (i + 1)).slice(-2)]] // Set the month to the latest month
+                  this.month = this.months[i]
                 }
               }
             }
@@ -116,6 +119,7 @@ export class SpendingInsightsPage {
           }
           // Set the month to the latest month
           this.defaultmonth = [[this.montharray[new Date(this.made_on_latest).getMonth()][0], ('0' + (new Date(this.made_on_latest).getMonth() + 1)).slice(-2)]]
+          this.month = this.montharray[new Date(this.made_on_latest).getMonth()][0]
         }
 
         // Loop through the list of transactions and add the transaction amount to the categories accordingly. 
@@ -142,6 +146,7 @@ export class SpendingInsightsPage {
     for (let i = 0; i <= this.months.length - 1; i++) {
       if (ev.detail.value == this.months[i]) {
         this.defaultmonth = [[this.months[i], ('0' + (i + 1)).slice(-2)]]
+        this.month = this.months[i]
       }
     }
 
@@ -175,6 +180,7 @@ export class SpendingInsightsPage {
           for (let each of this.montharray) {
             if (each[1] == true && this.defaultmonth[0][0] == each[0]) {
               this.defaultmonth = [[this.months[i], ('0' + (i + 1)).slice(-2)]]
+              this.month = this.months[i]
             }
           }
         }
@@ -220,6 +226,8 @@ export class SpendingInsightsPage {
     this.backgroundcolors = []
     this.hovercolors = []
 
+    var monthlyspend = 0
+
     // Filter the aggregated transaction history based on the year and month
     this.filtereddata = this.expensesService.transactions.filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
 
@@ -240,8 +248,12 @@ export class SpendingInsightsPage {
 
         // Add up the value to the category and multiply it by the exchange rate
         categories[transaction.category] += Math.abs(transaction.amount)
+        monthlyspend += Math.abs(transaction.amount)
       }
     }
+
+    this.monthlyspend = monthlyspend.toLocaleString('en-SG', { style: 'currency', currency: this.saltedgeService.saltedgeaccountcurrencycode }) // Include currency symbol 
+    // this.monthlyspend = monthlyspend.toLocaleString('en-SG', { style: 'currency', currency: "SGD" }) // Include currency symbol 
 
     this.filtereddata2 = this.filtereddata.slice() // Copy the filtereddata array to the filtereddata2 array
 
@@ -290,6 +302,9 @@ export class SpendingInsightsPage {
         ]
       },
       options: {
+        legend: {
+          'position': 'right'
+        },
         maintainAspectRatio: false,
         onClick: (evt, elements) => {
           var datasetIndex;

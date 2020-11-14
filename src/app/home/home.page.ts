@@ -835,6 +835,9 @@ export class HomePage {
         ]
       },
       options: {
+        legend: {
+          'position': 'right'
+        },
         maintainAspectRatio: false,
         onClick: (evt, elements) => {
           var datasetIndex;

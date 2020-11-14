@@ -11,7 +11,7 @@ export class SaltedgeService {
   saltedgeconnection = [] // Array of Connected Bank information
   saltedgeaccounts = [] // Array of accounts for the connected bank
   saltedgeaccount = [] // Array of account information 
-  saltedgeaccountcurrencycode: String // Currency code for spending insights and transaction history to display the corresponding currency symbol
+  saltedgeaccountcurrencycode: string // Currency code for spending insights and transaction history to display the corresponding currency symbol
   saltedgecustomerid: String // Salt Edge customer id to fetch user's connected banks
   saltedgereportid: String // Salt Edge Report id to display insights in home page
 
