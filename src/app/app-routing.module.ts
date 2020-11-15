@@ -51,6 +51,11 @@ const routes: Routes = [
     path: 'finance/rates',
     loadChildren: () => import('./finance/rates/rates.module').then( m => m.RatesPageModule)
   },
+  {
+    path: 'finance/viewexchangerates',
+    loadChildren: () => import('./finance/viewexchangerates/viewexchangerates.module').then( m => m.ViewexchangeratesPageModule)
+  },
+
 
   // { path: 'exchangerates', loadChildren: () => import('./exchangerates/exchangerates.module').then( m => m.ExchangeratesPageModule) },
 ];
