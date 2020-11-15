@@ -21,10 +21,12 @@ export class HomePage {
 
   @ViewChild("barCanvas") barCanvas: ElementRef;
   @ViewChild("doughnutCanvas") doughnutCanvas: ElementRef;
+  @ViewChild("doughnutCanvas2") doughnutCanvas2: ElementRef;
   @ViewChild("lineCanvas") lineCanvas: ElementRef;
 
   private barChart: Chart;
   private doughnutChart: Chart;
+  private doughnutChart2: Chart;
   private lineChart: Chart;
 
   // Chart.js arrays for bar chart (full data)
@@ -49,10 +51,18 @@ export class HomePage {
   spendinginsightvalues = [] // Values of the categories (e.g. $100)
   backgroundcolors = [] // Colours for pie chart
   hovercolors = [] // Colours for pie chart when mouse is hovered
+
+  // Chart.js arrays for doughnut chart
+  incomeinsightlabels = [] // Categories (e.g. Shopping)
+  incomeinsightvalues = [] // Values of the categories (e.g. $100)
+  incomebackgroundcolors = [] // Colours for pie chart
+  incomehovercolors = [] // Colours for pie chart when mouse is hovered
+
   firebasedata = {} // User data from firebase by calling users/{uid}
   exchangerates = {} // Exchange rates from api.exchangeratesapi.io to convert foreign currency to SGD
   filtereddata = [] // Filtered transaction history by year and month for pie chart
   filtereddata2 = [] // Filter the transaction history further by category from the filtereddata array when the user clicks on the pie
+  filtereddata3 = []
   // We create another array so that we can re-copy the filtereddata array when the user clicks somewhere outside of the pie chart
 
   // Ion-segment for doughnut chart
@@ -434,13 +444,19 @@ export class HomePage {
   // Filter transaction history and populate the pie chart
   looptransactions() {
     var categories = {}
+    var categories2 = {}
     this.spendinginsightlabels = []
     this.spendinginsightvalues = []
     this.backgroundcolors = []
     this.hovercolors = []
 
+    this.incomeinsightlabels = []
+    this.incomeinsightvalues = []
+    this.incomebackgroundcolors = []
+    this.incomehovercolors = []
+
     // Filter the aggregated transaction history based on the year and month
-    this.filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])) && Math.sign(each.amount) == -1);
+    this.filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
 
     // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
     for (let transaction of this.filtereddata) {
@@ -460,13 +476,31 @@ export class HomePage {
         // Add up the value to the category and multiply it by the exchange rate
         categories[transaction.category] += Math.abs(transaction.amount) / this.exchangerates[transaction.currency_code]
       }
+      if (Math.sign(transaction.amount) == 1) {
+        // If the category has not yet been added to the categories Object, start it from 0 and add up the value
+        if (categories2[transaction.category] == undefined) {
+          categories2[transaction.category] = 0 // Start from 0
+
+          // Randomly generate the pie color for the category
+          var colors = this.saltedgeService.dynamicColors()
+          this.incomebackgroundcolors.push(colors[0])
+          this.incomehovercolors.push(colors[1])
+        }
+        // console.log(this.exchangerates[transaction.currency_code])
+
+        // Add up the value to the category and multiply it by the exchange rate
+        categories2[transaction.category] += Math.abs(transaction.amount)
+        // monthlyincome += transaction.amount
+      }
     }
 
-    this.filtereddata2 = this.filtereddata.slice() // Copy the filtereddata array to the filtereddata2 array
+    this.filtereddata2 = this.filtereddata.slice().filter(each => Math.sign(each.amount) == -1); // Copy the filtereddata array to the filtereddata2 array
+    this.filtereddata3 = this.filtereddata.slice().filter(each => Math.sign(each.amount) == 1); // Copy the filtereddata array to the filtereddata2 array
     // this.spendinginsightlabels = Object.keys(categories) // Category names
     // this.spendinginsightvalues = Object.values(categories) // Values consisting of the amount spent for each category
 
     var categoriesarray = Object.entries(categories)
+    var categoriesarray2 = Object.entries(categories2)
 
     // Sort by largest value first
     categoriesarray.sort((a, b) => {
@@ -484,6 +518,11 @@ export class HomePage {
       this.spendinginsightvalues.push(each[1])
     }
 
+    for (let each of categoriesarray2) {
+      this.incomeinsightlabels.push(each[0])
+      this.incomeinsightvalues.push(each[1])
+    }
+
     console.log(categoriesarray)
 
     // Set the piechart data
@@ -492,6 +531,15 @@ export class HomePage {
     this.doughnutChart.config.data.datasets[0].backgroundColor = this.backgroundcolors
     this.doughnutChart.config.data.datasets[0].hoverBackgroundColor = this.hovercolors
     this.doughnutChart.update({ duration: 1000 }) // Refresh the piechart in HTML
+    // Duration (in milliseconds) is the how long the animation will take to finish.
+    // Remove the duration to remove the animation. 
+
+    // Set the piechart data
+    this.doughnutChart2.config.data.labels = this.incomeinsightlabels
+    this.doughnutChart2.config.data.datasets[0].data = this.incomeinsightvalues
+    this.doughnutChart2.config.data.datasets[0].backgroundColor = this.incomebackgroundcolors
+    this.doughnutChart2.config.data.datasets[0].hoverBackgroundColor = this.incomehovercolors
+    this.doughnutChart2.update({ duration: 1000 }) // Refresh the piechart in HTML
     // Duration (in milliseconds) is the how long the animation will take to finish.
     // Remove the duration to remove the animation. 
   }
@@ -864,9 +912,61 @@ export class HomePage {
                 dataset.backgroundColor = this.backgroundcolors.slice();
                 dataset.hoverBackgroundColor = this.hovercolors.slice();
               }
-              this.filtereddata2 = this.filtereddata.slice() // Put back the originally filtered expenses
+              this.filtereddata2 = this.filtereddata.slice().filter(each => Math.sign(each.amount) == -1); // Put back the originally filtered expenses
             }
             this.doughnutChart.update();
+          }
+        }
+      }
+    })
+
+    // Load doughnut chart
+    this.doughnutChart2 = new Chart(this.doughnutCanvas2.nativeElement, {
+      type: "doughnut",
+      data: {
+        labels: this.incomeinsightlabels,
+        datasets: [
+          {
+            label: "Income Insights",
+            data: this.incomeinsightvalues,
+            backgroundColor: this.incomebackgroundcolors,
+            hoverBackgroundColor: this.incomehovercolors
+          }
+        ]
+      },
+      options: {
+        legend: {
+          'position': 'right'
+        },
+        maintainAspectRatio: false,
+        onClick: (evt, elements) => {
+          var datasetIndex;
+          var dataset;
+
+          const { left, right, top, bottom } = this.doughnutChart2.chartArea; // We have this to exclude the chart legend because it also has its own onclick otherwise we would override it
+          if (evt.offsetX > left && evt.offsetX < right && evt.offsetY > top && evt.offsetY < bottom) {
+            if (elements.length) {
+              var index = elements[0]._index;
+              datasetIndex = elements[0]._datasetIndex;
+
+              // Reset old state
+              dataset = this.doughnutChart2.data.datasets[datasetIndex];
+              dataset.backgroundColor = this.incomebackgroundcolors.slice();
+              dataset.hoverBackgroundColor = this.incomehovercolors.slice();
+
+              dataset.backgroundColor[index] = this.incomehovercolors[index]; // click color
+              dataset.hoverBackgroundColor[index] = this.incomehovercolors[index];
+              this.filtereddata3 = this.filtereddata.filter(each => each["category"].includes(this.incomeinsightlabels[index]) && Math.sign(each.amount) == 1); // Filtered expenses by category
+            } else {
+              // remove hover styles
+              for (datasetIndex = 0; datasetIndex < this.doughnutChart2.data.datasets.length; ++datasetIndex) {
+                dataset = this.doughnutChart2.data.datasets[datasetIndex];
+                dataset.backgroundColor = this.incomebackgroundcolors.slice();
+                dataset.hoverBackgroundColor = this.incomehovercolors.slice();
+              }
+              this.filtereddata3 = this.filtereddata.slice().filter(each => Math.sign(each.amount) == 1); // Put back the originally filtered expenses
+            }
+            this.doughnutChart2.update();
           }
         }
       }

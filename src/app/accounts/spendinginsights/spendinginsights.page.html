@@ -13,11 +13,6 @@
   <!-- Pie Chart from Google Charts -->
   <!-- <div *ngIf="expensesService.transactions && expensesService.transactions.length > 0"> -->
 
-  <ion-label>In {{month}} {{year}}, you spent a total of {{ monthlyspend }} and earned {{ monthlyincome }} in your
-    account named "{{saltedgeService.saltedgeaccount.account_name}}". You have saved {{ savings }}.</ion-label>
-  <br>
-  <br>
-
   <h3>Money In / Out</h3>
   <ion-segment (ionChange)="barchartsegmentChanged($event)" value="3months" scrollable>
     <ion-segment-button value="1month" disabled>
@@ -69,6 +64,12 @@
       <ion-label>{{ each[0] }}</ion-label>
     </ion-segment-button>
   </ion-segment>
+  <br>
+
+  <ion-label>In {{month}} {{year}}, you spent a total of {{ monthlyspend }} and earned {{ monthlyincome }} in your
+    account named "{{saltedgeService.saltedgeaccount.account_name}}". You have saved {{ savings }}.</ion-label>
+  <br>
+  <br>
 
   <h3>Spending Insights</h3>
 

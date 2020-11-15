@@ -97,11 +97,14 @@
       <ion-label>{{ each[0] }}</ion-label>
     </ion-segment-button>
   </ion-segment>
+  <br>
 
   <div style="height: 300px;">
     <canvas #doughnutCanvas></canvas>
   </div>
+
   <br>
+  
   <ion-item *ngFor="let each of filtereddata2">
     <ion-label class="ion-text-wrap">
       <h2>{{ each.description }}</h2>
@@ -109,6 +112,28 @@
     </ion-label>
     <p>{{ each.amountcurrencycode }}</p>
   </ion-item>
+  
+  <br>
+
+  <h3 *ngIf="!sgdonly">Income Insights in SGD</h3>
+  <h3 *ngIf="sgdonly">Income Insights</h3>
+
+  <br>
+
+  <div style="height: 300px;">
+    <canvas #doughnutCanvas2></canvas>
+  </div>
+
+  <br>
+
+  <ion-item *ngFor="let each of filtereddata3">
+    <ion-label class="ion-text-wrap">
+      <h2>{{ each.description }}</h2>
+      <p>{{ each.made_on }} | {{ each.category }}</p>
+    </ion-label>
+    <p>{{ each.amountcurrencycode }}</p>
+  </ion-item>
+
   <!-- <canvas #lineCanvas></canvas> -->
 
 </ion-content>
