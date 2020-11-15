@@ -15,8 +15,10 @@ import { Subscription } from 'rxjs';
 export class SpendingInsightsPage {
 
   @ViewChild("doughnutCanvas") doughnutCanvas: ElementRef;
+  @ViewChild("doughnutCanvas2") doughnutCanvas2: ElementRef;
   @ViewChild("barCanvas") barCanvas: ElementRef;
   private doughnutChart: Chart;
+  private doughnutChart2: Chart;
   private barChart: Chart;
 
   // Chart.js arrays for bar chart (full data)
@@ -42,6 +44,12 @@ export class SpendingInsightsPage {
   backgroundcolors = [] // Colours for pie chart
   hovercolors = [] // Colours for pie chart when mouse is hovered
 
+  // Chart.js arrays for doughnut chart
+  incomeinsightlabels = [] // Categories
+  incomeinsightvalues = [] // Amount spent in categories
+  incomebackgroundcolors = [] // Colours for pie chart
+  incomehovercolors = [] // Colours for pie chart when mouse is hovered
+
   // Ion-segment for doughnut chart
   yeararray = [] // Populate the years (e.g. 2019, 2018, 2017)
   defaultyear = [] // Select the year in the ion-segment
@@ -52,8 +60,9 @@ export class SpendingInsightsPage {
   made_on_first = "" // Date of first transaction
 
   alltransactions = []
-  filtereddata = [] // Filtered transaction history by year and month for pie chart
-  filtereddata2 = [] // Filter the transaction history further by category from the filtereddata array when the user clicks on the pie
+  filteredmonthlydata = [] // Filtered transaction history by year and month for pie chart
+  filteredmonthlydata2 = [] // Filter the transaction history further by category from the filtereddata array when the user clicks on the pie
+  filteredmonthlydata3 = [] // Filter the transaction history further by category from the filtereddata array when the user clicks on the pie
 
   months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
   month = ""
@@ -91,13 +100,13 @@ export class SpendingInsightsPage {
       res.on("end", (chunk) => {
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
-        expensesService.transactions = JSON.parse(body.toString())["data"]
+        // expensesService.transactions = JSON.parse(body.toString())["data"]
         this.alltransactions = JSON.parse(body.toString())["data"]
         // expensesService.transactions = expensesService.transactions.filter(each => Math.sign(each.amount) == -1);
-        this.expensesService.sortbylatesttransaction(this.expensesService.transactions, "made_on")
+        this.expensesService.sortbylatesttransaction(this.alltransactions, "made_on")
 
-        this.made_on_latest = this.expensesService.transactions[0]["made_on"] // Get the date of latest transaction
-        this.made_on_first = this.expensesService.transactions[this.expensesService.transactions.length - 1]["made_on"] // Get the date of first transaction
+        this.made_on_latest = this.alltransactions[0]["made_on"] // Get the date of latest transaction
+        this.made_on_first = this.alltransactions[this.alltransactions.length - 1]["made_on"] // Get the date of first transaction
 
         console.log(this.made_on_first)
         console.log(this.made_on_latest)
@@ -148,7 +157,7 @@ export class SpendingInsightsPage {
         }
 
         // Loop through the list of transactions and add the transaction amount to the categories accordingly. 
-        for (let transaction of expensesService.transactions) {
+        for (let transaction of this.alltransactions) {
           transaction.category = expensesService.humanize(transaction.category) // Remove underscores and capitalise every word
           transaction["amountcurrencycode"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: transaction.currency_code }) // Include currency symbol 
         }
@@ -201,107 +210,107 @@ export class SpendingInsightsPage {
     req.end();
   }
 
-    // "Previous" button for bar chart to go back one month
-    previousmonth() {
-      // If statement to ensure that the bar chart does not go out of bounds of the full data arrays (labels, incomevalues, expensevalues)
-      if (this.startindex < this.labels.length) {
-        this.updateBarChart(1, 1)
+  // "Previous" button for bar chart to go back one month
+  previousmonth() {
+    // If statement to ensure that the bar chart does not go out of bounds of the full data arrays (labels, incomevalues, expensevalues)
+    if (this.startindex < this.labels.length) {
+      this.updateBarChart(1, 1)
+    }
+  }
+
+  // "Next" button for bar chart to advance one month
+  nextmonth() {
+    // If statement to ensure that the bar chart does not go out of bounds of the full data arrays (labels, incomevalues, expensevalues)
+    if (this.endindex > 1) {
+      this.updateBarChart(-1, -1)
+    }
+  }
+
+  // Update bar chart data when previous, next, or any of the ion-segment buttons are clicked
+  updateBarChart(startindex, endindex) {
+
+    // Update the startindex and endindex so that we can determine where to collect the data from the full data arrays (labels, incomevalues, expensevalues)
+    this.startindex = this.startindex + startindex
+    this.endindex = this.endindex + endindex
+
+    // Empty the arrays so that we can populate the data with the new startindex and endindex using the for loop below
+    this.labelsspliced = []
+    this.expensevaluesspliced = []
+    this.incomevaluesspliced = []
+
+    // Populate the partial data arrays (labelsspliced, expensevaluesspliced, incomevaluesspliced) from full data arrays (labels, expensevalues and incomevalues)
+    for (let i = this.startindex; i >= this.endindex; i--) {
+
+      // We check for undefined so that we can remove the 'undefined' word when the labelsspliced array (partial data) goes out of bounds of the labels array (full data)
+      if (this.labels[this.labels.length - i] == undefined) {
+        this.labelsspliced.push("") // Push an empty string to remove the 'undefined' word at the bottom
+      } else {
+        this.labelsspliced.push(this.labels[this.labels.length - i]) // Populate the months and years
+      }
+      if (this.expensevalues[this.expensevalues.length - i] == undefined) {
+        this.expensevaluesspliced.push(0) // Push a zero value to make the expensevaluesspliced array in line with the labels array
+        // If we remove it the bars won't move along with the labels
+      } else {
+        this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i]) // Populate the monthly expense values
+      }
+      if (this.incomevalues[this.incomevalues.length - i] == undefined) {
+        this.incomevaluesspliced.push(0) // Push a zero value to make the incomevaluesspliced array in line with the labels array
+        // If we remove it the bars won't move along with the labels
+      } else {
+        this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i]) // Populate the monthly income values
       }
     }
-  
-    // "Next" button for bar chart to advance one month
-    nextmonth() {
-      // If statement to ensure that the bar chart does not go out of bounds of the full data arrays (labels, incomevalues, expensevalues)
-      if (this.endindex > 1) {
-        this.updateBarChart(-1, -1)
-      }
+
+    // Set the barchart data
+    this.barChart.data.datasets[0].data = this.incomevaluesspliced
+    this.barChart.data.datasets[1].data = this.expensevaluesspliced
+    this.barChart.data.labels = this.labelsspliced
+    this.barChart.update({ duration: 1000 }) // Refresh the barchart in HTML
+    // Duration (in milliseconds) is the how long the animation will take to finish.
+    // Remove the duration to remove the animation. 
+  }
+
+  // Any change in ion-segment selection at the bar chart will call this method.  
+  barchartsegmentChanged(ev: any) {
+    if (ev.detail.value == "1month") {
+      this.segmentvalue = "1month"
     }
-  
-    // Update bar chart data when previous, next, or any of the ion-segment buttons are clicked
-    updateBarChart(startindex, endindex) {
-  
-      // Update the startindex and endindex so that we can determine where to collect the data from the full data arrays (labels, incomevalues, expensevalues)
-      this.startindex = this.startindex + startindex
-      this.endindex = this.endindex + endindex
-  
-      // Empty the arrays so that we can populate the data with the new startindex and endindex using the for loop below
-      this.labelsspliced = []
-      this.expensevaluesspliced = []
-      this.incomevaluesspliced = []
-  
-      // Populate the partial data arrays (labelsspliced, expensevaluesspliced, incomevaluesspliced) from full data arrays (labels, expensevalues and incomevalues)
-      for (let i = this.startindex; i >= this.endindex; i--) {
-  
-        // We check for undefined so that we can remove the 'undefined' word when the labelsspliced array (partial data) goes out of bounds of the labels array (full data)
-        if (this.labels[this.labels.length - i] == undefined) {
-          this.labelsspliced.push("") // Push an empty string to remove the 'undefined' word at the bottom
-        } else {
-          this.labelsspliced.push(this.labels[this.labels.length - i]) // Populate the months and years
-        }
-        if (this.expensevalues[this.expensevalues.length - i] == undefined) {
-          this.expensevaluesspliced.push(0) // Push a zero value to make the expensevaluesspliced array in line with the labels array
-          // If we remove it the bars won't move along with the labels
-        } else {
-          this.expensevaluesspliced.push(this.expensevalues[this.expensevalues.length - i]) // Populate the monthly expense values
-        }
-        if (this.incomevalues[this.incomevalues.length - i] == undefined) {
-          this.incomevaluesspliced.push(0) // Push a zero value to make the incomevaluesspliced array in line with the labels array
-          // If we remove it the bars won't move along with the labels
-        } else {
-          this.incomevaluesspliced.push(this.incomevalues[this.incomevalues.length - i]) // Populate the monthly income values
-        }
+    // If "3 months" is selected
+    if (ev.detail.value == "3months") {
+      // If the ion-segment selection is changed from "6 months" to "3 months"
+      if (this.segmentvalue == "6months") {
+        this.updateBarChart(-3, 0) // We minus the start index (move right of the array) to remove the first 3 months of the spliced data
       }
-  
-      // Set the barchart data
-      this.barChart.data.datasets[0].data = this.incomevaluesspliced
-      this.barChart.data.datasets[1].data = this.expensevaluesspliced
-      this.barChart.data.labels = this.labelsspliced
-      this.barChart.update({ duration: 1000 }) // Refresh the barchart in HTML
-      // Duration (in milliseconds) is the how long the animation will take to finish.
-      // Remove the duration to remove the animation. 
+      // If the ion-segment selection is changed from "1 year" to "3 months"
+      if (this.segmentvalue == "1year") {
+        this.updateBarChart(-9, 0)
+      }
+      this.segmentvalue = "3months" // Set the segment value
     }
-  
-    // Any change in ion-segment selection at the bar chart will call this method.  
-    barchartsegmentChanged(ev: any) {
-      if (ev.detail.value == "1month") {
-        this.segmentvalue = "1month"
+    // If "6 months" is selected
+    if (ev.detail.value == "6months") {
+      if (this.segmentvalue == "3months") {
+        this.updateBarChart(3, 0)
       }
-      // If "3 months" is selected
-      if (ev.detail.value == "3months") {
-        // If the ion-segment selection is changed from "6 months" to "3 months"
-        if (this.segmentvalue == "6months") {
-          this.updateBarChart(-3, 0) // We minus the start index (move right of the array) to remove the first 3 months of the spliced data
-        }
-        // If the ion-segment selection is changed from "1 year" to "3 months"
-        if (this.segmentvalue == "1year") {
-          this.updateBarChart(-9, 0)
-        }
-        this.segmentvalue = "3months" // Set the segment value
+      if (this.segmentvalue == "1year") {
+        this.updateBarChart(-6, 0)
       }
-      // If "6 months" is selected
-      if (ev.detail.value == "6months") {
-        if (this.segmentvalue == "3months") {
-          this.updateBarChart(3, 0)
-        }
-        if (this.segmentvalue == "1year") {
-          this.updateBarChart(-6, 0)
-        }
-        this.segmentvalue = "6months"
-      }
-      // If "1 year" is selected
-      if (ev.detail.value == "1year") {
-        if (this.segmentvalue == "3months") {
-          this.updateBarChart(9, 0)
-        }
-        if (this.segmentvalue == "6months") {
-          this.updateBarChart(6, 0)
-        }
-        this.segmentvalue = "1year"
-      }
-      if (ev.detail.value == "all") {
-        this.segmentvalue = "all"
-      }
+      this.segmentvalue = "6months"
     }
+    // If "1 year" is selected
+    if (ev.detail.value == "1year") {
+      if (this.segmentvalue == "3months") {
+        this.updateBarChart(9, 0)
+      }
+      if (this.segmentvalue == "6months") {
+        this.updateBarChart(6, 0)
+      }
+      this.segmentvalue = "1year"
+    }
+    if (ev.detail.value == "all") {
+      this.segmentvalue = "all"
+    }
+  }
 
   populatebarchart(start, end, year) {
     for (let i = start; i <= end; i++) {
@@ -416,19 +425,25 @@ export class SpendingInsightsPage {
   // Filter transaction history and populate the pie chart
   looptransactions() {
     var categories = {}
+    var categories2 = {}
     this.spendinginsightlabels = []
     this.spendinginsightvalues = []
     this.backgroundcolors = []
     this.hovercolors = []
 
+    this.incomeinsightlabels = []
+    this.incomeinsightvalues = []
+    this.incomebackgroundcolors = []
+    this.incomehovercolors = []
+
     var monthlyspend = 0
     var monthlyincome = 0
 
     // Filter the aggregated transaction history based on the year and month
-    this.filtereddata = this.expensesService.transactions.filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
+    this.filteredmonthlydata = this.alltransactions.filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
 
     // Loop through the list of transactions. Based on the transaction description, add the transaction amount to the categories accordingly. 
-    for (let transaction of this.filtereddata) {
+    for (let transaction of this.filteredmonthlydata) {
       // If the transaction is a negative value
       if (Math.sign(transaction.amount) == -1) {
         // If the category has not yet been added to the categories Object, start it from 0 and add up the value
@@ -447,6 +462,19 @@ export class SpendingInsightsPage {
         monthlyspend += Math.abs(transaction.amount)
       }
       if (Math.sign(transaction.amount) == 1) {
+        // If the category has not yet been added to the categories Object, start it from 0 and add up the value
+        if (categories2[transaction.category] == undefined) {
+          categories2[transaction.category] = 0 // Start from 0
+
+          // Randomly generate the pie color for the category
+          var colors = this.saltedgeService.dynamicColors()
+          this.incomebackgroundcolors.push(colors[0])
+          this.incomehovercolors.push(colors[1])
+        }
+        // console.log(this.exchangerates[transaction.currency_code])
+
+        // Add up the value to the category and multiply it by the exchange rate
+        categories2[transaction.category] += Math.abs(transaction.amount)
         monthlyincome += transaction.amount
       }
     }
@@ -458,9 +486,11 @@ export class SpendingInsightsPage {
     // this.monthlyspend = monthlyspend.toLocaleString('en-SG', { style: 'currency', currency: "SGD" }) // Include currency symbol 
     // this.monthlyincome = monthlyincome.toLocaleString('en-SG', { style: 'currency', currency: "SGD" }) // Include currency symbol 
 
-    this.filtereddata2 = this.filtereddata.slice() // Copy the filtereddata array to the filtereddata2 array
+    this.filteredmonthlydata2 = this.filteredmonthlydata.slice().filter(each => Math.sign(each.amount) == -1); // Copy the filtereddata array to the filtereddata2 array
+    this.filteredmonthlydata3 = this.filteredmonthlydata.slice().filter(each => Math.sign(each.amount) == 1); // Copy the filtereddata array to the filtereddata2 array
 
     var categoriesarray = Object.entries(categories)
+    var categoriesarray2 = Object.entries(categories2)
 
     // Sort by largest value first
     categoriesarray.sort((a, b) => {
@@ -478,6 +508,11 @@ export class SpendingInsightsPage {
       this.spendinginsightvalues.push(each[1])
     }
 
+    for (let each of categoriesarray2) {
+      this.incomeinsightlabels.push(each[0])
+      this.incomeinsightvalues.push(each[1])
+    }
+
     console.log(categoriesarray)
 
     // Set the piechart data
@@ -486,6 +521,15 @@ export class SpendingInsightsPage {
     this.doughnutChart.config.data.datasets[0].backgroundColor = this.backgroundcolors
     this.doughnutChart.config.data.datasets[0].hoverBackgroundColor = this.hovercolors
     this.doughnutChart.update({ duration: 1000 }) // Refresh the piechart in HTML
+    // Duration (in milliseconds) is the how long the animation will take to finish.
+    // Remove the duration to remove the animation. 
+
+    // Set the piechart data
+    this.doughnutChart2.config.data.labels = this.incomeinsightlabels
+    this.doughnutChart2.config.data.datasets[0].data = this.incomeinsightvalues
+    this.doughnutChart2.config.data.datasets[0].backgroundColor = this.incomebackgroundcolors
+    this.doughnutChart2.config.data.datasets[0].hoverBackgroundColor = this.incomehovercolors
+    this.doughnutChart2.update({ duration: 1000 }) // Refresh the piechart in HTML
     // Duration (in milliseconds) is the how long the animation will take to finish.
     // Remove the duration to remove the animation. 
   }
@@ -561,7 +605,7 @@ export class SpendingInsightsPage {
 
               dataset.backgroundColor[index] = this.hovercolors[index]; // click color
               dataset.hoverBackgroundColor[index] = this.hovercolors[index];
-              this.filtereddata2 = this.filtereddata.filter(each => each["category"].includes(this.spendinginsightlabels[index]) && Math.sign(each.amount) == -1); // Filtered expenses by category
+              this.filteredmonthlydata2 = this.filteredmonthlydata.filter(each => each["category"].includes(this.spendinginsightlabels[index]) && Math.sign(each.amount) == -1); // Filtered expenses by category
             } else {
               // remove hover styles
               for (datasetIndex = 0; datasetIndex < this.doughnutChart.data.datasets.length; ++datasetIndex) {
@@ -569,9 +613,61 @@ export class SpendingInsightsPage {
                 dataset.backgroundColor = this.backgroundcolors.slice();
                 dataset.hoverBackgroundColor = this.hovercolors.slice();
               }
-              this.filtereddata2 = this.filtereddata.slice() // Put back the originally filtered expenses
+              this.filteredmonthlydata2 = this.filteredmonthlydata.slice().filter(each => Math.sign(each.amount) == -1); // Copy the filtereddata array to the filtereddata2 array
             }
             this.doughnutChart.update();
+          }
+        }
+      }
+    });
+
+    // Load doughnut chart
+    this.doughnutChart2 = new Chart(this.doughnutCanvas2.nativeElement, {
+      type: "doughnut",
+      data: {
+        labels: this.incomeinsightlabels,
+        datasets: [
+          {
+            label: "Income Insights",
+            data: this.incomeinsightvalues,
+            backgroundColor: this.incomebackgroundcolors,
+            hoverBackgroundColor: this.incomehovercolors
+          }
+        ]
+      },
+      options: {
+        legend: {
+          'position': 'right'
+        },
+        maintainAspectRatio: false,
+        onClick: (evt, elements) => {
+          var datasetIndex;
+          var dataset;
+
+          const { left, right, top, bottom } = this.doughnutChart2.chartArea; // We have this to exclude the chart legend because it also has its own onclick otherwise we would override it
+          if (evt.offsetX > left && evt.offsetX < right && evt.offsetY > top && evt.offsetY < bottom) {
+            if (elements.length) {
+              var index = elements[0]._index;
+              datasetIndex = elements[0]._datasetIndex;
+
+              // Reset old state
+              dataset = this.doughnutChart2.data.datasets[datasetIndex];
+              dataset.backgroundColor = this.incomebackgroundcolors.slice();
+              dataset.hoverBackgroundColor = this.incomehovercolors.slice();
+
+              dataset.backgroundColor[index] = this.incomehovercolors[index]; // click color
+              dataset.hoverBackgroundColor[index] = this.incomehovercolors[index];
+              this.filteredmonthlydata3 = this.filteredmonthlydata.filter(each => each["category"].includes(this.incomeinsightlabels[index]) && Math.sign(each.amount) == 1); // Filtered expenses by category
+            } else {
+              // remove hover styles
+              for (datasetIndex = 0; datasetIndex < this.doughnutChart2.data.datasets.length; ++datasetIndex) {
+                dataset = this.doughnutChart2.data.datasets[datasetIndex];
+                dataset.backgroundColor = this.incomebackgroundcolors.slice();
+                dataset.hoverBackgroundColor = this.incomehovercolors.slice();
+              }
+              this.filteredmonthlydata3 = this.filteredmonthlydata.slice().filter(each => Math.sign(each.amount) == 1); // Copy the filtereddata array to the filtereddata2 array
+            }
+            this.doughnutChart2.update();
           }
         }
       }

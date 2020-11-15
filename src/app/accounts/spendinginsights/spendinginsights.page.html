@@ -13,6 +13,11 @@
   <!-- Pie Chart from Google Charts -->
   <!-- <div *ngIf="expensesService.transactions && expensesService.transactions.length > 0"> -->
 
+  <ion-label>In {{month}} {{year}}, you spent a total of {{ monthlyspend }} and earned {{ monthlyincome }} in your
+    account named "{{saltedgeService.saltedgeaccount.account_name}}". You have saved {{ savings }}.</ion-label>
+  <br>
+  <br>
+
   <h3>Money In / Out</h3>
   <ion-segment (ionChange)="barchartsegmentChanged($event)" value="3months" scrollable>
     <ion-segment-button value="1month" disabled>
@@ -49,17 +54,6 @@
     <canvas #barCanvas></canvas>
   </div>
 
-  <h3>Spending Insights</h3>
-
-  <!-- <div style="display: flex; align-items: center">
-    <ion-checkbox style="margin: 12px;" checked="false"></ion-checkbox>
-    <ion-label>View Income Insights</ion-label>
-  </div>
-  <div style="display: flex; align-items: center">
-    <ion-checkbox style="margin: 12px;" checked="true"></ion-checkbox>
-    <ion-label>View Spending Insights</ion-label>
-  </div> -->
-
   <!-- The [value] at ion-segment is to set the selected value for the ion-segment -->
   <ion-segment *ngFor="let year of defaultyear" scrollable (ionChange)="changeyear($event)" [value]="year">
     <!-- Populate the years in the ion-segment -->
@@ -76,10 +70,20 @@
     </ion-segment-button>
   </ion-segment>
 
+  <h3>Spending Insights</h3>
+
+  <ion-label>You spent a total of {{ monthlyspend }} in {{ month }} {{ year }}.</ion-label>
   <br>
-  <ion-label>In {{month}} {{year}}, you spent a total of {{ monthlyspend }} and earned {{ monthlyincome }} in your account named "{{saltedgeService.saltedgeaccount.account_name}}". You have saved {{ savings }}</ion-label>
   <br>
-  <br>
+
+  <!-- <div style="display: flex; align-items: center">
+    <ion-checkbox style="margin: 12px;" checked="false"></ion-checkbox>
+    <ion-label>View Income Insights</ion-label>
+  </div>
+  <div style="display: flex; align-items: center">
+    <ion-checkbox style="margin: 12px;" checked="true"></ion-checkbox>
+    <ion-label>View Spending Insights</ion-label>
+  </div> -->
 
   <div style="height: 300px;">
     <canvas #doughnutCanvas></canvas>
@@ -87,7 +91,7 @@
 
   <br>
 
-  <ion-item *ngFor="let each of filtereddata2">
+  <ion-item *ngFor="let each of filteredmonthlydata2">
     <ion-label class="ion-text-wrap">
       <h2>{{ each.description }}</h2>
       <p>{{ each.made_on }} | {{ each.category }}</p>
@@ -98,6 +102,32 @@
   <br>
 
   <ion-button expand="block" (click)="view()">View Savings Suggestions</ion-button>
+
+  <br>
+  <br>
+
+  <h3>Income Insights</h3>
+  <ion-label>You earned a total of {{ monthlyincome }} in {{ month }} {{ year }}.</ion-label>
+  <br>
+  <br>
+
+  <div style="height: 300px;">
+    <canvas #doughnutCanvas2></canvas>
+  </div>
+
+  <br>
+
+  <ion-item *ngFor="let each of filteredmonthlydata3">
+    <ion-label class="ion-text-wrap">
+      <h2>{{ each.description }}</h2>
+      <p>{{ each.made_on }} | {{ each.category }}</p>
+    </ion-label>
+    <p>{{ each.amountcurrencycode }}</p>
+  </ion-item>
+
+  <br>
+
+
   <!-- </div> -->
   <!-- <ion-label *ngIf="!expensesService.transactions || expensesService.transactions.length == 0" style="font-size: 20px" class="ocbc">
     No Spending Insights
