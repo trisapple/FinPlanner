@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-rates',
@@ -24,9 +24,6 @@ export class RatesPage implements OnInit {
     }
   }
 
- 
-  
-
   ngOnInit() {
   }
 
@@ -46,15 +43,23 @@ export class RatesPage implements OnInit {
   initializeJSONData() {
     this.jsonData =  [
       {
-        "name": "MSFT",
-        
+        "name": "Microsoft",
+        "symbol": "MSFT"
       },
       {
-        "name": "TSLA",
-      },
-      {
-        "name": "SGD/USD"
+        "name": "APPLE",
+        "symbol": "AAPL"
       },
     ]
+  }
+
+  details(obj) {
+    console.log(obj)
+    let navigationExtras: NavigationExtras = {
+      state: {
+        symbol: obj
+      }
+    };
+    this.router.navigate(['finance/viewexchangerates'], navigationExtras);
   }
 }

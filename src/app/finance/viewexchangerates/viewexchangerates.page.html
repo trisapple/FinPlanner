@@ -1,9 +1,65 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>viewexchangerates</ion-title>
+    <ion-title>View Exchange Rates</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class = "ion-padding">
+  <ion-label style = "font-size: 20px"><b>{{params.name}}</b></ion-label>
+  <br>
+  <br>
+  <ion-label style = "font-size: 25px"><b>Price:  {{ expensesService.msftStocks["05. price"] }}</b></ion-label>
+  <br>
+  <ion-label style = "font-size: 13px">Last Refreshed: {{ expensesService.msftStocks["07. latest trading day"] }}</ion-label>
+  <br>
+  <br>
+  <ion-label style = "font-size: 20px"><b>Summary</b></ion-label>
+
+  <ion-grid>
+    <ion-row class="ion-align-items-start">
+      <ion-col>
+        <div>
+          <ion-label>Previous Close:  {{ expensesService.msftStocks["08. previous close"] }}</ion-label>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <ion-label>Open:  {{ expensesService.msftStocks["02. open"] }}</ion-label>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <ion-label>High:  {{ expensesService.msftStocks["03. high"] }}</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+
+  
+    <ion-row class="ion-align-items-center">
+      <ion-col>
+        <div>
+          <ion-label>Low:  {{ expensesService.msftStocks["04. low"] }}</ion-label>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <ion-label>Volume:  {{ expensesService.msftStocks["06. volume"] }}</ion-label>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <ion-label>Change (%):  {{ expensesService.msftStocks["10. change percent"] }}</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <br>
+  <ion-label style = "font-size: 20px"><b>Chart</b></ion-label>
+  <br>
+  <br>
+  
 
 </ion-content>
