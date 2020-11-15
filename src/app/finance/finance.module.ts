@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FxratesPageRoutingModule } from './fxrates-routing.module';
+import { FinancePageRoutingModule } from './finance-routing.module';
 
-import { FxratesPage } from './fxrates.page';
+import { FinancePage } from './finance.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FxratesPageRoutingModule
+    FinancePageRoutingModule
   ],
-  declarations: [FxratesPage]
+  declarations: [FinancePage]
 })
-export class FxratesPageModule {}
+export class FinancePageModule {}

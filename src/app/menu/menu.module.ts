@@ -19,10 +19,10 @@ const routes: Routes = [
       { path: 'news', loadChildren: () => import('../news/news.module').then(m => m.NewsPageModule) },
       { path: 'courses', loadChildren: () => import('../courses/courses.module').then(m => m.CoursesPageModule) },
       { path: 'faq', loadChildren: () => import('../faq/faq.module').then(m => m.FaqPageModule) },
-      { path: 'exchangerates', loadChildren: () => import('../exchangerates/exchangerates.module').then(m => m.ExchangeratesPageModule) },
       { path: 'profile', loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule) },
       { path: 'accounts', loadChildren: () => import('../accounts/accounts.module').then(m => m.AccountsPageModule) },
       { path: 'todolist', loadChildren: () => import('../todolist/todolist.module').then(m => m.TodolistPageModule) },
+      { path: 'finance', loadChildren: () => import('../finance/finance.module').then( m => m.FinancePageModule)},
     ]
   }
 ];
