@@ -43,7 +43,7 @@
   <br>
   <h3 *ngIf="!sgdonly">Money In / Out in SGD</h3>
   <h3 *ngIf="sgdonly">Money In / Out</h3>
-  <ion-segment (ionChange)="barchartsegmentChanged($event)" value="3months" scrollable >
+  <ion-segment (ionChange)="barchartsegmentChanged($event)" value="3months" scrollable>
     <ion-segment-button value="1month" disabled>
       <ion-label>1 Month</ion-label>
     </ion-segment-button>
@@ -79,11 +79,9 @@
   </div>
 
   <br>
-  <h3 *ngIf="!sgdonly">Spending Insights in SGD</h3>
-  <h3 *ngIf="sgdonly">Spending Insights</h3>
-  
+
   <!-- The [value] at ion-segment is to set the selected value for the ion-segment -->
-  <ion-segment *ngFor="let year of defaultyear" scrollable (ionChange)="changeyear($event)"[value]="year">
+  <ion-segment *ngFor="let year of defaultyear" scrollable (ionChange)="changeyear($event)" [value]="year">
     <!-- Populate the years in the ion-segment -->
     <ion-segment-button *ngFor="let each of yeararray" [value]="each">
       <ion-label>{{ each }}</ion-label>
@@ -99,12 +97,24 @@
   </ion-segment>
   <br>
 
+  <ion-label>In {{month}} {{year}}, you spent a total of {{ monthlyspend }} and earned {{ monthlyincome }} in all of
+    your accounts. You have saved {{ savings }}.</ion-label>
+  <br>
+  <br>
+
+  <h3 *ngIf="!sgdonly">Spending Insights in SGD</h3>
+  <h3 *ngIf="sgdonly">Spending Insights</h3>
+
+  <ion-label>You spent a total of {{ monthlyspend }} in {{ month }} {{ year }}.</ion-label>
+  <br>
+  <br>
+
   <div style="height: 300px;">
     <canvas #doughnutCanvas></canvas>
   </div>
 
   <br>
-  
+
   <ion-item *ngFor="let each of filtereddata2">
     <ion-label class="ion-text-wrap">
       <h2>{{ each.description }}</h2>
@@ -112,12 +122,14 @@
     </ion-label>
     <p>{{ each.amountcurrencycode }}</p>
   </ion-item>
-  
+
   <br>
 
   <h3 *ngIf="!sgdonly">Income Insights in SGD</h3>
   <h3 *ngIf="sgdonly">Income Insights</h3>
 
+  <ion-label>You earned a total of {{ monthlyincome }} in {{ month }} {{ year }}.</ion-label>
+  <br>
   <br>
 
   <div style="height: 300px;">

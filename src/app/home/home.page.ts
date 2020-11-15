@@ -80,6 +80,11 @@ export class HomePage {
   sgdonly = true // To display different text in home.page.html
 
   months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  month = ""
+  year = ""
+  monthlyspend = ""
+  monthlyincome = ""
+  savings = ""
 
   // "Previous" button for bar chart to go back one month
   previousmonth() {
@@ -191,6 +196,7 @@ export class HomePage {
     for (let i = 0; i <= this.months.length - 1; i++) {
       if (ev.detail.value == this.months[i]) {
         this.defaultmonth = [[this.months[i], ('0' + (i + 1)).slice(-2)]]
+        this.month = this.months[i]
       }
     }
 
@@ -209,6 +215,7 @@ export class HomePage {
   // When the year in the ion-segment is changed (spending insights pie chart)
   changeyear(ev: any) {
     this.defaultyear = [ev.detail.value]
+    this.year = ev.detail.value
 
     // If on first year of data
     if (ev.detail.value == new Date(this.made_on_first).getFullYear()) {
@@ -233,6 +240,7 @@ export class HomePage {
           for (let each of this.montharray) {
             if (each[1] == true && this.defaultmonth[0][0] == each[0]) {
               this.defaultmonth = [[this.months[i], ('0' + (i + 1)).slice(-2)]]
+              this.month = this.months[i]
             }
           }
         }
@@ -256,6 +264,7 @@ export class HomePage {
           for (let each of this.montharray) {
             if (each[1] == true && this.defaultmonth[0][0] == each[0]) {
               this.defaultmonth = [[this.months[i - 1], ('0' + (i + 1)).slice(-2)]]
+              this.month = this.months[i - 1]
             }
           }
         }
@@ -401,6 +410,7 @@ export class HomePage {
       this.yeararray.push(i)
     }
     this.defaultyear = [this.yeararray[0]] // Set to the latest year
+    this.year = this.yeararray[0]
 
     // Once we set the year, we need to set the month
     // Populate the months and disable or enable them accordingly
@@ -421,6 +431,7 @@ export class HomePage {
           for (let each of this.montharray) {
             if (each[1] == false) {
               this.defaultmonth = [[this.months[i], ('0' + (i + 1)).slice(-2)]] // Set the month to the latest month
+              this.month = this.months[i]
             }
           }
         }
@@ -436,6 +447,7 @@ export class HomePage {
       }
       // Set the month to the latest month
       this.defaultmonth = [[this.montharray[new Date(this.made_on_latest).getMonth()][0], ('0' + (new Date(this.made_on_latest).getMonth() + 1)).slice(-2)]]
+      this.month = this.montharray[new Date(this.made_on_latest).getMonth()][0]
     }
 
     this.looptransactions()
@@ -454,6 +466,9 @@ export class HomePage {
     this.incomeinsightvalues = []
     this.incomebackgroundcolors = []
     this.incomehovercolors = []
+
+    var monthlyspend = 0
+    var monthlyincome = 0
 
     // Filter the aggregated transaction history based on the year and month
     this.filtereddata = this.firebasedata["transactionhistory"].filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
@@ -475,6 +490,7 @@ export class HomePage {
 
         // Add up the value to the category and multiply it by the exchange rate
         categories[transaction.category] += Math.abs(transaction.amount) / this.exchangerates[transaction.currency_code]
+        monthlyspend += Math.abs(transaction.amount) / this.exchangerates[transaction.currency_code]
       }
       if (Math.sign(transaction.amount) == 1) {
         // If the category has not yet been added to the categories Object, start it from 0 and add up the value
@@ -489,10 +505,14 @@ export class HomePage {
         // console.log(this.exchangerates[transaction.currency_code])
 
         // Add up the value to the category and multiply it by the exchange rate
-        categories2[transaction.category] += Math.abs(transaction.amount)
-        // monthlyincome += transaction.amount
+        categories2[transaction.category] += Math.abs(transaction.amount) / this.exchangerates[transaction.currency_code]
+        monthlyincome += Math.abs(transaction.amount) / this.exchangerates[transaction.currency_code]
       }
     }
+
+    this.savings = (monthlyincome - monthlyspend).toLocaleString('en-SG', { style: 'currency', currency: "SGD" })
+    this.monthlyspend = monthlyspend.toLocaleString('en-SG', { style: 'currency', currency: "SGD" }) // Include currency symbol 
+    this.monthlyincome = monthlyincome.toLocaleString('en-SG', { style: 'currency', currency: "SGD" }) // Include currency symbol 
 
     this.filtereddata2 = this.filtereddata.slice().filter(each => Math.sign(each.amount) == -1); // Copy the filtereddata array to the filtereddata2 array
     this.filtereddata3 = this.filtereddata.slice().filter(each => Math.sign(each.amount) == 1); // Copy the filtereddata array to the filtereddata2 array
