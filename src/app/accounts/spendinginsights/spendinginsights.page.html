@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Spending Insights for {{ expensesService.transactionhistorytitle }}</ion-title>
+    <ion-title>Insights for {{ expensesService.transactionhistorytitle }}</ion-title>
     <!-- Side menu button -->
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -12,6 +12,44 @@
 
   <!-- Pie Chart from Google Charts -->
   <!-- <div *ngIf="expensesService.transactions && expensesService.transactions.length > 0"> -->
+
+  <h3>Money In / Out</h3>
+  <ion-segment (ionChange)="barchartsegmentChanged($event)" value="3months" scrollable>
+    <ion-segment-button value="1month" disabled>
+      <ion-label>1 Month</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="3months">
+      <ion-label>3 Months</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="6months">
+      <ion-label>6 Months</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="1year">
+      <ion-label>1 Year</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="all" disabled>
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-row>
+    <ion-col>
+      <ion-label style="justify-content:left; display: flex;">
+        <ion-button (click)="previousmonth()">Previous</ion-button>
+      </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="justify-content:flex-end; display: flex;">
+        <ion-button (click)="nextmonth()">Next</ion-button>
+      </ion-label>
+    </ion-col>
+  </ion-row>
+
+  <div style="height: 300px;">
+    <canvas #barCanvas></canvas>
+  </div>
+
+  <h3>Spending Insights</h3>
 
   <!-- The [value] at ion-segment is to set the selected value for the ion-segment -->
   <ion-segment *ngFor="let year of defaultyear" scrollable (ionChange)="changeyear($event)" [value]="year">
@@ -28,9 +66,10 @@
       <ion-label>{{ each[0] }}</ion-label>
     </ion-segment-button>
   </ion-segment>
-  
+
   <br>
-  <ion-label>In {{month}}, you spent a total of {{monthlyspend}} in your account named "{{saltedgeService.saltedgeaccount.account_name}}"</ion-label>
+  <ion-label>In {{month}}, you spent a total of {{monthlyspend}} in your account named
+    "{{saltedgeService.saltedgeaccount.account_name}}"</ion-label>
   <br>
   <br>
 
