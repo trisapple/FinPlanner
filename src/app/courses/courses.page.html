@@ -29,7 +29,7 @@
     <ion-row>
       <ion-col size-xs="12" size-sm="6" size-md="4" *ngFor="let item of items">
         <div>
-          <ion-card color="light" (click)="gotoplan()" >
+          <ion-card color="light" (click)="gotoplan(item)" >
             <ion-img class="list" [src]="item.pic"></ion-img>
             <ion-card-header>
               <ion-card-title>{{item.title}}</ion-card-title>

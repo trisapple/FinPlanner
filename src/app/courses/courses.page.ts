@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import * as firebase from 'firebase';
@@ -14,27 +14,21 @@ export class CoursesPage implements OnInit {
 
   public items = [
     {
-      pic: '../../assets/plan.jpg',
       title: 'Financial Planning and Basics',
     },
     {
-      pic: '../../assets/invest.jpg',
       title: 'Investing Basics',
     },
     {
-      pic: '../../assets/save.png',
       title: 'Tips on Saving Money',
     },
     {
-      pic: '../../assets/etf.jpg',
       title: 'How to Invest (The Right Way) with ETFs',
     },
     {
-      pic: '../../assets/retire.jpg',
       title: 'How to Plan for Your Retirement',
     },
     {
-      pic: '../../assets/crypto.jpg',
       title: 'Investing with Cryptocurrency',
     }
   ];
@@ -80,27 +74,15 @@ export class CoursesPage implements OnInit {
   ngOnInit() {
   }
 
-  gotoplan() {
-    this.navCtrl.navigateForward(['/courses/planning']);
+  gotoplan(obj){
+    console.log(obj);
+    let navigationExtras: NavigationExtras = {
+      state: {
+        title: obj.title
+      }
+    };
+    this.router.navigate(['/courses/planning'], navigationExtras);
+    // this.navCtrl.navigateForward(['/courses/planning']);
    }
 
-  gotoinvest() {
-    this.navCtrl.navigateForward(['/courses/invest']);
-   }
-  
-  gotosave() {
-    this.navCtrl.navigateForward(['/courses/save']);
-   }
-
-  gotoEtf() {
-    this.navCtrl.navigateForward(['/courses/etf']);
-   }
-
-  gotoretire() {
-    this.navCtrl.navigateForward(['/courses/retire']);
-   }
-  
-   gototips() {
-    this.navCtrl.navigateForward(['/courses/tips']);
-   }
 }
