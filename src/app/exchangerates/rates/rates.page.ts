@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rates',
@@ -7,25 +8,53 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./rates.page.scss'],
 })
 export class RatesPage implements OnInit {
+  jsonData:any=[];
 
-  constructor(public navCtrl: NavController) { }
+  constructor(public navCtrl: NavController, private router: Router) { 
+    this.initializeJSONData();
+  }
+
+  FilterJSONData(ev: any) {
+    this.initializeJSONData();
+    const val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.jsonData = this.jsonData.filter((item=>{
+        return (item.name.toLowerCase().indexOf(val.toLowerCase())>-1);
+      }))
+    }
+  }
+
+ 
+  
 
   ngOnInit() {
   }
 
-  stocks() {
-    this.navCtrl.navigateForward(['/exchangerates/stocks']);
+  // stocks() {
+  //   this.navCtrl.navigateForward(['/exchangerates/stocks']);
+  // }
+
+  // fxrates() {
+  //   this.navCtrl.navigateForward(['/exchangerates/fxrates']);
+  // }
+
+  // crypto() {
+  //   this.navCtrl.navigateForward(['/exchangerates/crypto']);
+  // }
+
+
+  initializeJSONData() {
+    this.jsonData =  [
+      {
+        "name": "MSFT",
+        
+      },
+      {
+        "name": "TSLA",
+      },
+      {
+        "name": "SGD/USD"
+      },
+    ]
   }
-
-  fxrates() {
-    this.navCtrl.navigateForward(['/exchangerates/fxrates']);
-  }
-
-  crypto() {
-    this.navCtrl.navigateForward(['/exchangerates/crypto']);
-  }
-
-
-
-
 }

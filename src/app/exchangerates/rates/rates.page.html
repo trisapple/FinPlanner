@@ -9,31 +9,35 @@
 
 <ion-content class = "ion-padding">
 
-  <ion-label>
-      View Realtime <b>Stocks</b>, <b>FX Rates</b> & <b>Cryptocurrencies</b> Exchange Rates:
-    </ion-label>
-    <br>
-    <br>
+ 
+    <ion-searchbar (ionInput)= "FilterJSONData($event)"></ion-searchbar>
+    <div class="ion-padding">
+      <ion-list>
+        <ion-item *ngFor="let item of jsonData">
+          {{item.name}}
+        </ion-item>
+      </ion-list>
+    </div>
 
-   <div>
+   <!-- <div>
       <ion-list> 
         <ion-item (click) = "stocks()">
           <ion-label>Stocks</ion-label>
-          <!-- <ion-button fill="solid" slot="end" (click) = "stocks()">View</ion-button>  -->
+          <ion-button fill="solid" slot="end" (click) = "stocks()">View</ion-button> 
           <ion-icon name="chevron-forward"></ion-icon>
         </ion-item>
         <ion-item (click) = "fxrates()">
           <ion-label>FX Rates</ion-label> 
-          <!-- <ion-button fill="solid" slot="end" (click) = "fxrates()">View</ion-button>  -->
+          <ion-button fill="solid" slot="end" (click) = "fxrates()">View</ion-button> 
           <ion-icon name="chevron-forward"></ion-icon>
         </ion-item> 
         <ion-item (click) = "crypto()">
           <ion-label>Cryptocurrencies</ion-label> 
-          <!-- <ion-button fill="solid" slot="end" (click) = "crypto()">View</ion-button>  -->
+          <ion-button fill="solid" slot="end" (click) = "crypto()">View</ion-button> 
           <ion-icon name="chevron-forward"></ion-icon>
         </ion-item>
       </ion-list>
-  </div>
+  </div> -->
 
 
 </ion-content>
