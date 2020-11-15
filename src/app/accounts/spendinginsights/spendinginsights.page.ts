@@ -57,7 +57,10 @@ export class SpendingInsightsPage {
 
   months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
   month = ""
+  year = ""
   monthlyspend = ""
+  monthlyincome = ""
+  savings = ""
 
   constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public saltedgeService: SaltedgeService, public firestore: AngularFirestore) {
 
@@ -90,7 +93,7 @@ export class SpendingInsightsPage {
         console.log(JSON.parse(body.toString()));
         expensesService.transactions = JSON.parse(body.toString())["data"]
         this.alltransactions = JSON.parse(body.toString())["data"]
-        expensesService.transactions = expensesService.transactions.filter(each => Math.sign(each.amount) == -1);
+        // expensesService.transactions = expensesService.transactions.filter(each => Math.sign(each.amount) == -1);
         this.expensesService.sortbylatesttransaction(this.expensesService.transactions, "made_on")
 
         this.made_on_latest = this.expensesService.transactions[0]["made_on"] // Get the date of latest transaction
@@ -104,6 +107,7 @@ export class SpendingInsightsPage {
           this.yeararray.push(i)
         }
         this.defaultyear = [this.yeararray[0]] // Set to the latest year
+        this.year = this.yeararray[0]
 
         // Once we set the year, we need to set the month
         // Populate the months and disable or enable them accordingly
@@ -345,6 +349,7 @@ export class SpendingInsightsPage {
   // When the year in the ion-segment is changed (spending insights pie chart)
   changeyear(ev: any) {
     this.defaultyear = [ev.detail.value]
+    this.year = ev.detail.value
 
     // If on first year of data
     if (ev.detail.value == new Date(this.made_on_first).getFullYear()) {
@@ -393,6 +398,7 @@ export class SpendingInsightsPage {
           for (let each of this.montharray) {
             if (each[1] == true && this.defaultmonth[0][0] == each[0]) {
               this.defaultmonth = [[this.months[i - 1], ('0' + (i + 1)).slice(-2)]]
+              this.month = this.months[i - 1]
             }
           }
         }
@@ -416,6 +422,7 @@ export class SpendingInsightsPage {
     this.hovercolors = []
 
     var monthlyspend = 0
+    var monthlyincome = 0
 
     // Filter the aggregated transaction history based on the year and month
     this.filtereddata = this.expensesService.transactions.filter(each => each["made_on"].includes((this.defaultyear[0] + "-" + this.defaultmonth[0][1])));
@@ -439,10 +446,17 @@ export class SpendingInsightsPage {
         categories[transaction.category] += Math.abs(transaction.amount)
         monthlyspend += Math.abs(transaction.amount)
       }
+      if (Math.sign(transaction.amount) == 1) {
+        monthlyincome += transaction.amount
+      }
     }
 
+    this.savings = (monthlyincome - monthlyspend).toLocaleString('en-SG', { style: 'currency', currency: this.saltedgeService.saltedgeaccountcurrencycode })
     this.monthlyspend = monthlyspend.toLocaleString('en-SG', { style: 'currency', currency: this.saltedgeService.saltedgeaccountcurrencycode }) // Include currency symbol 
+    this.monthlyincome = monthlyincome.toLocaleString('en-SG', { style: 'currency', currency: this.saltedgeService.saltedgeaccountcurrencycode }) // Include currency symbol 
+    // this.savings = (monthlyincome - monthlyspend).toLocaleString('en-SG', { style: 'currency', currency: "SGD" })
     // this.monthlyspend = monthlyspend.toLocaleString('en-SG', { style: 'currency', currency: "SGD" }) // Include currency symbol 
+    // this.monthlyincome = monthlyincome.toLocaleString('en-SG', { style: 'currency', currency: "SGD" }) // Include currency symbol 
 
     this.filtereddata2 = this.filtereddata.slice() // Copy the filtereddata array to the filtereddata2 array
 
