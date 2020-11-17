@@ -115,6 +115,11 @@ export class AccountsPage {
 
   // Delete connection
   async deleteconnection(connection_id) {
+
+    const loading = await this.loadingController.create({
+      message: 'Deleting Connected Bank...',
+    });
+
     // Create pop up to ask if user wants to delete or not
     const alert = await this.alertController.create({
       // cssClass: 'my-custom-class',
@@ -131,6 +136,7 @@ export class AccountsPage {
         }, {
           text: 'Yes',
           handler: () => {
+            loading.present();
             console.log('Yes')
             var https = require('follow-redirects').https;
 
@@ -152,8 +158,9 @@ export class AccountsPage {
             var req = https.request(options, (res) => {
               var chunks = [];
 
-              res.on("data", function (chunk) {
+              res.on("data", (chunk) => {
                 chunks.push(chunk);
+                // this.loadingController.dismiss()
               });
 
               res.on("end", (chunk) => {
@@ -168,11 +175,11 @@ export class AccountsPage {
                     this.aggregateconnections(this.userService.uid) // Refresh the list of bank accounts
                   })
                 }
-
               });
 
-              res.on("error", function (error) {
+              res.on("error", (error) => {
                 console.error(error);
+                this.loadingController.dismiss()
               });
             });
             req.end();
@@ -244,60 +251,58 @@ export class AccountsPage {
 
   // Load the bank accounts
   getsaltedgeaccounts() {
-    return new Promise((resolve, reject) => {
-      var https = require('follow-redirects').https;
+    var https = require('follow-redirects').https;
 
-      var options = {
-        'method': 'GET',
-        'hostname': 'quiet-shelf-43690.herokuapp.com',
-        'path': '/https://www.saltedge.com/api/v5/connections?customer_id=' + this.saltedgeService.saltedgecustomerid,
-        'headers': {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
-          'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
-          'Origin': ''
-        },
-        'maxRedirects': 20
-      };
+    var options = {
+      'method': 'GET',
+      'hostname': 'quiet-shelf-43690.herokuapp.com',
+      'path': '/https://www.saltedge.com/api/v5/connections?customer_id=' + this.saltedgeService.saltedgecustomerid,
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'Origin': ''
+      },
+      'maxRedirects': 20
+    };
 
-      var req = https.request(options, (res) => {
-        var chunks = [];
+    var req = https.request(options, (res) => {
+      var chunks = [];
 
-        res.on("data", function (chunk) {
-          chunks.push(chunk);
-          resolve()
-        });
-
-        res.on("end", (chunk) => {
-
-          var body = Buffer.concat(chunks);
-          console.log(JSON.parse(body.toString()));
-          this.saltedgeService.saltedgeconnections = JSON.parse(body.toString())["data"]
-
-          // Loop through the salt edge connections in salt edge and get the last connected time
-          for (let connection of this.saltedgeService.saltedgeconnections) {
-            // If there is no last commented time, put it as "Never"
-            if (connection["last_success_at"] == null) {
-              connection["last_success_at"] = "Never"
-            }
-            // If there is, convert it to a date to our locale string
-            // 2020-09-22T06:55:17Z --> 22/09/2020, 14:55:17
-            else {
-              connection["last_success_at"] = new Date(connection["last_success_at"]).toLocaleString()
-            }
-          }
-          resolve()
-        });
-
-        res.on("error", function (error) {
-          console.error(error);
-          resolve()
-        });
+      res.on("data", (chunk) => {
+        chunks.push(chunk);
+        this.loadingController.dismiss()
       });
 
-      req.end();
-    })
+      res.on("end", (chunk) => {
+
+        var body = Buffer.concat(chunks);
+        console.log(JSON.parse(body.toString()));
+        this.saltedgeService.saltedgeconnections = JSON.parse(body.toString())["data"]
+
+        // Loop through the salt edge connections in salt edge and get the last connected time
+        for (let connection of this.saltedgeService.saltedgeconnections) {
+          // If there is no last commented time, put it as "Never"
+          if (connection["last_success_at"] == null) {
+            connection["last_success_at"] = "Never"
+          }
+          // If there is, convert it to a date to our locale string
+          // 2020-09-22T06:55:17Z --> 22/09/2020, 14:55:17
+          else {
+            connection["last_success_at"] = new Date(connection["last_success_at"]).toLocaleString()
+          }
+        }
+        this.loadingController.dismiss()
+      });
+
+      res.on("error", (error) => {
+        console.error(error);
+        this.loadingController.dismiss()
+      });
+    });
+
+    req.end();
   }
 
   async ngOnInit() {
@@ -327,9 +332,7 @@ export class AccountsPage {
             this.userService.provider = "Facebook";
             this.userService.profilePicture = user.providerData[0]["photoURL"];
           }
-          this.getsaltedgeaccounts().then(() => {
-            loading.dismiss()
-          })
+          this.getsaltedgeaccounts()
           // console.log(user);
           // if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
           //   this.connection_id()

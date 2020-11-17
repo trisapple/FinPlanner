@@ -562,6 +562,8 @@ export class HomePage {
     this.doughnutChart2.update({ duration: 1000 }) // Refresh the piechart in HTML
     // Duration (in milliseconds) is the how long the animation will take to finish.
     // Remove the duration to remove the animation. 
+
+    this.loadingController.dismiss()
   }
 
   getData(uid) {
@@ -614,12 +616,11 @@ export class HomePage {
           } else {
             this.getsaltedgedata()
           }
-          loading.dismiss()
           sub.unsubscribe();
         });
       } else {
         // No user is signed in.
-        loading.dismiss()
+        this.loadingController.dismiss()
         this.router.navigate(['/login']);
         // if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
         //   this.connection_id()
