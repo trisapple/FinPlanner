@@ -8,6 +8,7 @@ import { FaqPageRoutingModule } from './faq-routing.module';
 
 import { FaqPage } from './faq.page';
 import { MiAccordionComponent } from '../widgets/mi-accordion/mi-accordion.component';
+import { ExpandableComponent } from "../components/expandable/expandable.component";
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { MiAccordionComponent } from '../widgets/mi-accordion/mi-accordion.compo
     IonicModule,
     FaqPageRoutingModule
   ],
-  declarations: [FaqPage, MiAccordionComponent],
+  declarations: [FaqPage, MiAccordionComponent, ExpandableComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class FaqPageModule {}

@@ -19,14 +19,26 @@
   <ion-list>
     <ion-item>
       <ion-label> -->
-  <ion-list>
-    <app-mi-accordion *ngFor="let item of items" name="{{ item.name }}" description="{{ item.description }}"
-      class="hover">
+  <!-- <ion-list>
+    <app-mi-accordion *ngFor="let item of items" name="{{ item.name }}" description="{{ item.description }}" class="hover">
     </app-mi-accordion>
-  </ion-list>
+  </ion-list> -->
   <!-- </ion-label>
     </ion-item>
   </ion-list> -->
+
+  <div *ngFor="let item of items" (click)="expandItem(item)">
+    <ion-item>
+      <ion-label class="ion-text-wrap">{{ item.name }}</ion-label>
+      <ion-icon *ngIf="item.expanded" name="chevron-down"></ion-icon>
+      <ion-icon *ngIf="!item.expanded" name="chevron-forward"></ion-icon>
+    </ion-item>
+    <app-expandable expandHeight="400px" [expanded]="item.expanded">
+      <ion-item>
+        <ion-label class="ion-text-wrap">{{ item.description }}</ion-label>
+      </ion-item>
+    </app-expandable>
+  </div>
 
   <!-- <ion-button style="margin-top: 40px;" (click)="gotoaskques()">Ask Question</ion-button> -->
 </ion-content>

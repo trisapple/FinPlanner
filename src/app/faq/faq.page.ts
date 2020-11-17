@@ -51,7 +51,30 @@ export class FaqPage implements OnInit{
     }
   ];
 
+  expandItem(item): void {
+    // Can expand as many ion-items the user wishes at any one time
+    item.expanded = !item.expanded
+
+    // Only 1 ion-item can be expanded at any one time
+    // if (item.expanded) {
+    //   item.expanded = false;
+    // } else {
+    //   this.items.map(listItem => {
+    //     if (item == listItem) {
+    //       listItem["expanded"] = !listItem["expanded"];
+    //     } else {
+    //       listItem["expanded"] = false;
+    //     }
+    //     return listItem;
+    //   });
+    // }
+  }
+
   constructor(public navCtrl: NavController, private router: Router, public userService: UserService) { 
+
+    for (let each of this.items) {
+      each["expanded"] = false
+    }
 
    firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
