@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ExpensesService } from 'src/app/expenses.service';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from 'src/app/user.service';
 import { SaltedgeService } from 'src/app/saltedge.service';
@@ -52,8 +52,12 @@ export class AccountslistPage {
     }
   }
 
-  // Get the list of accounts based on the bank
-  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public firestore: AngularFirestore, public saltedgeService: SaltedgeService) {
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Loading...',
+    });
+    loading.present();
+
     var https = require('follow-redirects').https;
 
     var options = {
@@ -81,11 +85,11 @@ export class AccountslistPage {
       res.on("end", (chunk) => {
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
-        saltedgeService.saltedgeaccounts = JSON.parse(body.toString())["data"] // Get all accounts from a salt edge connection
-        console.log(saltedgeService.saltedgeaccounts)
+        this.saltedgeService.saltedgeaccounts = JSON.parse(body.toString())["data"] // Get all accounts from a salt edge connection
+        console.log(this.saltedgeService.saltedgeaccounts)
 
         // Loop through all accounts in the salt edge connection
-        for (let account of saltedgeService.saltedgeaccounts) {
+        for (let account of this.saltedgeService.saltedgeaccounts) {
           // If the currency is not yet added to the currency Object
           if (this.currency[account.currency_code] == undefined) {
             this.currency[account.currency_code] = 0 // Start from 0
@@ -102,17 +106,18 @@ export class AccountslistPage {
         console.log(this.currency)
 
         // Loop through the accounts to get the account name (or nature) and the balance
-        for (let account of saltedgeService.saltedgeaccounts) {
+        for (let account of this.saltedgeService.saltedgeaccounts) {
 
           if (account["extra"]["account_name"]) {
             account["account_name"] = account["extra"]["account_name"] // Display the account name if there is
           } else {
-            account["account_name"] = expensesService.humanize(account["nature"]) // Otherwise display the nature of account
+            account["account_name"] = this.expensesService.humanize(account["nature"]) // Otherwise display the nature of account
           }
           account["balance"] = account["balance"].toLocaleString('en-SG', { style: 'currency', currency: account["currency_code"] }) // Include currency symbol
           account["expanded"] = false // Allow the expandable to work
         }
-        console.log(saltedgeService.saltedgeaccounts)
+        console.log(this.saltedgeService.saltedgeaccounts)
+        loading.dismiss()
       });
 
       res.on("error", function (error) {
@@ -121,5 +126,10 @@ export class AccountslistPage {
     });
 
     req.end();
+  }
+
+  // Get the list of accounts based on the bank
+  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public firestore: AngularFirestore, public saltedgeService: SaltedgeService, public loadingController: LoadingController) {
+
   }
 }

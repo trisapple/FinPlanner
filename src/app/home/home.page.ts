@@ -1,5 +1,5 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { LoadingController, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
@@ -581,28 +581,32 @@ export class HomePage {
     });
   }
 
-  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Loading...',
+    });
+    loading.present();
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
-        let sub: Subscription = userService.login(user.uid).subscribe((data) => {
-          userService.loggedin = true;
-          userService.name = data["name"];
-          userService.email = user.email;
-          userService.uid = user.uid;
+        let sub: Subscription = this.userService.login(user.uid).subscribe((data) => {
+          this.userService.loggedin = true;
+          this.userService.name = data["name"];
+          this.userService.email = user.email;
+          this.userService.uid = user.uid;
           // userService.provider = "Email and Password"
           if (user.providerData[0]["providerId"] == "password") {
-            userService.provider = "Email and Password";
+            this.userService.provider = "Email and Password";
           }
           if (user.providerData[0]["providerId"] == "google.com") {
-            userService.socialLogin = true;
-            userService.provider = "Google";
-            userService.profilePicture = user.providerData[0]["photoURL"];
+            this.userService.socialLogin = true;
+            this.userService.provider = "Google";
+            this.userService.profilePicture = user.providerData[0]["photoURL"];
           }
           if (user.providerData[0]["providerId"] == "facebook.com") {
-            userService.socialLogin = true;
-            userService.provider = "Facebook";
-            userService.profilePicture = user.providerData[0]["photoURL"];
+            this.userService.socialLogin = true;
+            this.userService.provider = "Facebook";
+            this.userService.profilePicture = user.providerData[0]["photoURL"];
           }
           console.log(user);
           if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
@@ -610,10 +614,12 @@ export class HomePage {
           } else {
             this.getsaltedgedata()
           }
+          loading.dismiss()
           sub.unsubscribe();
         });
       } else {
         // No user is signed in.
+        loading.dismiss()
         this.router.navigate(['/login']);
         // if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
         //   this.connection_id()
@@ -622,6 +628,9 @@ export class HomePage {
         // }
       }
     });
+  }
+
+  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, public loadingController: LoadingController) {
   }
 
   connection_id() {

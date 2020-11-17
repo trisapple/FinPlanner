@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, LoadingController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { ExpensesService } from '../expenses.service';
@@ -244,80 +244,92 @@ export class AccountsPage {
 
   // Load the bank accounts
   getsaltedgeaccounts() {
-    var https = require('follow-redirects').https;
+    return new Promise((resolve, reject) => {
+      var https = require('follow-redirects').https;
 
-    var options = {
-      'method': 'GET',
-      'hostname': 'quiet-shelf-43690.herokuapp.com',
-      'path': '/https://www.saltedge.com/api/v5/connections?customer_id=' + this.saltedgeService.saltedgecustomerid,
-      'headers': {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
-        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
-        'Origin': ''
-      },
-      'maxRedirects': 20
-    };
+      var options = {
+        'method': 'GET',
+        'hostname': 'quiet-shelf-43690.herokuapp.com',
+        'path': '/https://www.saltedge.com/api/v5/connections?customer_id=' + this.saltedgeService.saltedgecustomerid,
+        'headers': {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+          'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+          'Origin': ''
+        },
+        'maxRedirects': 20
+      };
 
-    var req = https.request(options, (res) => {
-      var chunks = [];
+      var req = https.request(options, (res) => {
+        var chunks = [];
 
-      res.on("data", function (chunk) {
-        chunks.push(chunk);
-      });
+        res.on("data", function (chunk) {
+          chunks.push(chunk);
+          resolve()
+        });
 
-      res.on("end", (chunk) => {
-        var body = Buffer.concat(chunks);
-        console.log(JSON.parse(body.toString()));
-        this.saltedgeService.saltedgeconnections = JSON.parse(body.toString())["data"]
+        res.on("end", (chunk) => {
 
-        // Loop through the salt edge connections in salt edge and get the last connected time
-        for (let connection of this.saltedgeService.saltedgeconnections) {
-          // If there is no last commented time, put it as "Never"
-          if (connection["last_success_at"] == null) {
-            connection["last_success_at"] = "Never"
+          var body = Buffer.concat(chunks);
+          console.log(JSON.parse(body.toString()));
+          this.saltedgeService.saltedgeconnections = JSON.parse(body.toString())["data"]
+
+          // Loop through the salt edge connections in salt edge and get the last connected time
+          for (let connection of this.saltedgeService.saltedgeconnections) {
+            // If there is no last commented time, put it as "Never"
+            if (connection["last_success_at"] == null) {
+              connection["last_success_at"] = "Never"
+            }
+            // If there is, convert it to a date to our locale string
+            // 2020-09-22T06:55:17Z --> 22/09/2020, 14:55:17
+            else {
+              connection["last_success_at"] = new Date(connection["last_success_at"]).toLocaleString()
+            }
           }
-          // If there is, convert it to a date to our locale string
-          // 2020-09-22T06:55:17Z --> 22/09/2020, 14:55:17
-          else {
-            connection["last_success_at"] = new Date(connection["last_success_at"]).toLocaleString()
-          }
-        }
+          resolve()
+        });
+
+        res.on("error", function (error) {
+          console.error(error);
+          resolve()
+        });
       });
 
-      res.on("error", function (error) {
-        console.error(error);
-      });
-    });
-
-    req.end();
+      req.end();
+    })
   }
 
-  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController, public saltedgeService: SaltedgeService) {
-    this.getsaltedgeaccounts()
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Loading...',
+    });
+    loading.present();
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
-        let sub: Subscription = userService.login(user.uid).subscribe((data) => {
-          userService.loggedin = true;
-          userService.name = data["name"];
-          userService.email = user.email;
-          userService.uid = user.uid;
+        let sub: Subscription = this.userService.login(user.uid).subscribe((data) => {
+          this.userService.loggedin = true;
+          this.userService.name = data["name"];
+          this.userService.email = user.email;
+          this.userService.uid = user.uid;
           // userService.provider = "Email and Password"
           if (user.providerData[0]["providerId"] == "password") {
-            userService.provider = "Email and Password";
+            this.userService.provider = "Email and Password";
           }
           if (user.providerData[0]["providerId"] == "google.com") {
-            userService.socialLogin = true;
-            userService.provider = "Google";
-            userService.profilePicture = user.providerData[0]["photoURL"];
+            this.userService.socialLogin = true;
+            this.userService.provider = "Google";
+            this.userService.profilePicture = user.providerData[0]["photoURL"];
           }
           if (user.providerData[0]["providerId"] == "facebook.com") {
-            userService.socialLogin = true;
-            userService.provider = "Facebook";
-            userService.profilePicture = user.providerData[0]["photoURL"];
+            this.userService.socialLogin = true;
+            this.userService.provider = "Facebook";
+            this.userService.profilePicture = user.providerData[0]["photoURL"];
           }
+          this.getsaltedgeaccounts().then(() => {
+            loading.dismiss()
+          })
           // console.log(user);
           // if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
           //   this.connection_id()
@@ -328,8 +340,12 @@ export class AccountsPage {
         });
       } else {
         // No user is signed in.
+        loading.dismiss()
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController, public saltedgeService: SaltedgeService, public loadingController: LoadingController) {
   }
 }
