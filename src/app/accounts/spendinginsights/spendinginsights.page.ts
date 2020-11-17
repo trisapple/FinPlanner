@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ExpensesService } from '../../expenses.service';
 import { UserService } from '../../user.service';
-import { NavController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 import { SaltedgeService } from 'src/app/saltedge.service';
 import { Chart } from 'chart.js';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -71,7 +71,11 @@ export class SpendingInsightsPage {
   monthlyincome = ""
   savings = ""
 
-  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public saltedgeService: SaltedgeService, public firestore: AngularFirestore) {
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Loading...',
+    });
+    loading.present();
 
     var https = require('follow-redirects').https;
 
@@ -95,6 +99,7 @@ export class SpendingInsightsPage {
 
       res.on("data", function (chunk) {
         chunks.push(chunk);
+        loading.dismiss()
       });
 
       res.on("end", (chunk) => {
@@ -158,7 +163,7 @@ export class SpendingInsightsPage {
 
         // Loop through the list of transactions and add the transaction amount to the categories accordingly. 
         for (let transaction of this.alltransactions) {
-          transaction.category = expensesService.humanize(transaction.category) // Remove underscores and capitalise every word
+          transaction.category = this.expensesService.humanize(transaction.category) // Remove underscores and capitalise every word
           transaction["amountcurrencycode"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: transaction.currency_code }) // Include currency symbol 
         }
 
@@ -201,13 +206,19 @@ export class SpendingInsightsPage {
         // Remove the duration to remove the animation. 
 
         this.looptransactions()
+
+        loading.dismiss()
       });
 
       res.on("error", function (error) {
         console.error(error);
+        loading.dismiss()
       });
     });
     req.end();
+  }
+
+  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public saltedgeService: SaltedgeService, public firestore: AngularFirestore, public loadingController: LoadingController) {
   }
 
   // "Previous" button for bar chart to go back one month

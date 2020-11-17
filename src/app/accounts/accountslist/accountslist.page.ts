@@ -80,6 +80,7 @@ export class AccountslistPage {
 
       res.on("data", function (chunk) {
         chunks.push(chunk);
+        loading.dismiss()
       });
 
       res.on("end", (chunk) => {
@@ -122,6 +123,7 @@ export class AccountslistPage {
 
       res.on("error", function (error) {
         console.error(error);
+        loading.dismiss()
       });
     });
 

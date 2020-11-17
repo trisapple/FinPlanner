@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../user.service';
 import { ExpensesService } from '../../expenses.service';
 import { SaltedgeService } from 'src/app/saltedge.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-transactionhistory',
@@ -25,7 +26,11 @@ export class TransactionHistoryPage {
 
   filtereddata = []
 
-  constructor(public userService: UserService, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, public firestore: AngularFirestore) {
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Loading...',
+    });
+    loading.present();
 
     var https = require('follow-redirects').https;
 
@@ -50,13 +55,14 @@ export class TransactionHistoryPage {
 
       res.on("data", function (chunk) {
         chunks.push(chunk);
+        loading.dismiss()
       });
 
       res.on("end", (chunk) => {
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
-        expensesService.transactions = JSON.parse(body.toString())["data"]
-        expensesService.sortbylatesttransaction(expensesService.transactions, "made_on")
+        this.expensesService.transactions = JSON.parse(body.toString())["data"]
+        this.expensesService.sortbylatesttransaction(this.expensesService.transactions, "made_on")
 
         this.made_on_latest = this.expensesService.transactions[0]["made_on"] // Get the date of latest transaction
         this.made_on_first = this.expensesService.transactions[this.expensesService.transactions.length - 1]["made_on"] // Get the date of first transaction
@@ -105,9 +111,9 @@ export class TransactionHistoryPage {
 
         var transactionhistoryObject = {}
         var transactionhistoryArray = []
-        for (let transaction of expensesService.transactions) {
-          transaction["category"] = expensesService.humanize(transaction["category"]) // Remove underscores and capitalise every word
-          transaction["amountcurrencycode"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: saltedgeService.saltedgeaccountcurrencycode }) // Include currency symbol 
+        for (let transaction of this.expensesService.transactions) {
+          transaction["category"] = this.expensesService.humanize(transaction["category"]) // Remove underscores and capitalise every word
+          transaction["amountcurrencycode"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: this.saltedgeService.saltedgeaccountcurrencycode }) // Include currency symbol 
           // transaction["amountcurrencycode"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: "SGD" }) // Include currency symbol 
 
           // The 5 lines of code below will collate transactions by date
@@ -127,22 +133,28 @@ export class TransactionHistoryPage {
 
         // Convert the object into an array so that we can iterate it in HTML
         // e.g. [["2018-04-23", Array], ["2018-04-22", Array], ... ]
-        expensesService.transactions2 = Object.entries(transactionhistoryObject)
+        this.expensesService.transactions2 = Object.entries(transactionhistoryObject)
 
-        expensesService.sortbylatesttransaction(expensesService.transactions2, 0)
+        this.expensesService.sortbylatesttransaction(this.expensesService.transactions2, 0)
 
         this.looptransactions()
 
-        console.log(expensesService.transactions)
-        console.log(expensesService.transactions2)
+        loading.dismiss()
+
+        console.log(this.expensesService.transactions)
+        console.log(this.expensesService.transactions2)
       });
 
       res.on("error", function (error) {
         console.error(error);
+        loading.dismiss()
       });
     });
 
     req.end();
+  }
+
+  constructor(public userService: UserService, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, public firestore: AngularFirestore, public loadingController: LoadingController) {
   }
 
   // When the month in the ion-segment is changed (spending insights pie chart)
