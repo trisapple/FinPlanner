@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import * as firebase from 'firebase';
 import { UserService } from '../user.service';
+import { CoursesService } from '../courses.service';
 
 @Component({
   selector: 'app-courses',
@@ -11,30 +12,43 @@ import { UserService } from '../user.service';
   styleUrls: ['./courses.page.scss'],
 })
 export class CoursesPage implements OnInit {
+  courses: any
+  // public items = [
+  //   {
+  //     title: 'Financial Planning and Basics',
+  //   },
+  //   {
+  //     title: 'Investing Basics',
+  //   },
+  //   {
+  //     title: 'Tips on Saving Money',
+  //   },
+  //   {
+  //     title: 'How to Invest (The Right Way) with ETFs',
+  //   },
+  //   {
+  //     title: 'How to Plan for Your Retirement',
+  //   },
+  //   {
+  //     title: 'Investing with Cryptocurrency',
+  //   }
+  // ];
 
-  public items = [
-    {
-      title: 'Financial Planning and Basics',
-    },
-    {
-      title: 'Investing Basics',
-    },
-    {
-      title: 'Tips on Saving Money',
-    },
-    {
-      title: 'How to Invest (The Right Way) with ETFs',
-    },
-    {
-      title: 'How to Plan for Your Retirement',
-    },
-    {
-      title: 'Investing with Cryptocurrency',
-    }
-  ];
 
+  constructor(public navCtrl: NavController, private router: Router, private userService: UserService, public coursesService: CoursesService) {
 
-  constructor(public navCtrl: NavController, private router: Router, private userService: UserService) {
+    this.coursesService.Lessons().subscribe(data => {
+      this.courses = data.map(e => {
+        return {
+          id: e.payload.doc.id,
+          picture: e.payload.doc.data()['picture'],
+          title: e.payload.doc.data()['title'],
+          lessons: e.payload.doc.data()['lessons'],
+        };
+
+      });
+      console.log(this.courses);
+    });
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
         let sub: Subscription = userService.login(user.uid).subscribe((data) => {
@@ -74,15 +88,17 @@ export class CoursesPage implements OnInit {
   ngOnInit() {
   }
 
-  gotoplan(obj){
+  gotoplan(obj) {
     console.log(obj);
     let navigationExtras: NavigationExtras = {
       state: {
-        title: obj.title
+        title: obj
       }
     };
     this.router.navigate(['/courses/planning'], navigationExtras);
     // this.navCtrl.navigateForward(['/courses/planning']);
-   }
+  }
+
+
 
 }

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Financial Planning and Basics</ion-title>
+    <ion-title> {{coursesService.title}} </ion-title>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -9,29 +9,29 @@
 
 <ion-content class="ion-padding">
   <div class="container">
-    <img class ="pic1" src="../assets/plan.jpg" alt="Learn" style="width:80%">
-    <div class="centered">Financial Planning and Basics</div>
+    <img class ="pic1" src ="{{ coursesService.picture }}" style="width:80%">
+    <div class="centered">{{coursesService.title}}</div>
     <div class="centered-1">There are essential steps in financial planning that you should take to set yourself up for success, no matter what your financial goals are.</div>
   </div>
 
 
 
-  <div class="cardview" *ngFor="let item of items">
-    
+  <!-- <div class="cardview" *ngFor="let item of items"> -->
+    <div class="cardview" >
     <ion-col size-xs="12" size-sm="6" size-md="6">
       <ion-card class="card">
-        <iframe class="list" [src]="item.vid"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe class="list" src ="{{ coursesService.link }}"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <ion-row>
           <ion-col class="padding">
             <ion-card-header>
               <ion-card-subtitle>
                 <ion-icon class="icon" name="videocam"></ion-icon>
-                {{item.sub}}
+                {{coursesService.sub}}
               </ion-card-subtitle>
-              <ion-card-title>{{item.head}}</ion-card-title>
+              <ion-card-title>{{coursesService.head}}</ion-card-title>
             </ion-card-header>
-            <ion-card-content>{{item.des}}</ion-card-content>
-            <ion-card-content style="float: right;margin-top: 50px;">{{item.time}}</ion-card-content>
+            <ion-card-content>{{coursesService.lessons.des}}</ion-card-content>
+            <ion-card-content style="float: right;margin-top: 50px;">{{coursesService.time}}</ion-card-content>
           </ion-col>
         </ion-row>
       </ion-card>

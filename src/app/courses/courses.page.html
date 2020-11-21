@@ -24,20 +24,20 @@
       </ion-card>
     </div> -->
 
-  <h1><strong>All Courses</strong></h1>
-  <ion-grid>
-    <ion-row>
-      <ion-col size-xs="12" size-sm="6" size-md="4" *ngFor="let item of items">
-        <div>
-          <ion-card color="light" (click)="gotoplan(item)" >
-            <ion-img class="list" [src]="item.pic"></ion-img>
-            <ion-card-header>
-              <ion-card-title>{{item.title}}</ion-card-title>
-            </ion-card-header>
-          </ion-card>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <h1><strong>All Courses</strong></h1>
+    <ion-grid>
+      <ion-row>
+        <ion-col size-xs="12" size-sm="6" size-md="4" *ngFor="let item of courses">
+          <div>
+            <ion-card color="light" (click)="gotoplan(item.id)" >
+              <ion-img class="list" [src]="item.picture"></ion-img>
+              <ion-card-header>
+                <ion-card-title>{{item.title}}</ion-card-title>
+              </ion-card-header>
+            </ion-card>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 </ion-content>
   
