@@ -43,7 +43,7 @@ export class RatesPage implements OnInit {
   initializeJSONData() {
     this.jsonData =  [
       {
-        "name": "Microsoft",
+        "name": "Microsoft Corporation (MSFT)",
         "symbol": "MSFT"
       },
       {
