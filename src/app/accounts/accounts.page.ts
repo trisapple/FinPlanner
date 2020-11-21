@@ -276,7 +276,6 @@ export class AccountsPage {
       });
 
       res.on("end", (chunk) => {
-
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
         this.saltedgeService.saltedgeconnections = JSON.parse(body.toString())["data"]

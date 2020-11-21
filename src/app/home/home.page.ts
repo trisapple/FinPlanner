@@ -390,8 +390,12 @@ export class HomePage {
     this.barChart.update({ duration: 1000 }) // Refresh the barchart in HTML
     // Duration (in milliseconds) is the how long the animation will take to finish.
     // Remove the duration to remove the animation. 
-
-    this.originaltotal = Object.entries(this.firebasedata["balances"][0]) // Get the balances of all currencies of the user (e.g. SGD, EUR, GBP)
+    if (this.firebasedata["balances"]) {
+      this.originaltotal = Object.entries(this.firebasedata["balances"][0]) // Get the balances of all currencies of the user (e.g. SGD, EUR, GBP)
+    } else {
+      this.firebasedata["balances"] = []
+    }
+    
     var total = 0 // Start from 0
     for (let each of this.originaltotal) {
       each[2] = each[1].toLocaleString('en-SG', { style: 'currency', currency: each[0] }) // Add currency symbol
@@ -569,8 +573,12 @@ export class HomePage {
   getData(uid) {
     let sub: Subscription = this.firestore.collection<any>('users').doc(uid).valueChanges().subscribe((data) => {
       this.firebasedata = data
-      this.made_on_latest = this.firebasedata["transactionhistory"][0]["made_on"] // Get the date of latest transaction
-      this.made_on_first = this.firebasedata["transactionhistory"][this.firebasedata["transactionhistory"].length - 1]["made_on"] // Get the date of first transaction
+      if (this.firebasedata["transactionhistory"]) {
+        this.made_on_latest = this.firebasedata["transactionhistory"][0]["made_on"] // Get the date of latest transaction
+        this.made_on_first = this.firebasedata["transactionhistory"][this.firebasedata["transactionhistory"].length - 1]["made_on"] // Get the date of first transaction
+      } else {
+        this.firebasedata["transactionhistory"] = []
+      }
       console.log(data)
       console.log(data["saltedgereportid"])
       this.saltedgeService.saltedgereportid = data["saltedgereportid"] // Get user's salt edge report id to get insights but for now the insights API is not working
