@@ -573,14 +573,13 @@ export class HomePage {
   getData(uid) {
     let sub: Subscription = this.firestore.collection<any>('users').doc(uid).valueChanges().subscribe((data) => {
       this.firebasedata = data
-      if (this.firebasedata["transactionhistory"]) {
+      console.log(data)
+      if (this.firebasedata["transactionhistory"].length != 0) {
         this.made_on_latest = this.firebasedata["transactionhistory"][0]["made_on"] // Get the date of latest transaction
         this.made_on_first = this.firebasedata["transactionhistory"][this.firebasedata["transactionhistory"].length - 1]["made_on"] // Get the date of first transaction
       } else {
         this.firebasedata["transactionhistory"] = []
       }
-      console.log(data)
-      console.log(data["saltedgereportid"])
       this.saltedgeService.saltedgereportid = data["saltedgereportid"] // Get user's salt edge report id to get insights but for now the insights API is not working
       this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"] // Get user's salt edge customer id to load their relevant accounts
 
