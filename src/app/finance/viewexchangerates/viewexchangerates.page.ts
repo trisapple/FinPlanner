@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ExpensesService } from '../../expenses.service';
 import { UserService } from 'src/app/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NewsService } from '../../news.service';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ViewexchangeratesPage {
   symbol: any;
   params: any;
-  constructor(private expensesService: ExpensesService, private userService: UserService, private router: Router, private route: ActivatedRoute) {
+  constructor(private newsService: NewsService, private expensesService: ExpensesService, private userService: UserService, private router: Router, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.params = this.router.getCurrentNavigation().extras.state.symbol;
