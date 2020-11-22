@@ -50,6 +50,10 @@ export class RatesPage implements OnInit {
         "name": "APPLE",
         "symbol": "AAPL"
       },
+    {
+      "name": "Tesla",
+      "symbol": "TSLA"
+    },
     ]
   }
 
