@@ -736,6 +736,7 @@ export class HomePage {
               for (let transaction of transactionhistory) {
                 transaction["category"] = this.expensesService.humanize(transaction["category"]) // Remove underscores and capitalise every word
                 transaction["amountcurrencycode"] = transaction["amount"].toLocaleString('en-SG', { style: 'currency', currency: connection.currency_code }) // Include currency symbol 
+                transaction["accountname"] = connection["extra"]["account_name"]
               }
 
               this.expensesService.sortbylatesttransaction(transactionhistory, "made_on")
