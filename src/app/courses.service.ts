@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class CoursesService {
 
   data: any;
   uid: string;
-  lessons: { id: string; link: string; sub: string; head: string; des: string; time: string; }[];
+  lessons: { id: string; link: string; sub: string; head: string; des: string; time: string; };
   picture: string;
   title: string;
 
@@ -16,7 +17,6 @@ export class CoursesService {
 
   Lessons() {
     // tslint:disable-next-line: max-line-length
-
     return this.firestore.collection('courses').snapshotChanges() // Get the email (document) of the user, so we can get the firstname, lastname, email, password
 
   }
@@ -39,12 +39,9 @@ export class CoursesService {
   }
 
   getCourses(id) {
-    return this.firestore.collection('courses').doc(id).valueChanges()
+    // return this.firestore.collection('courses').doc(id).valueChanges()
+    return this.firestore.collection('courses').doc(id).snapshotChanges();
 
-
-    
   }
 
 }
-
-
