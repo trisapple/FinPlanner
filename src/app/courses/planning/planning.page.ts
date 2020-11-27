@@ -27,12 +27,13 @@ export class PlanningPage implements OnInit {
         this.data = this.router.getCurrentNavigation().extras.state.title;
         console.log( this.coursesService.getCourses(this.data))
       }
+      this.coursesService.getLessons(this.data)
     })
   }
 
   ngOnInit() {
 
-    this.coursesService.getLessons()
+
 
     // this.coursesService.getLessons().subscribe(data => {
 

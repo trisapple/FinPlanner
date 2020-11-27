@@ -37,8 +37,8 @@ export class CoursesService {
   //   });
   // }
 
-  getLessons() {
-    let sub: Subscription = this.firestore.collection<any>('courses').doc('Financial Planning Basics').valueChanges().subscribe((data) => {
+  getLessons(doc) {
+    let sub: Subscription = this.firestore.collection<any>('courses').doc(doc).valueChanges().subscribe((data) => {
       console.log(data)
       console.log(data["lessons"])
       
