@@ -43,49 +43,6 @@ export class ViewexchangeratesPage {
           
           expensesService.Stocks = JSON.parse(body.toString())["Global Quote"]
           
-          // var https = require('follow-redirects').https;
-         
-          // var options = {
-          //   'method': 'GET',
-          //   'hostname': 'api.exchangeratesapi.io',
-          //   'path': '/latest?base=SGD',
-          //   'headers': {
-          //     'Cookie': '__cfduid=d70bda8387595081da1f980b9b3e6f49a1605954386'
-          //   },
-          //   'maxRedirects': 20
-          // };
-
-          // var req = https.request(options, function (res) {
-          //   var chunks = [];
-
-          //   res.on("data", function (chunk) {
-          //     chunks.push(chunk);
-          //   });
-
-          //   res.on("end", function (chunk) {
-          //     var body = Buffer.concat(chunks);
-          //     // console.log(body.toString());
-          //     expensesService.conversion = JSON.parse(body.toString())["rates"]
-          //   });
-
-          //   res.on("error", function (error) {
-          //     console.error(error);
-          //   });
-          // });
-
-          // req.end();
-
-          // var msft = {}
-
-          // msft["latestTradingDay"] = JSON.parse(body.toString())["Global Quote"]["07. latest trading day"]
-          // msft["open"] = JSON.parse(body.toString())["Global Quote"]["02. open"]
-          // msft["high"] = JSON.parse(body.toString())["Global Quote"]["03. high"]
-          // msft["low"] = JSON.parse(body.toString())["Global Quote"]["04. low"]
-          // msft["close"] = JSON.parse(body.toString())["Global Quote"]["08. previous close"]
-          // msft["volume"] = JSON.parse(body.toString())["Global Quote"]["06. volume"]
-
-          // expensesService.msftStocks.push(msft)
-          // console.log(expensesService.msftStocks)
         });
 
         res.on("error", function (error) {
