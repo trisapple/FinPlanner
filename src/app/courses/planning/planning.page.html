@@ -20,7 +20,7 @@
     <div class="cardview" *ngFor="let item of coursesService.lessons">
     <ion-col size-xs="12" size-sm="6" size-md="6">
       <ion-card class="card">
-        <iframe class="list" src ="{{ item.link }}"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe class="list" [src]="item.link | safe"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <ion-row>
           <ion-col class="padding">
             <ion-card-header>

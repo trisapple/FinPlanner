@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./planning.page.scss'],
 })
 
-export class PlanningPage implements OnInit {
+@Pipe({ name: 'safe' })
+export class PlanningPage implements PipeTransform {
 
   data: any;
   lessonsList: any;
@@ -20,20 +21,22 @@ export class PlanningPage implements OnInit {
   lessons: { id: string; link: string; sub: string; head: string; des: string; time: string; };
   // addlesson: {link: string; sub: string; head: string; des: string; time: string};
   object: any;
-  
+
   constructor(public coursesService: CoursesService, public firestore: AngularFirestore, private sanitizer: DomSanitizer,private route: ActivatedRoute, private router: Router) {
-    this.route.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.data = this.router.getCurrentNavigation().extras.state.title;
-        console.log( this.coursesService.getCourses(this.data))
-      }
-      this.coursesService.getLessons(this.data)
-    })
+  }
+
+  transform(url) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   ngOnInit() {
 
-
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.data = this.router.getCurrentNavigation().extras.state.title;
+        this.coursesService.getLessons(this.data)
+      }
+    })
 
     // this.coursesService.getLessons().subscribe(data => {
 

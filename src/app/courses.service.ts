@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class CoursesService {
 
   data: any;
@@ -40,17 +41,9 @@ export class CoursesService {
   getLessons(doc) {
     let sub: Subscription = this.firestore.collection<any>('courses').doc(doc).valueChanges().subscribe((data) => {
       console.log(data)
-      console.log(data["lessons"])
-      
       this.picture = data["picture"]
       this.title = data["title"]
-      for (let each of data["lessons"]) {
-        each["link"] = this.sanitizer.bypassSecurityTrustResourceUrl(each["link"]);
-      }
       this.lessons = data["lessons"]
-      console.log(this.lessons)
-
-      // this.items.map(el => el.link = this.sanitizer.bypassSecurityTrustResourceUrl(el.link));
       sub.unsubscribe()
     })
   }
