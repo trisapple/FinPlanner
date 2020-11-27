@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 export class PlanningPage implements OnInit {
 
   data: any;
-  lessonsList: [];
+  lessonsList: any;
   // doc: any;
   lessons: { id: string; link: string; sub: string; head: string; des: string; time: string; };
   // addlesson: {link: string; sub: string; head: string; des: string; time: string};
@@ -32,22 +32,27 @@ export class PlanningPage implements OnInit {
 
   ngOnInit() {
 
-    this.coursesService.getLessons().subscribe(data => {
+    this.coursesService.getLessons()
 
-      this.lessonsList = data.map(e => {
-        return {
-          id: e.payload.doc.id,
-          link: e.payload.doc.data()['link'],
-          sub: e.payload.doc.data()['sub'],
-          head: e.payload.doc.data()['head'],
-          des: e.payload.doc.data()['des'],
-          time: e.payload.doc.data()['time'],
+    // this.coursesService.getLessons().subscribe(data => {
 
-        };
-      })
-      console.log(this.lessonsList);
+    //   this.coursesService.lessons = data.map(e => {
+    //     return {
+    //       id: e.payload.doc.id,
+    //       link: e.payload.doc.data()['link'],
+    //       sub: e.payload.doc.data()['sub'],
+    //       head: e.payload.doc.data()['head'],
+    //       des: e.payload.doc.data()['des'],
+    //       time: e.payload.doc.data()['time'],
 
-    });
+    //     };
+    //   })
+    //   console.log(this.lessonsList);
+
+    // });
+
+    // console.log(this.coursesService.getLessons())
+
     // this.data = this.firestore.collection('/courses/' + this.data).snapshotChanges().subscribe(res => {
     //   if(res){
     //     this.lessons = res.map(e => {
@@ -65,7 +70,7 @@ export class PlanningPage implements OnInit {
     // });
 
     console.log(this.data);
-       // this.items.map(el => el.link = this.sanitizer.bypassSecurityTrustResourceUrl(el.link));
+      //  this.items.map(el => el.link = this.sanitizer.bypassSecurityTrustResourceUrl(el.link));
     // console.log(this.items);
   }
 
