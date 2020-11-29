@@ -60,11 +60,44 @@ export class ViewexchangeratesPage {
               chunks.push(chunk);
             });
 
-            res.on("end", function (chunk) {
+            res.on("end", (chunk) => {
               var body = Buffer.concat(chunks);
               console.log(JSON.parse(body.toString())["Global Quote"])
 
               expensesService.Stocks = JSON.parse(body.toString())["Global Quote"]
+
+              var https = require('follow-redirects').https;
+
+              var options = {
+                'method': 'GET',
+                'hostname': 'newsapi.org',
+                'path': `/v2/everything?q=${this.params.symbol}&apiKey=fc0c0278121d401e87dbdf8933565a66`,
+                'headers': {
+                  'Cookie': '__cfduid=db8bb46296dcf728b55b19e178793a2891606659506'
+                },
+                'maxRedirects': 20
+              };
+
+              var req = https.request(options, function (res) {
+                var chunks = [];
+
+                res.on("data", function (chunk) {
+                  chunks.push(chunk);
+                });
+
+                res.on("end", (chunk) => {
+                  var body = Buffer.concat(chunks);
+                  console.log(body.toString());
+
+                  newsService.articles = JSON.parse(body.toString())["articles"]
+                });
+
+                res.on("error", function (error) {
+                  console.error(error);
+                });
+              });
+
+              req.end();
 
             });
 
