@@ -13,7 +13,6 @@ export class SaltedgeService {
   saltedgeaccount = [] // Array of account information 
   saltedgeaccountcurrencycode: string // Currency code for spending insights and transaction history to display the corresponding currency symbol
   saltedgecustomerid: String // Salt Edge customer id to fetch user's connected banks
-  saltedgereportid: String // Salt Edge Report id to display insights in home page
 
   formatDate(date) {
     var d = new Date(date),

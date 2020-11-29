@@ -585,7 +585,6 @@ export class HomePage {
         this.firebasedata["transactionhistory"] = []
       }
 
-      this.saltedgeService.saltedgereportid = data["saltedgereportid"] // Get user's salt edge report id to get insights but for now the insights API is not working
       this.saltedgeService.saltedgecustomerid = data["saltedgecustomerid"] // Get user's salt edge customer id to load their relevant accounts
 
       sub.unsubscribe();
