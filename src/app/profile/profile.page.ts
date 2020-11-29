@@ -70,33 +70,33 @@ export class ProfilePage implements OnInit {
   //   this.navCtrl.navigateForward(['/profile/updateprofile']);
   // }
 
-  // async deleteAccount() {
-  //   const alert = await this.alertCtrl.create({
-  //     header: 'Delete Account',
-  //     message: 'Are you sure you want to delete your account?',
-  //     buttons: [
-  //       {
-  //         text: 'Yes',
-  //         handler: async () => {
-  //           this.deletecustomer()
-  //           this.userService.deleteAccount(this.userService.uid);
-  //           (await this.fireauth.currentUser).delete();
-  //           this.navCtrl.navigateRoot(['/home']); // If 'yes' is clicked
-  //           this.presentToast('Account Deleted!', 'middle', 2000);
-  //           console.log('Yes clicked');
-  //         }
-  //       },
-  //       {
-  //         text: 'No',
-  //         handler: () => {
-  //           // this.navCtrl.pop(); // If 'no' is clicked. Additionally, pop means it will go back to the previous page
-  //           console.log('No clicked');
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   alert.present();
-  // }
+  async deleteAccount() {
+    const alert = await this.alertCtrl.create({
+      header: 'Delete Account',
+      message: 'Are you sure you want to delete your account?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: async () => {
+            this.deletecustomer()
+            this.userService.deleteAccount(this.userService.uid);
+            (await this.fireauth.currentUser).delete();
+            this.navCtrl.navigateRoot(['/home']); // If 'yes' is clicked
+            this.presentToast('Account Deleted!', 'middle', 2000);
+            console.log('Yes clicked');
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            // this.navCtrl.pop(); // If 'no' is clicked. Additionally, pop means it will go back to the previous page
+            console.log('No clicked');
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
 
   // 'async' returns a promise value
   // await is used to wait for a Promise, and it only makes the 'async' block wait and not the entire program execution. 
@@ -110,40 +110,40 @@ export class ProfilePage implements OnInit {
     toast.present();
   }
 
-  // deletecustomer() {
-  //   var https = require('follow-redirects').https;
+  deletecustomer() {
+    var https = require('follow-redirects').https;
 
-  //   var options = {
-  //     'method': 'DELETE',
-  //     'hostname': 'quiet-shelf-43690.herokuapp.com',
-  //     'path': '/https://www.saltedge.com/api/v5/customers/' + this.saltedgeService.saltedgecustomerid,
-  //     'headers': {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json',
-  //       'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
-  //       'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4'
-  //     },
-  //     'maxRedirects': 20
-  //   };
+    var options = {
+      'method': 'DELETE',
+      'hostname': 'quiet-shelf-43690.herokuapp.com',
+      'path': '/https://www.saltedge.com/api/v5/customers/' + this.saltedgeService.saltedgecustomerid,
+      'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
+        'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4'
+      },
+      'maxRedirects': 20
+    };
 
-  //   var req = https.request(options, function (res) {
-  //     var chunks = [];
+    var req = https.request(options, function (res) {
+      var chunks = [];
 
-  //     res.on("data", function (chunk) {
-  //       chunks.push(chunk);
-  //     });
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
 
-  //     res.on("end", function (chunk) {
-  //       var body = Buffer.concat(chunks);
-  //       console.log(JSON.parse(body.toString()));
-  //     });
+      res.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        console.log(JSON.parse(body.toString()));
+      });
 
-  //     res.on("error", function (error) {
-  //       console.error(error);
-  //     });
-  //   });
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
 
-  //   req.end();
-  // }
+    req.end();
+  }
 
 }
