@@ -22,17 +22,17 @@
     <ion-row class="ion-align-items-start">
       <ion-col>
         <div>
-          <ion-label>Previous Close:  {{ expensesService.Stocks["08. previous close"] }}</ion-label>
+          <ion-label>Previous Close:  {{ (expensesService.Stocks["08. previous close"]/SGDtoUSDrate).toLocaleString('en-SG', { style: 'currency', currency: "SGD" }) }}</ion-label>
         </div>
       </ion-col>
       <ion-col>
         <div>
-          <ion-label>Open:  {{ expensesService.Stocks["02. open"] }}</ion-label>
+          <ion-label>Open:  {{ (expensesService.Stocks["02. open"]/SGDtoUSDrate).toLocaleString('en-SG', { style: 'currency', currency: "SGD" }) }}</ion-label>
         </div>
       </ion-col>
       <ion-col>
         <div>
-          <ion-label>High:  {{ expensesService.Stocks["03. high"] }}</ion-label>
+          <ion-label>High:  {{ (expensesService.Stocks["03. high"]/SGDtoUSDrate).toLocaleString('en-SG', { style: 'currency', currency: "SGD" }) }}</ion-label>
         </div>
       </ion-col>
     </ion-row>
@@ -41,7 +41,7 @@
     <ion-row class="ion-align-items-center">
       <ion-col>
         <div>
-          <ion-label>Low:  {{ expensesService.Stocks["04. low"] }}</ion-label>
+          <ion-label>Low:  {{ (expensesService.Stocks["04. low"]/SGDtoUSDrate).toLocaleString('en-SG', { style: 'currency', currency: "SGD" }) }}</ion-label>
         </div>
       </ion-col>
       <ion-col>
