@@ -37,7 +37,7 @@ export class VoicePage implements OnInit {
       let path = this.file.dataDirectory;
       this.file.checkDir(path, MEDIA_FOLDER_NAME).then(
         () => {
-          this.loadFiles();
+          // this.loadFiles();
         },
         err => {
           this.file.createDir(path, MEDIA_FOLDER_NAME, false);
