@@ -47,11 +47,11 @@ export class RatesPage implements OnInit {
         "symbol": "MSFT"
       },
       {
-        "name": "APPLE",
+        "name": "Apple (AAPL)",
         "symbol": "AAPL"
       },
     {
-      "name": "Tesla",
+      "name": "Tesla (TSLA)",
       "symbol": "TSLA"
     },
     ]
