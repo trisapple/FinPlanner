@@ -90,7 +90,6 @@ export class ViewexchangeratesPage {
                   console.log(JSON.parse(body.toString()));
 
                   newsService.articles = JSON.parse(body.toString())["articles"]
-                  console.log(newsService.articles)
                 });
 
                 res.on("error", function (error) {
