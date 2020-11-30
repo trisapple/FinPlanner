@@ -1,0 +1,33 @@
+@media (max-width: 767px) {
+    .card {
+        height: 95%;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .card {
+        width: 100%;
+        display: block;
+        margin: auto;
+    }
+  
+    .list {
+        float: left;
+        position: static;
+        width: 30%;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .card {
+        width: 80%;
+        display: block;
+        margin: auto;
+    }
+  
+    .list {
+        float: left;
+        position: static;
+        width: 30%;
+    }
+  }
