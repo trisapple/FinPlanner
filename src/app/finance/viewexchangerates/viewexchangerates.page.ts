@@ -14,7 +14,7 @@ export class ViewexchangeratesPage {
   symbol: any;
   params: any;
   SGDtoUSDrate = 0
-  constructor(private newsService: NewsService, private expensesService: ExpensesService, private userService: UserService, private router: Router, private route: ActivatedRoute) {
+  constructor(public newsService: NewsService, private expensesService: ExpensesService, private userService: UserService, private router: Router, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.params = this.router.getCurrentNavigation().extras.state.symbol;
@@ -53,7 +53,7 @@ export class ViewexchangeratesPage {
             'maxRedirects': 20
           };
 
-          var req = https.request(options, function (res) {
+          var req = https.request(options, (res) => {
             var chunks = [];
 
             res.on("data", function (chunk) {
@@ -78,7 +78,7 @@ export class ViewexchangeratesPage {
                 'maxRedirects': 20
               };
 
-              var req = https.request(options, function (res) {
+              var req = https.request(options, (res) => {
                 var chunks = [];
 
                 res.on("data", function (chunk) {
@@ -87,9 +87,10 @@ export class ViewexchangeratesPage {
 
                 res.on("end", (chunk) => {
                   var body = Buffer.concat(chunks);
-                  console.log(body.toString());
+                  console.log(JSON.parse(body.toString()));
 
                   newsService.articles = JSON.parse(body.toString())["articles"]
+                  console.log(newsService.articles)
                 });
 
                 res.on("error", function (error) {

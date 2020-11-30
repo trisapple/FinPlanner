@@ -56,9 +56,9 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <!-- <div class="container">
+  <div class="container">
     <ion-row>
-      <ion-col size-xs="12" size-sm="6" size-md="12" *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)">
+      <ion-col size-xs="12" size-sm="6" size-md="4" *ngFor="let article of newsService.articles" (click)="onGoToNewsSinglePage(article)">
         <ion-card class="card">
           <ion-img class="list" [src]="article.urlToImage"></ion-img>
           <ion-row>
@@ -72,7 +72,7 @@
         </ion-card>
       </ion-col>
     </ion-row>
-  </div> -->
+  </div>
 </ion-content>
 
 
