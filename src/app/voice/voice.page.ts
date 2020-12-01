@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Base64 } from '@ionic-native/base64/ngx';
-import {MediaCapture, MediaFile, CaptureError} from '@ionic-native/media-capture/ngx';
-import { ActionSheetController, Platform, AlertController } from '@ionic/angular';
+import { MediaCapture, MediaFile, CaptureError} from '@ionic-native/media-capture/ngx';
+import { Platform, AlertController } from '@ionic/angular';
 import { File, FileEntry } from '@ionic-native/file/ngx';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { HTTP } from '@ionic-native/http/ngx';
+
 
 const MEDIA_FOLDER_NAME = 'Music';
 
@@ -27,9 +32,12 @@ export class VoicePage implements OnInit {
   constructor(
     private base64: Base64,
     private mediaCapture: MediaCapture,
-    private router: Router,
     private file: File,
     private plt: Platform,
+    public http: HttpClient,
+    private nativeHttp: HTTP,
+    private alertCtrl: AlertController,
+    private router: Router
   ) { }
 
   ngOnInit() {
