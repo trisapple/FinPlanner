@@ -8,6 +8,10 @@ const routes: Routes = [
     path: 'home',
     component: HomePage,
   },
+  {
+    path: 'aggregatedinsights',
+    loadChildren: () => import('./aggregatedinsights/aggregatedinsights.module').then( m => m.AggregatedinsightsPageModule)
+  },
 ];
 
 @NgModule({

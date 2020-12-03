@@ -115,14 +115,16 @@
 
   <br>
 
-  <ion-item *ngFor="let each of filtereddata2">
+  <!-- <ion-item *ngFor="let each of filtereddata2">
     <ion-label class="ion-text-wrap">
       <h2>{{ each.description }}</h2>
       <p>{{ each.accountname }}</p>
       <p>{{ each.made_on }} | {{ each.category }}</p>
     </ion-label>
     <p>{{ each.amountcurrencycode }}</p>
-  </ion-item>
+  </ion-item> -->
+
+  <ion-button expand="block" (click)="view2('Spending Insights', filtereddata2, spendinginsightlabels, spendinginsightvalues, backgroundcolors, hovercolors)">View Transactions</ion-button>
 
   <br>
 
@@ -144,14 +146,18 @@
 
   <br>
 
-  <ion-item *ngFor="let each of filtereddata3">
+  <ion-button expand="block" (click)="view2('Income Insights', filtereddata3, incomeinsightlabels, incomeinsightvalues, incomebackgroundcolors, incomehovercolors)">View Transactions</ion-button>
+
+  <br>
+
+  <!-- <ion-item *ngFor="let each of filtereddata3">
     <ion-label class="ion-text-wrap">
       <h2>{{ each.description }}</h2>
       <p>{{ each.accountname }}</p>
       <p>{{ each.made_on }} | {{ each.category }}</p>
     </ion-label>
     <p>{{ each.amountcurrencycode }}</p>
-  </ion-item>
+  </ion-item> -->
 
   <!-- <canvas #lineCanvas></canvas> -->
 

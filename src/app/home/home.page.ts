@@ -1,10 +1,9 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { LoadingController, NavController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
 import * as firebase from 'firebase';
-import { Router } from '@angular/router';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ExpensesService } from '../expenses.service';
@@ -1052,5 +1051,21 @@ export class HomePage {
   view() {
     this.navCtrl.navigateForward(['/accounts/savingssuggestion']);
   }
+
+  view2(title, data, labels, values, backgroundcolors, hovercolors) {
+    let navigationExtras: NavigationExtras = {
+      state: {
+        title: title,
+        data: data,
+        labels: labels,
+        values: values,
+        backgroundcolors: backgroundcolors,
+        hovercolors: hovercolors
+      }
+    };
+    this.navCtrl.navigateForward(['/home/aggregatedinsights'], navigationExtras)
+  }
+
+  
 }
 

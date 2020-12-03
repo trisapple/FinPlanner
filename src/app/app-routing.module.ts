@@ -54,9 +54,14 @@ const routes: Routes = [
   {
     path: 'finance/viewexchangerates',
     loadChildren: () => import('./finance/viewexchangerates/viewexchangerates.module').then( m => m.ViewexchangeratesPageModule)
-  },  {
+  },
+  {
     path: 'voice',
     loadChildren: () => import('./voice/voice.module').then( m => m.VoicePageModule)
+  },
+  {
+    path: 'home/aggregatedinsights',
+    loadChildren: () => import('./home/aggregatedinsights/aggregatedinsights.module').then( m => m.AggregatedinsightsPageModule)
   },
 
 
