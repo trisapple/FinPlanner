@@ -1052,7 +1052,7 @@ export class HomePage {
     this.navCtrl.navigateForward(['/accounts/savingssuggestion']);
   }
 
-  view2(title, data, labels, values, backgroundcolors, hovercolors) {
+  view2(title, data, labels, values, backgroundcolors, hovercolors, amount, month, year) {
     let navigationExtras: NavigationExtras = {
       state: {
         title: title,
@@ -1060,7 +1060,10 @@ export class HomePage {
         labels: labels,
         values: values,
         backgroundcolors: backgroundcolors,
-        hovercolors: hovercolors
+        hovercolors: hovercolors,
+        amount: amount,
+        month: month,
+        year: year
       }
     };
     this.navCtrl.navigateForward(['/home/aggregatedinsights'], navigationExtras)

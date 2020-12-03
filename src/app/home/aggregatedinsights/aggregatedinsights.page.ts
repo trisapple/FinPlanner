@@ -22,6 +22,10 @@ export class AggregatedinsightsPage implements OnInit {
   backgroundcolors = []
   hovercolors = []
 
+  month = ""
+  year = ""
+  amount = ""
+
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
@@ -35,6 +39,9 @@ export class AggregatedinsightsPage implements OnInit {
         this.values = state.values;
         this.backgroundcolors = state.backgroundcolors;
         this.hovercolors = state.hovercolors;
+        this.month = state.month;
+        this.year = state.year;
+        this.amount = state.amount;
       }
     })
   }
