@@ -81,13 +81,15 @@ export class VoicePage implements OnInit {
     let loading = await this.loadingCtrl.create();
     await loading.present();
 
-    let nativeCall = this.nativeHttp.post('https://vpr-sg.oneconnectft.com.sg/vprc_dmz/api/register_no_text', {
+    let nativeCall = this.nativeHttp.post('http://quiet-shelf-43690.herokuapp.com/https://vpr-sg.oneconnectft.com.sg/vprc_dmz/api/register_no_text'
+    , {
       'appId': '10013', 'scene': 'sg_temasekpoly_cll',
       'appIdKey': '2534eb7d19b5427a93fa7449882e1fea', 'token': '494cea4ee98171754dc7e61b225baaca',
       'timestamp': '1552958446757', 'userId': '3320333', 'serialNumber': 'JingYu101',
-      'type': 'register', 'file_format': 'pcm', 'depend': '0', 'voice': this.base64enroll
+      'type': 'modify', 'file_format': 'pcm', 'depend': '0', 'voice': this.base64enroll
     }, {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Origin': ''
     });
 
     from(nativeCall).pipe(
@@ -140,7 +142,7 @@ export class VoicePage implements OnInit {
     let loading = await this.loadingCtrl.create();
     await loading.present();
 
-    let nativeCall = this.nativeHttp.post('https://vpr-sg.oneconnectft.com.sg/vprc_dmz/api/verify_no_text', {
+    let nativeCall = this.nativeHttp.post('http://quiet-shelf-43690.herokuapp.com/https://vpr-sg.oneconnectft.com.sg/vprc_dmz/api/verify_no_text', {
       'appId': '10013', 'scene': 'sg_temasekpoly_cll',
       'appIdKey': '2534eb7d19b5427a93fa7449882e1fea', 'token': '494cea4ee98171754dc7e61b225baaca',
       'timestamp': '1552958446757', 'userId': '3320333', 'msgId': '11', 'serialNumber': 'JingYu101',
