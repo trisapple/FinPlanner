@@ -88,6 +88,10 @@ export class LoginPage implements OnInit {
     this.navCtrl.navigateForward(['/login/forgot']);
   }
 
+  gotoVoice(){
+    this.navCtrl.navigateForward(['/voice']);
+  }
+
   async presentToast(message, position, duration) {
     const toast = await this.toastCtrl.create({
       message,
