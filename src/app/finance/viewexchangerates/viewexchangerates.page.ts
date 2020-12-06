@@ -70,10 +70,10 @@ export class ViewexchangeratesPage {
 
               var options = {
                 'method': 'GET',
-                'hostname': 'newsapi.org',
-                'path': `/v2/everything?q=${this.params.symbol}&apiKey=fc0c0278121d401e87dbdf8933565a66`,
+                'hostname': 'quiet-shelf-43690.herokuapp.com',
+                'path': `/https://newsapi.org/v2/everything?q=${this.params.symbol}&apiKey=fc0c0278121d401e87dbdf8933565a66`,
                 'headers': {
-                  'Cookie': '__cfduid=db8bb46296dcf728b55b19e178793a2891606659506'
+                  'Origin': ''
                 },
                 'maxRedirects': 20
               };
