@@ -17,7 +17,7 @@ export class NewsService {
   getData(url) {
     // return this.http.get(`${API_URL}/${url}&apiKey=${API_KEY}`);
 
-    var http = require('follow-redirects').http;
+    var http = require('follow-redirects').https;
     
     var options = {
       'method': 'GET',
