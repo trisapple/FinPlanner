@@ -80,12 +80,7 @@ export class FinancePage implements OnInit {
   }
 
 loadbusinessnews() {
-  this.newsService
-  .getData("top-headlines?country=US&category=business")
-  .subscribe(news => {
-    this.articles = news['articles'];
-    console.log(this.articles);
-  });
+  this.newsService.getData("top-headlines?country=US&category=business")
 }
 
 onGoToNewsSinglePage(article) {
