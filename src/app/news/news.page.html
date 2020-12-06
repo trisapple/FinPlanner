@@ -48,7 +48,25 @@
     </ion-row>
   </ion-grid>
 
-  <div class="container" *ngIf="selectedSegment == 'localheadlines'">
+  <div class="container">
+    <ion-row>
+      <ion-col size-xs="12" size-sm="6" size-md="12" *ngFor="let article of newsService.articles" (click)="onGoToNewsSinglePage(article)">
+        <ion-card class="card">
+          <ion-img class="list" [src]="article.urlToImage"></ion-img>
+          <ion-row>
+            <ion-col>
+              <ion-card-header>
+                <ion-card-title class="font">{{article.title}}</ion-card-title>
+                <p>{{article.description}}</p>
+              </ion-card-header>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <!-- <div class="container" *ngIf="selectedSegment == 'localheadlines'">
     <ion-row>
       <ion-col size-xs="12" size-sm="6" size-md="12" *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)">
         <ion-card class="card">
@@ -82,7 +100,7 @@
         </ion-card>
       </ion-col>
     </ion-row>
-  </div>
+  </div> -->
 
   <!-- <div class="container" *ngIf="selectedSegment == 'finance'">
     <ion-row>
@@ -102,7 +120,7 @@
     </ion-row>
   </div> -->
 
-  <div class="container" *ngIf="selectedSegment == 'bitcoin'">
+  <!-- <div class="container" *ngIf="selectedSegment == 'bitcoin'">
     <ion-row>
       <ion-col size-xs="12" size-sm="6" size-md="12" *ngFor="let article of articles" (click)="onGoToNewsSinglePage(article)">
         <ion-card class="card">
@@ -136,5 +154,5 @@
         </ion-card>
       </ion-col>
     </ion-row>
-  </div>
+  </div> -->
 </ion-content>

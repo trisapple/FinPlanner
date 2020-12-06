@@ -83,54 +83,27 @@ export class NewsPage implements OnInit {
   }
 
   loadlocalnews() {
-    this.newsService
-      .getData("top-headlines?country=SG")
-      .subscribe(news => {
-        this.articles = news['articles'];
-        console.log(this.articles);
-      });
+    this.newsService.getData("top-headlines?country=SG")
   }
 
   loadBBCnews() {
-    this.newsService
-      .getData("top-headlines?sources=bbc-news")
-      .subscribe(news => {
-        this.articles = news['articles'];
-        console.log(this.articles);
-      });
+    this.newsService.getData("top-headlines?sources=bbc-news")
   }
 
   loadbusinessnews() {
-    this.newsService
-      .getData("top-headlines?country=US&category=business")
-      .subscribe(news => {
-        this.articles = news['articles'];
-        console.log(this.articles);
-      });
+    this.newsService.getData("top-headlines?country=US&category=business")
   }
 
   loadbitcoin() {
-    this.newsService
-      .getData("everything?q=bitcoin&sortBy=publishedAt$")
-      .subscribe(news => {
-        this.articles = news['articles'];
-        console.log(this.articles);
-      });
+    this.newsService.getData("everything?q=bitcoin&sortBy=publishedAt$")
   }
 
   loadcovid() {
-    this.newsService
-      .getData("everything?q=coronavirus")
-      .subscribe(news => {
-        this.articles = news['articles'];
-        console.log(this.articles);
-      });
+    this.newsService.getData("everything?q=coronavirus")
   }
 
   onGoToNewsSinglePage(article) {
     this.newsService.currentArticle = article;
     this.router.navigate(['/news-single']);
   }
-
-
 }
