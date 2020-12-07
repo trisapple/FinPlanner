@@ -15,6 +15,7 @@ export class ViewexchangeratesPage {
   params: any;
   SGDtoUSDrate = 0
   constructor(public newsService: NewsService, private expensesService: ExpensesService, private userService: UserService, private router: Router, private route: ActivatedRoute) {
+    // Accessing data
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.params = this.router.getCurrentNavigation().extras.state.symbol;

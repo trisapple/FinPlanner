@@ -64,6 +64,6 @@ export class RatesPage implements OnInit {
         symbol: obj
       }
     };
-    this.router.navigate(['finance/viewexchangerates'], navigationExtras);
+    this.router.navigate(['finance/viewexchangerates'], navigationExtras); // Pass the object in the state to another page
   }
 }
