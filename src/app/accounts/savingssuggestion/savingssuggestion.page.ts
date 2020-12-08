@@ -17,7 +17,6 @@ export class SavingssuggestionPage implements OnInit {
     let navigationExtras: NavigationExtras = {
       state: {
         remindername: name,
-        // reminderdate: new Date().setDate(new Date().getDate() + 1)
         reminderdate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1).toISOString()
       }
     };
