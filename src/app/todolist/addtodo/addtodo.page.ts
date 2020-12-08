@@ -56,6 +56,7 @@ export class AddtodoPage implements OnInit {
         // After it is updated, refresh the todolist and go back.
         .then(value => {
           this.todolistService.getTodo()
+          this.presentToast('To-do Added!', 'middle', 2000);
           this.navCtrl.pop()
         })
         // Log and catch the error
