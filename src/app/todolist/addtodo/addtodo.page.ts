@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { TodoListService } from 'src/app/todo-list.service';
-import { Time } from '@angular/common';
 import { UserService } from 'src/app/user.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-addtodo',
@@ -16,11 +16,17 @@ export class AddtodoPage implements OnInit {
   date: Date
   // time: Time
 
-  constructor(public navCtrl: NavController, public firestore: AngularFirestore, public todolistService: TodoListService, public toastCtrl: ToastController, public userService: UserService) {
+  constructor(public navCtrl: NavController, public firestore: AngularFirestore, public todolistService: TodoListService, public toastCtrl: ToastController, public userService: UserService, private router: Router, private route: ActivatedRoute) {
 
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.name = this.router.getCurrentNavigation().extras.state.remindername;
+        this.date = this.router.getCurrentNavigation().extras.state.reminderdate;
+      }
+    })
   }
 
   addTodo() {
