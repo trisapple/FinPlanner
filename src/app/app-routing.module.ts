@@ -62,9 +62,14 @@ const routes: Routes = [
   {
     path: 'home/aggregatedinsights',
     loadChildren: () => import('./home/aggregatedinsights/aggregatedinsights.module').then( m => m.AggregatedinsightsPageModule)
-  },  {
+  },
+  {
     path: 'voice2',
     loadChildren: () => import('./voice2/voice2.module').then( m => m.Voice2PageModule)
+  },
+  {
+    path: 'fingerprint',
+    loadChildren: () => import('./fingerprint/fingerprint.module').then( m => m.FingerprintPageModule)
   },
 
 

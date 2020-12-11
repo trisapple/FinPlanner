@@ -13,6 +13,8 @@ import { HttpClient } from '@angular/common/http';
 import { ExpensesService } from '../expenses.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { SaltedgeService } from '../saltedge.service';
+import { ModalController } from '@ionic/angular';
+import { FingerprintPage } from '../fingerprint/fingerprint.page'
 
 @Component({
   selector: 'app-login',
@@ -34,7 +36,8 @@ export class LoginPage implements OnInit {
     public platform: Platform,
     public expensesService: ExpensesService,
     public firestore: AngularFirestore,
-    public saltedgeService: SaltedgeService
+    public saltedgeService: SaltedgeService,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -90,6 +93,23 @@ export class LoginPage implements OnInit {
 
   gotoVoice(){
     this.navCtrl.navigateForward(['/voice']);
+  }
+  
+  gotoFP(){
+    // this.navCtrl.navigateForward(['/fingerprint'])
+      this.lockApp();
+  }
+
+  async lockApp() {
+    const modal = await this.modalCtrl.create({
+      component: FingerprintPage,
+      backdropDismiss: false,
+      cssClass: 'lock-modal',
+      componentProps: {
+        isModal: true
+      }
+    });
+    modal.present();
   }
 
   async presentToast(message, position, duration) {

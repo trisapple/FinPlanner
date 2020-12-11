@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { LoadingController, NavController } from '@ionic/angular';
+import { LoadingController, ModalController, NavController } from '@ionic/angular';
 import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
@@ -9,7 +9,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ExpensesService } from '../expenses.service';
 import { SaltedgeService } from '../saltedge.service';
 
+
 import { Chart } from 'chart.js';
+import { FingerprintPage } from '../fingerprint/fingerprint.page';
 
 @Component({
   selector: 'app-home',
@@ -641,8 +643,23 @@ export class HomePage {
     });
   }
 
-  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, public loadingController: LoadingController) {
+  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, public loadingController: LoadingController, private modalCtrl: ModalController) {
+    // setTimeout(() => {
+    //   this.lockApp();
+    // }, 2000);
   }
+
+  // async lockApp(){
+  //   const modal = await this.modalCtrl.create({
+  //     component: FingerprintPage,
+  //     backdropDismiss: false,
+  //     cssClass: 'login-modal',
+  //     componentProps: {
+  //       isModal: true
+  //     }
+  //   });
+  //   modal.present()
+  // }
 
   connection_id() {
     console.log(this.activatedRoute.snapshot.queryParamMap.get("connection_id"))
