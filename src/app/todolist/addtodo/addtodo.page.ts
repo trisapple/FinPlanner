@@ -21,12 +21,10 @@ export class AddtodoPage implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.name = this.router.getCurrentNavigation().extras.state.remindername;
-        this.date = this.router.getCurrentNavigation().extras.state.reminderdate;
-      }
-    })
+    if (this.router.getCurrentNavigation().extras.state) {
+      this.name = this.router.getCurrentNavigation().extras.state.remindername;
+      this.date = this.router.getCurrentNavigation().extras.state.reminderdate;
+    }
   }
 
   addTodo() {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-savingssuggestion',
@@ -8,9 +8,41 @@ import { NavigationExtras, Router } from '@angular/router';
 })
 export class SavingssuggestionPage implements OnInit {
 
-  constructor(private router: Router) { }
+  month = ""
+  year = ""
+  spendinginsightlabels = []
 
+  savingssuggestionsobject = {}
+  savingssuggestionsarray = []
+
+  constructor(private router: Router, private route: ActivatedRoute) { }
+
+  // {"Cafes & Restaurants": ["Eat at Coffee Shop", "Cook at home"]}
+  // [[["Cafes & Restaurants"], ["Eat at Coffee Shop", "Cook at home"]], 
   ngOnInit() {
+    if (this.router.getCurrentNavigation().extras.state) {
+      this.month = this.router.getCurrentNavigation().extras.state.month;
+      this.year = this.router.getCurrentNavigation().extras.state.year;
+      this.spendinginsightlabels = this.router.getCurrentNavigation().extras.state.spendinginsightlabels;
+    }
+    console.log(this.spendinginsightlabels)
+    for (let each of this.spendinginsightlabels) {
+      if (each == "Cafes And Restaurants") {
+        this.savingssuggestionsobject[each] = ["Eat at Coffee Shop", "Cook at home"]
+      }
+      if (each == "Electronics And Software") {
+        this.savingssuggestionsobject[each] = ["Buy refurbished or used technology products"]
+      }
+      if (each == "Shopping") {
+        this.savingssuggestionsobject[each] = ["Make a wish list", "Shop in Carousell"]
+      }
+      if (each == "Groceries") {
+        this.savingssuggestionsobject[each] = ["Buy only what you need"]
+      }
+    }
+    this.savingssuggestionsarray = Object.entries(this.savingssuggestionsobject)
+    console.log(this.savingssuggestionsobject)
+    console.log(this.savingssuggestionsarray)
   }
 
   addTodo(name) {
@@ -21,7 +53,6 @@ export class SavingssuggestionPage implements OnInit {
       }
     };
     console.log(navigationExtras)
-    console.log(new Date().getFullYear())
     this.router.navigate(['/todolist/add'], navigationExtras);
   }
 

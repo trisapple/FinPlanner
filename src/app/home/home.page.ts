@@ -1049,7 +1049,21 @@ export class HomePage {
   }
 
   view() {
-    this.navCtrl.navigateForward(['/accounts/savingssuggestion']);
+    let navigationExtras: NavigationExtras = {
+      state: {
+        // title: title,
+        // data: data,
+        // labels: labels,
+        // values: values,
+        // backgroundcolors: backgroundcolors,
+        // hovercolors: hovercolors,
+        // amount: amount,
+        month: this.month,
+        year: this.year,
+        spendinginsightlabels: this.spendinginsightlabels
+      }
+    };
+    this.navCtrl.navigateForward(['/accounts/savingssuggestion'], navigationExtras);
   }
 
   view2(title, data, labels, values, backgroundcolors, hovercolors, amount, month, year) {
