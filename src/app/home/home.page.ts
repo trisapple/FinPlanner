@@ -11,7 +11,7 @@ import { SaltedgeService } from '../saltedge.service';
 
 
 import { Chart } from 'chart.js';
-import { FingerprintPage } from '../fingerprint/fingerprint.page';
+// import { FingerprintPage } from '../fingerprint/fingerprint.page';
 
 @Component({
   selector: 'app-home',

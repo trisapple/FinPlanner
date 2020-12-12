@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -16,6 +16,10 @@ import { SaltedgeService } from '../saltedge.service';
 import { ModalController } from '@ionic/angular';
 import { FingerprintPage } from '../fingerprint/fingerprint.page'
 
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+import { Router } from '@angular/router';
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -26,6 +30,7 @@ export class LoginPage implements OnInit {
   email = '';
   password = '';
   error = '';
+  @Input()isModal: boolean;
 
   constructor(private fireauth: AngularFireAuth,
     public alertController: AlertController,
@@ -37,10 +42,13 @@ export class LoginPage implements OnInit {
     public expensesService: ExpensesService,
     public firestore: AngularFirestore,
     public saltedgeService: SaltedgeService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private faio: FingerprintAIO,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    console.log('I am modal: ', this.isModal);
   }
 
   login() {
@@ -95,9 +103,27 @@ export class LoginPage implements OnInit {
     this.navCtrl.navigateForward(['/voice']);
   }
   
-  gotoFP(){
+  gotoFP() {
+    this.lockApp();
     // this.navCtrl.navigateForward(['/fingerprint'])
-      this.lockApp();
+    this.faio.show({
+      title: 'Biometric Authentication', // (Android Only) | optional | Default: "<APP_NAME> Biometric Sign On"
+      subtitle: 'For Login Verification,', // (Android Only) | optional | Default: null
+      description: 'Please authenticate', // optional | Default: null
+      fallbackButtonTitle: 'Use Pin', // optional | When disableBackup is false defaults to "Use Pin".
+      // When disableBackup is true defaults to "Cancel"
+      disableBackup: true,  // optional | default: false
+    }).then(() => {
+      if (this.isModal) {
+        this.modalCtrl.dismiss().then(() => {
+          this.modalCtrl.dismiss();
+      })
+    }
+      else {
+        this.router.navigateByUrl('/home');
+    }
+    })
+    .catch((error: any) => console.log(error));
   }
 
   async lockApp() {
