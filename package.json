@@ -94,13 +94,9 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-advanced-http": {},
-<<<<<<< Updated upstream
-      "cordova-plugin-fingerprint-aio": {}
-=======
       "cordova-plugin-fingerprint-aio": {
         "FACEID_USAGE_DESCRIPTION": " "
       }
->>>>>>> Stashed changes
     },
     "platforms": [
       "browser",
