@@ -104,7 +104,7 @@ export class LoginPage implements OnInit {
   }
   
   gotoFP() {
-    this.lockApp();
+    // this.lockApp();
     // this.navCtrl.navigateForward(['/fingerprint'])
     this.faio.show({
       title: 'Biometric Authentication', // (Android Only) | optional | Default: "<APP_NAME> Biometric Sign On"
