@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, Platform } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { ExpensesService } from '../expenses.service';
 import { SaltedgeService } from '../saltedge.service';
 import { Subscription } from 'rxjs';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router';
+import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture/ngx';
+import { File, FileEntry } from '@ionic-native/file/ngx';
 
 
 
@@ -18,7 +20,9 @@ import { Router } from '@angular/router';
 })
 export class ProfilePage implements OnInit {
 
-  constructor(public userService: UserService, private router: Router, private fireauth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController, public navCtrl: NavController, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
+  base64audio = ''
+
+  constructor(public userService: UserService, private router: Router, private fireauth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController, public navCtrl: NavController, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, private mediaCapture: MediaCapture, private file: File) {
     if (userService.socialLogin == false) {
       this.userService.profilePicture = 'assets/avatar.png';
     }
@@ -69,6 +73,34 @@ export class ProfilePage implements OnInit {
   // updateProfile() {
   //   this.navCtrl.navigateForward(['/profile/updateprofile']);
   // }
+
+  enrollVoice() {
+    this.mediaCapture.captureAudio().then(
+      (data: MediaFile[]) => {
+
+        if (data.length > 0) {
+          console.log(data)
+
+          var path = 'file://' + data[0].fullPath.substring(0, data[0].fullPath.lastIndexOf("/") + 1)
+          var fileName = data[0].fullPath.substring(data[0].fullPath.lastIndexOf("/") + 1, data[0].fullPath.length)
+
+          console.log(path)
+          console.log(fileName)
+
+          this.file.readAsDataURL(path, fileName)
+            .then(base64File => {
+              this.base64audio = base64File
+              console.log("here is encoded image ", base64File)
+            })
+            .catch((err) => {
+              console.log(err)
+              console.log('Error reading file');
+            })
+        }
+      },
+      (err: CaptureError) => console.error(err)
+    );
+  }
 
   async deleteAccount() {
     const alert = await this.alertCtrl.create({

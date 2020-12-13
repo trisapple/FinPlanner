@@ -8,6 +8,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
+import { Base64 } from '@ionic-native/base64/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
+import { MediaCapture } from '@ionic-native/media-capture/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 const routes: Routes = [
   {
@@ -24,6 +28,12 @@ const routes: Routes = [
     ProfilePageRoutingModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ProfilePage]
+  declarations: [ProfilePage],
+  providers: [
+    Base64,
+    MediaCapture,
+    File,
+    HTTP
+  ]
 })
 export class ProfilePageModule {}
