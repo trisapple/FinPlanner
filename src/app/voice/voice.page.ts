@@ -29,6 +29,9 @@ export class VoicePage implements OnInit {
   // register with voiceapi
   base64enroll: string;
 
+  filePath = ''
+  base64audio = ''
+
 
   constructor(
     private base64: Base64,
@@ -182,8 +185,24 @@ export class VoicePage implements OnInit {
 
   // Login
   async getDataNativeHttp() {
+    // var base64audio = ''
+
     let loading = await this.loadingCtrl.create();
     await loading.present();
+
+    // this.filePath = data[0].fullPath
+    // console.log(this.filePath)
+
+    // this.base64.encodeFile(this.filePath).then((base64Audio: string) => {
+    //   // console.log(filePath)
+    //   console.log(base64Audio)
+    //   base64Audio.replace('data:image/*;charset=utf-8;base64,', '');
+    //   console.log(base64Audio)
+    //   base64audio = base64Audio
+
+    // }, (err) => {
+    //   console.log(err)
+    // });
 
     var http = require('follow-redirects').http;
 
@@ -209,6 +228,7 @@ export class VoicePage implements OnInit {
       res.on("end", function (chunk) {
         var body = Buffer.concat(chunks);
         console.log(body.toString());
+        console.log('Base64 audio: ' + this.base64audio)
         loading.dismiss()
       });
 
@@ -219,7 +239,7 @@ export class VoicePage implements OnInit {
     });
 
     // Change the voice to a base64 text
-    var postData = JSON.stringify({ "appId": "10013", "scene": "sg_temasekpoly_cll", "appIdKey": "2534eb7d19b5427a93fa7449882e1fea", "token": "dc379ee75aeae891731f1496243f8555", "timestamp": "1598510276635", "userId": "3320333", "serialNumber": "JingYu101", "type": "verify", "file_format": "pcm", "depend": "0", "voice": "0" });
+    var postData = JSON.stringify({ "appId": "10013", "scene": "sg_temasekpoly_cll", "appIdKey": "2534eb7d19b5427a93fa7449882e1fea", "token": "dc379ee75aeae891731f1496243f8555", "timestamp": "1598510276635", "userId": "3320333", "serialNumber": "JingYu101", "type": "verify", "file_format": "pcm", "depend": "0", "voice": this.base64audio });
 
     req.write(postData);
 
@@ -292,29 +312,49 @@ export class VoicePage implements OnInit {
   }
 
   recordAudio() {
-    var filePath = ''
     this.mediaCapture.captureAudio().then(
       (data: MediaFile[]) => {
 
         if (data.length > 0) {
           console.log(data)
+          this.filePath = data[0].fullPath
+
+          // this.base64.encodeFile(this.filePath).then((base64Audio: string) => {
+          //   // console.log(filePath)
+          //   console.log('Base64 audio encoded: ' + base64Audio)
+          //   base64Audio.replace('data:image/*;charset=utf-8;base64,', '');
+          //   console.log('Base64 audio encoded: ' + base64Audio)
+          //   this.base64audio = base64Audio
+
+          // }, (err) => {
+          //   console.log(err)
+          // });
+
+          var path = 'file://' + data[0].fullPath.substring(0, data[0].fullPath.lastIndexOf("/") + 1)
+          var fileName = data[0].fullPath.substring(data[0].fullPath.lastIndexOf("/") + 1, data[0].fullPath.length)
+
+          console.log(path)
+          console.log(fileName)
+
+
+          // split file path to directory and file name
+          // let fileName = filePath.split('/').pop();
+          // let path = filePath.substring(0, filePath.lastIndexOf("/") + 1);
+
+          this.file.readAsDataURL(path, fileName)
+            .then(base64File => {
+              this.base64audio = base64File
+              console.log("here is encoded image ", base64File)
+            })
+            .catch((err) => {
+              console.log(err)
+              console.log('Error reading file');
+            })
+
           // console.log(data[0].fullPath)
 
           // converting login recording to base64
           // let filePath: string = 'file:///storage/emulated/0/Voice Recorder/loginVoice.mp3';
-
-          filePath = data[0].fullPath
-          console.log(filePath)
-
-          this.base64.encodeFile(filePath).then((base64Audio: string) => {
-            console.log(filePath)
-            console.log(base64Audio)
-            base64Audio.replace('data:image/*;charset=utf-8;base64,', '');
-            console.log(base64Audio)
-
-          }, (err) => {
-            console.log(err)
-          });
 
           // this.copyFileToLocalDir(data[0].fullPath);
         }

@@ -16,6 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FingerprintAIO} from '@ionic-native/fingerprint-aio/ngx';
 import { SafePipe } from './safe.pipe';
 import { LoginPageModule } from './login/login.module';
+import { Base64 } from '@ionic-native/base64/ngx';
+import { MediaCapture } from '@ionic-native/media-capture/ngx';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { LoginPageModule } from './login/login.module';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    FingerprintAIO
+    FingerprintAIO,
+    Base64,
+    MediaCapture
   ],
   bootstrap: [AppComponent],
   schemas : [CUSTOM_ELEMENTS_SCHEMA],
