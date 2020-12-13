@@ -321,8 +321,6 @@ export class VoicePage implements OnInit {
       },
       (err: CaptureError) => console.error(err)
     );
-
-
   }
 
 }
