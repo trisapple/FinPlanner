@@ -29,9 +29,7 @@ export class VoicePage implements OnInit {
   // register with voiceapi
   base64enroll: string;
 
-  filePath = ''
   base64audio = ''
-
 
   constructor(
     private base64: Base64,
@@ -190,20 +188,6 @@ export class VoicePage implements OnInit {
     let loading = await this.loadingCtrl.create();
     await loading.present();
 
-    // this.filePath = data[0].fullPath
-    // console.log(this.filePath)
-
-    // this.base64.encodeFile(this.filePath).then((base64Audio: string) => {
-    //   // console.log(filePath)
-    //   console.log(base64Audio)
-    //   base64Audio.replace('data:image/*;charset=utf-8;base64,', '');
-    //   console.log(base64Audio)
-    //   base64audio = base64Audio
-
-    // }, (err) => {
-    //   console.log(err)
-    // });
-
     var http = require('follow-redirects').http;
 
     var options = {
@@ -317,29 +301,12 @@ export class VoicePage implements OnInit {
 
         if (data.length > 0) {
           console.log(data)
-          this.filePath = data[0].fullPath
-
-          // this.base64.encodeFile(this.filePath).then((base64Audio: string) => {
-          //   // console.log(filePath)
-          //   console.log('Base64 audio encoded: ' + base64Audio)
-          //   base64Audio.replace('data:image/*;charset=utf-8;base64,', '');
-          //   console.log('Base64 audio encoded: ' + base64Audio)
-          //   this.base64audio = base64Audio
-
-          // }, (err) => {
-          //   console.log(err)
-          // });
 
           var path = 'file://' + data[0].fullPath.substring(0, data[0].fullPath.lastIndexOf("/") + 1)
           var fileName = data[0].fullPath.substring(data[0].fullPath.lastIndexOf("/") + 1, data[0].fullPath.length)
 
           console.log(path)
           console.log(fileName)
-
-
-          // split file path to directory and file name
-          // let fileName = filePath.split('/').pop();
-          // let path = filePath.substring(0, filePath.lastIndexOf("/") + 1);
 
           this.file.readAsDataURL(path, fileName)
             .then(base64File => {
@@ -350,13 +317,6 @@ export class VoicePage implements OnInit {
               console.log(err)
               console.log('Error reading file');
             })
-
-          // console.log(data[0].fullPath)
-
-          // converting login recording to base64
-          // let filePath: string = 'file:///storage/emulated/0/Voice Recorder/loginVoice.mp3';
-
-          // this.copyFileToLocalDir(data[0].fullPath);
         }
       },
       (err: CaptureError) => console.error(err)
