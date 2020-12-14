@@ -71,6 +71,11 @@ const routes: Routes = [
     path: 'fingerprint',
     loadChildren: () => import('./fingerprint/fingerprint.module').then( m => m.FingerprintPageModule)
   },
+  {
+    path: 'voice/voiceauthentication',
+    loadChildren: () => import('./voice/voiceauthentication/voiceauthentication.module').then( m => m.VoiceauthenticationPageModule)
+  },
+
 
 
 
