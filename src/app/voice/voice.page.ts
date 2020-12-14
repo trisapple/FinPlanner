@@ -316,7 +316,7 @@ export class VoicePage implements OnInit {
           this.file.readAsDataURL(path, fileName)
             .then(base64File => {
               this.base64audio = base64File
-              console.log("here is encoded image ", base64File)
+              // console.log("here is encoded image ", base64File)
             })
             .catch((err) => {
               console.log(err)
