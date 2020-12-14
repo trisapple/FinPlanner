@@ -9,6 +9,7 @@ import { LoadingController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators'
 import { from } from 'rxjs';
 import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 const MEDIA_FOLDER_NAME = 'Music';
 
@@ -40,7 +41,8 @@ export class VoicePage implements OnInit {
     private nativeHttp: HTTP,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private router: Router
+    private router: Router,
+    public userService: UserService
   ) { }
 
   ngOnInit() {
@@ -79,6 +81,8 @@ export class VoicePage implements OnInit {
     console.log(this.base64text)
     console.log(this.base64enroll)
 
+    console.log(this.userService.uid)
+
   }
 
   // register
@@ -110,6 +114,7 @@ export class VoicePage implements OnInit {
       res.on("end", function (chunk) {
         var body = Buffer.concat(chunks);
         console.log(body.toString());
+        alert(JSON.parse(body.toString()).data.returnData.msg)
         loading.dismiss()
       });
 
@@ -120,7 +125,7 @@ export class VoicePage implements OnInit {
     });
 
     // Change the voice to a base64 text
-    var postData = JSON.stringify({ "appId": "10013", "scene": "sg_temasekpoly_cll", "appIdKey": "2534eb7d19b5427a93fa7449882e1fea", "token": "494cea4ee98171754dc7e61b225baaca", "timestamp": "1552958446757", "userId": "3320333", "serialNumber": "JingYu101", "type": "register", "file_format": "pcm", "depend": "0", "voice": this.base64audio });
+    var postData = JSON.stringify({ "appId": "10013", "scene": "sg_temasekpoly_cll", "appIdKey": "2534eb7d19b5427a93fa7449882e1fea", "token": "494cea4ee98171754dc7e61b225baaca", "timestamp": "1552958446757", "userId": this.userService.uid, "serialNumber": "JingYu101", "type": "register", "file_format": "pcm", "depend": "0", "voice": this.base64audio });
 
     req.write(postData);
 
@@ -212,7 +217,7 @@ export class VoicePage implements OnInit {
       res.on("end", function (chunk) {
         var body = Buffer.concat(chunks);
         console.log(body.toString());
-        console.log('Base64 audio: ' + this.base64audio)
+        alert(JSON.parse(body.toString()).data.returnData.msg)
         loading.dismiss()
       });
 
@@ -223,7 +228,7 @@ export class VoicePage implements OnInit {
     });
 
     // Change the voice to a base64 text
-    var postData = JSON.stringify({ "appId": "10013", "scene": "sg_temasekpoly_cll", "appIdKey": "2534eb7d19b5427a93fa7449882e1fea", "token": "dc379ee75aeae891731f1496243f8555", "timestamp": "1598510276635", "userId": "3320333", "serialNumber": "JingYu101", "type": "verify", "file_format": "pcm", "depend": "0", "voice": this.base64audio });
+    var postData = JSON.stringify({ "appId": "10013", "scene": "sg_temasekpoly_cll", "appIdKey": "2534eb7d19b5427a93fa7449882e1fea", "token": "dc379ee75aeae891731f1496243f8555", "timestamp": "1598510276635", "userId": this.userService.uid, "serialNumber": "JingYu101", "type": "verify", "file_format": "pcm", "depend": "0", "voice": this.base64audio });
 
     req.write(postData);
 
