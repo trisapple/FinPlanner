@@ -120,7 +120,7 @@ export class VoicePage implements OnInit {
     });
 
     // Change the voice to a base64 text
-    var postData = JSON.stringify({ "appId": "10013", "scene": "sg_temasekpoly_cll", "appIdKey": "2534eb7d19b5427a93fa7449882e1fea", "token": "494cea4ee98171754dc7e61b225baaca", "timestamp": "1552958446757", "userId": "3320333", "serialNumber": "JingYu101", "type": "register", "file_format": "pcm", "depend": "0", "voice": "0" });
+    var postData = JSON.stringify({ "appId": "10013", "scene": "sg_temasekpoly_cll", "appIdKey": "2534eb7d19b5427a93fa7449882e1fea", "token": "494cea4ee98171754dc7e61b225baaca", "timestamp": "1552958446757", "userId": "3320333", "serialNumber": "JingYu101", "type": "register", "file_format": "pcm", "depend": "0", "voice": this.base64audio });
 
     req.write(postData);
 

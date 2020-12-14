@@ -74,32 +74,34 @@ export class ProfilePage implements OnInit {
   //   this.navCtrl.navigateForward(['/profile/updateprofile']);
   // }
 
-  enrollVoice() {
-    this.mediaCapture.captureAudio().then(
-      (data: MediaFile[]) => {
+  gotoVoice() {
+    // this.mediaCapture.captureAudio().then(
+    //   (data: MediaFile[]) => {
 
-        if (data.length > 0) {
-          console.log(data)
+    //     if (data.length > 0) {
+    //       console.log(data)
 
-          var path = 'file://' + data[0].fullPath.substring(0, data[0].fullPath.lastIndexOf("/") + 1)
-          var fileName = data[0].fullPath.substring(data[0].fullPath.lastIndexOf("/") + 1, data[0].fullPath.length)
+    //       var path = 'file://' + data[0].fullPath.substring(0, data[0].fullPath.lastIndexOf("/") + 1)
+    //       var fileName = data[0].fullPath.substring(data[0].fullPath.lastIndexOf("/") + 1, data[0].fullPath.length)
 
-          console.log(path)
-          console.log(fileName)
+    //       console.log(path)
+    //       console.log(fileName)
 
-          this.file.readAsDataURL(path, fileName)
-            .then(base64File => {
-              this.base64audio = base64File
-              console.log("here is encoded image ", base64File)
-            })
-            .catch((err) => {
-              console.log(err)
-              console.log('Error reading file');
-            })
-        }
-      },
-      (err: CaptureError) => console.error(err)
-    );
+    //       this.file.readAsDataURL(path, fileName)
+    //         .then(base64File => {
+    //           this.base64audio = base64File
+    //           console.log("here is encoded image ", base64File)
+    //         })
+    //         .catch((err) => {
+    //           console.log(err)
+    //           console.log('Error reading file');
+    //         })
+    //     }
+    //   },
+    //   (err: CaptureError) => console.error(err)
+    // );
+
+    this.navCtrl.navigateForward(['/voice']);
   }
 
   async deleteAccount() {
