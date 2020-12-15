@@ -71,7 +71,7 @@ export class LoginPage implements OnInit {
               this.userService.provider = "Email and Password";
 
               this.presentToast('Login Successfully!', 'middle', 2000); // Will be executed if email is verified
-              this.navCtrl.navigateRoot('/home');
+              this.navCtrl.navigateRoot('/voice/voiceauthentication');
 
               sub.unsubscribe();
             });
