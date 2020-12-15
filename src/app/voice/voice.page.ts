@@ -20,17 +20,20 @@ const MEDIA_FOLDER_NAME = 'Music';
 })
 export class VoicePage implements OnInit {
 
-  files = [];
+  // files = [];
 
-  data = [];
+  // data = [];
 
-  // login with voiceapi
-  base64text: string;
+  // // login with voiceapi
+  // base64text: string;
 
-  // register with voiceapi
-  base64enroll: string;
+  // // register with voiceapi
+  // base64enroll: string;
 
   base64audio = ''
+
+  statusCheck = true
+  isVoiceEnrolled = false
 
   constructor(
     private base64: Base64,
@@ -43,7 +46,10 @@ export class VoicePage implements OnInit {
     private alertCtrl: AlertController,
     private router: Router,
     public userService: UserService
-  ) { }
+  ) {
+
+    
+   }
 
   ngOnInit() {
     // this.plt.ready().then(() => {
@@ -82,6 +88,50 @@ export class VoicePage implements OnInit {
     // console.log(this.base64enroll)
 
     console.log(this.userService.uid)
+
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'POST',
+      'hostname': 'quiet-shelf-43690.herokuapp.com',
+      'path': '/https://vpr-sg.oneconnectft.com.sg/vprc_dmz/api/isRegister',
+      'headers': {
+        'Content-Type': 'application/json',
+        'Origin': ''
+        // 'Cookie': 'visid_incap_2206674=diWXZ/9yQS6dKEFlN427l9KCy18AAAAAQUIPAAAAAACogEWogMY6HwFQ+XupmRes; route=eac4da8a8199714d9b2d17eb97fcdb41; incap_ses_943_2206674=ShYcDzzdgAg2V/ZFmDUWDUHG2F8AAAAAIGUJL1rl9FPnLhS7GZP/lA=='
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, (res) => {
+      var chunks = [];
+
+      res.on("data", (chunk) => {
+        chunks.push(chunk);
+        this.statusCheck = false
+      });
+
+      res.on("end", (chunk) => {
+        var body = Buffer.concat(chunks);
+        console.log(body.toString());
+        this.statusCheck = false
+        // User has registered
+        if (JSON.parse(body.toString()).data.returnFlag == "FAIL") {
+          this.isVoiceEnrolled = true
+        }
+      });
+
+      res.on("error", (error) => {
+        console.error(error);
+        this.statusCheck = false
+      });
+    });
+
+    var postData = JSON.stringify({ "appId": "10013", "scene": "sg_temasekpoly_cll", "appIdKey": "2534eb7d19b5427a93fa7449882e1fea", "token": "494cea4ee98171754dc7e61b225baaca", "timestamp": "1552958446757", "userId": this.userService.uid });
+
+    req.write(postData);
+
+    req.end();
 
   }
 
