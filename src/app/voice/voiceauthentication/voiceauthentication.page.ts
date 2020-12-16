@@ -53,7 +53,7 @@ export class VoiceauthenticationPage implements OnInit {
       'maxRedirects': 20
     };
 
-    var req = http.request(options, function (res) {
+    var req = http.request(options, (res) => {
       var chunks = [];
 
       res.on("data", function (chunk) {
@@ -61,14 +61,15 @@ export class VoiceauthenticationPage implements OnInit {
         loading.dismiss()
       });
 
-      res.on("end", function (chunk) {
+      res.on("end", (chunk) => {
         var body = Buffer.concat(chunks);
         console.log(body.toString());
+        loading.dismiss()
         alert(JSON.parse(body.toString()).data.returnData.msg)
         if (JSON.parse(body.toString()).data.returnData.msg == "Verified successful") {
+          console.log("Going to home page")
           this.navCtrl.navigateRoot('/home');
         }
-        loading.dismiss()
       });
 
       res.on("error", function (error) {
