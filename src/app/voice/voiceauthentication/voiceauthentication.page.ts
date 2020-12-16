@@ -16,12 +16,12 @@ export class VoiceauthenticationPage implements OnInit {
   ngOnInit() {
   }
 
-  signOut() {
-    this.userService.loggedin = false;
-    this.userService.socialLogin = false;
-    this.fireauth.signOut().then(() => {
-      this.navCtrl.navigateRoot('/login');
-    });
-  }
+  // signOut() {
+  //   this.userService.loggedin = false;
+  //   this.userService.socialLogin = false;
+  //   this.fireauth.signOut().then(() => {
+  //     this.navCtrl.navigateRoot('/login');
+  //   });
+  // }
 
 }
