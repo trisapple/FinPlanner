@@ -30,7 +30,7 @@ export class LoginPage implements OnInit {
   email = '';
   password = '';
   error = '';
-  @Input()isModal: boolean;
+  @Input() isModal: boolean;
 
   constructor(private fireauth: AngularFireAuth,
     public alertController: AlertController,
@@ -85,38 +85,38 @@ export class LoginPage implements OnInit {
                 },
                 'maxRedirects': 20
               };
-          
+
               var req = https.request(options, (res) => {
                 var chunks = [];
-          
+
                 res.on("data", (chunk) => {
                   chunks.push(chunk);
                   // this.statusCheck = false
                 });
-          
+
                 res.on("end", (chunk) => {
                   var body = Buffer.concat(chunks);
                   console.log(body.toString());
                   // this.statusCheck = false
                   // User has registered
-                  if (JSON.parse(body.toString()).data.returnFlag == "FAIL") {
+                  if (JSON.parse(body.toString()).data.returnData.code == "201") {
                     // this.isVoiceEnrolled = true
                     this.navCtrl.navigateRoot('/voice/voiceauthentication');
                   } else {
                     this.navCtrl.navigateRoot('/home');
                   }
                 });
-          
+
                 res.on("error", (error) => {
                   console.error(error);
                   // this.statusCheck = false
                 });
               });
-          
+
               var postData = JSON.stringify({ "appId": "10013", "scene": "sg_temasekpoly_cll", "appIdKey": "2534eb7d19b5427a93fa7449882e1fea", "token": "494cea4ee98171754dc7e61b225baaca", "timestamp": "1552958446757", "userId": this.userService.uid });
-          
+
               req.write(postData);
-          
+
               req.end();
 
               // this.navCtrl.navigateRoot('/voice/voiceauthentication');
@@ -147,10 +147,10 @@ export class LoginPage implements OnInit {
     this.navCtrl.navigateForward(['/login/forgot']);
   }
 
-  gotoVoice(){
+  gotoVoice() {
     this.navCtrl.navigateForward(['/voice']);
   }
-  
+
   gotoFP() {
     // this.lockApp();
     // this.navCtrl.navigateForward(['/fingerprint'])
@@ -165,13 +165,13 @@ export class LoginPage implements OnInit {
       if (this.isModal) {
         this.modalCtrl.dismiss().then(() => {
           this.modalCtrl.dismiss();
-      })
-    }
+        })
+      }
       else {
         this.router.navigateByUrl('/home');
-    }
+      }
     })
-    .catch((error: any) => console.log(error));
+      .catch((error: any) => console.log(error));
   }
 
   async lockApp() {
