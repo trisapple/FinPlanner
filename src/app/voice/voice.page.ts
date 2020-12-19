@@ -52,40 +52,6 @@ export class VoicePage implements OnInit {
    }
 
   ngOnInit() {
-    // this.plt.ready().then(() => {
-    //   let path = this.file.dataDirectory;
-    //   this.file.checkDir(path, MEDIA_FOLDER_NAME).then(
-    //     () => {
-    //       this.loadFiles();
-    //     },
-    //     err => {
-    //       this.file.createDir(path, MEDIA_FOLDER_NAME, false);
-    //     }
-    //   );
-    // });
-
-    // // converting login recording to base64
-    // let filePath: string = 'file:///storage/emulated/0/Voice Recorder/loginVoice.mp3';
-
-    // this.base64.encodeFile(filePath).then((base64Audio: string) => {
-    //   this.base64text = base64Audio.replace('data:image/*;charset=utf-8;base64,', '');
-
-    // }, (err) => {
-
-    // });
-
-    // // converting register recording to base64
-    // let filePathEnroll: string = 'file:///storage/emulated/0/Voice Recorder/registerVoice.mp3';
-
-    // this.base64.encodeFile(filePathEnroll).then((base64Audio: string) => {
-    //   this.base64enroll = base64Audio.replace('data:image/*;charset=utf-8;base64,', '');
-
-    // }, (err) => {
-
-    // });
-
-    // console.log(this.base64text)
-    // console.log(this.base64enroll)
 
     console.log(this.userService.uid)
 
@@ -116,7 +82,7 @@ export class VoicePage implements OnInit {
         console.log(body.toString());
         this.statusCheck = false
         // User has registered
-        if (JSON.parse(body.toString()).data.returnFlag == "FAIL") {
+        if (JSON.parse(body.toString()).data.returnData.code == "203") {
           this.isVoiceEnrolled = true
         }
       });
