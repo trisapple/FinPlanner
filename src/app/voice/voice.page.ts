@@ -82,7 +82,7 @@ export class VoicePage implements OnInit {
         console.log(body.toString());
         this.statusCheck = false
         // User has registered
-        if (JSON.parse(body.toString()).data.returnData.code == "203") {
+        if (JSON.parse(body.toString()).data.returnData.code == "201") {
           this.isVoiceEnrolled = true
         }
       });
