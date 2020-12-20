@@ -50,11 +50,31 @@ export class RatesPage implements OnInit {
         "name": "Apple (AAPL)",
         "symbol": "AAPL"
       },
-    {
-      "name": "Tesla (TSLA)",
-      "symbol": "TSLA"
-    },
-    ]
+      {
+        "name": "Tesla (TSLA)",
+        "symbol": "TSLA"
+      },
+      {
+        "name": "Facebook (FB)",
+        "symbol": "FB"
+      },
+      {
+        "name": "Google (GOOG)",
+        "symbol": "GOOG"
+      },
+      {
+        "name": "Amazon (AMZN)",
+        "symbol": "AMZN"
+      },
+      {
+        "name": "Netflix (NFLX)",
+        "symbol": "NFLX"
+      },
+      {
+        "name": "PayPal (PYPL)",
+        "symbol": "PYPL"
+      },
+      ]
   }
 
   details(obj) {
