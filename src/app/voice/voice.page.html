@@ -13,13 +13,15 @@
   <br><br>
   <ion-label style="justify-content: center; display: flex;" *ngIf="!isVoiceEnrolled">Voice Enrolled: No</ion-label>
   <ion-label style="justify-content: center; display: flex;" *ngIf="isVoiceEnrolled">Voice Enrolled: Yes</ion-label>
-  <br><br><br><br><br>
+  <br><br><br>
   <ion-button (click)="enrollVoice()" expand="block" style="margin-left: 15%; margin-right: 15%;"> Enroll voice </ion-button>
-  <br><br><br><br><br>
+  <br><br><br>
   <ion-button (click)="recordAudio()" expand="block" style="margin-left: 15%; margin-right: 15%;">Record Audio</ion-button>
-  <br><br><br><br><br>
+  <br>
+  <ion-label style="justify-content: center; display: flex;"><i>*Please record for at least 10-20 seconds</i></ion-label>
+  <br><br>
   <ion-button (click)="verifyAudio()" expand="block" style="margin-left: 15%; margin-right: 15%;"> Verify </ion-button>
-  <br><br><br><br><br>
+  <br><br><br>
   <ion-button (click)="deleteAudio()" expand="block" style="margin-left: 15%; margin-right: 15%;"> Unenroll </ion-button>
   
 </ion-content>
