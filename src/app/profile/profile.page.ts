@@ -8,10 +8,6 @@ import { SaltedgeService } from '../saltedge.service';
 import { Subscription } from 'rxjs';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router';
-import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture/ngx';
-import { File, FileEntry } from '@ionic-native/file/ngx';
-
-
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +18,7 @@ export class ProfilePage implements OnInit {
 
   base64audio = ''
 
-  constructor(public userService: UserService, private router: Router, private fireauth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController, public navCtrl: NavController, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, private mediaCapture: MediaCapture, private file: File) {
+  constructor(public userService: UserService, private router: Router, private fireauth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController, public navCtrl: NavController, public expensesService: ExpensesService, public saltedgeService: SaltedgeService) {
     if (userService.socialLogin == false) {
       this.userService.profilePicture = 'assets/avatar.png';
     }
@@ -49,11 +45,6 @@ export class ProfilePage implements OnInit {
             userService.profilePicture = user.providerData[0]["photoURL"];
           }
           console.log(user);
-          // if (this.activatedRoute.snapshot.queryParamMap.get("connection_id")) {
-          //   this.connection_id()
-          // } else {
-          //   this.getsaltedgedata()
-          // }
           sub.unsubscribe();
         });
       } else {
@@ -75,32 +66,6 @@ export class ProfilePage implements OnInit {
   // }
 
   gotoVoice() {
-    // this.mediaCapture.captureAudio().then(
-    //   (data: MediaFile[]) => {
-
-    //     if (data.length > 0) {
-    //       console.log(data)
-
-    //       var path = 'file://' + data[0].fullPath.substring(0, data[0].fullPath.lastIndexOf("/") + 1)
-    //       var fileName = data[0].fullPath.substring(data[0].fullPath.lastIndexOf("/") + 1, data[0].fullPath.length)
-
-    //       console.log(path)
-    //       console.log(fileName)
-
-    //       this.file.readAsDataURL(path, fileName)
-    //         .then(base64File => {
-    //           this.base64audio = base64File
-    //           console.log("here is encoded image ", base64File)
-    //         })
-    //         .catch((err) => {
-    //           console.log(err)
-    //           console.log('Error reading file');
-    //         })
-    //     }
-    //   },
-    //   (err: CaptureError) => console.error(err)
-    // );
-
     this.navCtrl.navigateForward(['/voice']);
   }
 

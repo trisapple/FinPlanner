@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture/ngx';
-import { File, FileEntry } from '@ionic-native/file/ngx';
+import { File } from '@ionic-native/file/ngx';
 import { UserService } from 'src/app/user.service';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { LoadingController, NavController } from '@ionic/angular';
 
 @Component({
@@ -19,7 +18,6 @@ export class VoiceauthenticationPage implements OnInit {
     private mediaCapture: MediaCapture, 
     private file: File, 
     public userService: UserService, 
-    private fireauth: AngularFireAuth, 
     public navCtrl: NavController, 
     private loadingCtrl: LoadingController) { }
 
@@ -35,8 +33,6 @@ export class VoiceauthenticationPage implements OnInit {
   // }
   // Login
   async getDataNativeHttp() {
-    // var base64audio = ''
-
     let loading = await this.loadingCtrl.create();
     await loading.present();
 
