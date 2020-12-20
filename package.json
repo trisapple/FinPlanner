@@ -26,8 +26,10 @@
     "@capacitor/ios": "^2.3.0",
     "@ionic-native/base64": "^5.30.0",
     "@ionic-native/core": "^5.0.7",
+    "@ionic-native/facebook": "^5.30.0",
     "@ionic-native/file": "^5.30.0",
     "@ionic-native/fingerprint-aio": "^5.30.0",
+    "@ionic-native/google-plus": "^5.30.0",
     "@ionic-native/http": "^5.30.0",
     "@ionic-native/media-capture": "^5.30.0",
     "@ionic-native/splash-screen": "^5.0.0",
@@ -36,7 +38,9 @@
     "@ionic/angular": "^5.0.0",
     "chart.js": "^2.9.3",
     "com-badrit-base64": "^0.2.0",
+    "cordova-plugin-facebook4": "^6.4.0",
     "cordova-plugin-file": "^6.0.2",
+    "cordova-plugin-googleplus": "^8.5.1",
     "cordova-plugin-media-capture": "^3.0.3",
     "firebase": "^7.16.1",
     "firebase-tools": "^8.7.0",
@@ -96,12 +100,22 @@
       "cordova-plugin-advanced-http": {},
       "cordova-plugin-fingerprint-aio": {
         "FACEID_USAGE_DESCRIPTION": " "
+      },
+      "cordova-plugin-googleplus": {
+        "REVERSED_CLIENT_ID": "com.googleusercontent.apps.671807746722-c2b3gcekh8vioudj8rm72q1abbcj6qkr",
+        "WEB_APPLICATION_CLIENT_ID": "671807746722-c2b3gcekh8vioudj8rm72q1abbcj6qkr.apps.googleusercontent.com"
+      },
+      "cordova-plugin-facebook4": {
+        "APP_ID": "2942017362588083",
+        "APP_NAME": "FinPlanner",
+        "FACEBOOK_HYBRID_APP_EVENTS": "false",
+        "FACEBOOK_ANDROID_SDK_VERSION": "5.13.0"
       }
     },
     "platforms": [
       "browser",
-      "ios",
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

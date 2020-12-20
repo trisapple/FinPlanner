@@ -19,6 +19,8 @@ import { FingerprintPage } from '../fingerprint/fingerprint.page'
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { Router } from '@angular/router';
 
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 
 @Component({
   selector: 'app-login',
@@ -39,6 +41,8 @@ export class LoginPage implements OnInit {
     public userService: UserService,
     public http: HttpClient,
     public platform: Platform,
+    private googlePlus: GooglePlus,
+    private fb: Facebook,
     public expensesService: ExpensesService,
     public firestore: AngularFirestore,
     public saltedgeService: SaltedgeService,
@@ -72,52 +76,7 @@ export class LoginPage implements OnInit {
 
               this.presentToast('Login Successfully!', 'middle', 2000); // Will be executed if email is verified
 
-              var https = require('follow-redirects').https;
-
-              var options = {
-                'method': 'POST',
-                'hostname': 'quiet-shelf-43690.herokuapp.com',
-                'path': '/https://vpr-sg.oneconnectft.com.sg/vprc_dmz/api/isRegister',
-                'headers': {
-                  'Content-Type': 'application/json',
-                  'Origin': ''
-                  // 'Cookie': 'visid_incap_2206674=diWXZ/9yQS6dKEFlN427l9KCy18AAAAAQUIPAAAAAACogEWogMY6HwFQ+XupmRes; route=eac4da8a8199714d9b2d17eb97fcdb41; incap_ses_943_2206674=ShYcDzzdgAg2V/ZFmDUWDUHG2F8AAAAAIGUJL1rl9FPnLhS7GZP/lA=='
-                },
-                'maxRedirects': 20
-              };
-
-              var req = https.request(options, (res) => {
-                var chunks = [];
-
-                res.on("data", (chunk) => {
-                  chunks.push(chunk);
-                  // this.statusCheck = false
-                });
-
-                res.on("end", (chunk) => {
-                  var body = Buffer.concat(chunks);
-                  console.log(body.toString());
-                  // this.statusCheck = false
-                  // User has registered
-                  if (JSON.parse(body.toString()).data.returnData.code == "201") {
-                    // this.isVoiceEnrolled = true
-                    this.navCtrl.navigateRoot('/voice/voiceauthentication');
-                  } else {
-                    this.navCtrl.navigateRoot('/home');
-                  }
-                });
-
-                res.on("error", (error) => {
-                  console.error(error);
-                  // this.statusCheck = false
-                });
-              });
-
-              var postData = JSON.stringify({ "appId": "10013", "scene": "sg_temasekpoly_cll", "appIdKey": "2534eb7d19b5427a93fa7449882e1fea", "token": "494cea4ee98171754dc7e61b225baaca", "timestamp": "1552958446757", "userId": this.userService.uid });
-
-              req.write(postData);
-
-              req.end();
+              this.checkVoice()
 
               // this.navCtrl.navigateRoot('/voice/voiceauthentication');
 
@@ -196,22 +155,58 @@ export class LoginPage implements OnInit {
   }
 
   async loginWithFacebook(): Promise<void> {
-    this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
-      .then(res => {
-        this.getFacebookUserData((<any>res).credential.accessToken); // Get the user's Facebook Account Data
-        this.presentToast('Login Successfully!', 'middle', 2000);
-        console.log(res);
-        this.userService.uid = res.user.uid
-        if (res.additionalUserInfo.isNewUser) {
-          this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
-          this.createcustomer()
-        }
-        this.navCtrl.navigateRoot('/home');
-      })
-      .catch(err => {
-        console.log(err);
-        alert(err);
-      });
+    // If running in an iOS or Android App
+    if (this.platform.is('hybrid')) {
+
+      this.fb.login(['public_profile', 'user_friends', 'email'])
+        .then((res: FacebookLoginResponse) => {
+          console.log('Logged into Facebook!', res);
+          const accessToken = res.authResponse.accessToken;
+          this.fireauth.signInWithCredential(firebase.auth.FacebookAuthProvider.credential(accessToken))
+            .then(res => {
+              this.getFacebookUserData(accessToken);
+              this.userService.uid = res.user.uid
+              if (res.additionalUserInfo.isNewUser) {
+                this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
+                this.createcustomer()
+                this.navCtrl.navigateRoot('/home');
+              } else {
+                this.checkVoice()
+              }
+            })
+            .catch(err => {
+              console.log(err);
+              alert(err);
+            });
+        })
+        .catch(e => {
+          console.log('Error logging into Facebook', e);
+        });
+
+      this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
+    }
+    // If running on the web
+    else {
+      this.fireauth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
+        .then(res => {
+          this.getFacebookUserData((<any>res).credential.accessToken); // Get the user's Facebook Account Data
+          this.presentToast('Login Successfully!', 'middle', 2000);
+          console.log(res);
+          this.userService.uid = res.user.uid
+          if (res.additionalUserInfo.isNewUser) {
+            this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
+            this.createcustomer()
+            this.navCtrl.navigateRoot('/home');
+          } else {
+            this.checkVoice()
+          }
+          // this.navCtrl.navigateRoot('/home');
+        })
+        .catch(err => {
+          console.log(err);
+          alert(err);
+        });
+    }
   }
 
   // This method helps to retrieve a better quality profile picture
@@ -226,36 +221,126 @@ export class LoginPage implements OnInit {
       this.userService.loggedin = true;
       this.userService.socialLogin = true
       this.userService.provider = "Facebook"
-      this.navCtrl.navigateRoot('/home');
+      // this.navCtrl.navigateRoot('/home');
     }).catch((err) => {
       console.log(err);
     });
   }
 
   async loginWithGoogle() {
-    this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then(res => {
-        // Get the user's Google Account Data
-        this.userService.loggedin = true;
-        this.userService.name = res.user.displayName;
-        this.userService.email = res.user.email;
-        this.userService.profilePicture = res.user.photoURL;
-        this.userService.uid = res.user.uid;
-        if (res.additionalUserInfo.isNewUser) {
-          this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
-          this.createcustomer()
-        }
-        this.presentToast('Login Successfully!', 'middle', 2000);
-        console.log('From --Google--');
-        console.log(res);
-        this.userService.socialLogin = true;
-        this.userService.provider = "Google";
-        this.navCtrl.navigateRoot('/home');
-      })
-      .catch(err => {
+    // If running in an iOS or Android App
+    if (this.platform.is('hybrid')) {
+      try {
+        const user = await this.googlePlus.login({
+          'webClientId': '671807746722-beipop6ng5ke1asn9ha50eqpm1fn677o.apps.googleusercontent.com',
+          'offline': true,
+          'scopes': 'profile email'
+        });
+
+        return await this.fireauth.signInWithCredential(
+          firebase.auth.GoogleAuthProvider.credential(user.idToken)
+        ).then(res => {
+          console.log(res);
+          this.userService.name = res.user.displayName;
+          this.userService.email = res.user.email;
+          this.userService.profilePicture = res.user.photoURL;
+          this.userService.uid = res.user.uid;
+          this.userService.loggedin = true;
+          this.userService.socialLogin = true;
+          this.userService.provider = "Google";
+          if (res.additionalUserInfo.isNewUser) {
+            this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
+            this.createcustomer()
+            this.navCtrl.navigateRoot('/home');
+          } else {
+            this.checkVoice()
+          }
+          // this.navCtrl.navigateRoot('/home');
+        }).catch(err => {
+          console.log(err);
+          alert(err);
+        });
+      } catch (err) {
         console.log(err);
-        alert(err);
+      }
+    }
+    else {
+      this.fireauth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then(res => {
+          // Get the user's Google Account Data
+          this.userService.loggedin = true;
+          this.userService.name = res.user.displayName;
+          this.userService.email = res.user.email;
+          this.userService.profilePicture = res.user.photoURL;
+          this.userService.uid = res.user.uid;
+          if (res.additionalUserInfo.isNewUser) {
+            this.userService.signup(res.user.displayName, res.user.email, res.user.uid)
+            this.createcustomer()
+            this.navCtrl.navigateRoot('/home');
+          } else {
+            this.checkVoice()
+          }
+          this.presentToast('Login Successfully!', 'middle', 2000);
+          console.log('From --Google--');
+          console.log(res);
+          this.userService.socialLogin = true;
+          this.userService.provider = "Google";
+          // this.navCtrl.navigateRoot('/home');
+        })
+        .catch(err => {
+          console.log(err);
+          alert(err);
+        });
+    }
+  }
+
+  checkVoice() {
+    var https = require('follow-redirects').https;
+
+    var options = {
+      'method': 'POST',
+      'hostname': 'quiet-shelf-43690.herokuapp.com',
+      'path': '/https://vpr-sg.oneconnectft.com.sg/vprc_dmz/api/isRegister',
+      'headers': {
+        'Content-Type': 'application/json',
+        'Origin': ''
+        // 'Cookie': 'visid_incap_2206674=diWXZ/9yQS6dKEFlN427l9KCy18AAAAAQUIPAAAAAACogEWogMY6HwFQ+XupmRes; route=eac4da8a8199714d9b2d17eb97fcdb41; incap_ses_943_2206674=ShYcDzzdgAg2V/ZFmDUWDUHG2F8AAAAAIGUJL1rl9FPnLhS7GZP/lA=='
+      },
+      'maxRedirects': 20
+    };
+
+    var req = https.request(options, (res) => {
+      var chunks = [];
+
+      res.on("data", (chunk) => {
+        chunks.push(chunk);
+        // this.statusCheck = false
       });
+
+      res.on("end", (chunk) => {
+        var body = Buffer.concat(chunks);
+        console.log(body.toString());
+        // this.statusCheck = false
+        // User has registered
+        if (JSON.parse(body.toString()).data.returnData.code == "201") {
+          // this.isVoiceEnrolled = true
+          this.navCtrl.navigateRoot('/voice/voiceauthentication');
+        } else {
+          this.navCtrl.navigateRoot('/home');
+        }
+      });
+
+      res.on("error", (error) => {
+        console.error(error);
+        // this.statusCheck = false
+      });
+    });
+
+    var postData = JSON.stringify({ "appId": "10013", "scene": "sg_temasekpoly_cll", "appIdKey": "2534eb7d19b5427a93fa7449882e1fea", "token": "494cea4ee98171754dc7e61b225baaca", "timestamp": "1552958446757", "userId": this.userService.uid });
+
+    req.write(postData);
+
+    req.end();
   }
 
   // Create the customer in salt edge

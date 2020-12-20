@@ -18,6 +18,8 @@ import { SafePipe } from './safe.pipe';
 import { LoginPageModule } from './login/login.module';
 import { Base64 } from '@ionic-native/base64/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
+import { Facebook } from '@ionic-native/facebook/ngx';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { MediaCapture } from '@ionic-native/media-capture/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FingerprintAIO,
     Base64,
-    MediaCapture
+    MediaCapture,
+    GooglePlus,
+    Facebook
   ],
   bootstrap: [AppComponent],
   schemas : [CUSTOM_ELEMENTS_SCHEMA],

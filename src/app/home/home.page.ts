@@ -602,8 +602,10 @@ export class HomePage {
     loading.present();
 
     firebase.auth().onAuthStateChanged((user) => {
+      console.log(user)
       if (user != null) {
         let sub: Subscription = this.userService.login(user.uid).subscribe((data) => {
+          console.log(data)
           this.userService.loggedin = true;
           this.userService.name = data["name"];
           this.userService.email = user.email;
