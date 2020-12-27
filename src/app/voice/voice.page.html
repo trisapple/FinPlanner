@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Voice Enrollment & Verification</ion-title>
+    <ion-title>Voice Enrolment & Verification</ion-title>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -8,20 +8,22 @@
 </ion-header>
 
 <ion-content>
-  <br><br>
-  <ion-label style="justify-content: center; display: flex;" *ngIf="statusCheck">Checking status...</ion-label>
+  <div *ngIf="statusCheck">
+    <br><br>
+    <ion-label style="justify-content: center; display: flex;">Checking status...</ion-label>
+  </div>
   <br><br>
   <ion-label style="justify-content: center; display: flex;" *ngIf="!isVoiceEnrolled">Voice Enrolled: No</ion-label>
   <ion-label style="justify-content: center; display: flex;" *ngIf="isVoiceEnrolled">Voice Enrolled: Yes</ion-label>
   <br><br>
-  <ion-button (click)="enrollVoice()" expand="block" style="margin-left: 15%; margin-right: 15%;"> <b>Enroll voice</b></ion-button>
+  <ion-button (click)="enrollVoice()" expand="block" style="margin-left: 15%; margin-right: 15%;"> <b>Enroll Voice</b></ion-button>
   <br><br>
   <ion-button (click)="recordAudio()" expand="block" style="margin-left: 15%; margin-right: 15%;"><b>Record Audio</b></ion-button>
   <br>
   <ion-label style="justify-content: center; display: flex;"><i>*Please record for at least 20 seconds</i></ion-label>
   <br>
-  <ion-button (click)="verifyAudio()" expand="block" style="margin-left: 15%; margin-right: 15%;"><b>Verify </b></ion-button>
+  <ion-button (click)="verifyAudio()" expand="block" style="margin-left: 15%; margin-right: 15%;"><b>Verify Voice</b></ion-button>
   <br><br>
-  <ion-button (click)="deleteAudio()" expand="block" style="margin-left: 15%; margin-right: 15%;"><b>Unenroll</b></ion-button>
+  <ion-button (click)="deleteAudio()" expand="block" style="margin-left: 15%; margin-right: 15%;"><b>Unenroll Voice</b></ion-button>
   
 </ion-content>
