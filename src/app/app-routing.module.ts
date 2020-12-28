@@ -64,12 +64,12 @@ const routes: Routes = [
     loadChildren: () => import('./home/aggregatedinsights/aggregatedinsights.module').then( m => m.AggregatedinsightsPageModule)
   },
   {
-    path: 'fingerprint',
-    loadChildren: () => import('./fingerprint/fingerprint.module').then( m => m.FingerprintPageModule)
-  },
-  {
     path: 'voice/voiceauthentication',
     loadChildren: () => import('./voice/voiceauthentication/voiceauthentication.module').then( m => m.VoiceauthenticationPageModule)
+  },
+  {
+    path: 'fingerprint',
+    loadChildren: () => import('./fingerprint/fingerprint.module').then( m => m.FingerprintPageModule)
   },
   // { path: 'exchangerates', loadChildren: () => import('./exchangerates/exchangerates.module').then( m => m.ExchangeratesPageModule) },
 ];

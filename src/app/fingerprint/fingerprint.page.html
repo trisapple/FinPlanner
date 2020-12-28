@@ -1,19 +1,18 @@
-<ion-header *ngIf="!isModal">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Login with Fingerprint or Face ID</ion-title>
+    <ion-title>Fingerprint Authentication</ion-title>
+    <!-- Side menu button -->
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-content>
-    <ion-row class="login-row ion-align-items-center"> 
-      <ion-col size="5"></ion-col>
-      <ion-col class="lock-col">
-      <div class="lock-bg"></div>
-      <img button src="assets/lock.png" class="lock-img" (click)="login()">
-    </ion-col>
-    <ion-col size="5"></ion-col>
-    </ion-row>
-  </ion-content>
+<ion-content class="ion-padding">
+  <ion-text>Use Fingerprint for:</ion-text>
+  <br><br>
+  <ion-item>Transaction History
+    <ion-toggle style="margin-left: auto;" [(ngModel)]="transactionhistory" (ionChange)="transactionhistoryToggle($event)"></ion-toggle>
+  </ion-item>
 
 </ion-content>

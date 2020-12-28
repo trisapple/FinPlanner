@@ -1,7 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
-// import { ModalController } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-fingerprint',
@@ -9,33 +7,22 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./fingerprint.page.scss'],
 })
 export class FingerprintPage implements OnInit {
-  // @Input()isModal: boolean;
 
-  constructor() { }
+  transactionhistory = false
 
-  ngOnInit() {
-    // console.log('I am modal: ', this.isModal);
+  constructor(private storage: Storage) { 
+    storage.get('fingerprintTransactionHistory').then((val) => {
+      console.log(val);
+      this.transactionhistory = val
+    });
   }
 
-  // login(){
-  //   this.faio.show({
-  //     title: 'Biometric Authentication', // (Android Only) | optional | Default: "<APP_NAME> Biometric Sign On"
-  //     subtitle: 'For Login Verification,', // (Android Only) | optional | Default: null
-  //     description: 'Please authenticate', // optional | Default: null
-  //     fallbackButtonTitle: 'Use Pin', // optional | When disableBackup is false defaults to "Use Pin".
-  //     // When disableBackup is true defaults to "Cancel"
-  //     disableBackup: true,  // optional | default: false
-  //   }).then(() => {
-  //     if (this.isModal) {
-  //       this.modalCtrl.dismiss().then(() => {
-  //         this.modalCtrl.dismiss();
-  //     })
-  //   }
-  //     else {
-  //       this.router.navigateByUrl('/home');
-  //   }
-  //   })
-  //   .catch((error: any) => console.log(error));
-  // }
+  ngOnInit() {
+  }
+
+  transactionhistoryToggle(event) {
+    console.log(event.detail.checked)
+    this.storage.set('fingerprintTransactionHistory', event.detail.checked);
+  }
 
 }

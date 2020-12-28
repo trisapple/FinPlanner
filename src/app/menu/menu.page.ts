@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service'
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-menu',
@@ -11,7 +12,7 @@ import { NavController } from '@ionic/angular';
 
 export class MenuPage implements OnInit {
 
-  constructor(public userService: UserService, private fireauth: AngularFireAuth, public navCtrl: NavController) { }
+  constructor(public userService: UserService, private fireauth: AngularFireAuth, public navCtrl: NavController, private storage: Storage) { }
 
   ngOnInit() {
   }
@@ -19,6 +20,7 @@ export class MenuPage implements OnInit {
   signout() {
     this.userService.loggedin = false;
     this.userService.socialLogin = false;
+    this.storage.set('fingerprintTransactionHistory', false);
     this.fireauth.signOut().then(() => {
       this.navCtrl.navigateRoot('/login');
     });

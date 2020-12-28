@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { LoadingController, ModalController, NavController } from '@ionic/angular';
+import { LoadingController, ModalController, NavController, Platform } from '@ionic/angular';
 import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,10 @@ import { SaltedgeService } from '../saltedge.service';
 
 
 import { Chart } from 'chart.js';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 // import { FingerprintPage } from '../fingerprint/fingerprint.page';
+
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-home',
@@ -396,7 +399,7 @@ export class HomePage {
     } else {
       this.firebasedata["balances"] = []
     }
-    
+
     var total = 0 // Start from 0
     for (let each of this.originaltotal) {
       each[2] = each[1].toLocaleString('en-SG', { style: 'currency', currency: each[0] }) // Add currency symbol
@@ -645,7 +648,7 @@ export class HomePage {
     });
   }
 
-  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, public loadingController: LoadingController, private modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, public loadingController: LoadingController, private modalCtrl: ModalController, private faio: FingerprintAIO, public platform: Platform, private storage: Storage) {
     // setTimeout(() => {
     //   this.lockApp();
     // }, 2000);
@@ -1099,9 +1102,27 @@ export class HomePage {
         year: year
       }
     };
-    this.navCtrl.navigateForward(['/home/aggregatedinsights'], navigationExtras)
-  }
 
-  
+    this.storage.get('fingerprintTransactionHistory').then((val) => {
+      console.log(val);
+      if ((this.platform.is('hybrid')) && val == true) {
+        this.faio.show({
+          title: 'Biometric Authentication', // (Android Only) | optional | Default: "<APP_NAME> Biometric Sign On"
+          subtitle: 'For Login Verification,', // (Android Only) | optional | Default: null
+          description: 'Please authenticate', // optional | Default: null
+          fallbackButtonTitle: 'Use Pin', // optional | When disableBackup is false defaults to "Use Pin".
+          // When disableBackup is true defaults to "Cancel"
+          disableBackup: true,  // optional | default: false
+        }).then(() => {
+          this.navCtrl.navigateForward(['/home/aggregatedinsights'], navigationExtras)
+        })
+          .catch((error: any) => console.log(error));
+      } else {
+        this.navCtrl.navigateForward(['/home/aggregatedinsights'], navigationExtras)
+      }
+    });
+
+
+  }
 }
 

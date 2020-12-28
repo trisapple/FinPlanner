@@ -69,6 +69,10 @@ export class ProfilePage implements OnInit {
     this.navCtrl.navigateForward(['/voice']);
   }
 
+  gotoFingerprint() {
+    this.navCtrl.navigateForward(['/fingerprint']);
+  }
+
   async deleteAccount() {
     const alert = await this.alertCtrl.create({
       header: 'Delete Account',
