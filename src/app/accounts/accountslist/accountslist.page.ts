@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { ExpensesService } from 'src/app/expenses.service';
-import { NavController, LoadingController } from '@ionic/angular';
+import { NavController, LoadingController, Platform } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from 'src/app/user.service';
 import { SaltedgeService } from 'src/app/saltedge.service';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-accountslist',
@@ -19,10 +21,31 @@ export class AccountslistPage {
 
   transactionhistory(account) {
     console.log(account);
-    this.saltedgeService.saltedgeaccount = account // Set the account information to a global variable so that we could access it from anywhere
-    this.expensesService.transactionhistorytitle = account.account_name; // Display account name on top menu bar
-    this.saltedgeService.saltedgeaccountcurrencycode = account.currency_code // Set the currency code so that we could display the proper symbol
-    this.navCtrl.navigateForward(['/accounts/transactionhistory']);
+
+    this.storage.get('fingerprintTransactionHistory').then((val) => {
+      console.log(val);
+      if ((this.platform.is('hybrid')) && val == true) {
+        this.faio.show({
+          title: 'Biometric Authentication', // (Android Only) | optional | Default: "<APP_NAME> Biometric Sign On"
+          subtitle: 'For Login Verification,', // (Android Only) | optional | Default: null
+          description: 'Please authenticate', // optional | Default: null
+          fallbackButtonTitle: 'Use Pin', // optional | When disableBackup is false defaults to "Use Pin".
+          // When disableBackup is true defaults to "Cancel"
+          disableBackup: true,  // optional | default: false
+        }).then(() => {
+          this.saltedgeService.saltedgeaccount = account // Set the account information to a global variable so that we could access it from anywhere
+          this.expensesService.transactionhistorytitle = account.account_name; // Display account name on top menu bar
+          this.saltedgeService.saltedgeaccountcurrencycode = account.currency_code // Set the currency code so that we could display the proper symbol
+          this.navCtrl.navigateForward(['/accounts/transactionhistory']);
+        })
+          .catch((error: any) => console.log(error));
+      } else {
+        this.saltedgeService.saltedgeaccount = account // Set the account information to a global variable so that we could access it from anywhere
+        this.expensesService.transactionhistorytitle = account.account_name; // Display account name on top menu bar
+        this.saltedgeService.saltedgeaccountcurrencycode = account.currency_code // Set the currency code so that we could display the proper symbol
+        this.navCtrl.navigateForward(['/accounts/transactionhistory']);
+      }
+    });
   }
 
   // Onclick to next page, passing account information to the next page
@@ -131,7 +154,7 @@ export class AccountslistPage {
   }
 
   // Get the list of accounts based on the bank
-  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public firestore: AngularFirestore, public saltedgeService: SaltedgeService, public loadingController: LoadingController) {
+  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public firestore: AngularFirestore, public saltedgeService: SaltedgeService, public loadingController: LoadingController, private faio: FingerprintAIO, public platform: Platform, private storage: Storage) {
 
   }
 }

@@ -648,7 +648,7 @@ export class HomePage {
     });
   }
 
-  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, public loadingController: LoadingController, private modalCtrl: ModalController, private faio: FingerprintAIO, public platform: Platform, private storage: Storage) {
+  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, public loadingController: LoadingController, private faio: FingerprintAIO, public platform: Platform, private storage: Storage) {
     // setTimeout(() => {
     //   this.lockApp();
     // }, 2000);
