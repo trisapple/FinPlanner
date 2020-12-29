@@ -21,6 +21,7 @@ import { Facebook } from '@ionic-native/facebook/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 import { IonicStorageModule } from '@ionic/storage';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @NgModule({
   declarations: [AppComponent, SafePipe],
@@ -33,7 +34,8 @@ import { IonicStorageModule } from '@ionic/storage';
     FingerprintAIO,
     MediaCapture,
     GooglePlus,
-    Facebook
+    Facebook,
+    InAppBrowser
   ],
   bootstrap: [AppComponent],
   schemas : [CUSTOM_ELEMENTS_SCHEMA],

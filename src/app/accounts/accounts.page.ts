@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController, LoadingController } from '@ionic/angular';
+import { AlertController, NavController, LoadingController, Platform } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { ExpensesService } from '../expenses.service';
@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { SaltedgeService } from '../saltedge.service';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-accounts',
@@ -34,18 +35,22 @@ export class AccountsPage {
       'maxRedirects': 20
     };
 
-    var req = https.request(options, function (res) {
+    var req = https.request(options, (res) => {
       var chunks = [];
 
       res.on("data", function (chunk) {
         chunks.push(chunk);
       });
 
-      res.on("end", function (chunk) {
+      res.on("end", (chunk) => {
         var body = Buffer.concat(chunks);
-        console.log(body.toString());
         console.log(JSON.parse(body.toString()));
-        window.open(JSON.parse(body.toString())["data"]["connect_url"], "_blank"); // Open a new tab and redirect the user to the connect url to connect their bank account
+        var url = JSON.parse(body.toString())["data"]["connect_url"]
+        if (this.platform.is('hybrid')) {
+          this.iab.create(url);
+        } else {
+          window.open(url, "_blank"); // Open a new tab and redirect the user to the connect url to connect their bank account
+        }
       });
 
       res.on("error", function (error) {
@@ -87,17 +92,22 @@ export class AccountsPage {
       'maxRedirects': 20
     };
 
-    var req = https.request(options, function (res) {
+    var req = https.request(options, (res) => {
       var chunks = [];
 
       res.on("data", function (chunk) {
         chunks.push(chunk);
       });
 
-      res.on("end", function (chunk) {
+      res.on("end", (chunk) => {
         var body = Buffer.concat(chunks);
         console.log(JSON.parse(body.toString()));
-        window.open(JSON.parse(body.toString())["data"]["connect_url"], "_blank");
+        var url = JSON.parse(body.toString())["data"]["connect_url"]
+        if (this.platform.is('hybrid')) {
+          this.iab.create(url);
+        } else {
+          window.open(url, "_blank"); // Open a new tab and redirect the user to the connect url to connect their bank account
+        }
       });
 
       res.on("error", function (error) {
@@ -160,7 +170,7 @@ export class AccountsPage {
 
               res.on("data", (chunk) => {
                 chunks.push(chunk);
-                // this.loadingController.dismiss()
+                this.loadingController.dismiss()
               });
 
               res.on("end", (chunk) => {
@@ -175,6 +185,7 @@ export class AccountsPage {
                     this.aggregateconnections(this.userService.uid) // Refresh the list of bank accounts
                   })
                 }
+                this.loadingController.dismiss()
               });
 
               res.on("error", (error) => {
@@ -348,6 +359,6 @@ export class AccountsPage {
     });
   }
 
-  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController, public saltedgeService: SaltedgeService, public loadingController: LoadingController) {
+  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private expensesService: ExpensesService, public firestore: AngularFirestore, public alertController: AlertController, public saltedgeService: SaltedgeService, public loadingController: LoadingController, private iab: InAppBrowser, public platform: Platform) {
   }
 }
