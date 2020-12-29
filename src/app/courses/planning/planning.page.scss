@@ -1,10 +1,12 @@
 .container {
     position: relative;
     text-align: center;
-  }
+}
+
 .pic1 {
     filter: brightness(60%);
 }
+
 .list {
     float: left;
     position: static;
@@ -12,13 +14,14 @@
     height: 280px;
 }
 
-.cardview { 
-    margin-left: 100px;
-    margin-right: 100px;
+.cardview {
+    // margin-left: 100px;
+    // margin-right: 100px;
+    margin: 20px 0;
 }
 
 .card {
-    width: 80%;
+    width: 95%;
     display: block;
     margin: auto;
 }
@@ -33,22 +36,117 @@
     top: 5px;
 }
 
-.centered {
-    position: absolute;
-    top: 40%;   
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    font-size: 3.4vw;
-    color: white;
-  }
+// .centered {
+//     position: absolute;
+//     top: 35%;
+//     left: 50%;
+//     transform: translate(-50%, 0%);
+//     width: 80%;
+//     font-size: 39px;
+//     color: white;
+// }
 
-  .centered-1 {
-    position: absolute;
-    top: 55%;   
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60%;
-    font-size: 1.5vw;
-    color: white;
-  }
+// .centered-1 {
+//     position: absolute;
+//     top: 50%;
+//     left: 50%;
+//     transform: translate(-50%, 0%);
+//     width: 60%;
+//     font-size: 17px;
+//     color: white;
+// }
+
+@media screen and (min-width: 0px) {
+    .centered {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        width: 90%;
+        font-size: 24px;
+        color: white;
+    }
+
+    .centered-1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        width: 90%;
+        font-size: 14px;
+        color: white;
+    }
+}
+
+@media screen and (min-width: 321px) {
+    .centered {
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        width: 90%;
+        font-size: 26px;
+        color: white;
+    }
+
+    .centered-1 {
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        width: 80%;
+        font-size: 15px;
+        color: white;
+    }
+}
+
+@media screen and (min-width: 500px) {
+    .centered {
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        width: 90%;
+        font-size: 32px;
+        color: white;
+    }
+
+    .centered-1 {
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        width: 80%;
+        font-size: 19px;
+        color: white;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .card {
+        width: 80%;
+        display: block;
+        margin: auto;
+    }
+
+    .centered {
+        position: absolute;
+        top: 25%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        width: 90%;
+        font-size: 32px;
+        color: white;
+    }
+
+    .centered-1 {
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        width: 80%;
+        font-size: 19px;
+        color: white;
+    }
+}
+

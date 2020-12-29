@@ -7,20 +7,25 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div class="container">
-    <img class ="pic1" src ="{{ coursesService.picture }}" style="width:80%">
-    <div class="centered">{{coursesService.title}}</div>
-    <div class="centered-1">These are the essential steps that you should take to set yourself up for success, no matter what your financial goals are.</div>
-  </div>
+<ion-content>
 
-
+  <ion-row class="ion-justify-content-center">
+    <ion-col size-xs="12" size-sm="12" size-md="9" size-lg="9">
+      <div class="container">
+        <img class="pic1" src="{{ coursesService.picture }}">
+        <ion-text class="centered">{{coursesService.title}}</ion-text>
+        <ion-text class="centered-1">These are the essential steps that you should take to set yourself up for success, no matter what your financial goals are.</ion-text>
+      </div>
+    </ion-col>
+  </ion-row>
 
   <!-- <div class="cardview" *ngFor="let item of items"> -->
+  <ion-col size-="12" size-sm="6" size-md="6">
     <div class="cardview" *ngFor="let item of coursesService.lessons">
-    <ion-col size-xs="12" size-sm="6" size-md="6">
+
       <ion-card class="card">
-        <iframe class="list" [src]="item.link | safe"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe class="list" [src]="item.link | safe" frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <ion-row>
           <ion-col class="padding">
             <ion-card-header>
@@ -35,7 +40,7 @@
           </ion-col>
         </ion-row>
       </ion-card>
-    </ion-col>
-  </div>
-  
+    </div>
+  </ion-col>
+
 </ion-content>
