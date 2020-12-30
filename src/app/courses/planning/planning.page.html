@@ -20,12 +20,31 @@
   </ion-row>
 
   <!-- <div class="cardview" *ngFor="let item of items"> -->
-  <ion-col>
+  <ion-col *ngIf='!onMobile'>
     <div class="cardview" *ngFor="let item of coursesService.lessons">
-
       <ion-card class="card">
         <iframe class="list" [src]="item.link | safe" frameborder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <ion-row>
+          <ion-col class="padding">
+            <ion-card-header>
+              <ion-card-subtitle>
+                <ion-icon class="icon" name="videocam"></ion-icon>
+                {{item.sub}}
+              </ion-card-subtitle>
+              <ion-card-title>{{item.head}}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>{{item.des}}</ion-card-content>
+            <ion-card-content style="float: right;margin-top: 50px;">{{item.time}}</ion-card-content>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </div>
+  </ion-col>
+
+  <ion-col *ngIf='onMobile'>
+    <div class="cardview" *ngFor="let item of coursesService.lessons">
+      <ion-card class="card" (click)="gotolink(item.link)">
         <ion-row>
           <ion-col class="padding">
             <ion-card-header>

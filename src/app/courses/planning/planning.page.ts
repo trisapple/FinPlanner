@@ -4,6 +4,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoursesService } from '../../courses.service';
 import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 
 @Component({
@@ -22,14 +24,24 @@ export class PlanningPage implements PipeTransform {
   // addlesson: {link: string; sub: string; head: string; des: string; time: string};
   object: any;
 
-  constructor(public coursesService: CoursesService, public firestore: AngularFirestore, private sanitizer: DomSanitizer,private route: ActivatedRoute, private router: Router) {
+  onMobile = false // Determine which html portion gets loaded (mobile or web)
+
+  constructor(public coursesService: CoursesService, public firestore: AngularFirestore, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, public platform: Platform, private iab: InAppBrowser) {
   }
 
   transform(url) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
+  gotolink(url) {
+    var spliturl = url.split('/')
+    this.iab.create('https://www.youtube.com/watch?v=' + spliturl[4]);
+  }
+
   ngOnInit() {
+    if (this.platform.is('hybrid')) {
+      this.onMobile = true
+    }
 
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
