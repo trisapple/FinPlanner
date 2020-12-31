@@ -8,21 +8,26 @@ import { Storage } from '@ionic/storage';
 })
 export class FingerprintPage implements OnInit {
 
-  transactionhistory = false
+  fingerprintTransactionHistory = false
+  // appLogin = false
 
   constructor(private storage: Storage) { 
     storage.get('fingerprintTransactionHistory').then((val) => {
       console.log(val);
-      this.transactionhistory = val
+      this.fingerprintTransactionHistory = val
     });
+    // storage.get('fingerprintLogin').then((val) => {
+    //   console.log(val);
+    //   this.appLogin = val
+    // });
   }
 
   ngOnInit() {
   }
 
-  transactionhistoryToggle(event) {
+  toggle(key, event) {
     console.log(event.detail.checked)
-    this.storage.set('fingerprintTransactionHistory', event.detail.checked);
+    this.storage.set(key, event.detail.checked);
   }
 
 }

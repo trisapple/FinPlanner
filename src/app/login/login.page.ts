@@ -76,7 +76,11 @@ export class LoginPage implements OnInit {
 
               this.presentToast('Login Successfully!', 'middle', 2000); // Will be executed if email is verified
 
-              this.checkVoice()
+              if (this.platform.is('hybrid')) {
+                this.checkVoice()
+              } else {
+                this.navCtrl.navigateRoot('/home');
+              }
 
               // this.navCtrl.navigateRoot('/voice/voiceauthentication');
 
@@ -171,7 +175,11 @@ export class LoginPage implements OnInit {
                 this.createcustomer()
                 this.navCtrl.navigateRoot('/home');
               } else {
-                this.checkVoice()
+                if (this.platform.is('hybrid')) {
+                  this.checkVoice()
+                } else {
+                  this.navCtrl.navigateRoot('/home');
+                }
               }
             })
             .catch(err => {
@@ -198,7 +206,11 @@ export class LoginPage implements OnInit {
             this.createcustomer()
             this.navCtrl.navigateRoot('/home');
           } else {
-            this.checkVoice()
+            if (this.platform.is('hybrid')) {
+              this.checkVoice()
+            } else {
+              this.navCtrl.navigateRoot('/home');
+            }
           }
           // this.navCtrl.navigateRoot('/home');
         })
@@ -253,7 +265,11 @@ export class LoginPage implements OnInit {
             this.createcustomer()
             this.navCtrl.navigateRoot('/home');
           } else {
-            this.checkVoice()
+            if (this.platform.is('hybrid')) {
+              this.checkVoice()
+            } else {
+              this.navCtrl.navigateRoot('/home');
+            }
           }
           // this.navCtrl.navigateRoot('/home');
         }).catch(err => {
@@ -278,7 +294,11 @@ export class LoginPage implements OnInit {
             this.createcustomer()
             this.navCtrl.navigateRoot('/home');
           } else {
-            this.checkVoice()
+            if (this.platform.is('hybrid')) {
+              this.checkVoice()
+            } else {
+              this.navCtrl.navigateRoot('/home');
+            }
           }
           this.presentToast('Login Successfully!', 'middle', 2000);
           console.log('From --Google--');
