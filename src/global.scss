@@ -39,6 +39,9 @@ ion-toolbar {
     ion-toolbar {
         --background: #CC6600; // HSB 30,100,80
     }
+    ion-card {
+        background-color: rgb(30, 30, 30);
+    }
 }
 
 .login-modal {
