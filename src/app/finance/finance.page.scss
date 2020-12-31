@@ -15,15 +15,15 @@ ion-item:hover {
 }
 
 .sidebar {
-    box-sizing: border-box; 
-    height: calc(628px); 
-    width: 400px; 
+    box-sizing: border-box;
+    height: calc(628px);
+    width: 400px;
     float: right;
     position: sticky;
 }
 
 
-  @media (max-width: 991px) {
+@media (max-width: 991px) {
     .card {
         height: 95%;
     }
@@ -31,18 +31,24 @@ ion-item:hover {
     .sidebar {
         display: none;
     }
-  }
-  
-  @media (min-width: 992px) {
+}
+
+@media (min-width: 992px) {
     .card {
         width: 95%;
         display: block;
         margin-right: 50px;
     }
-  
+
     .list {
         float: left;
         position: static;
         width: 30%;
     }
-  }
+}
+
+@media (prefers-color-scheme: dark) {
+    .card {
+        background-color: rgb(30, 30, 30);
+    }
+}

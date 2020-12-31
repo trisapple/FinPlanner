@@ -1,12 +1,14 @@
 .centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-.sky{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.sky {
   filter: brightness(80%);
 }
+
 .light {
   --ion-color-light: #f4f5f8;
   --ion-color-light-rgb: 244, 244, 244;
@@ -14,24 +16,26 @@
   --ion-color-light-contrast: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
-  }
+}
 
-.main-card{
+.main-card {
   display: flex;
   flex-wrap: wrap;
   overflow: hidden;
+
   ion-col {
     display: flex;
   }
+
   ion-card {
     max-height: 350px;
   }
 
-// .horizontal{
-//   ion-card{
-//     display: inline-block;
-//     width: 400px;
-//   }
+  // .horizontal{
+  //   ion-card{
+  //     display: inline-block;
+  //     width: 400px;
+  //   }
 }
 
 .container {
@@ -47,32 +51,32 @@ ion-card-header {
 
 @media (max-width: 767px) {
   .light {
-      height: 95%;
+    height: 95%;
   }
 }
 
 @media (min-width: 768px) {
   .light {
-      width: 100%;
-      display: block;
-      margin: auto;
+    width: 100%;
+    display: block;
+    margin: auto;
   }
 
   .list {
-      position: static;
-      width: 100%;
+    position: static;
+    width: 100%;
   }
 }
 
 @media (min-width: 992px) {
   .light {
-      width: 80%;
-      display: block;
-      margin: auto;
+    width: 80%;
+    display: block;
+    margin: auto;
   }
 
   .list {
-      position: static;
-      width: 100%;
+    position: static;
+    width: 100%;
   }
 }
