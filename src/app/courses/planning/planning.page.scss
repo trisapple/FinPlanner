@@ -57,10 +57,12 @@
 // }
 
 .duration {
-    bottom: 0px; 
-    right: 0px; 
+    bottom: 0px;
+    right: 0px;
     position: relative;
 }
+
+.description {}
 
 @media screen and (min-width: 0px) {
     .centered {
@@ -167,9 +169,13 @@
     }
 
     .duration {
-        bottom: 0px; 
-        right: 0px; 
+        bottom: 0px;
+        right: 0px;
         position: absolute;
+    }
+
+    .description {
+        margin-bottom: 40px;
     }
 }
 
