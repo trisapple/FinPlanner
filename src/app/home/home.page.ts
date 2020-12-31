@@ -12,7 +12,7 @@ import { SaltedgeService } from '../saltedge.service';
 
 import { Chart } from 'chart.js';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
-// import { FingerprintPage } from '../fingerprint/fingerprint.page';
+import { FingerprintLockPage } from '../fingerprint-lock/fingerprint-lock.page';
 
 import { Storage } from '@ionic/storage';
 
@@ -648,23 +648,24 @@ export class HomePage {
     });
   }
 
-  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, public loadingController: LoadingController, private faio: FingerprintAIO, public platform: Platform, private storage: Storage) {
+  constructor(public navCtrl: NavController, public router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private firestore: AngularFirestore, public expensesService: ExpensesService, public saltedgeService: SaltedgeService, public loadingController: LoadingController, private faio: FingerprintAIO, public platform: Platform, private storage: Storage, public modalCtrl: ModalController) {
     // setTimeout(() => {
     //   this.lockApp();
     // }, 2000);
+    // this.navCtrl.navigateRoot('/fingerprint-lock'); // Uncomment this line to be redirected to the fingerprint lock page
   }
 
-  // async lockApp(){
-  //   const modal = await this.modalCtrl.create({
-  //     component: FingerprintPage,
-  //     backdropDismiss: false,
-  //     cssClass: 'login-modal',
-  //     componentProps: {
-  //       isModal: true
-  //     }
-  //   });
-  //   modal.present()
-  // }
+  async lockApp(){
+    const modal = await this.modalCtrl.create({
+      component: FingerprintLockPage,
+      backdropDismiss: false,
+      cssClass: 'login-modal',
+      componentProps: {
+        isModal: true
+      }
+    });
+    modal.present()
+  }
 
   connection_id() {
     console.log(this.activatedRoute.snapshot.queryParamMap.get("connection_id"))

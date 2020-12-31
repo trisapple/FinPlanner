@@ -71,6 +71,10 @@ const routes: Routes = [
     path: 'fingerprint',
     loadChildren: () => import('./fingerprint/fingerprint.module').then( m => m.FingerprintPageModule)
   },
+  {
+    path: 'fingerprint-lock',
+    loadChildren: () => import('./fingerprint-lock/fingerprint-lock.module').then( m => m.FingerprintLockPageModule)
+  },
   // { path: 'exchangerates', loadChildren: () => import('./exchangerates/exchangerates.module').then( m => m.ExchangeratesPageModule) },
 ];
 
