@@ -30,8 +30,8 @@
           <ion-col>
             <div class="container">
               <ion-row>
-                <ion-col size-xs="12" size-sm="6" size-md="4" size-lg="12" *ngFor="let article of newsService.articles" (click)="onGoToNewsSinglePage(article)">
-                  <ion-card class="card">
+                <ion-col size-xs="12" size-sm="6" size-md="4" size-lg="12" *ngFor="let article of newsService.articles">
+                  <ion-card class="card" href="{{article.url}}" target="_blank">
                     <ion-img class="list" [src]="article.urlToImage"></ion-img>
                     <ion-row>
                       <ion-col>
