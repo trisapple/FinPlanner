@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { UserService } from '../user.service';
 import { NewsService } from '../news.service';
 import { Router } from '@angular/router';
@@ -13,9 +13,11 @@ import * as firebase from 'firebase';
   styleUrls: ['./finance.page.scss'],
 })
 export class FinancePage implements OnInit {
-  articles: any;
 
-  constructor(public navCtrl: NavController, public userService: UserService, private newsService: NewsService, private router: Router) {
+  articles: any;
+  onMobile = false // Determine which html portion gets loaded (mobile or web)
+
+  constructor(public navCtrl: NavController, public userService: UserService, private newsService: NewsService, private router: Router, public platform: Platform) {
 
     this.loadbusinessnews()
 
@@ -57,6 +59,9 @@ export class FinancePage implements OnInit {
    }
 
   ngOnInit() {
+    if (this.platform.is('hybrid')) {
+      this.onMobile = true
+    }
   }
 
   // stocks() {
