@@ -11,11 +11,11 @@
 <ion-content class="ion-padding">
   <ion-text>Use Fingerprint for:</ion-text>
   <br><br>
-  <ion-item>Transaction History
-    <ion-toggle style="margin-left: auto;" [(ngModel)]="fingerprintTransactionHistory" (ionChange)="toggle('fingerprintTransactionHistory', $event)"></ion-toggle>
-  </ion-item>
   <ion-item>App Login
     <ion-toggle style="margin-left: auto;" [(ngModel)]="fingerprintLogin" (ionChange)="toggle('fingerprintLogin', $event)"></ion-toggle>
+  </ion-item>
+  <ion-item>Transaction History
+    <ion-toggle style="margin-left: auto;" [(ngModel)]="fingerprintTransactionHistory" (ionChange)="toggle('fingerprintTransactionHistory', $event)"></ion-toggle>
   </ion-item>
 
 </ion-content>
