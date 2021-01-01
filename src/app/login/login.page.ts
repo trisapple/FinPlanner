@@ -342,11 +342,16 @@ export class LoginPage implements OnInit {
         console.log(body.toString());
         // this.statusCheck = false
         // User has registered
-        if (JSON.parse(body.toString()).data.returnData.code == "201") {
-          // this.isVoiceEnrolled = true
-          this.navCtrl.navigateRoot('/voice/voiceauthentication');
+
+        if (Object.keys(JSON.parse(body.toString()).data).length === 0 && (JSON.parse(body.toString()).data).constructor === Object) {
+          alert("VoicePrint API returned no data.")
         } else {
-          this.navCtrl.navigateRoot('/home');
+          if (JSON.parse(body.toString()).data.returnData.code == "201") {
+            // this.isVoiceEnrolled = true
+            this.navCtrl.navigateRoot('/voice/voiceauthentication');
+          } else {
+            this.navCtrl.navigateRoot('/home');
+          }
         }
       });
 

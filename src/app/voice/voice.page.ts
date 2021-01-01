@@ -18,6 +18,7 @@ export class VoicePage implements OnInit {
 
   statusCheck = true
   isVoiceEnrolled = false
+  noDataReturned = false
 
   constructor(
     private mediaCapture: MediaCapture,
@@ -59,8 +60,13 @@ export class VoicePage implements OnInit {
         console.log(body.toString());
         this.statusCheck = false
         // User has registered
-        if (JSON.parse(body.toString()).data.returnData.code == "201") {
-          this.isVoiceEnrolled = true
+        if (Object.keys(JSON.parse(body.toString()).data).length === 0 && (JSON.parse(body.toString()).data).constructor === Object) {
+          // alert("VoicePrint API returned no data.")
+          this.noDataReturned = true
+        } else {
+          if (JSON.parse(body.toString()).data.returnData.code == "201") {
+            this.isVoiceEnrolled = true
+          }
         }
       });
 
@@ -107,7 +113,12 @@ export class VoicePage implements OnInit {
       res.on("end", function (chunk) {
         var body = Buffer.concat(chunks);
         console.log(body.toString());
-        alert(JSON.parse(body.toString()).data.returnData.msg)
+
+        if (Object.keys(JSON.parse(body.toString()).data).length === 0 && (JSON.parse(body.toString()).data).constructor === Object) {
+          alert("VoicePrint API returned no data.")
+        } else {
+          alert(JSON.parse(body.toString()).data.returnData.msg)
+        }
         loading.dismiss()
       });
 
@@ -154,7 +165,11 @@ export class VoicePage implements OnInit {
       res.on("end", function (chunk) {
         var body = Buffer.concat(chunks);
         console.log(body.toString());
-        alert(JSON.parse(body.toString()).data.returnData.msg)
+        if (Object.keys(JSON.parse(body.toString()).data).length === 0 && (JSON.parse(body.toString()).data).constructor === Object) {
+          alert("VoicePrint API returned no data.")
+        } else {
+          alert(JSON.parse(body.toString()).data.returnData.msg)
+        }
         loading.dismiss()
       });
 
@@ -202,10 +217,14 @@ export class VoicePage implements OnInit {
         var body = Buffer.concat(chunks);
         console.log(body.toString());
         loading.dismiss()
-        if (JSON.parse(body.toString()).data.returnData.code == "507") {
-          alert("Voice successfully unenrolled")
+        if (Object.keys(JSON.parse(body.toString()).data).length === 0 && (JSON.parse(body.toString()).data).constructor === Object) {
+          alert("VoicePrint API returned no data.")
         } else {
-          alert(JSON.parse(body.toString()).data.returnMsg)
+          if (JSON.parse(body.toString()).data.returnData.code == "507") {
+            alert("Voice successfully unenrolled")
+          } else {
+            alert(JSON.parse(body.toString()).data.returnMsg)
+          }
         }
       });
 

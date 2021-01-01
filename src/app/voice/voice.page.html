@@ -12,6 +12,10 @@
     <br><br>
     <ion-label style="justify-content: center; display: flex;">Checking status...</ion-label>
   </div>
+  <div *ngIf="noDataReturned">
+    <br><br>
+    <ion-label style="justify-content: center; display: flex;">VoicePrint API returned no data.</ion-label>
+  </div>
   <br><br>
   <ion-label style="justify-content: center; display: flex;" *ngIf="!isVoiceEnrolled">Voice Enrolled: No</ion-label>
   <ion-label style="justify-content: center; display: flex;" *ngIf="isVoiceEnrolled">Voice Enrolled: Yes</ion-label>
