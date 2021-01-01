@@ -652,14 +652,20 @@ export class HomePage {
     // setTimeout(() => {
     //   this.lockApp();
     // }, 2000);
-    // this.navCtrl.navigateRoot('/fingerprint-lock'); // Uncomment this line to be redirected to the fingerprint lock page
+
+    this.storage.get('fingerprintLogin').then((val) => {
+      console.log(val);
+      if ((this.platform.is('hybrid')) && val == true) {
+        this.lockApp()
+      }
+    });
   }
 
   async lockApp(){
     const modal = await this.modalCtrl.create({
       component: FingerprintLockPage,
       backdropDismiss: false,
-      cssClass: 'login-modal',
+      cssClass: 'lock',
       componentProps: {
         isModal: true
       }
