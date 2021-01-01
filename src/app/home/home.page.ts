@@ -653,25 +653,25 @@ export class HomePage {
     //   this.lockApp();
     // }, 2000);
 
-    this.storage.get('fingerprintLogin').then((val) => {
-      console.log(val);
-      if ((this.platform.is('hybrid')) && val == true) {
-        this.lockApp()
-      }
-    });
+    // this.storage.get('fingerprintLogin').then((val) => {
+    //   console.log(val);
+    //   if ((this.platform.is('hybrid')) && val == true) {
+    //     this.lockApp()
+    //   }
+    // });
   }
 
-  async lockApp(){
-    const modal = await this.modalCtrl.create({
-      component: FingerprintLockPage,
-      backdropDismiss: false,
-      cssClass: 'lock',
-      componentProps: {
-        isModal: true
-      }
-    });
-    modal.present()
-  }
+  // async lockApp(){
+  //   const modal = await this.modalCtrl.create({
+  //     component: FingerprintLockPage,
+  //     backdropDismiss: false,
+  //     cssClass: 'lock',
+  //     componentProps: {
+  //       isModal: true
+  //     }
+  //   });
+  //   modal.present()
+  // }
 
   connection_id() {
     console.log(this.activatedRoute.snapshot.queryParamMap.get("connection_id"))

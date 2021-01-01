@@ -3,7 +3,10 @@ import { Component } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { FingerprintPage } from './fingerprint/fingerprint.page';
+
+import { FingerprintLockPage } from '../app/fingerprint-lock/fingerprint-lock.page';
+
+import { Storage } from '@ionic/storage';
 
 // import { Plugins, registerWebPlugin } from '@capacitor/core';
 // import { FacebookLogin } from '@rdlabo/capacitor-facebook-login'
@@ -19,6 +22,7 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
+    private storage: Storage
   ) {
     this.initializeApp();
   }
@@ -29,20 +33,26 @@ export class AppComponent {
       this.splashScreen.hide();
       // registerWebPlugin(FacebookLogin);
       this.platform.pause.subscribe(() => {
-
+        this.storage.get('fingerprintLogin').then((val) => {
+          console.log(val);
+          if ((this.platform.is('hybrid')) && val == true) {
+            this.lockApp()
+          }
+        });
       });
     });
   }
 
   async lockApp(){
     const modal = await this.modalCtrl.create({
-      component: FingerprintPage,
+      component: FingerprintLockPage,
       backdropDismiss: false,
-      cssClass: 'login-modal',
+      cssClass: 'lock',
       componentProps: {
         isModal: true
       }
     });
-    modal.present();
+    modal.present()
   }
+
 }
