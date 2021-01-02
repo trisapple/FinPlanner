@@ -8,9 +8,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class = "ion-padding">
+<ion-content class="ion-padding">
 
-  <ion-label style = "font-size: 20px">
+  <ion-label style="font-size: 20px">
     Savings Suggestions recommended based on your spending on {{month}} {{year}}:
   </ion-label>
 
@@ -21,7 +21,9 @@
 
     <ion-card *ngFor="let suggestion of each[1]">
       <ion-card-content style="display: flex; align-items: center; padding: 8px;">
-        <ion-label style="margin-left: 8px;"><h2>{{ suggestion }}</h2></ion-label>
+        <ion-label style="margin-left: 8px;">
+          <h2>{{ suggestion }}</h2>
+        </ion-label>
         <ion-button style="margin-left: auto;" (click)="addTodo(suggestion)">Add To-do</ion-button>
       </ion-card-content>
     </ion-card>
