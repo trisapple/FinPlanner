@@ -22,67 +22,11 @@
     <ion-card *ngFor="let suggestion of each[1]">
       <ion-card-content style="display: flex; align-items: center; padding: 8px;">
         <ion-label style="margin-left: 8px;"><h2>{{ suggestion }}</h2></ion-label>
-        <ion-button style="margin-left: auto;" (click)="addTodo('Eat at coffee shop')">Add To-do</ion-button>
+        <ion-button style="margin-left: auto;" (click)="addTodo(suggestion)">Add To-do</ion-button>
       </ion-card-content>
     </ion-card>
 
     <br>
   </div>
-
-  <!-- <h4><b>Cafes and Restaurants</b></h4>
-
-  <ion-card>
-    <ion-card-content style="display: flex; align-items: center; padding: 8px;">
-      <ion-label style="margin-left: 8px;"><h2>Eat at coffee shop</h2></ion-label>
-      <ion-button style="margin-left: auto;" (click)="addTodo('Eat at coffee shop')">Add To-do</ion-button>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-content style="display: flex; align-items: center; padding: 8px;">
-      <ion-label style="margin-left: 8px;"><h2>Cook at home</h2></ion-label>
-      <ion-button style="margin-left: auto;" (click)="addTodo('Cook at home')">Add To-do</ion-button>
-    </ion-card-content>
-  </ion-card>
-
-  <br>
-
-  <h4><b>Shopping</b></h4>
-
-  <ion-card>
-    <ion-card-content style="display: flex; align-items: center; padding: 8px;">
-      <ion-label style="margin-left: 8px;"><h2>Make a wish list</h2></ion-label>
-      <ion-button style="margin-left: auto;" (click)="addTodo('Make a wish list')">Add To-do</ion-button>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-content style="display: flex; align-items: center; padding: 8px;">
-      <ion-label style="margin-left: 8px;"><h2>Shop in Carousell</h2></ion-label>
-      <ion-button style="margin-left: auto;" (click)="addTodo('Shop in Carousell')">Add To-do</ion-button>
-    </ion-card-content>
-  </ion-card>
-
-  <br>
-  
-  <h4><b>Electronics and Software</b></h4>
-
-  <ion-card>
-    <ion-card-content style="display: flex; align-items: center; padding: 8px;">
-      <ion-label style="margin-left: 8px;"><h2>Buy refurbished or used technology products</h2></ion-label>
-      <ion-button style="margin-left: auto;" (click)="addTodo('Buy refurbished or used technology products')">Add To-do</ion-button>
-    </ion-card-content>
-  </ion-card>
-
-  <br>
-
-  <h4><b>Groceries</b></h4>
-
-  <ion-card>
-    <ion-card-content style="display: flex; align-items: center; padding: 8px;">
-      <ion-label style="margin-left: 8px;"><h2>Buy only what you need</h2></ion-label>
-      <ion-button style="margin-left: auto;" (click)="addTodo('Buy only what you need')">Add To-do</ion-button>
-    </ion-card-content>
-  </ion-card> -->
 
 </ion-content>
