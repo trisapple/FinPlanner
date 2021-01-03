@@ -10,25 +10,25 @@
 <ion-content>
   <div *ngIf="statusCheck">
     <br><br>
-    <ion-label style="justify-content: center; display: flex;">Checking status...</ion-label>
+    <ion-label class="center">Checking status...</ion-label>
   </div>
   <div *ngIf="noDataReturned">
     <br><br>
-    <ion-label style="justify-content: center; display: flex;">VoicePrint API returned no data.</ion-label>
+    <ion-label class="center">VoicePrint API returned no data.</ion-label>
   </div>
   <br><br>
-  <ion-label style="justify-content: center; display: flex;" *ngIf="!isVoiceEnrolled">Voice Enrolled: No</ion-label>
-  <ion-label style="justify-content: center; display: flex;" *ngIf="isVoiceEnrolled">Voice Enrolled: Yes</ion-label>
+  <ion-label class="center" *ngIf="!isVoiceEnrolled">Voice Enrolled: No</ion-label>
+  <ion-label class="center" *ngIf="isVoiceEnrolled">Voice Enrolled: Yes</ion-label>
   <br><br>
-  <ion-button (click)="enrollVoice()" expand="block" style="margin-left: 15%; margin-right: 15%;"> <b>Enroll Voice</b></ion-button>
+  <ion-button (click)="enrollVoice()" expand="block" class="button"><b>Enroll Voice</b></ion-button>
   <br><br>
-  <ion-button (click)="recordAudio()" expand="block" style="margin-left: 15%; margin-right: 15%;"><b>Record Audio</b></ion-button>
+  <ion-button (click)="recordAudio()" expand="block" class="button"><b>Record Audio</b></ion-button>
   <br>
-  <ion-label style="justify-content: center; display: flex;"><i>*Please record for at least 20 seconds</i></ion-label>
+  <ion-label class="center"><i>*Please record for at least 20 seconds</i></ion-label>
   <br>
-  <ion-button (click)="verifyAudio()" expand="block" style="margin-left: 15%; margin-right: 15%;"><b>Verify Voice</b></ion-button>
+  <ion-button (click)="verifyAudio()" expand="block" class="button"><b>Verify Voice</b></ion-button>
   <br><br>
-  <ion-button (click)="deleteAudio()" expand="block" style="margin-left: 15%; margin-right: 15%;"><b>Unenroll Voice</b></ion-button>
+  <ion-button (click)="deleteAudio()" expand="block" class="button"><b>Unenroll Voice</b></ion-button>
   <br><br>
   
 </ion-content>

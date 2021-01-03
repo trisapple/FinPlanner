@@ -44,9 +44,6 @@
   <h3 *ngIf="!sgdonly">Money In / Out in SGD</h3>
   <h3 *ngIf="sgdonly">Money In / Out</h3>
   <ion-segment (ionChange)="barchartsegmentChanged($event)" value="3months">
-    <!-- <ion-segment-button value="1month" disabled>
-      <ion-label>1 Month</ion-label>
-    </ion-segment-button> -->
     <ion-segment-button value="3months">
       <ion-label>3 Months</ion-label>
     </ion-segment-button>
@@ -56,9 +53,6 @@
     <ion-segment-button value="1year">
       <ion-label>1 Year</ion-label>
     </ion-segment-button>
-    <!-- <ion-segment-button value="all" disabled>
-      <ion-label>All</ion-label>
-    </ion-segment-button> -->
   </ion-segment>
 
   <ion-row>

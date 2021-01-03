@@ -8,9 +8,6 @@ import { FingerprintLockPage } from '../app/fingerprint-lock/fingerprint-lock.pa
 
 import { Storage } from '@ionic/storage';
 
-// import { Plugins, registerWebPlugin } from '@capacitor/core';
-// import { FacebookLogin } from '@rdlabo/capacitor-facebook-login'
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -31,7 +28,6 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      // registerWebPlugin(FacebookLogin);
       this.platform.pause.subscribe(() => {
         this.storage.get('fingerprintLogin').then((val) => {
           console.log(val);
