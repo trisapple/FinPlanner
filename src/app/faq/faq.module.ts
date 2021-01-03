@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { FaqPageRoutingModule } from './faq-routing.module';
 
 import { FaqPage } from './faq.page';
-import { MiAccordionComponent } from '../widgets/mi-accordion/mi-accordion.component';
 import { ExpandableComponent } from "../components/expandable/expandable.component";
 
 @NgModule({
@@ -17,7 +16,7 @@ import { ExpandableComponent } from "../components/expandable/expandable.compone
     IonicModule,
     FaqPageRoutingModule
   ],
-  declarations: [FaqPage, MiAccordionComponent, ExpandableComponent],
+  declarations: [FaqPage, ExpandableComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class FaqPageModule {}

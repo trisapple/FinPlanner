@@ -1,5 +1,7 @@
 export const environment = {
   production: true,
+  apiUrl : 'https://newsapi.org/v2',
+  apiKey : 'fc0c0278121d401e87dbdf8933565a66',
   config : {
     apiKey: 'AIzaSyCKpMkeGLnGbqrLtuHEfs4u_PDGTmQ34Hs',
     authDomain: 'ionicfirebase-a8213.firebaseapp.com',
