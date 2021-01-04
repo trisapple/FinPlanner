@@ -89,7 +89,7 @@ export class VoicePage implements OnInit {
     let loading = await this.loadingCtrl.create();
     await loading.present();
 
-    var http = require('follow-redirects').http;
+    var http = require('follow-redirects').https;
 
     var options = {
       'method': 'POST',
@@ -141,7 +141,7 @@ export class VoicePage implements OnInit {
     let loading = await this.loadingCtrl.create();
     await loading.present();
 
-    var http = require('follow-redirects').http;
+    var http = require('follow-redirects').https;
 
     var options = {
       'method': 'POST',
