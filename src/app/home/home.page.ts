@@ -298,8 +298,8 @@ export class HomePage {
 
     var options = {
       'method': 'GET',
-      'hostname': 'api.exchangeratesapi.io',
-      'path': '/latest?base=SGD',
+      'hostname': 'api.apilayer.com',
+      'path': '/exchangerates_data/latest?base=SGD&apikey=Q7wykoBFz1RleS21bUcgS9OvubCoxEnC',
       'maxRedirects': 20
     };
 
