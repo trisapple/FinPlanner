@@ -85,7 +85,7 @@ export class FinancePage implements OnInit {
   }
 
 loadbusinessnews() {
-  this.newsService.getData("top-headlines?country=US&category=business")
+  this.newsService.getData("top-headlines?country=us&category=business&lang=en")
 }
 
 onGoToNewsSinglePage(article) {

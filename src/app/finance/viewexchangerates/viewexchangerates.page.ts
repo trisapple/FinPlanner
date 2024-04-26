@@ -25,8 +25,8 @@ export class ViewexchangeratesPage {
 
       var options = {
         'method': 'GET',
-        'hostname': 'api.exchangeratesapi.io',
-        'path': '/latest?base=SGD',
+        'hostname': 'api.apilayer.com',
+        'path': '/exchangerates_data/latest?base=SGD&apikey=Q7wykoBFz1RleS21bUcgS9OvubCoxEnC',
         'maxRedirects': 20
       };
 
@@ -67,36 +67,38 @@ export class ViewexchangeratesPage {
 
               expensesService.Stocks = JSON.parse(body.toString())["Global Quote"]
 
-              var https = require('follow-redirects').https;
+              this.newsService.getData(`search?q=${this.params.symbol}&sortBy=publishedAt&lang=en`)
+              // var https = require('follow-redirects').https;
 
-              var options = {
-                'method': 'GET',
-                'hostname': 'quiet-shelf-43690.herokuapp.com',
-                'path': `/https://newsapi.org/v2/everything?q=${this.params.symbol}&apiKey=fc0c0278121d401e87dbdf8933565a66`,
-                'headers': {
-                  'Origin': ''
-                },
-                'maxRedirects': 20
-              };
+              // var options = {
+              //   'method': 'GET',
+              //   'hostname': 'hello-world-holy-cherry-49c2.tristanchng.workers.dev',
+              //   'path': `/https://newsapi.org/v2/everything?q=${this.params.symbol}&apiKey=fc0c0278121d401e87dbdf8933565a66`,
+              //   'headers': {
+              //     'x-cors-proxy-api-key': 'EZWTLwVEqFnaycMzdhBz',
+              //     'Origin': ''
+              //   },
+              //   'maxRedirects': 20
+              // };
 
-              var req = https.request(options, (res) => {
-                var chunks = [];
+              // var req = https.request(options, (res) => {
+              //   var chunks = [];
 
-                res.on("data", function (chunk) {
-                  chunks.push(chunk);
-                });
+              //   res.on("data", function (chunk) {
+              //     chunks.push(chunk);
+              //   });
 
-                res.on("end", (chunk) => {
-                  var body = Buffer.concat(chunks);
-                  console.log(JSON.parse(body.toString()));
+              //   res.on("end", (chunk) => {
+              //     var body = Buffer.concat(chunks);
+              //     console.log(JSON.parse(body.toString()));
 
-                  newsService.articles = JSON.parse(body.toString())["articles"]
-                });
+              //     newsService.articles = JSON.parse(body.toString())["articles"]
+              //   });
 
-                res.on("error", function (error) {
-                  console.error(error);
-                });
-              });
+              //   res.on("error", function (error) {
+              //     console.error(error);
+              //   });
+              // });
 
               req.end();
 

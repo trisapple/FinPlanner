@@ -83,23 +83,23 @@ export class NewsPage implements OnInit {
   }
 
   loadlocalnews() {
-    this.newsService.getData("top-headlines?country=SG")
+    this.newsService.getData("top-headlines?country=sg")
   }
 
   loadBBCnews() {
-    this.newsService.getData("top-headlines?sources=bbc-news")
+    this.newsService.getData("top-headlines?lang=en")
   }
 
   loadbusinessnews() {
-    this.newsService.getData("top-headlines?country=US&category=business")
+    this.newsService.getData("top-headlines?country=us&category=business")
   }
 
   loadbitcoin() {
-    this.newsService.getData("everything?q=bitcoin&sortBy=publishedAt$")
+    this.newsService.getData("search?q=bitcoin&sortBy=publishedAt&lang=en")
   }
 
   loadcovid() {
-    this.newsService.getData("everything?q=coronavirus")
+    this.newsService.getData("search?q=coronavirus&sortBy=publishedAt&lang=en")
   }
 
   onGoToNewsSinglePage(article) {

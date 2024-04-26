@@ -81,14 +81,14 @@ export class SpendingInsightsPage {
 
     var options = {
       'method': 'GET',
-      'hostname': 'quiet-shelf-43690.herokuapp.com',
+      'hostname': 'hello-world-holy-cherry-49c2.tristanchng.workers.dev',
       'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + this.saltedgeService.saltedgeconnection["id"] + '&account_id=' + this.saltedgeService.saltedgeaccount["id"] + '&per_page=1000',
-      // 'path': '/https://www.saltedge.com/api/v5/transactions?connection_id=' + '301371211005299276' + '&account_id=' + '301374390707161589' + '&per_page=1000',
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
         'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'x-cors-proxy-api-key': 'EZWTLwVEqFnaycMzdhBz',
         'Origin': ''
       },
       'maxRedirects': 20

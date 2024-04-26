@@ -23,13 +23,14 @@ export class AccountsPage {
     var https = require('follow-redirects').https;
     var options = {
       'method': 'POST',
-      'hostname': 'quiet-shelf-43690.herokuapp.com',
+      'hostname': 'hello-world-holy-cherry-49c2.tristanchng.workers.dev',
       'path': '/https://www.saltedge.com/api/v5/connect_sessions/create',
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
         'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'x-cors-proxy-api-key': 'EZWTLwVEqFnaycMzdhBz',
         'Origin': ''
       },
       'maxRedirects': 20
@@ -80,13 +81,14 @@ export class AccountsPage {
 
     var options = {
       'method': 'POST',
-      'hostname': 'quiet-shelf-43690.herokuapp.com',
+      'hostname': 'hello-world-holy-cherry-49c2.tristanchng.workers.dev',
       'path': '/https://www.saltedge.com/api/v5/connect_sessions/reconnect',
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
         'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'x-cors-proxy-api-key': 'EZWTLwVEqFnaycMzdhBz',
         'Origin': ''
       },
       'maxRedirects': 20
@@ -152,7 +154,7 @@ export class AccountsPage {
 
             var options = {
               'method': 'DELETE',
-              'hostname': 'quiet-shelf-43690.herokuapp.com',
+              'hostname': 'hello-world-holy-cherry-49c2.tristanchng.workers.dev',
               // The connection_id determines which connection to delete
               'path': '/https://www.saltedge.com/api/v5/connections/' + connection_id,
               'headers': {
@@ -160,6 +162,7 @@ export class AccountsPage {
                 'Content-Type': 'application/json',
                 'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
                 'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+                'x-cors-proxy-api-key': 'EZWTLwVEqFnaycMzdhBz',
                 'Origin': ''
               },
               'maxRedirects': 20
@@ -266,13 +269,14 @@ export class AccountsPage {
 
     var options = {
       'method': 'GET',
-      'hostname': 'quiet-shelf-43690.herokuapp.com',
+      'hostname': 'hello-world-holy-cherry-49c2.tristanchng.workers.dev',
       'path': '/https://www.saltedge.com/api/v5/connections?customer_id=' + this.saltedgeService.saltedgecustomerid,
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
         'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'x-cors-proxy-api-key': 'EZWTLwVEqFnaycMzdhBz',
         'Origin': ''
       },
       'maxRedirects': 20

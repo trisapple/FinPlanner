@@ -15,17 +15,12 @@ export class NewsService {
   constructor(private http: HttpClient) { }
 
   getData(url) {
-    // return this.http.get(`${API_URL}/${url}&apiKey=${API_KEY}`);
-
     var http = require('follow-redirects').https;
     
     var options = {
       'method': 'GET',
-      'hostname': 'quiet-shelf-43690.herokuapp.com',
-      'path': `/${API_URL}/${url}&apiKey=${API_KEY}`,
-      'headers': {
-        'Origin': ''
-      },
+      'hostname': `${API_URL}`,
+      'path': `/${url}&apikey=${API_KEY}`,
       'maxRedirects': 20
     };
     
