@@ -72,13 +72,14 @@ export class RegisterPage implements OnInit {
 
     var options = {
       'method': 'POST',
-      'hostname': 'quiet-shelf-43690.herokuapp.com',
+      'hostname': 'hello-world-holy-cherry-49c2.tristanchng.workers.dev',
       'path': '/https://www.saltedge.com/api/v5/customers/',
       'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'App-id': 'XwfTIwSo2aaqEY71Lh4f-dFdvHIj8oNdaGcxD-yB7-I',
         'Secret': '2aX68O-S7H5kGBDFRUdXxRtfN377d2ZOrwpJQ-gfzD4',
+        'x-cors-proxy-api-key': 'EZWTLwVEqFnaycMzdhBz',
         'Origin': ''
       },
       'maxRedirects': 20

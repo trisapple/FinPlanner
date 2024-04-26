@@ -319,10 +319,11 @@ export class LoginPage implements OnInit {
 
     var options = {
       'method': 'POST',
-      'hostname': 'quiet-shelf-43690.herokuapp.com',
+      'hostname': 'hello-world-holy-cherry-49c2.tristanchng.workers.dev',
       'path': '/https://vpr-sg.oneconnectft.com.sg/vprc_dmz/api/isRegister',
       'headers': {
         'Content-Type': 'application/json',
+        'x-cors-proxy-api-key': 'EZWTLwVEqFnaycMzdhBz',
         'Origin': ''
         // 'Cookie': 'visid_incap_2206674=diWXZ/9yQS6dKEFlN427l9KCy18AAAAAQUIPAAAAAACogEWogMY6HwFQ+XupmRes; route=eac4da8a8199714d9b2d17eb97fcdb41; incap_ses_943_2206674=ShYcDzzdgAg2V/ZFmDUWDUHG2F8AAAAAIGUJL1rl9FPnLhS7GZP/lA=='
       },

@@ -93,10 +93,11 @@ export class VoicePage implements OnInit {
 
     var options = {
       'method': 'POST',
-      'hostname': 'quiet-shelf-43690.herokuapp.com',
+      'hostname': 'hello-world-holy-cherry-49c2.tristanchng.workers.dev',
       'path': '/https://vpr-sg.oneconnectft.com.sg/vprc_dmz/api/register_no_text',
       'headers': {
         'Content-Type': 'application/json',
+        'x-cors-proxy-api-key': 'EZWTLwVEqFnaycMzdhBz',
         'Origin': ''
       },
       'maxRedirects': 20
