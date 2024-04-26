@@ -6,6 +6,7 @@ import { SaltedgeService } from 'src/app/saltedge.service';
 import { Chart } from 'chart.js';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-spendinginsights',
@@ -218,7 +219,7 @@ export class SpendingInsightsPage {
     req.end();
   }
 
-  constructor(public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public saltedgeService: SaltedgeService, public firestore: AngularFirestore, public loadingController: LoadingController) {
+  constructor(private router: Router, public expensesService: ExpensesService, public userService: UserService, public navCtrl: NavController, public saltedgeService: SaltedgeService, public firestore: AngularFirestore, public loadingController: LoadingController) {
   }
 
   // "Previous" button for bar chart to go back one month
@@ -686,8 +687,15 @@ export class SpendingInsightsPage {
   }
 
   view() {
-    this.navCtrl.navigateForward(['/accounts/savingssuggestion']);
-    console.log(this.view)
+    let navigationExtras: NavigationExtras = {
+      state: {
+        month: this.month,
+        year: this.year,
+        spendinginsightlabels: this.spendinginsightlabels
+      }
+    };
+    console.log(navigationExtras)
+    this.router.navigate(['/accounts/savingssuggestion'], navigationExtras);
   }
 
 }
